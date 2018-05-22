@@ -5,10 +5,10 @@ body {
 	padding: 0px;
 }
 
-p {
+p { color: #0088dd;
     margin: 0px;
     padding: 0px;
-    text-align: center;
+    text-align: center;	
 }
 
 .parentBox1 {
