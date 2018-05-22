@@ -1,5 +1,5 @@
 body {
-	background: linear-gradient(to right, rgb(25,50,60), rgb(18,24,76));
+	background: linear-gradient(to right, rgb(25,25,30), rgb(18,24,46));
 	background-size: cover;
 	margin: 15px;
 	padding: 0px;
@@ -32,7 +32,10 @@ p {
 	border-bottom: 1px #10344F solid;
 	background-color: #000000;
 	border-radius: 60px 3px 60px 3px;
-	color: #ebcfff;
 	width: 200px;
 	box-shadow: 4px 4px 8px #000000;
+}
+
+.flexChild p {
+	color: #ebcfff;
 }
