@@ -1,6 +1,9 @@
 body {
 	background: linear-gradient(to right, rgb(25,25,30), rgb(18,24,46));
+	background-image: url("pImages/water_planet_horizon.jpg"); 
 	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
 	margin: 15px;
 	padding: 0px;
 }
