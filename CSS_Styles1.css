@@ -1,8 +1,6 @@
 body {
 	background: linear-gradient(to left, rgb(25,100,120), rgb(18,24,76));
 	background-size: cover;
-	background-attachment: fixed;
-	background-repeat: no-repeat;
 	margin: 15px;
 	padding: 0px;
 }
