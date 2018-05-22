@@ -1,0 +1,41 @@
+body {
+	background-color: rgba(0,0,0,1);
+	background-image: url("pImages/water_planet_horizon.jpg"); 
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	margin: 15px;
+	padding: 0px;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+.parentBox1 {
+    display: flex;
+    background: linear-gradient(to left, rgb(85,150,170), rgb(48,64,96));
+    border-left: 3px #70bfff solid;
+    border-top: 3px #70bfff solid;
+    border-right: 3px #10344F solid;
+    border-bottom: 3px #10344F solid;
+    padding: 15px;
+    border-radius: 60px 3px 60px 3px;
+
+}
+
+.flexChild {
+    margin: 10px 15px;
+    padding: 5px 25px;
+    border-left: 1px #70bfff solid;
+    border-top: 1px #70bfff solid;
+    border-right: 1px #10344F solid;
+    border-bottom: 1px #10344F solid;
+    background-color: #000000;
+    border-radius: 60px 3px 60px 3px;
+    color: #ebcfff;
+    width: 200px;
+    box-shadow: 4px 4px 8px #000000;
+}
