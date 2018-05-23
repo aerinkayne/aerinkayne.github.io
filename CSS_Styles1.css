@@ -12,6 +12,18 @@ p {
 	text-align:center;
 }
 
+p.limit {
+	display: inline;
+	height: auto;
+	width: auto;
+	color: #002f55;
+	margin: 4px;
+	padding: 4px;
+	text-align: center;
+	background-color: #ebebff;
+	border-radius: 3px;
+}
+
 
 a:visited { 
 	color: #6F00FF;
@@ -20,18 +32,27 @@ a:visited {
 a:hover {
 	color: #00FFFF;
 }
-	
 
-p.limit {
-	display: inline;
-	height: auto;
-	width: auto;
-	color: #002f55;
-    	margin: 4px;
-    	padding: 4px;
-    	text-align: center;
-	background-color: #ebebff;
-	border-radius: 3px;
+.dropBtn {
+	cursor: pointer;
+}
+
+.dropBtn:hover, .dropBtn:focus {
+	background-color: rgba(0,180,255, 0.1);
+}
+
+.dropContent {
+    display: none;
+    position: absolute;
+    background-color: #002f55;
+    min-width: 80px;
+    overflow: auto;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    z-index: 1;
+}
+
+.show {
+	display:block;
 }
 
 canvas {
