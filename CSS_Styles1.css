@@ -9,13 +9,22 @@ body {
 }
 
 p { 
-	color: #002266;
+	color: #002f55;
     	margin: 4px;
     	padding: 4px;
     	text-align: center;
-	background-color: slategray;
+	background-color: lightgray;
 	border-radius: 3px;
 }
+
+a:clicked { 
+	color: 6F00FF;
+}
+
+a:hover {
+	color: 00FFFF;
+}
+	
 
 .limit {
 	height: auto;
