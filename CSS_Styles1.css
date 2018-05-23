@@ -48,7 +48,7 @@ a:hover {
 
 
 .dropBtn:hover, .dropBtn:focus {
-	background-color: #000030;
+	background-color: #001020;
 }
 
 .dropContent {
@@ -62,8 +62,8 @@ a:hover {
 	z-index: 1;
 }
 
-.show {
-	display:block;
+.dropBtn:onclick .dropContent {
+	display: block;
 }
 
 canvas {
