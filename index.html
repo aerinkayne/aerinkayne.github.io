@@ -20,9 +20,9 @@
 			<p>HOME</p>
 		</div>	
 
-		<div class="flexChild button1 dropBtn">
+		<div class="flexChild button1 dropBtn" onclick="dropList1()" >
 			<p><a href="ghAKp2.html">Page 2</a></p>
-			<ul class="dropContent">
+			<ul class="dropContent" id="drop1">
 				<li>stuff1</li>
 				<li>stuff2</li>
 				<li>stuff3</li>
@@ -42,6 +42,35 @@
 	<p class="limit">Click inside the canvas to create up to 8 additional fish.</p>
 	<canvas id="fishtank" width="400" height="400" data-processing-sources="fishPDE/fishPDE.pde"></canvas>
 	
+	<script>
+		function dropList1() {
+    			var x = document.getElementById("drop1");
+    			if (x.style.display === "none") {
+        			x.style.display = "block";
+    					} else {
+        				x.style.display = "none";
+    					}
+		}
+		/*
+		function dropList2() {
+    			var x = document.getElementById("drop2");
+    			if (x.style.display === "none") {
+        			x.style.display = "block";
+    					} else {
+        				x.style.display = "none";
+    					}
+		}
+		function dropList3() {
+    			var x = document.getElementById("drop3");
+    			if (x.style.display === "none") {
+        			x.style.display = "block";
+    					} else {
+        				x.style.display = "none";
+    					}
+		}
+		*/
+		
+	</script>	
 		
   	</body>
 
