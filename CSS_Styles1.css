@@ -17,6 +17,11 @@ p {
 	border-radius: 3px;
 }
 
+.limit {
+	height: auto;
+	width: auto;
+}
+
 canvas {
 	display: block;
 	margin: 0px auto;
