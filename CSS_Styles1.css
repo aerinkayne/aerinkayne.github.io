@@ -8,6 +8,10 @@ body {
 	padding: 0px;
 }
 
+p {
+	text-align:center;
+}
+
 
 a:visited { 
 	color: #6F00FF;
