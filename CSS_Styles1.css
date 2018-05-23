@@ -32,6 +32,12 @@ a:hover {
 	color: #00FFFF;
 }
 
+
+
+
+
+
+
 .dropBtn {
 	cursor: pointer;
 	background-color: #000000;
@@ -99,9 +105,11 @@ canvas {
 	box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
 }
 
+/*
 .flexChild p {
 	background-color: black;
 	color: #ebafff;
 	margin: 0px;
 	padding: 0px;
 }
+*/
