@@ -48,11 +48,11 @@ a:hover {
 
 
 .dropBtn:hover, .dropBtn:focus {
-	background-color: #041016;
+	background-color: #002014;
 }
 
 .dropContent {
-	display: block;
+	display: none;
 	position: absolute;
 	list-style-type: none;
 	background-color: #ebebff;
@@ -64,18 +64,21 @@ a:hover {
 }
 
 .dropContent li {
+	display: none;
 	margin: 0px;
 	padding: 6px;
 	border: 1px solid #00b0b0;
+}
+
+.dropBtn:onclick .dropContent li {
+	display: block;
 }
 
 .dropContent li:hover {
 	background-color: #dedeee;
 }
 
-.dropBtn:onclick .dropContent {
-	display: block;
-}
+
 
 canvas {
 	display: block;
