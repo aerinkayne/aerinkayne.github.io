@@ -48,18 +48,29 @@ a:hover {
 
 
 .dropBtn:hover, .dropBtn:focus {
-	background-color: #000814;
+	background-color: #041016;
 }
 
 .dropContent {
 	display: block;
 	position: absolute;
+	list-style-type: none;
 	background-color: #ebebff;
-	color: 002f55;
+	color: #002f55;
 	min-width: 80px;
 	overflow: auto;
 	box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 	z-index: 1;
+}
+
+.dropContent li {
+	margin: 0px;
+	padding: 6px;
+	border: 1px solid #00b0b0;
+}
+
+dropContent li:hover {
+	background-color: #dedeee;
 }
 
 .dropBtn:onclick .dropContent {
