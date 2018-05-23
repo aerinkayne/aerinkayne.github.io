@@ -191,7 +191,7 @@ public class Bubble{
     this.sizeY = this.sizeX; //width and height are the same for this object
   }  
   public void update(){
-    this.sizeX+=sin(random(0,2)*counter)/10;
+    this.sizeX+=sin(random(-2,2)*counter)/10;
     this.sizeY = this.sizeX;
     this.P.x+=sin(counter/2)/4+random(-0.4,0.6);
     this.P.y-=1*this.sizeX/25+random(0,0.5);
