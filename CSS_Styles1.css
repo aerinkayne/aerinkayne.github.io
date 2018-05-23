@@ -54,6 +54,7 @@ canvas {
 	border-top: 3px #70bfff solid;
 	border-right: 3px #10344F solid;
 	border-bottom: 3px #10344F solid;
+	margin: 10px;
 	padding: 15px;
 	border-radius: 60px 3px 60px 3px;
 }
