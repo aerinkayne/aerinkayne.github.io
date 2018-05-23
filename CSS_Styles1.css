@@ -48,7 +48,7 @@ a:hover {
 
 
 .dropBtn:hover, .dropBtn:focus {
-	background-color: #002014;
+	background-color: #001212;
 }
 
 .dropContent {
@@ -57,7 +57,7 @@ a:hover {
 	list-style-type: none;
 	background-color: #ebebff;
 	color: #002f55;
-	min-width: 80px;
+	min-width: 60px;
 	overflow: auto;
 	box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 	z-index: 1;
@@ -70,9 +70,6 @@ a:hover {
 	border: 1px solid #00b0b0;
 }
 
-.dropBtn:onclick .dropContent li {
-	display: block;
-}
 
 .dropContent li:hover {
 	background-color: #dedeee;
