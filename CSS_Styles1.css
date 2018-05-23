@@ -15,6 +15,15 @@ p {
     	text-align: center;	
 }
 
+canvas {
+	display: block;
+	margin: 0px auto;
+	margin-top: 100px;
+	border: 2px solid black;
+	outline: 3px solid slategray;
+	outline-style: outset;
+}
+
 .parentBox1 {
 	display: flex;
 	background: linear-gradient(to left, rgb(85,150,170), rgb(48,64,96));
