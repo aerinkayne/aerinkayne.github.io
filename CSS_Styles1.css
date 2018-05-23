@@ -24,7 +24,6 @@ p.limit {
 	border-radius: 3px;
 }
 
-
 a:visited { 
 	color: #6F00FF;
 }
@@ -35,6 +34,10 @@ a:hover {
 
 .dropBtn {
 	cursor: pointer;
+}
+
+.dropBtn p {
+	background-color: rgba(0,0,0,0);
 }
 
 .dropBtn:hover, .dropBtn:focus {
