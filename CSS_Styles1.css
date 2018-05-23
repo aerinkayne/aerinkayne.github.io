@@ -47,8 +47,8 @@ a:hover {
 }
 
 
-.dropBtn:hover, .dropBtn:focus {
-	background-color: #001212;
+.dropBtn:hover p, .dropBtn:focus p{
+	color: #00ffff;
 }
 
 #drop1 {
