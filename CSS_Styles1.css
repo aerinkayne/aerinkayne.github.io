@@ -39,6 +39,11 @@ p {
 	box-shadow: 4px 4px 8px #000000;
 }
 
+.button1:active {
+	box-shadow: 0px 4px 4px #000000;
+	transform: translateY(4px);
+}
+
 .flexChild p {
 	color: #ebcfff;
 }
