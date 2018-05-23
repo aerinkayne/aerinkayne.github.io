@@ -48,11 +48,11 @@ a:hover {
 
 
 .dropBtn:hover, .dropBtn:focus {
-	background-color: #001020;
+	background-color: #000814;
 }
 
 .dropContent {
-	display: none;
+	display: block;
 	position: absolute;
 	background-color: #ebebff;
 	color: 002f55;
