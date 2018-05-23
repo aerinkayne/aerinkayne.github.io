@@ -13,7 +13,7 @@ p {
     	margin: 4px;
     	padding: 4px;
     	text-align: center;
-	background-color: #cbcbe0;
+	background-color: #ebebfa;
 	border-radius: 3px;
 }
 
@@ -27,7 +27,7 @@ a:hover {
 	
 
 .limit {
-	display:flex;
+	display: inline;
 	height: auto;
 	width: auto;
 }
