@@ -27,6 +27,7 @@ a:hover {
 	
 
 .limit {
+	display:flex;
 	height: auto;
 	width: auto;
 }
