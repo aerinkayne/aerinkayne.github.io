@@ -9,10 +9,12 @@ body {
 }
 
 p { 
-	color: #0088dd;
+	color: #002266;
     	margin: 4px;
     	padding: 4px;
-    	text-align: center;	
+    	text-align: center;
+	background-color: slategray;
+	border-radius: 3px;
 }
 
 canvas {
@@ -45,12 +47,12 @@ canvas {
 	background-color: #000000;
 	border-radius: 60px 3px 60px 3px;
 	width: 200px;
-	box-shadow: 4px 4px #000000;
+	box-shadow: 4px 4px 4px rgba(0,0,0,0.4);
 }
 
 .button1:active {
-	transform: translateY(3px);
-	box-shadow: 2px 2px #000000;
+	transform: translateY(2px);
+	box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
 
 .flexChild p {
