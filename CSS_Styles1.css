@@ -40,8 +40,8 @@ p {
 }
 
 .button1:active {
-	transform: translateY(4px);
-	box-shadow: 1px 1px #000000;
+	transform: translateY(3px);
+	box-shadow: 2px 2px #000000;
 }
 
 .flexChild p {
