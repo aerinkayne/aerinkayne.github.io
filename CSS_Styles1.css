@@ -47,14 +47,14 @@ canvas {
 	background-color: #000000;
 	border-radius: 60px 3px 60px 3px;
 	width: 200px;
-	box-shadow: 4px 4px 4px rgba(0,0,0,0.4);
+	box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 }
 
 .button1:active {
 	transform: translateY(2px);
-	box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+	box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
 }
 
-.flexChild p {
+.flexChild span {
 	color: #ebcfff;
 }
