@@ -26,10 +26,16 @@ a:hover {
 }
 	
 
-.limit {
+p.limit {
 	display: inline;
 	height: auto;
 	width: auto;
+	color: #002f55;
+    	margin: 4px;
+    	padding: 4px;
+    	text-align: center;
+	background-color: #ebebfa;
+	border-radius: 3px;
 }
 
 canvas {
