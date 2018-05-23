@@ -8,14 +8,6 @@ body {
 	padding: 0px;
 }
 
-p { 
-	color: #002f55;
-    	margin: 4px;
-    	padding: 4px;
-    	text-align: center;
-	background-color: #ebebfa;
-	border-radius: 3px;
-}
 
 a:visited { 
 	color: #6F00FF;
@@ -34,7 +26,7 @@ p.limit {
     	margin: 4px;
     	padding: 4px;
     	text-align: center;
-	background-color: #ebebfa;
+	background-color: #ebebff;
 	border-radius: 3px;
 }
 
@@ -79,7 +71,7 @@ canvas {
 
 .flexChild p {
 	background-color: black;
-	color: #ebcfff;
+	color: #ebafff;
 	margin: 0px;
 	padding: 0px;
 }
