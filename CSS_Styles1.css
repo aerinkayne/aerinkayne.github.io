@@ -41,7 +41,7 @@ a:hover {
 }
 
 .dropBtn:hover, .dropBtn:focus {
-	background-color: rgba(0,180,255, 0.1);
+	background-color: #000010;
 }
 
 .dropContent {
