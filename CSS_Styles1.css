@@ -30,8 +30,8 @@ p.limit {
 
 canvas {
 	display: block;
-	margin: 0px auto;
-	margin-top: 100px;
+	margin: 15px auto;
+	margin-top: 50px;
 	border: 2px solid black;
 	outline: 3px solid slategray;
 	outline-style: outset;
@@ -65,7 +65,7 @@ a:hover {
 
 .dropContent li {
 	font-size: 14px;
-	color: #404f9f;
+	color: #204f8f;
 	margin: 0px;
 	padding: 6px 8px;
 	border: 1px solid #206faf;
