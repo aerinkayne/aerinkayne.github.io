@@ -18,7 +18,7 @@
 		</div>	
 
 		<div class="flexChild button1 dropBtn" onclick="dropList1()" >
-			<p>Drop 1</p>
+			<p>Drop 1 &#9660;</p>
 			<ul class="dropContent" id="drop1">
 				<li><a href="ghAKp2.html">link to page 2</a></li>
 				<li>stuff 2</li>
@@ -36,14 +36,15 @@
 	</div>	
 		
 	<br>
-	<p class="limit">Click inside the canvas to create up to 8 additional fish.</p>
+	
 	<canvas id="fishtank" width="400" height="400" data-processing-sources="fishPDE/fishPDE.pde"></canvas>
+	<p class="limit">Click inside the canvas to create up to 8 additional fish.</p>
 	
 	<script>
 		function dropList1() {
     			var x = document.getElementById("drop1");
     			if (x.style.display === "none") {
-        			x.style.display = "block";
+        			x.style.display = "flex";
     					} else {
         				x.style.display = "none";
     					}
