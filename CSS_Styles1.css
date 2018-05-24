@@ -20,7 +20,7 @@ p.limit {
 	height: auto;
 	width: auto;
 	color: #002f55;
-	margin: 10px; /*MARGIN*/
+	margin: 10px; 
 	padding: 4px;
 	text-align: center;
 	background-color: #ebebff;
@@ -67,9 +67,9 @@ a:hover {
 	font-size: 14px;
 	color: #204f8f;
 	margin: 0px;
-	padding: 6px 8px;
+	padding: 8px 10px;
 	border: 1px solid #206faf;
-	background-color: #ebd6ff;
+	background-color: #ede6ff;
 }
 
 .dropContent li:hover {
