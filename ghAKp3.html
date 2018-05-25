@@ -10,36 +10,46 @@
 
 	
 	<body>
-		
-	<p class="limit">page 3.  todo: page topic, page title, filename</p>
-	<br>
     
 	<div class="parentBox1">
 		
 		<div class="flexChild button1">
-		<p><a href="index.html">Home</a></p>
+			<p>HOME</p>
 		</div>	
 
 		<div class="flexChild button1 dropBtn" onclick="dropList1()" >
-			<p>Drop 1 &#8628;</p>
+			<p>JS, Processing, Java &#8628;</p>
 			<ul class="dropContent" id="drop1">
-			<li><a href="ghAKp2.html">Slideshow</a></li>
-			<li>Stuff 2</li>
-			<li>stuff 3</li>
+				<li><a href="ghAKp2.html">Bordered Slideshow</a></li>
+				<li><a href="ghAKp3.html">Interactive Canvas</a></li>
+				<li>stuff 3</li>
 			</ul>
 		</div>	
 	    
-		<div class="flexChild button1">
-		<p><a href="ghAKp3.html">Page 3</a></p>
-		</div>	
+		<div class="flexChild button1 dropBtn" onclick="dropList2()" >
+			<p>Drop 2 &#8628;</p>
+			<ul class="dropContent" id="drop2">
+				<li>stuff 1</li>
+				<li>stuff 2</li>
+				<li>stuff 3</li>
+			</ul>
+		</div>
 	    
-		<div class="flexChild button1">
-		<p><a href="ghAKp4.html">Page 4</a></p>
-		</div>	
+		<div class="flexChild button1 dropBtn" onclick="dropList3()" >
+			<p>Drop 3 &#8628;</p>
+			<ul class="dropContent" id="drop3">
+				<li>stuff 1</li>
+				<li>stuff 2</li>
+				<li>stuff 3</li>
+			</ul>
+		</div>
 	</div>	
 		
 	<br>
 	<hr>
+		
+	<canvas id="fishtank" width="400" height="400" data-processing-sources="fishPDE/fishPDE.pde"></canvas>
+	<p class="limit">Click inside the canvas to create up to 8 additional fish.</p>
 
 	
 		
