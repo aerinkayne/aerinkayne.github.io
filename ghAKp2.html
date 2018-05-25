@@ -11,7 +11,7 @@
 	
 	<body>
 		
-	<p class="limit">page 2.  todo: page topic, page title, filename</p>
+	<p class="limit">Slideshow</p>
 	<br>
     
 	<div class="parentBox1">
@@ -34,11 +34,58 @@
 	</div>	
 	<br>	
 	<hr> 
+		
+	<div id="slideshow">
+		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-001.jpg)";></div> <!-- 1 -->
+		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> <!-- 2 -->
+		<div class="mySlides" style="background-image: url(pImages/Free-Pretty-Wallpapers-026.jpg)";></div> <!-- 3 -->
+		<div class="mySlides" style="background-image: url(pImages/captureraysofhope.jpg)";></div> <!-- 4 -->
+		<div class="mySlides" style="background-image: url(pImages/poland-2.jpg)";></div> 
+		<div class="mySlides" style="background-image: url(pImages/6-beach-sea-photography.jpg)";></div> 
+		<div class="mySlides" style="background-image: url(pImages/28-beautiful-sunrise.jpg)";></div> 
+		<div class="mySlides" style="background-image: url(pImages/indian-beach-wallpaper.jpg)";></div>
+    		<div class="mySlides" style="background-image: url(pImages/fishes_under_water.jpg)";></div> 
+		<button class="buttonL" onclick="changeSlide(-1)">&#10094</button>	
+		<button class="buttonR" onclick="changeSlide(+1)">&#10095</button>
+	</div>	
 
 
+		
+		
+	<script>
+
+		var slideIndex = 1;	
+		var slides = document.getElementsByClassName("mySlides");
+
+		showSlide(slideIndex);
+
+		function changeSlide(n) {
+			for (var i = 0; i < slides.length; i++){
+				slides[i].style.display = "none";
+			}
+			if (slideIndex + n < 1) {slideIndex = slides.length}
+			else if (slideIndex + n > slides.length) {slideIndex = 1}
+			else {slideIndex += n}
+			showSlide(slideIndex);	
+			console.log(slideIndex);
+        		console.log(slides.length);
+		}
+
+		function showSlide(n) {
+			for (var i = 0; i < slides.length; i++){
+			slides[i].style.display = "none";
+			}
+			slides[slideIndex-1].style.display = "block";	
+		}
+
+	</script>	
 	
 		
   	</body>
+	
 
+
+
+</script>
 
 </html>
