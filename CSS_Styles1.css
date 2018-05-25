@@ -144,7 +144,7 @@ a:hover {
 
 
 
-#drop1 {
+#drop1, #drop2, #drop3 {
 	display: none;
 	flex-direction: column;
 	position: absolute;
