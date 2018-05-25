@@ -63,32 +63,11 @@
 		<button class="buttonR" onclick="changeSlide(+1)">&#10095</button>
 	</div>	
 
-
-		
-		
 	<script>
-		// slideshow nav
-		var slideIndex = 1;	
-		var slides = document.getElementsByClassName("mySlides");
-
-		showSlide(slideIndex);
-
-		function changeSlide(n) {
-			for (var i = 0; i < slides.length; i++){
-				slides[i].style.display = "none";
-			}
-			if (slideIndex + n < 1) {slideIndex = slides.length}
-			else if (slideIndex + n > slides.length) {slideIndex = 1}
-			else {slideIndex += n}
-			showSlide(slideIndex);	
-		}
-
-		function showSlide(n) {
-			for (var i = 0; i < slides.length; i++){
-			slides[i].style.display = "none";
-			}
-			slides[slideIndex-1].style.display = "block";	
-		}
+	// slideshow nav
+	var slideIndex = 1;	
+	var slides = document.getElementsByClassName("mySlides");
+	showSlide(slideIndex);
 	</script>	
 	
   	</body>
