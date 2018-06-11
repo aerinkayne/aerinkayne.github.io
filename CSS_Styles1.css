@@ -43,8 +43,7 @@ p.limit {
 
 canvas {
 	display: block;
-	margin: 15px auto;
-	margin-top: 50px;
+	margin: 45px 15px 25px 15px;
 	border: 2px solid black;
 	outline: 3px solid slategray;
 	outline-style: outset;
@@ -171,6 +170,7 @@ a:hover {
 	z-index: 1;
 }
 
+
 .homeBtn p{
 	margin: auto;
 	padding: 20px 35px 15px 25px;
@@ -190,7 +190,7 @@ text-decoration: none;
 
 #slideshow {
 	position: relative;
-	margin: 25px auto;
+	margin: 45px 15px 25px 15px;
 	height: 356px;
 	width: 700px;
 	background-color: black;
