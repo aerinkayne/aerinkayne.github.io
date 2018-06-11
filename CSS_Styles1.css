@@ -171,6 +171,15 @@ a:hover {
 	z-index: 1;
 }
 
+.homeBtn p{
+	margin: auto;
+	padding: 20px 35px 15px 25px;
+	font-size: 24px;
+	color:#80dfff;
+}
+.homeBtn a{
+text-decoration: none;
+}
 
 
 .button1:active {
