@@ -51,14 +51,18 @@ canvas {
 
 
 
-hr {
+hr 	{
 	margin: 10px;
 }
 
+
+
+a	{
+	color:#0070ff;	
+}
 a:visited { 
 	color: #6F00FF;
 }
-
 a:hover {
 	color: #00d0d0;
 }
