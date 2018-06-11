@@ -184,6 +184,9 @@ a:hover {
 .homeBtn a{
 text-decoration: none;
 }
+.homeBtn a:visited{
+	color: #d9a0FF;
+}
 
 
 .button1:active {
