@@ -9,7 +9,7 @@
 	</head>
 
 	
-	<body style="background:#dadadf;>
+	<body style="background:#dadadf;">
 		
 	<div class="parentBox1">
 		
@@ -46,12 +46,14 @@
 	</div>	
 	<br>	
 	<hr> 
+
+
 	
-	<br>
-	<p class="limit">Slideshows: Click the arrows to page through slides</p>
-	<br>
+	<br>	
+	<p class="limit">Slideshow: Click the arrows to page through slides</p>
+
 		
-	<div class="slideshow" id="SS0"> 
+	<div class="slideshow" id="SS0"> <!-- display style for images with class 'mySlides' is set to none in CSS so that these don't initially load  -->
 		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-001.jpg)";></div> <!-- 1 -->
 		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> <!-- 2 -->
 		<div class="mySlides" style="background-image: url(pImages/captureraysofhope.jpg)";></div> <!-- 3 -->
@@ -60,32 +62,35 @@
 		<div class="mySlides" style="background-image: url(pImages/28-beautiful-sunrise.jpg)";></div> <!-- 6 -->
 		<div class="mySlides" style="background-image: url(pImages/indian-beach-wallpaper.jpg)";></div> <!-- 7 -->
 		<div class="mySlides" style="background-image: url(pImages/fishes_under_water.jpg)";></div> <!-- 8 -->
-		<button class="prev" onclick="changeSlide(-1, 'SS0', 0)">&#10094</button> <!-- -1 to id SS0, which corresponds to slideIndex index 0 -->	
+		<button class="prev" onclick="changeSlide(-1, 'SS0', 0)">&#10094</button> <!-- -1 from the number in the array 'slideIndex[0]', which coresponds to SS0 -->	 
 		<button class="next" onclick="changeSlide(+1, 'SS0', 0)">&#10095</button>
 	</div>	
-	
+
 	<hr>
 
 	<div class="slideshow" id="SS1">
 		<div class="mySlides" style="background-image: url(pImages/NGC_2818_Hubble1.jpg)";></div> <!-- 1 -->
 		<div class="mySlides" style="background-image: url(pImages/170352_Hubble2.jpg)";></div> <!-- 2 -->
 		<div class="mySlides" style="background-image: url(pImages/08MS8eZ_Hubble3.jpg)";></div> <!-- 3 -->
-		<div class="mySlides" style="background-image: url(pImages/maxresdefault_Hubble4.jpg)";></div> <!-- 4 -->
-		<div class="mySlides" style="background-image: url(pImages/suvi_horz2_sun.jpg)";></div> <!-- 5 -->
-		<button class="prev" onclick="changeSlide(-1, 'SS1', 1)">&#10094</button> <!-- -1 to id SS1, which corresponds to slideIndex index 1 -->	
+		<div class="mySlides" style="background-image: url(pImages/maxresdefault_Hubble4.jpg)";></div> <!-- 3 -->
+		<div class="mySlides" style="background-image: url(pImages/suvi_horz2_sun.jpg)";></div> <!-- 3 -->
+		<button class="prev" onclick="changeSlide(-1, 'SS1', 1)">&#10094</button> <!-- -1 to id SS1 at slideIndex index 1 -->	
 		<button class="next" onclick="changeSlide(+1, 'SS1', 1)">&#10095</button>
-	</div>
-	
-	<p class="limit">Border Designs (in progress)</p>
+	</div>	
+
+	<hr>
+	<br>
+
+	<p class="limit">Border Designs</p>
 
 	<div class ="frame1_outer">
 		<div class="frame1_inner" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> 
-	</div>	
-		
-		
-	<script> 
+	</div>
+
+	<script>
 	loadSlideShows(NUM_SLIDESHOWS);
-	</script>	
+	</script>
+
 	
   	</body>
 
