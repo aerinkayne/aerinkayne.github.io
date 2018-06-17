@@ -144,13 +144,6 @@ a:hover {
 	box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 }
 
-.flexChild.homeBtn p {
-	color: #eb7fff;
-	font-size: 20px;
-	margin: 2px;
-	padding: 0px;
-}
-
 .flexChild.dropBtn p {
 	color: #007faf;
 	margin: 2px;
@@ -187,6 +180,9 @@ text-decoration: none;
 .homeBtn a:visited{
 	color: #d9a0FF;
 }
+.homeBtn a:hover{
+	color: #cf60dF;
+}
 
 
 .button1:active {
@@ -195,25 +191,52 @@ text-decoration: none;
 }
 
 
-#slideshow {
+.slideshow {
 	position: relative;
-	margin: 45px 15px 25px 15px;
-	height: 356px;
-	width: 700px;
+	margin: 35px 15px 25px 15px;
+	height: 400px; 
+	width: 650px;
 	background-color: black;
-	border: 3px solid #404555;
-	outline: 5px solid #b0b7cb;
+	border: 3px solid #5e5339;
+	border-left: 3px solid #403305;
+	border-top: 3px solid #403305;
+	box-shadow: 2px 2px 2px 8px rgba(0,0,0,0.2);
+	outline: 6px solid #776551;
 	outline-style: outset;
 }
 
 .mySlides {
+	display: none;
 	position: absolute;
-	width: 99.2%;
-	height: 350px;
-	margin: 3px;
-	background-size: 700px;
+	width: 640px;
+	height: 390px;
+	margin: 5px;
+	background-size: cover;
 	background-repeat: no-repeat;
 }
+
+
+.frame1_outer{
+	position: relative;
+	margin: 35px 15px 25px 15px;
+	height: 175px;
+	width: 300px;
+	background-image: url("pImages/slideFrame1.jpg");
+	border: 3px solid #000000;
+	outline: 5px solid slategray;
+	outline-style: outset;
+}
+
+.frame1_inner{  
+	position: absolute;
+	width: 290px;   
+	height: 165px;
+	margin: 5px;
+	background-size: cover; 
+	background-repeat: no-repeat;
+}
+
+
 
 
 button {
@@ -233,13 +256,13 @@ button:hover {
 	background-color: rgba(0,90,120,0.3);
 }
 
-button.buttonL {
+button.prev {
 	position: absolute;
 	top: 45%;
 	left: 5px;
 } 
 
-button.buttonR {
+button.next {
 	position: absolute;
 	top: 45%;
 	right: 5px;
