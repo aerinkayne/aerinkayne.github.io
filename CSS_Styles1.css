@@ -45,7 +45,7 @@ canvas {
 	display: block;
 	margin: 45px 15px 25px 15px;
 	border: 2px solid black;
-	outline: 3px solid slategray;
+	outline: 5px solid slategray;
 	outline-style: outset;
 }
 
