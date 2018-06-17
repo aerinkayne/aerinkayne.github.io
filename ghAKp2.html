@@ -47,10 +47,10 @@
 	<br>	
 	<hr> 
 		
-	<p class="limit">Slideshow</p>
+	<p class="limit">Click the arrows to page through slides</p>
 	<br>
 		
-	<div id="slideshow">
+	<div class="slideshow" id="SS0"> <!-- display is set to none for the slideshow class in CSS so that these don't all load -->
 		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-001.jpg)";></div> <!-- 1 -->
 		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> <!-- 2 -->
 		<div class="mySlides" style="background-image: url(pImages/captureraysofhope.jpg)";></div> <!-- 3 -->
@@ -59,15 +59,33 @@
 		<div class="mySlides" style="background-image: url(pImages/28-beautiful-sunrise.jpg)";></div> <!-- 6 -->
 		<div class="mySlides" style="background-image: url(pImages/indian-beach-wallpaper.jpg)";></div> <!-- 7 -->
 		<div class="mySlides" style="background-image: url(pImages/fishes_under_water.jpg)";></div> <!-- 8 -->
-		<button class="buttonL" onclick="changeSlide(-1)">&#10094</button>	
-		<button class="buttonR" onclick="changeSlide(+1)">&#10095</button>
+		<button class="prev" onclick="changeSlide(-1, 'SS0', 0)">&#10094</button> <!-- -1 to id SS0, which corresponds to slideIndex index 0 -->	
+		<button class="next" onclick="changeSlide(+1, 'SS0', 0)">&#10095</button>
 	</div>	
+	
+	<hr>
 
+	<div class="slideshow" id="SS1">
+		<div class="mySlides" style="background-image: url(pImages/NGC_2818_Hubble1.jpg)";></div> <!-- 1 -->
+		<div class="mySlides" style="background-image: url(pImages/170352_Hubble2.jpg)";></div> <!-- 2 -->
+		<div class="mySlides" style="background-image: url(pImages/08MS8eZ_Hubble3.jpg)";></div> <!-- 3 -->
+		<div class="mySlides" style="background-image: url(pImages/maxresdefault_Hubble4.jpg)";></div> <!-- 4 -->
+		<div class="mySlides" style="background-image: url(pImages/suvi_horz2_sun.jpg)";></div> <!-- 5 -->
+		<button class="prev" onclick="changeSlide(-1, 'SS1', 1)">&#10094</button> <!-- -1 to id SS1, which corresponds to slideIndex index 1 -->	
+		<button class="next" onclick="changeSlide(+1, 'SS1', 1)">&#10095</button>
+	</div>
+	
+	<p class="limit">Border Designs (in progress)</p>
+
+	<div class ="frame1_outer">
+		<div class="frame1_inner" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> 
+	</div>	
+		
+		
 	<script>
-	// slideshow nav
-	var slideIndex = 1;	
-	var slides = document.getElementsByClassName("mySlides");
-	showSlide(slideIndex);
+	var NUM_SLIDESHOWS = 2;	
+	var slideIndex = [1,1]; // set initial slide shown for each slideshow to 1 at start  
+	loadSlideShows(NUM_SLIDESHOWS);
 	</script>	
 	
   	</body>
