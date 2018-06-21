@@ -32,6 +32,7 @@ p.limit {
 	display: inline;
 	height: auto;
 	width: auto;
+	max-width: 600px;
 	color: #002f55;
 	margin: 10px; 
 	padding: 4px 4px 0px 4px;
