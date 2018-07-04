@@ -1,7 +1,7 @@
 
 //header nav functions for dropdowns
-function dropList1() {
-	var x = document.getElementById("drop1");
+function dropList(dropID) {
+	var x = document.getElementById(dropID);
 	if (x.style.display === "none") {
 		x.style.display = "flex";
 		} else {
@@ -9,24 +9,6 @@ function dropList1() {
 		}
 }
 		
-function dropList2() {
-	var x = document.getElementById("drop2");
-	if (x.style.display === "none") {
-		x.style.display = "flex";
-		} else {
-		x.style.display = "none";
-		}
-}
-
-function dropList3() {
-	var x = document.getElementById("drop3");
-	if (x.style.display === "none") {
-		x.style.display = "flex";
-		} else {
-		x.style.display = "none";
-		}
-}
-
 
 
 //slideshow functions
@@ -36,9 +18,9 @@ var slideIndex = [1,1]; // set initial slide shown for each slideshow to 1
 function loadSlideShows(NUM_SLIDESHOWS) {
 	var SS = "SS";
 	for (i = 0; i < NUM_SLIDESHOWS; i++) {
-		SS = SS + i;	//get specific slideshow. -->!use "SS + a number" for each HTML slideshow id!<--
+		SS = SS + i;	//get specific slideshow. concat by using "SS + a number" for each HTML slideshow id!
 		displaySlide(SS, slideIndex[i]);
-		SS = "SS"; // reset SS
+		SS = "SS"; // reset SS so it can be used again in this way
 	}
 }
 
