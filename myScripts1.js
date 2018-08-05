@@ -12,20 +12,27 @@ function dropList(dropID) {
 
 
 //slideshow functions
-var NUM_SLIDESHOWS = 2;	
-var slideIndex = [1,1]; // set initial slide shown for each slideshow to 1  
+
+// 080418 sets up an array with one index for each slideshow, with each index initialized to 1.
+function indexSlideShows(NUM_SLIDESHOWS) { 
+	var slideIndex = []; 
+	for (i=0; i < NUM_SLIDESHOWS; i++) {  //index 0 is for slideshow 0, index 1 is for ss1 etc
+		slideIndex[i] = 1;
+	}
+	return slideIndex;
+}
 
 function loadSlideShows(NUM_SLIDESHOWS) {
-	var SS = "SS";
+	var SS = "SS";  //each slideshow has a unique ID in the HTML, "SS#"
 	for (i = 0; i < NUM_SLIDESHOWS; i++) {
-		SS = SS + i;	//get specific slideshow. concat by using "SS + a number" for each HTML slideshow id!
+		SS = SS + i;	//loop through all slideshow IDs by concat "SS + i".  eg SS0, SS1 etc 
 		displaySlide(SS, slideIndex[i]);
 		SS = "SS"; // reset SS so it can be used again in this way
 	}
 }
 
 function changeSlide(n, SS, index) {
-	// all images associated with slides have 'mySlides' class, but each slideshow has a unique slideshow (SS) container  
+	// all images associated with slides have 'mySlides' class, but each slideshow has a unique slideshow ID. 
 	var slides = document.getElementById(SS).getElementsByClassName("mySlides");
 
 	for (var i = 0; i < slides.length; i++){
