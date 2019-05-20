@@ -1,0 +1,16 @@
+
+header, section, footer, aside, nav, main, article, figure {
+  display: block; 
+}
+
+body {
+	margin: 0px;
+	background-color: gray;
+}
+
+
+#gameCanvas {
+	display: block;
+	border: 3px solid black;
+	margin: 25px;
+}
