@@ -518,6 +518,48 @@ Snowflake.prototype.draw= function() {
     ellipse(this.P.x, this.P.y, this.SF*random(3,5), this.SF*random(3,5));
 };
 
+var Raindrop=function(player, lvW, lvH){
+    this.lvW = lvW;
+    this.lvH = lvH;
+    this.player = player;
+    this.SF = random(0.3,1.3);
+    this.P = new PVector(random(width),random(height));
+    this.V = new PVector(4,10);
+    this.V.mult(4/5*this.SF);
+};
+Raindrop.prototype.update=function(){
+        
+    if(this.P.y > height + height/4){ //player can pass snow if quickly climbing 
+        this.P.y = -height/4;         //or falling, so increasing loop height
+    }
+    if(this.P.x > width){
+        this.P.x = 0;
+    }
+    if(this.P.x < 0){
+        this.P.x = width;
+    }
+    
+    this.P.add(this.V);
+
+    //so falling objects don't move with char.  
+    if (this.player.P.x + this.player.w/2 > width/2 &&
+        this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
+        this.P.x-=this.player.V.x;  
+    }
+    if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
+        this.P.y-=this.player.V.y;
+    }
+};
+Raindrop.prototype.draw= function() {
+    stroke(186, 219, 255, 50+150*this.SF);
+    pushMatrix();
+    translate(this.P.x, this.P.y);
+    line(0,0,this.V.x,this.V.y);
+    popMatrix();
+};
+
+
+
 var Leaf=function(player, lvW, lvH){
     this.lvW = lvW;
     this.lvH = lvH;
@@ -618,8 +660,10 @@ var ObjectHandler=function(max, levelW, levelH, player){ //handle background obj
     this.levelW = levelW;  //get from game in loadmap function
     this.levelH = levelH;
     this.max = max;
-	this.player = player;
+    this.player = player;
     this.snow=[];
+    this.rain=[];
+    this.fgRain=[];
     this.fgSnow=[];
     this.leaves=[];
     this.fgLeaves=[];
@@ -654,6 +698,16 @@ ObjectHandler.prototype.add=function(type){
             this.fgSnow[this.fgSnow.length-1].V.mult(1.6);
         }
     }
+    if (type==="rain"){
+        if (this.rain.length < this.max) {    
+            this.rain.push(new Raindrop(this.player, this.levelW, this.levelH));
+        }
+        if(this.fgRain.length<this.max/10){
+            this.fgRain.push(new Raindrop(this.player, this.levelW, this.levelH));
+            this.fgRain[this.fgRain.length-1].SF=1.6;
+            this.fgRain[this.fgRain.length-1].V.mult(1.6);
+        }
+    }	
     if (type==="leaves"){
         if (this.leaves.length < this.max/10) {
             this.leaves.push(new Leaf(this.player, this.levelW, this.levelH));
@@ -1000,18 +1054,22 @@ Game.prototype.bgManager = function(objectHandler){  //BG_Object
 
 Game.prototype.fgManager = function(objectHandler){  
     
-    if(this.currentLevel===0){ /**************************/
+    if(this.currentLevel===0){ 
         objectHandler.add("snow"); //should already be there but shouldn't add if it is
             for(var i=0; i< objectHandler.fgSnow.length; i++){
                 objectHandler.fgSnow[i].update();
                 objectHandler.fgSnow[i].draw();
             }
     }
-    if(this.currentLevel===1){ /**************************/
+    if(this.currentLevel===1){
+	for(var i=0; i< objectHandler.fgRain.length; i++){
+            objectHandler.fgRain[i].update();
+            objectHandler.fgRain[i].draw();
+        }
     }
-    if(this.currentLevel===2){ /**************************/
+    if(this.currentLevel===2){ 
     }
-    if(this.currentLevel===3){ /**************************/
+    if(this.currentLevel===3){ 
         objectHandler.add("leaves");  
             for(var i=0; i< objectHandler.fgLeaves.length; i++){
                 objectHandler.fgLeaves[i].update();
