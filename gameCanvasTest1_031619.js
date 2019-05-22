@@ -529,24 +529,24 @@ var Raindrop=function(player, lvW, lvH){
 };
 Raindrop.prototype.update=function(){
         
-    if(this.P.y > height + height/4){ //player can pass snow if quickly climbing 
+    if(this.P.y > fullHeight + height/4){ //player can pass snow if quickly climbing 
         this.P.y = -height/4;         //or falling, so increasing loop height
     }
-    if(this.P.x > width){
+    if(this.P.x > fullWidth){
         this.P.x = 0;
     }
     if(this.P.x < 0){
-        this.P.x = width;
+        this.P.x = fullWidth;
     }
     
     this.P.add(this.V);
 
     //so falling objects don't move with char.  
-    if (this.player.P.x + this.player.w/2 > width/2 &&
-        this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
+    if (this.player.P.x + this.player.w/2 > fullWidth/2 &&
+        this.player.P.x + this.player.w/2 < this.lvW-fullWidth/2){ 
         this.P.x-=this.player.V.x;  
     }
-    if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
+    if (this.player.P.y + this.player.h/2 < this.lvH-fullHeight/2) {
         this.P.y-=this.player.V.y;
     }
 };
