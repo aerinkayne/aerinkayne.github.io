@@ -677,7 +677,7 @@ ObjectHandler.prototype.shadeSky = function(colorStart, colorEnd){
         for (var i = 0; i<2*inc; i++){
             var shift = lerpColor(colorStart, colorEnd, i/(2*inc));
             fill(shift);
-            rect(0,i*inc,width,i*inc+inc);
+            rect(0,i*inc,fullWidth,i*inc+inc);
         }
 };
 
