@@ -666,13 +666,91 @@ ObjectHandler.prototype.add=function(type){
         }
     }
 };
+
+ObjectHandler.prototype.shadeSky = function(colorStart, colorEnd){
+        background(color);
+        noStroke();
+        var colorStart = colorStart;
+        var colorEnd = colorEnd;
+        var inc = 12;
+
+        for (var i = 0; i<2*inc; i++){
+            var shift = lerpColor(colorStart, colorEnd, i/(2*inc));
+            fill(shift);
+            rect(0,i*inc,width,i*inc+inc);
+        }
+};
+
+ObjectHandler.prototype.season = function(season){
+    var hillColor;
+    if (season === "winter"){
+        this.shadeSky(color(82, 149, 204),color(237, 250, 255));
+        this.initHills(0.15);
+        for(var i = 0; i < this.hills.length; i++){
+            if(i===0){hillColor = color(40, 76, 128);}
+            if(i===1){hillColor = color(94, 145, 199);}
+            if(i===2){hillColor = color(150, 201, 235);}
+            this.hills[i].draw(hillColor);
+        }
+        this.add("snow"); 
+            for(var i=0; i< this.snow.length; i++){
+                this.snow[i].update();
+                this.snow[i].draw();
+            }
+    }
+    else if (season === "spring"){
+        this.shadeSky(color(107, 139, 163),color(242, 252, 255));
+        this.initHills(0.15);
+        for(var i = 0; i < this.hills.length; i++){
+            if(i===0){hillColor = color(36, 87, 83);}
+            if(i===1){hillColor = color(40, 120, 97);}
+            if(i===2){hillColor = color(77, 158, 106);}
+            this.hills[i].draw(hillColor);
+        }
+        this.add("rain"); 
+            for(var i=0; i< this.rain.length; i++){
+                this.rain[i].update();
+                this.rain[i].draw();
+            }
+        
+    }
+    else if (season === "summer"){
+        this.shadeSky(color(153, 209, 255),color(255, 237, 244));
+        this.initHills(0.15);
+        for(var i = 0; i < this.hills.length; i++){
+            if(i===0){hillColor = color(48, 189, 199);}
+            if(i===1){hillColor = color(28, 166, 143);}
+            if(i===2){hillColor = color(20, 110, 69);}
+            this.hills[0].lake = true;
+            this.hills[i].draw(hillColor);
+        }
+        
+    }
+    else if (season === "fall"){
+        this.shadeSky(color(107, 191, 255),color(250, 219, 255));
+        this.initHills(0.15);
+        for(var i = 0; i < this.hills.length; i++){
+            if(i===0){hillColor = color(153, 128, 97);}
+            if(i===1){hillColor = color(219, 171, 48);}
+            if(i===2){hillColor = color(163, 114, 72);}
+            this.hills[i].draw(hillColor);
+        }
+        this.add("leaves");  
+            for(var i=0; i< this.leaves.length; i++){
+                this.leaves[i].update();
+                this.leaves[i].draw();
+            }
+    }
+};
+
+/*
 ObjectHandler.prototype.shadeSky = function(R,G,B){
 	noStroke();      
 	fill(R, G, B, 4); //0,145,255,5
 	for (var i = 0; i<14; i++){
 		rect(0, 0, fullWidth, i*25);}
 };
-
+*/ //commented out 052219
 
 //decorative images with draw method or sprite but no updates
 var Deco = function(x,y,w,h, color, img, z_Index){
@@ -702,10 +780,10 @@ var Game=function(){
     this.ts = 50;  //tile size
     this.currentLevel=0;   
     /*
-     * 1: player        2: dirt block       3: grass block      4: ice block
-     * 5: snow block    6: rock grass block 7: portal           8: spike
-     * 9: key           m: moving block     l: lava/poison      R: rocks1
-	 * r: rocks2		0: rock grass2
+    	* 1: player        2: dirt block       3: grass block      4: ice block
+     	* 5: snow block    6: rock grass block 7: portal           8: spike
+     	* 9: key           m: moving block     l: lava/poison      R: rocks1
+	* r: rocks2	   0: rock grass2
     */
     this.levels=[
         //   0        1         2         3         4
@@ -761,7 +839,7 @@ var Game=function(){
             "                              ", //20
             "                              ",
             "   m                          ",
-            "                              ",
+            " 7                            ",
             "666                           ",
             "   0                          ",
             "        m                     ",
@@ -770,7 +848,7 @@ var Game=function(){
             "               6    b b b b b ",
             "               r              ", //10
             "1             6R00060606660660",
-            "    7      80               9r",
+            "           80               9r",
             "660006   600                 R",
             "        6          8  8   066R",
             "                  660060     r",
@@ -808,16 +886,8 @@ var Game=function(){
     ];
     this.levelW = 0;
     this.levelH = 0;
-	this.mapTiles = [lava, flowers, blocks, portals, spikes, portkeys, hearts, decoImages];
 };
 
-Game.prototype.removeMap = function(arr){
-    for(var i=0; i<arr.length; i++){
-        for(var j=0; j<arr[i].length; j++){
-            arr[i].splice(j,arr[i].length);
-        }
-    }
-};
 
 Game.prototype.renderArr = function(arrToRender, arrSupport){  //supportForParams
     for (var p = 0; p< arrSupport.length; p++){
@@ -870,8 +940,21 @@ Game.prototype.camera = function(player){
 };
 
 Game.prototype.bgManager = function(objectHandler){  //BG_Object
-    
-    if(this.currentLevel===0){ /**************************/
+    if(this.currentLevel===0){ 
+        objectHandler.season("winter");
+    }
+    if(this.currentLevel===1){ 
+        objectHandler.season("spring");
+    }
+    if(this.currentLevel===2){ 
+        objectHandler.season("summer");
+    }
+    if(this.currentLevel===3){ 
+        objectHandler.season("fall");
+    } 
+};	
+/*	
+    if(this.currentLevel===0){ 
         background(9, 32, 61);
         objectHandler.initHills(0.15);
         for(var i = 0; i < objectHandler.hills.length; i++){
@@ -884,7 +967,7 @@ Game.prototype.bgManager = function(objectHandler){  //BG_Object
                 objectHandler.snow[i].draw();
             }
     }
-    if(this.currentLevel===1){ /**************************/
+    if(this.currentLevel===1){ 
         background(245, 250, 255);
         objectHandler.initHills(0.15);
             for(var i = 0; i < objectHandler.hills.length; i++){
@@ -892,7 +975,7 @@ Game.prototype.bgManager = function(objectHandler){  //BG_Object
 					if (i===1){objectHandler.shadeSky(0,145, 255);}
             }
     }
-    if(this.currentLevel===2){ /**************************/
+    if(this.currentLevel===2){ 
         background(237, 247, 255);
         objectHandler.initHills(0.15);
             for(var i = 0; i < objectHandler.hills.length; i++){
@@ -900,7 +983,7 @@ Game.prototype.bgManager = function(objectHandler){  //BG_Object
                 objectHandler.hills[i].draw(185-90*i,215-40*i,235-60*i);}
 					if (i===1){objectHandler.shadeSky(0,145, 255);}
 			}
-    if(this.currentLevel===3){ /**************************/
+    if(this.currentLevel===3){ 
         background(242, 252, 255);
         objectHandler.initHills(0.15);
             for(var i = 0; i < objectHandler.hills.length; i++){
@@ -913,7 +996,8 @@ Game.prototype.bgManager = function(objectHandler){  //BG_Object
                 objectHandler.leaves[i].draw();
             }
     }
-};
+*/ // 052219
+
 Game.prototype.fgManager = function(objectHandler){  
     
     if(this.currentLevel===0){ /**************************/
@@ -999,11 +1083,18 @@ Game.prototype.loadMap=function(){
 			
         }
     }
+	this.mapTiles = [lava, flowers, blocks, portals, spikes, portkeys, hearts, decoImages];
     //reload object handler with correct level size
-    this.objectHandler = new ObjectHandler(80, this.levelW, this.levelH, this.player);
+	this.objectHandler = new ObjectHandler(100, this.levelW, this.levelH, this.player);
 };
 
-
+Game.prototype.removeMap = function(arr){
+    for(var i=0; i<arr.length; i++){
+        for(var j=0; j<arr[i].length; j++){
+            arr[i].splice(j,arr[i].length);
+        }
+    }
+};
 
 
 Game.prototype.runGame=function(){
