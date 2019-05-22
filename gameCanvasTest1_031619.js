@@ -29,6 +29,7 @@ imgR3 = sprite1.get(0,250,50,50);
 imgR4 = sprite1.get(50,250,50,50);
 imgKey = sprite1.get(100, 200, 50, 50);
 imgPortal = sprite1.get(100, 250, 50, 50);
+imgFlower = sprite1.get(150, 0, 50, 50);
 
 var keys=[];
 void keyPressed(){keys[keyCode]=true;};   
@@ -469,28 +470,14 @@ Lava.prototype.draw = function() {
     noStroke();
 };
 
-//flower object by Ryan Kee
-var Flower=function(x,y,w,h){
-    this.P = new PVector(x,y);
-    this.w=w;
-    this.h=h;
-    this.G= random(120,175);
+var Flower = function(x,y,w,h){
+this.P = new PVector(x,y);
+this.w = w;
+this.h = h;
+this.img = imgFlower;  //flower image 
 };
-Flower.prototype.draw= function() {
-    noStroke();
-    fill(0, this.G, 0);
-    rect(this.P.x-this.w/8,this.P.y,this.w/3.0,this.h);
-    
-    for(var i=0; i<6; i++){
-        pushMatrix();
-            translate(this.P.x,this.P.y);
-            rotate(radians(i*60));
-            fill(255, 255, 255);
-            ellipse(5,0,this.w,this.h/2.5);
-        popMatrix();
-    }
-    fill(214, 214, 23);
-    ellipse(this.P.x,this.P.y,this.w,this.h/2);
+Flower.prototype.draw = function() {
+	image(this.img, this.P.x, this.P.y, this.w, this.h);
 };
 
 //background / foreground objects 
@@ -1007,7 +994,7 @@ Game.prototype.loadMap=function(){
             }
 			//decorative
 			if(s==="f"){  
-                flowers.push(new Flower(row*S+S/2,col*S+S/2,S/4,S/2));
+                flowers.push(new Flower(row*S,col*S,S,S));
             }
 			
         }
