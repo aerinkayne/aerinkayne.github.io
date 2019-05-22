@@ -617,7 +617,7 @@ this.x = 0;
 this.y = 0;
 this.lake = false;
 }; 
-Hills.prototype.draw = function(R, G, B) {
+Hills.prototype.draw = function(color) {
     pushMatrix();
     
     if (this.player.P.x + this.player.w/2 > fullWidth/2 &&
@@ -633,7 +633,7 @@ Hills.prototype.draw = function(R, G, B) {
 
     
     noStroke();
-    fill(R, G, B);
+    fill(color);
     beginShape();
     curveVertex(0, this.levelH);
     curveVertex(0, this.levelH);
@@ -648,7 +648,7 @@ Hills.prototype.draw = function(R, G, B) {
     if (this.lake){
 		fill(0, 123, 199);
 		rect(this.arrPV[0].x, this.arrPV[0].y+66, this.levelW, this.levelH-this.arrPV[0].y);
-        fill(R, G, B,50);
+        fill(color, 60);
             for (var i = 1; i<6; i++){
                 rect(0, this.arrPV[0].y+66, this.levelW, height/(5+5*i*i));
             }
