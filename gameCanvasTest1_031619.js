@@ -795,12 +795,11 @@ var Deco = function(x,y,w,h, img){
     this.P = new PVector(x,y);
     this.w=w;
     this.h=h;
-    this.img = img;//pass string name to define image and z_Index
+    this.img = img; //pass string name to define image and z_Index
     if(img === "wood"){this.z_Index=0;}
 	else if(img === "brick"){this.z_Index=0;}
 	else if(img === "glass"){this.z_Index=1;}
-	//else if(img === "player"){this.z_Index=2;}
-	else if(img === "flower"){this.img=imgFlower;this.z_Index=3;}
+	else if(img === "flower"){this.img=imgFlower; this.z_Index=3;}
 	else if(img === "water"){this.z_Index=3;}
 }; 
 
@@ -913,7 +912,22 @@ Deco.prototype.water = function(){
     strokeWeight(1);
 };
 
-
+Deco.prototype.draw = function() {  //non sprites
+    if (this.img === "glass"){
+        this.glass();
+    }
+    if (this.img === "wood"){
+        this.wood();
+    }
+    if (this.img === "brick"){
+        this.brick();
+    }
+    if (this.img === "water"){
+        this.water();
+    }
+	//sprites
+    else {image(this.img, this.P.x, this.P.y, this.w, this.h);}
+};
 
 
 var decoImages = [];
@@ -931,7 +945,7 @@ var Game=function(){
 	players.push(new Player(0,0,30,30));
     this.player = players[0];
     this.ts = 50;  //tile size
-    this.currentLevel=0;   
+    this.currentLevel=1;   
     /*
     	* 1: player        2: dirt block       3: grass block      4: ice block
      	* 5: snow block    6: rock grass block 7: portal           8: spike
