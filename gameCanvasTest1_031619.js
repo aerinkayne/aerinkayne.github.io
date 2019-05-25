@@ -128,12 +128,13 @@ var Player=function(x,y,w,h){
     this.MAXHEALTH = 6;
     this.falling=false;
     this.gravity=0.4;
-	this.keyInputs=[RIGHT,LEFT,UP,DOWN];
+    this.keyInputs=[RIGHT,LEFT,UP,DOWN];
     this.color= (50, 50, 50);
     this.health=3;
     this.gotKey=false;
     this.delay = 36; //for damaging collisions
-	this.type = "player";
+    this.img = "player";  //check if still needed
+    this.z_Index = 2;
 };
 Player.prototype.update=function(blocks){  //objects for collision
     // key inputs and responses
@@ -415,12 +416,12 @@ Spike.prototype.update=function(player){
 
 
 var Heart = function(x,y,w,h){
-this.P = new PVector(x,y);
-this.w = w;
-this.h = h;
-this.collected = false;
-this.img = imgHeart;  //heart image 
-this.type = "heart";
+	this.P = new PVector(x,y);
+	this.w = w;
+	this.h = h;
+	this.collected = false;
+	this.img = imgHeart;  //heart image 
+	this.type = "heart";
 };
 Heart.prototype.draw = function() {
 	if (!this.collected){
@@ -440,14 +441,14 @@ Heart.prototype.update = function(player){
 
 
 var Lava = function(x,y,w,h, colorChar){
-this.P = new PVector (x,y);
-this.w = w;
-this.h = h;
-if (colorChar === "l"){
-	this.color= color(180, 0, 0);
+	this.P = new PVector (x,y);
+	this.w = w;
+	this.h = h;
+	if (colorChar === "l"){
+		this.color= color(180, 0, 0);
 	}
-if (colorChar === "p"){
-	this.color= color(0, 120, 0);
+	if (colorChar === "p"){
+		this.color= color(0, 120, 0);
 	}
 };
 Lava.prototype.draw = function() {
@@ -470,17 +471,8 @@ Lava.prototype.draw = function() {
     noStroke();
 };
 
-var Flower = function(x,y,w,h){
-this.P = new PVector(x,y);
-this.w = w;
-this.h = h;
-this.img = imgFlower;  //flower image 
-};
-Flower.prototype.draw = function() {
-	image(this.img, this.P.x, this.P.y, this.w, this.h);
-};
 
-//background / foreground objects 
+//background and foreground objects 
 var Snowflake=function(player, lvW, lvH){
     this.lvW = lvW;
     this.lvH = lvH;
@@ -608,14 +600,14 @@ Leaf.prototype.update=function(){
 };
 
 var Hills = function(arrPV, levelW, levelH, player, speed){  //from objecthandler per level
-this.arrPV=arrPV;
-this.levelW = levelW;
-this.levelH = levelH;
-this.player = player;
-this.speed = speed;
-this.x = 0;
-this.y = 0;
-this.lake = false;
+	this.arrPV=arrPV;
+	this.levelW = levelW;
+	this.levelH = levelH;
+	this.player = player;
+	this.speed = speed;
+	this.x = 0;
+	this.y = 0;
+	this.lake = false;
 }; 
 Hills.prototype.draw = function(color) {
     pushMatrix();
@@ -797,27 +789,134 @@ ObjectHandler.prototype.season = function(season){
     }
 };
 
-/*
-ObjectHandler.prototype.shadeSky = function(R,G,B){
-	noStroke();      
-	fill(R, G, B, 4); //0,145,255,5
-	for (var i = 0; i<14; i++){
-		rect(0, 0, fullWidth, i*25);}
-};
-*/ //commented out 052219
 
 //decorative images with draw method or sprite but no updates
-var Deco = function(x,y,w,h, color, img, z_Index){
+var Deco = function(x,y,w,h, img){
     this.P = new PVector(x,y);
     this.w=w;
     this.h=h;
-    this.img = img;
-    this.color = color;
-    this.z_Index = z_Index;
+    this.img = img;//pass string name to define image and z_Index
+    if(img === "wood"){this.z_Index=0;}
+	else if(img === "brick"){this.z_Index=0;}
+	else if(img === "glass"){this.z_Index=1;}
+	//else if(img === "player"){this.z_Index=2;}
+	else if(img === "flower"){this.img=imgFlower;this.z_Index=3;}
+	else if(img === "water"){this.z_Index=3;}
 }; 
 
+Deco.prototype.glass = function(){
+    pushMatrix();
+    translate(this.P.x, this.P.y);
+    noStroke();
+    fill(100,150,200);
+    rect(0,0,this.w,this.h);
+    for (var r = 0; r < 2; r++){  //pane row position
+        for (var c = 0; c < 2; c++){  //pane col position
+            noStroke();
+            fill(0, 0, 40, 55);
+            rect(13/50*this.w+c*this.w/2, 13/50*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
+            fill(232, 242, 255, 175);
+            rect(1/25*this.w+c*this.w/2, 1/25*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
+            stroke(204, 238, 255);
+                line(this.w/2*c, 0,  this.w/2*c, this.h);
+        }
+        line(0, this.w/2*r,  this.w, this.w/2*r);
+    }
+    line(this.w, 0,  this.w, this.h);
+    line(0, this.h,  this.w, this.h);
+    noStroke();
+    popMatrix();
+};
+Deco.prototype.wood = function(){
+    pushMatrix();
+    translate(this.P.x, this.P.y);
+    noStroke();
+    fill(148, 107, 75);
+    rect(0,0, 2*this.w,this.h);
 
-var flowers= [];
+    
+    fill(156, 129, 91);
+    rect(2*0.5/50*this.w, 0.5/50*this.h, 2*49/50*this.w,24/50*this.h);
+    rect(0, 25/50*this.h, 2*24.5/50*this.w,25/50*this.h);
+    rect(2*25.0/50*this.w, 25/50*this.h, 2*25/50*this.w,24.5/50*this.h); 
+
+    stroke(255,255,255,25);
+    line(2*1/50*this.w,0.5/50*this.h,2*49/50*this.w,0.5/50*this.h);
+    line(2*0.5/50*this.w,1/50*this.h,2*0.5/50*this.w,23/50*this.h);
+    line(0,25/50*this.h,2*24/50*this.w,25/50*this.h);
+    line(2*25.5/50*this.w, 25/50*this.h, 2*this.w,25/50*this.h);
+    line(2*25.5/50*this.w,25/50*this.h,2*25.5/50*this.w,49/50*this.h);
+    stroke(0, 0, 0,20);
+    strokeWeight(2);
+    point(2*3/50*this.w, 5/50*this.h);
+    point(2*47/50*this.w, 5/50*this.h);
+    point(2*22/50*this.w, 29/50*this.h);
+    point(2*29/50*this.w, 29/50*this.h);
+    point(2*22/50*this.w, 46/50*this.h);
+    point(2*29/50*this.w, 46/50*this.h);
+    strokeWeight(1);
+    noStroke();
+    popMatrix();
+};
+
+Deco.prototype.brick = function(){
+    pushMatrix();
+    translate(this.P.x, this.P.y);
+    noStroke();
+    fill(0,0,0);
+    rect(0,0, this.w,this.h);
+    for (var i = 0; i<this.h; i+=this.h/2){
+        noStroke();
+        fill(156, 129, 91);
+        rect(0, 0+i, 49/50*this.w,11.5/50*this.h);
+        rect(0, 12.5/50*this.h+i, 25.0/50*this.w,11/50*this.h);
+        rect(25.5/50*this.w, 12.5/50*this.h+i, 24.0/50*this.w,11/50*this.h); 
+        stroke(255,255,255,175);
+        line(1/50*this.w,1/50*this.h+i,48/50*this.w,1/50*this.h+i);
+        line(1/50*this.w,1/50*this.h+i,1/50*this.w,11/50*this.h+i);
+        line(0,14/50*this.h+i,24/50*this.w,14/50*this.h+i);
+        line(27.5/50*this.w, 14/50*this.h+i, 49/50*this.w,14/50*this.h+i);
+        line(27.5/50*this.w,15/50*this.h+i,27.5/50*this.w,23/50*this.h+i);
+    }
+    popMatrix();
+};
+
+
+Deco.prototype.water = function(){
+    var waveH = this.w/12.5;
+    pushMatrix();
+
+	translate(this.P.x, this.P.y);
+	fill(76, 117, 222,170);
+    rect(0,0,this.w+0.49,this.h);
+	fill(215, 235, 255);
+	beginShape(); 
+	
+	curveVertex(0,0);
+	curveVertex(0,0);
+	curveVertex(this.w/4,  waveH*sin(radians(frameCount)));
+    curveVertex(this.w/2, 0);
+    curveVertex(3/4*this.w,  waveH*sin(radians(frameCount)));
+	curveVertex(this.w,0);
+	waveH = -waveH;
+		
+	curveVertex(this.w,0);
+	curveVertex(3/4*this.w,  waveH*sin(radians(frameCount)));
+	curveVertex(this.w/2,0);
+	curveVertex(this.w/4,  waveH*sin(radians(frameCount)));
+	curveVertex(0,0);
+	curveVertex(0,0);
+	this.waveH = -waveH;
+	
+	endShape();
+    popMatrix();
+    strokeWeight(1);
+};
+
+
+
+
+var decoImages = [];
 var lava = [];
 var portkeys =[];
 var hearts = [];
@@ -825,7 +924,7 @@ var spikes = [];
 var portals = [];
 var players = [];
 var blocks = [];
-var decoImages = [];
+
 
 
 var Game=function(){ 
@@ -870,14 +969,14 @@ var Game=function(){
             "                      73",
             "                   f3332",
             "                  332  2",
-            "             3 f 32 2 92",
+            "             3   32 2 92",
             "             2333      2",
-            "        f 8832        32",
+            "          8832        32",
             "    f  3333322 3 3333  2",
             "31 33882       282  23 2",
-            "2   2332      f 2   2  2",
+            "2   2332        2   2  2",
             "233 2        33       32",
-            "  2  f    f 828      f 2",
+            "  2       f 828      f 2",
             "  23333  333323333 3 332"
         ],
 		
@@ -900,13 +999,13 @@ var Game=function(){
             "                    b b b b b ",
             "          66        bgbgbgbgbg",
             "               6    b b b b b ",
-            "               r              ", //10
+            "               rwwwwBBBBBBBBBB", //10
             "1             6R00060606660660",
             "           80               9r",
             "660006   600                 R",
             "        6          8  8   066R",
             "                  660060     r",
-            "      0        m             R",
+            "      0       m              R",
             "       6                     R",
             "h  88       m                r",
             "6006600060lllllllllllllllllllR"
@@ -943,27 +1042,25 @@ var Game=function(){
 };
 
 
-Game.prototype.renderArr = function(arrToRender, arrSupport){  //supportForParams
-    for (var p = 0; p< arrSupport.length; p++){
-        for(var i=0; i<arrToRender.length; i++){
-            if (onScreen(arrToRender[i], arrSupport[p])){
-                arrToRender[i].draw(arrSupport[p]);
-            }
-			//call update method if there is one
-            if (onScreen(arrToRender[i], arrSupport[p]) &&
-			
-             //typeof arrToRender[i].update === "function"){ //not currently working (?)
-				(arrToRender[i].type==="mover"   || //work around
-                 arrToRender[i].type==="portal"  || 
-                 arrToRender[i].type==="triangle"||
-                 arrToRender[i].type==="portkey" ||
-                 arrToRender[i].type==="heart"   ||
-                 arrToRender[i].type==="player")
-				 
-                ){ 
-					arrToRender[i].update(arrSupport[p]);
-            }        
+Game.prototype.renderArr = function(arrToRender, player){  //supportForParams
+    for(var i=0; i<arrToRender.length; i++){
+        if (onScreen(arrToRender[i], this.player)){
+            arrToRender[i].draw(this.player); //some objects need player info 
         }
+        //call the update method if the object has one
+        if (onScreen(arrToRender[i], this.player) && arrToRender[i].img !== "player" &&
+		
+	//typeof arrToRender[i].update === "function"; not working, work around 
+	    (arrToRender[i].type==="mover"   || 
+             arrToRender[i].type==="portal"  || 
+             arrToRender[i].type==="triangle"||
+             arrToRender[i].type==="portkey" ||
+             arrToRender[i].type==="heart"   )
+             
+		   
+){ 
+            arrToRender[i].update(this.player);
+        }       
     }
 };
 
@@ -1007,50 +1104,7 @@ Game.prototype.bgManager = function(objectHandler){  //BG_Object
         objectHandler.season("fall");
     } 
 };	
-/*	
-    if(this.currentLevel===0){ 
-        background(9, 32, 61);
-        objectHandler.initHills(0.15);
-        for(var i = 0; i < objectHandler.hills.length; i++){
-			objectHandler.hills[i].draw(70+30*i,80+50*i,125+60*i);
-				if (i===1){objectHandler.shadeSky(0,145, 255);}
-        }
-        objectHandler.add("snow"); 
-            for(var i=0; i< objectHandler.snow.length; i++){
-                objectHandler.snow[i].update();
-                objectHandler.snow[i].draw();
-            }
-    }
-    if(this.currentLevel===1){ 
-        background(245, 250, 255);
-        objectHandler.initHills(0.15);
-            for(var i = 0; i < objectHandler.hills.length; i++){
-                objectHandler.hills[i].draw(130-50*i,180-40*i,140-35*i);
-					if (i===1){objectHandler.shadeSky(0,145, 255);}
-            }
-    }
-    if(this.currentLevel===2){ 
-        background(237, 247, 255);
-        objectHandler.initHills(0.15);
-            for(var i = 0; i < objectHandler.hills.length; i++){
-				objectHandler.hills[0].lake = true;
-                objectHandler.hills[i].draw(185-90*i,215-40*i,235-60*i);}
-					if (i===1){objectHandler.shadeSky(0,145, 255);}
-			}
-    if(this.currentLevel===3){ 
-        background(242, 252, 255);
-        objectHandler.initHills(0.15);
-            for(var i = 0; i < objectHandler.hills.length; i++){
-                objectHandler.hills[i].draw(160-30*i,175-25*i,140-20*i);    
-					if (i===1){objectHandler.shadeSky(89, 216, 255);}
-            }
-        objectHandler.add("leaves");  
-            for(var i=0; i< objectHandler.leaves.length; i++){
-                objectHandler.leaves[i].update();
-                objectHandler.leaves[i].draw();
-            }
-    }
-*/ // 052219
+
 
 Game.prototype.fgManager = function(objectHandler){  
     
@@ -1134,15 +1188,33 @@ Game.prototype.loadMap=function(){
             if(s==="h"){
                 hearts.push(new Heart(row*S+S/4,col*S+S/4,S/2,S/2));
             }
-			//decorative
-			if(s==="f"){  
-                flowers.push(new Flower(row*S,col*S,S,S));
-            }
-			
+		
+		//decorative images
+		if(s==="f"){
+			decoImages.push(new Deco(row*S,col*S,S,S, "flower"));
+		}	
+             
+		if(s==="g"){
+                	decoImages.push(new Deco(row*S,col*S,S,S, "glass"));
+            	}
+            	if(s==="w"){
+		    	decoImages.push(new Deco(row*S,col*S,S,S, "water"));
+            	}
+            	if(s==="b"){
+                	decoImages.push(new Deco(row*S,col*S,S,S, "wood"));
+            	}
+            	if(s==="B"){
+                	decoImages.push(new Deco(row*S,col*S,S,S, "brick"));
+                	decoImages.push(new Deco(row*S,col*S,S,S, "water"));
+            	}		
         }
     }
+	//add player to the decoImages array so that it can be sorted by z_Index
+    	decoImages.push(this.player); 
+    	sortArrByProperty(decoImages, "z_Index");
+	//all map tiles
 	this.mapTiles = [lava, flowers, blocks, portals, spikes, portkeys, hearts, decoImages];
-    //reload object handler with correct level size
+    	//reload object handler with correct level size
 	this.objectHandler = new ObjectHandler(100, this.levelW, this.levelH, this.player);
 };
 
@@ -1162,10 +1234,10 @@ Game.prototype.runGame=function(){
 
     //draw and update objects of map
     for (var i=0; i<this.mapTiles.length; i++){
-        this.renderArr(this.mapTiles[i], players);
+        this.renderArr(this.mapTiles[i], this.player);
     }
 
-    this.player.draw();
+    //this.player.draw();  player is drawn along with deco images for x_indexing
     this.player.update(blocks);
     this.player.stats();
     
