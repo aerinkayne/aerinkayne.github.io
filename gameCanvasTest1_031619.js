@@ -1213,7 +1213,7 @@ Game.prototype.loadMap=function(){
     	decoImages.push(this.player); 
     	sortArrByProperty(decoImages, "z_Index");
 	//all map tiles
-	this.mapTiles = [lava, flowers, blocks, portals, spikes, portkeys, hearts, decoImages];
+	this.mapTiles = [lava, blocks, portals, spikes, portkeys, hearts, decoImages];
     	//reload object handler with correct level size
 	this.objectHandler = new ObjectHandler(100, this.levelW, this.levelH, this.player);
 };
