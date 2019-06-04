@@ -8,6 +8,9 @@ body {
 	background-color: gray;
 }
 
+p {
+	margin: 25px;
+}
 
 canvas {
 	display: block;
