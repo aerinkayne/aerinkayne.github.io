@@ -1,0 +1,16 @@
+
+header, section, footer, aside, nav, main, article, figure {
+  display: block; 
+}
+
+body {
+	margin: 15px;
+	background-color: gray;
+}
+
+
+canvas {
+	display: block;
+	border: 2px solid silver;
+	margin: 25px;
+}
