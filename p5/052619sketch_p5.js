@@ -15,7 +15,7 @@ var game;
 
 function preload(){
 	//load spritesheets
-	sprite1 = loadImage("sprites/spritesheet1.png");
+	sprite1 = loadImage("../sprites/spritesheet1.png");
 }
 
 
