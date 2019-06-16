@@ -19,11 +19,11 @@ var game;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
-	sprite1 = loadImage("sprites/spritesheet1.png");
-	soundKey = loadSound("sounds/clink1.mp3");
-	soundHeart = loadSound("sounds/243701__ertfelda__correct.wav");
-	soundJump = loadSound("sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
-	soundSpike = loadSound("sounds/344131__thebuilder15__sword-slice.wav");
+	sprite1 = loadImage("assets/sprites/spritesheet1.png");
+	soundKey = loadSound("assets/sounds/clink1.mp3");
+	soundHeart = loadSound("assets/sounds/243701__ertfelda__correct.wav");
+	soundJump = loadSound("assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
+	soundSpike = loadSound("assets/sounds/344131__thebuilder15__sword-slice.wav");
 	
 	
 }
