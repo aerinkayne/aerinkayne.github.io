@@ -425,8 +425,6 @@ class Heart{
 			player.health++;
 			this.collected = true;	
 		}
-				
-		}
 	}
 }
 
