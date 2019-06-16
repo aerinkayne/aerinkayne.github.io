@@ -5,16 +5,10 @@ html {
 }
 
 body {
-	
-	/*
-	background-image:  url(pImages/BGrelated/BGleft2.png), url(pImages/BGrelated/BGleft1.png);
-	background-repeat: repeat-y, repeat-y;
-	background-attachment: fixed, fixed;
-	*/
 	background-color: #ccc; 
 	margin: 0px;
 	padding: 0px;
-	background-image: url("pImages/BGrelated/mathBoard.jpg"); 
+	background-image: url("pImages/mathBoard.jpg"); 
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat; 
