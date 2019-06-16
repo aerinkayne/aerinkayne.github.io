@@ -1,51 +1,66 @@
 <!doctype html>
 
+<!-- current ao 122918 -->
+
 <html>
 
 	<head>
-	<title>html and css tests</title>
-	<link rel="stylesheet" type="text/css" href="CSS_Styles1.css">
-	<script src="myScripts1.js"></script>
+	<meta charset="utf-8"/>
+	<title>Slides and Borders Testing</title>
+	<link rel="stylesheet" type="text/css" href="CSS_Styles2.css">
+	<script src="myScripts1.js"></script> 
 	</head>
 
 	
 	<body>
-    
-	<div class="parentBox1">
+    <div class="darken">
 		
-		<div class="homeBtn">
-			<p>HOME</p>
-		</div>	
+		<div class="parentBox1">
+			
+			<div class="homeBtn">
+			<p><a href="index.html">HOME</a></p>
+			</div>	
 
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop1')" >
-			<p>JS, Processing &#8628;</p>
-			<ul class="dropContent" id="drop1" style="display:none;">
-				<li><a href="ghAKp2.html">SLIDESHOW</a></li>
-				<li><a href="ghAKp3.html">CANVAS THINGS</a></li>
-				<li><a href="p5/gameIndex_p5.html">GAME TEST</a></li>
-			</ul>
-		</div>	
-	    
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop2')" >
-			<p>ARTWORK&#8628;</p>
-			<ul class="dropContent" id="drop2" style="display:none;">
-				<li>FANTASY</li>
-				<li>MYTHIC</li>
-				<li>SURREAL</li>
-			</ul>
-		</div>
-	    
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop3')" >
-			<p>OTHER &#8628;</p>
-			<ul class="dropContent" id="drop3" style="display:none;">
-				<li>Collection 1</li>
-				<li>Collection 2</li>
-				<li>Collection 3</li>
-			</ul>
-		</div>
-	</div>	
+			<div class="dropBtn" >   <!-- drop function now in JS with listener -->
+				<p>JS Testing&#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li><a href="ghAKp2.html">Slideshows</a></li>
+					<li><a href="ghAKp3.html">Canvas Things</a></li>
+					<li>stuff 3</li>
+				</ul></div>	 <!-- don't create empty text node or lastChild selector won't target ul -->
+			
+			<div class="dropBtn" >   
+				<p>ARTWORK&#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li>Fantasy</li>
+					<li>Mythic</li>
+					<li>Surrealism</li>
+					<li>Reeeealism</li>
+				</ul></div>  <!-- don't create empty text node -->
+			
+			<div class="dropBtn">   
+				<p>OTHER &#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li>Collection 1</li>
+					<li>Collection 2</li>
+					<li>Collection 3</li>
+				</ul></div>  <!-- don't create empty text node -->
+		</div>		
 		
-
+		<div class="book">
+			<p>Test this thing</p>
+		</div>
+		
+		<div id="footer">
+			<p>Test this thing</p>
+		</div>
+		
+	
+	</div> <!-- div class soften -->
+	
+	<script>
+	addListeners();
+	</script>
 		
   	</body>
 

@@ -1,49 +1,54 @@
 <!doctype html>
 
-<html>
+<!-- 010919 GH current ao 122918 -->
+
+<html lang="en">
 
 	<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 	<title>Slides and Borders Testing</title>
-	<link rel="stylesheet" type="text/css" href="CSS_Styles1.css">
+	<link rel="stylesheet" type="text/css" href="CSS_Styles2.css">
+	
 	<script src="myScripts1.js"></script> 
 	</head>
 
 	
-	<body style="background:#dadadf;">
-		
-	<div class="parentBox1">
-		
-		<div class="homeBtn">
-		<p><a href="index.html">HOME</a></p>
-		</div>	
+	<body>
+	<div class="darken">	
+		<div class="parentBox1">
+			
+			<div class="homeBtn">
+			<p><a href="index.html">HOME</a></p>
+			</div>	
 
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop1')" >
-			<p>JS, Processing &#8628;</p>
-			<ul class="dropContent" id="drop1" style="display:none;">
-				<li><a href="ghAKp2.html">SLIDESHOW</a></li>
-				<li><a href="ghAKp3.html">CANVAS THINGS</a></li>
-				<li><a href="gameIndex.html">GAME TEST</a></li>
-			</ul>
+			<div class="dropBtn" >   <!-- drop function now in JS with listener -->
+				<p>JS Testing&#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li><a href="ghAKp2.html">Slideshows</a></li>
+					<li><a href="ghAKp3.html">Canvas Things</a></li>
+					<li>stuff 3</li>
+				</ul></div>	 <!-- don't allow empty text node or lastChild selector won't target ul -->
+			
+			<div class="dropBtn" >   
+				<p>ARTWORK&#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li>Fantasy</li>
+					<li>Mythic</li>
+					<li>Surrealism</li>
+					<li>Reeeealism</li>
+				</ul></div>
+			
+			<div class="dropBtn">   
+				<p>OTHER &#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li>Collection 1</li>
+					<li>Collection 2</li>
+					<li>Collection 3</li>
+				</ul></div>
 		</div>	
-	    
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop2')" >
-			<p>ARTWORK&#8628;</p>
-			<ul class="dropContent" id="drop2" style="display:none;">
-				<li>FANTASY</li>
-				<li>MYTHIC</li>
-				<li>SURREAL</li>
-			</ul>
-		</div>
-	    
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop3')" >
-			<p>OTHER &#8628;</p>
-			<ul class="dropContent" id="drop3" style="display:none;">
-				<li>Collection 1</li>
-				<li>Collection 2</li>
-				<li>Collection 3</li>
-			</ul>
-		</div>
-	</div>	
+	
 	<br>	
 	<hr> 
 
@@ -54,20 +59,18 @@
 
 		
 	<div class="slideshow" id="SS0"> <!-- display style for images with class 'mySlides' is set to none in CSS so that these don't initially load  -->
-		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-001.jpg)";></div> <!-- 1 -->
+		<div class="mySlides" style="background-image: url(pImages/indian-beach-wallpaper.jpg)";></div> <!-- 1 -->
 		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> <!-- 2 -->
 		<div class="mySlides" style="background-image: url(pImages/captureraysofhope.jpg)";></div> <!-- 3 -->
 		<div class="mySlides" style="background-image: url(pImages/poland-2.jpg)";></div> <!-- 4 -->
 		<div class="mySlides" style="background-image: url(pImages/6-beach-sea-photography.jpg)";></div> <!-- 5 -->
 		<div class="mySlides" style="background-image: url(pImages/28-beautiful-sunrise.jpg)";></div> <!-- 6 -->
-		<div class="mySlides" style="background-image: url(pImages/indian-beach-wallpaper.jpg)";></div> <!-- 7 -->
+		<div class="mySlides" style="background-image: url(pImages/Beautifull-Wallpapers-001.jpg)";></div> <!-- 7 -->
 		<div class="mySlides" style="background-image: url(pImages/fishes_under_water.jpg)";></div> <!-- 8 -->
 		<button class="prev" onclick="changeSlide(-1, 'SS0', 0)">&#10094</button> <!-- -1 from the number in the array 'slideIndex[0]', which coresponds to SS0 -->	 
 		<button class="next" onclick="changeSlide(+1, 'SS0', 0)">&#10095</button>
 	</div>	
-
 	<hr>
-
 	<div class="slideshow" id="SS1">
 		<div class="mySlides" style="background-image: url(pImages/NGC_2818_Hubble1.jpg)";></div> <!-- 1 -->
 		<div class="mySlides" style="background-image: url(pImages/170352_Hubble2.jpg)";></div> <!-- 2 -->
@@ -77,23 +80,32 @@
 		<button class="prev" onclick="changeSlide(-1, 'SS1', 1)">&#10094</button> <!-- -1 to id SS1 at slideIndex index 1 -->	
 		<button class="next" onclick="changeSlide(+1, 'SS1', 1)">&#10095</button>
 	</div>	
-
 	<hr>
 	<br>
-
-	<p class="limit">Border Designs (Haven't started these yet, images are just placeholders</p>
-
-	<div class ="frame1_outer">
-		<div class="frame1_inner" style="background-image: url(pImages/Beautifull-Wallpapers-019.jpg)";></div> 
+	
+	
+	<p class="limit">Border Designs</p>
+	
+	<div class ="frame_outer" style="background-image: url(pImages/paw240px.png)";>
+		<div class="frame_inner" style="background-image: url(pImages/tara_1100_100.png)";>
+		</div> 
+	<p>The Tara</p>	
 	</div>
 
+
+
 	<script>	
-	var NUM_SLIDESHOWS = 2;	// #slideshows on the page input by user
-	var slideIndex = indexSlideShows(NUM_SLIDESHOWS);
-	loadSlideShows(NUM_SLIDESHOWS);
-	</script>
+	var NUM_SLIDESHOWS = 2;	// #slideshows on the html page.
+	var slideIndex = indexSlideShows(NUM_SLIDESHOWS);  //index all slideshows on the page
+	
+	loadSlideShows(NUM_SLIDESHOWS); //load and display slides
+	addListeners(); //add listeners
 
 	
+	//testing
+	// console.log(dropBtns.length);
+	</script>
+	</div> <!--div class overlay -->
   	</body>
 
 </html>

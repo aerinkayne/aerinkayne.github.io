@@ -1,50 +1,51 @@
 <!doctype html>
+<!-- current 122918 -->
+
 
 <html>
 
 	<head>
-	<title>Canvas Testing</title>
-	<link rel="stylesheet" type="text/css" href="CSS_Styles1.css">
-	<script src="processing.js"></script>
+	<meta charset="utf-8"/>
+	<title>Canvas Tests</title>
+	<link rel="stylesheet" type="text/css" href="CSS_Styles2.css">
 	<script src="myScripts1.js"></script> 
+	<script src="processing.js"></script> 
 	</head>
 
 	
 	<body>
-    
-	<div class="parentBox1">
-		
-		<div class="homeBtn">
-		<p><a href="index.html">HOME</a></p>
-		</div>	
+    <div class="darken">
+		<div class="parentBox1">
+			
+			<div class="homeBtn">
+			<p><a href="index.html">HOME</a></p>
+			</div>	
 
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop1')" >
-			<p>JS, Processing &#8628;</p>
-			<ul class="dropContent" id="drop1" style="display:none;">
-				<li><a href="ghAKp2.html">SLIDESHOW</a></li>
-				<li><a href="ghAKp3.html">CANVAS THINGS</a></li>
-				<li><a href="gameIndex.html">GAME TEST</a></li>
-			</ul>
+			<div class="dropBtn" >   <!-- drop function now in JS with listener -->
+				<p>JS Testing&#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li><a href="ghAKp2.html">Slideshows</a></li>
+					<li><a href="ghAKp3.html">Canvas Things</a></li>
+					<li>stuff 3</li>
+				</ul></div>	 <!-- don't allow empty text node or lastChild selector won't target ul -->
+			
+			<div class="dropBtn" >   
+				<p>ARTWORK&#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li>Fantasy</li>
+					<li>Mythic</li>
+					<li>Surrealism</li>
+					<li>Reeeealism</li>
+				</ul></div>
+			
+			<div class="dropBtn">   
+				<p>OTHER &#8628;</p>
+				<ul class="dropContent drop" style="display:none;">
+					<li>Collection 1</li>
+					<li>Collection 2</li>
+					<li>Collection 3</li>
+				</ul></div>
 		</div>	
-	    
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop2')" >
-			<p>ARTWORK&#8628;</p>
-			<ul class="dropContent" id="drop2" style="display:none;">
-				<li>FANTASY</li>
-				<li>MYTHIC</li>
-				<li>SURREAL</li>
-			</ul>
-		</div>
-	    
-		<div class="flexChild button1 dropBtn" onclick="dropList('drop3')" >
-			<p>OTHER &#8628;</p>
-			<ul class="dropContent" id="drop3" style="display:none;">
-				<li>Collection 1</li>
-				<li>Collection 2</li>
-				<li>Collection 3</li>
-			</ul>
-		</div>
-	</div>	
 		
 	<br>
 	<hr>
@@ -55,8 +56,12 @@
 	<hr>
 	<br>
 	<canvas id="seaMonster" width="400" height="400" data-processing-sources="critterPDE/critterPDE.pde"></canvas>
-	<p class="limit">Animated sea creature that I made a while ago that I converted into Java for practice (not the best way, just wanted to get it to work).  Ultros' cousin, maybe.</p>
+	<p class="limit">An animated sea monster that I first created using the modified processing JS library available on the Khan Academy website. I later rewrote parts of it in Java with the Processing IDE.  Ultros' cousin, maybe.</p>
 		
+	<script>
+	addListeners();
+	</script>
+	</div> <!--div overlay -->	
   	</body>
 
 
