@@ -314,17 +314,18 @@ class Portal{
 	}
 	update(player){
 		if(collide(this,player)&&player.gotKey){
-				fadeColor=color(255, 255, 255, transparency);
-				transparency+=5;
-				if(transparency>255){
-					this.complete=true;
-				}
-			}else if(collide(this,player)&&!player.gotKey){
-				fill(0, 0, 0);
-				textSize(15);
-				textAlign(CENTER,CENTER);
-				text("You need the key",this.P.x+this.w/2,this.P.y-this.h/2);
+			fadeColor=color(255, 255, 255, transparency);
+			transparency+=5;
+			if(transparency>255){
+				this.complete=true;
 			}
+		}
+		else if(collide(this,player)&&!player.gotKey){
+			fill(0, 0, 0);
+			textSize(15);
+			textAlign(CENTER,CENTER);
+			text("You need the key",this.P.x+this.w/2,this.P.y-this.h/2);
+		}
 	}
 }
 
@@ -366,12 +367,12 @@ class Spike{
 
 		fill(212, 232, 255);
 		triangle(this.P.x,this.P.y+this.h,
-				this.P.x+this.w,this.P.y+this.h,
-				this.P.x+this.w/2,this.P.y + this.jab);
+			this.P.x+this.w,this.P.y+this.h,
+			this.P.x+this.w/2,this.P.y + this.jab);
 		fill(22, 124, 171);
 		triangle(this.P.x+this.w/2,this.P.y+this.h,
-				this.P.x+this.w-this.w/15,this.P.y+this.h,
-				this.P.x+this.w/2,this.P.y + this.jab);
+			this.P.x+this.w-this.w/15,this.P.y+this.h,
+			this.P.x+this.w/2,this.P.y + this.jab);
 		stroke(255, 255, 255);
 		strokeWeight(2);
 		line(this.P.x, this.P.y+this.h-1, 
@@ -419,12 +420,11 @@ class Heart{
 		}
 	}
 	update(player){
-		if(onScreen(this, player) && collide(this,player) && !this.collected){
+		if(onScreen(this, player) && collide(this,player) && !this.collected && player.health < 6){
 			soundHeart.play();
-			if(player.health < 6){
-				player.health++;
-				this.collected = true;
-			}
+			player.health++;
+			this.collected = true;	
+		}
 				
 		}
 	}
