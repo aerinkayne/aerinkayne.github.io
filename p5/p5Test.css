@@ -5,15 +5,12 @@ header, section, footer, aside, nav, main, article, figure {
 
 body {
 	margin: 15px;
-	background-color: gray;
+	background-color: slategray;
 }
 
-p {
-	margin: 25px;
-}
 
 canvas {
 	display: block;
-	border: 2px solid silver;
+	border: 1px solid black;
 	margin: 25px;
 }
