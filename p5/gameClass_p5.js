@@ -51,14 +51,14 @@ class Game{
 			//   0        1         2         3         4
 			//   1234567890123456789012345678901234567890
 				"                              ", //25
+				"                            7 ",
+				"                          cCCC",
+				"                   cCCCd      ",
 				"                              ",
+				"          cCCCCCd             ", //20
 				"                              ",
-				"                              ",
-				"                              ",
-				"                              ", //20
-				"                              ",
-				"   m                          ",
-				" 7                            ",
+				"     m                        ",
+				" h                            ",
 				"444                           ",
 				"   3                          ",
 				"        m                     ",
@@ -71,33 +71,33 @@ class Game{
 				"443334   433                 1",
 				"        4          8  8   3441",
 				"                  443343     2",
-				"      3       m              1",
-				"       4                     1",
-				"h  88       m                2",
+				"      3                      1",
+				"       4     m               1",
+				"h  88                        2",
 				"4334433343LLLLLLLLLLLLLLLLLLL1"
 			],
 
-			[   
-				"h                       ",
-				"2                       ",
+			[   "                      7 ",
+				"h   cCCCd  cCd   cCCCCCC",   //2, 3 leaves.  1, 4 rocks
+				"3                       ",
 				"                        ",
 				"   m                    ",
 				"                        ",
 				"     m                  ",
-				"                 9      ",
-				"2   2   2     2  22     ",
-				"1            2 88  2    ",
-				"1         222122222122  ",
-				"1    2   2             2",
-				"1  2     1 7          2 ",
-				"1  1    212222  28228   ",
-				"1 21    1 0      2  2222",
-				"1  18 821               ",
-				"12 12221122222222222    ",
+				"                        ",
+				"2   3   2     2  32     ",
+				"4            2 88  3    ",
+				"1         233122332423  ",
+				"4    2   2             2",
+				"1  2     1 9          2 ",
+				"1  1    212223  28238   ",
+				"1 31    4 0      2  2332",
+				"4  48 821               ",
+				"12 12321423322233222    ",
 				"   1                    ",
-				"  2             2 2  2  ",
+				"  2             2 3  2  ",
 				"      8        8 8 8 8  ",
-				"222222222   222222222222"
+				"232233222   223322322232"
 			],
 			[
 				"1"
@@ -108,7 +108,7 @@ class Game{
 		this.objectHandler = new ObjectHandler(150, this.levelW, this.levelH, this.player);
 	}
 
-	renderArr(arrToRender){  
+	renderArr(arrToRender){  //probably: move this to a global function and pass player object from game
 		for(var i=0; i<arrToRender.length; i++){
 			if (onScreen(arrToRender[i], this.player)){
 				arrToRender[i].draw(this.player); //some objects need player info 
@@ -138,7 +138,7 @@ class Game{
 		   translate(0, height/2-(this.levelH - this.player.P.y - this.player.h/2));
 		}
 
-		//move this somewhere better
+		//move player fall death somewhere better, stats?
 		if(this.player.P.y > this.levelH + height){
 			this.player.health=0;
 		}
@@ -243,7 +243,7 @@ class Game{
 				}
 				else if(s==="2"){  
 					blocks.push(new Block(row*S,col*S,S,S,imgR4)); //rocks2
-				}	
+				}
 				
 				else {this.levelKeyAll(s, S, col, row);}   
 			}
@@ -258,10 +258,16 @@ class Game{
 					this.player.P.y = col*S;
 				}
 				else if(s==="1"){
-					blocks.push(new Block(row*S,col*S,S,S,imgD1)); //dirt 
+					blocks.push(new Block(row*S,col*S,S,S,imgR3)); //rock3 
 				}
 				else if(s==="2"){
-					blocks.push(new Block(row*S,col*S,S,S,imgG1)); // dirt w grass
+					blocks.push(new Block(row*S,col*S,S,S,imgL1)); // rock w leaves
+				}
+				else if(s==="3"){
+				blocks.push(new Block(row*S,col*S,S,S,imgL2)); //rock w leaves 2 
+				}
+				else if(s==="4"){
+					blocks.push(new Block(row*S,col*S,S,S,imgR4)); // rock4
 				}
 				
 				else {this.levelKeyAll(s, S, col, row);}  
@@ -271,6 +277,15 @@ class Game{
 	levelKeyAll(s, S, col, row){
 		if(s==="m"){
 			blocks.push(new Block(row*S,col*S,3/2*S,S/3,"mover"));
+		}
+		else if (s==="C"){
+			blocks.push(new Block(row*S,col*S,S,S,imgClMid));
+		}
+		else if (s==="c"){
+			blocks.push(new Block(row*S,col*S,S,S,imgClSide));
+		}
+		else if (s==="d"){
+			blocks.push(new Block(row*S,col*S,S,S,imgClSide, "H"));
 		}
 		else if(s==="8"){
 			spikes.push(new Spike(row*S+(S-S/1.75)/2.0, col*S-1.25*S, S/1.75, 2.25*S));
@@ -338,7 +353,7 @@ class Game{
 			//add player to the decoImages array so that it can be sorted by z_Index
 			decoImages.push(this.player); 
 			sortArrByProperty(decoImages, "z_Index");
-			//all map tiles
+			//all map tiles  CHANGE TO CONCAT, change double loops 
 			this.mapTiles = [lava, blocks, portals, spikes, portkeys, hearts, decoImages];
 			//reload objectH w level sizes and player info
 			this.objectHandler = new ObjectHandler(150, this.levelW, this.levelH, this.player);

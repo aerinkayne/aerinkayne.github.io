@@ -1,4 +1,6 @@
 // issues: mover collision of top of player from bottom needs fix (check btm of player vs top of mover) 
+// concat map tiles and fix loop.  check p5 button related things.  rework spike objects so that direction 
+// can be changed and collision still works.  fix camera/effect interactions
 // notes: ObjectHandler and Game classes are in their own files.
 
 function buttonClicked(x,y,w,h,txt){
@@ -107,7 +109,8 @@ class Player {
 		if(keys[this.keyInputs[2]]&&!this.falling){ //jump
 			this.V.y = -9;
 			this.falling=true;
-			//playSound(getSound("rpg/battle-swing"));
+			soundJump.setVolume(0.4);
+			soundJump.play();
 		}
 		//  3, duck, multiple issues
 		
@@ -241,11 +244,12 @@ class Player {
 }
 
 class Block {  
-	constructor(x,y,w,h,type){  //pass image name or type
+	constructor(x,y,w,h,type,flip){  //pass image name or type, flip H or V
 		this.P = createVector(x,y);
 		this.w=w;
 		this.h=h;
 		this.img=type;
+		this.flip = flip;
 			if (type === "mover"){
 			this.type = "mover";  //needed for update call
 			this.disp = random(-125,125);
@@ -268,8 +272,20 @@ class Block {
 			fill(255, 255, 255,125);
 			rect(this.P.x, this.P.y, this.w, this.h/4, 4);
 		}
-		else { 
-		image(this.img, this.P.x, this.P.y, this.w, this.h);  //overlap helps with tearing
+		else {
+			if (this.flip === "H"){  //horizontal flip
+				scale(-1.0,1.0)
+				image(this.img, -this.P.x-this.w, this.P.y, this.w+1, this.h+1);
+				scale(-1.0,1.0)  //flip it back or bad things happen
+				}	
+			else if (this.flip === "V"){  //vertical flip.  will I need this ever?
+				scale(1.0,-1.0)
+				image(this.img, this.P.x, -this.P.y-this.h, this.w+1, this.h+1);
+				scale(1.0,-1.0)
+				}				
+			else {
+				image(this.img, this.P.x, this.P.y, this.w+1, this.h+1);  //overlap helps with tearing
+			}	
 		}
 	}    
 	update(player){ //for moving blocks only
@@ -328,11 +344,11 @@ class Portkey{
 		}
 	}
 	update(player){
-			if(onScreen(this, player) && collide(this,player) && !player.gotKey){
-					//playSound(getSound("retro/coin"));
+		if(onScreen(this, player) && collide(this,player) && !player.gotKey){
+			soundKey.play();
 			this.collected=true;
 			player.gotKey=true;
-			}
+		}
 	}
 }
 
@@ -372,7 +388,7 @@ class Spike{
 			transparency=150;  
 			player.health--;
 			player.delay = 0;
-				//playSound(getSound("rpg/hit-splat"));
+			soundSpike.play();
 		}
 	   
 		if(this.hurt){
@@ -404,7 +420,7 @@ class Heart{
 	}
 	update(player){
 		if(onScreen(this, player) && collide(this,player) && !this.collected){
-			//playSound(getSound("retro/coin"));
+			soundHeart.play();
 			if(player.health < 6){
 				player.health++;
 				this.collected = true;
@@ -533,6 +549,49 @@ class Raindrop{
 }
 
 
+class Bird{ //from noise/walker tutortial.  so broke fix plox
+	constructor(player, lvW, lvH){
+		this.lvW = lvW;
+		this.lvH = lvH;
+		this.P = createVector(width/2,height/6);
+		this.player = player;
+		this.tx = 0;
+		this.ty = 8000;
+	}
+	update() {
+		var xStepSize = map(noise(this.tx), 0, 1, 0, 5);
+		var yStepSize = map(noise(this.ty), 0, 1, 0, 5);
+		this.P.x += xStepSize/5;
+		this.P.y += yStepSize/5;
+		this.tx+=0.02;
+		this.ty+=0.02;
+		
+		//so falling objects don't move with char.  
+		if (this.player.P.x + this.player.w/2 > width/2 &&
+			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
+			this.P.x-=this.player.V.x;  
+		}
+		if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
+			this.P.y-=this.player.V.y;
+		}
+		
+		this.checkBounds();
+	}
+	draw() {
+		strokeWeight(3);
+		stroke(40, 70, 90);
+		point(this.P.x, this.P.y);
+		noStroke();
+	}
+
+	checkBounds() {
+		if (this.P.x < 0){this.P.x =this.lvW;}
+		if (this.P.x > width+400){this.P.x = 0;}
+		if (this.P.y < 0){this.P.y+=1;}
+		if (this.P.y > this.lvH/6){this.P.y-=1;}
+	}
+}
+
 class Leaf{
 	constructor(player, lvW, lvH){
 		this.lvW = lvW;
@@ -610,7 +669,8 @@ class Hills {
 				}
 
 		
-		noStroke();
+		//noStroke();
+		
 		fill(color);
 		beginShape();
 		curveVertex(0, this.levelH);

@@ -11,11 +11,21 @@ var portals = [];
 var players = [];
 var blocks = [];
 var sprite1;
+var soundJump;
+var soundKey;
+var soundHeart;
+var soundSpike;
 var game;
 
 function preload(){
-	//load spritesheets
-	sprite1 = loadImage("../sprites/spritesheet1.png");
+	//load spritesheets and sounds (sounds with user names are from Freesound.org)
+	sprite1 = loadImage("sprites/spritesheet1.png");
+	soundKey = loadSound("sounds/clink1.mp3");
+	soundHeart = loadSound("sounds/243701__ertfelda__correct.wav");
+	soundJump = loadSound("sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
+	soundSpike = loadSound("sounds/344131__thebuilder15__sword-slice.wav");
+	
+	
 }
 
 
@@ -42,9 +52,16 @@ function setup() {
 	imgR2 = sprite1.get(50, 200, 50, 50);
 	imgR3 = sprite1.get(0,250,50,50);
 	imgR4 = sprite1.get(50,250,50,50);
+	imgClSide = sprite1.get(200,0,50,50); //61519
+	imgClMid = sprite1.get(250,0,50,50);  //61519
+	imgL1 = sprite1.get(200, 50, 50,50);  //61519
+	imgL2 = sprite1.get(250, 50, 50,50);  //61519
+	imgPot = sprite1.get(100,100,50,50); //61519
 	imgKey = sprite1.get(100, 200, 50, 50);
 	imgPortal = sprite1.get(100, 250, 50, 50);
 	imgFlower = sprite1.get(150, 0, 50, 50);
+	
+	
 	
 	//def player
 	players.push(new Player(0,0,28,28));  // 0.7 * tile size
