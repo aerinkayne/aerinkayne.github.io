@@ -19,11 +19,11 @@ var game;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
-	sprite1 = loadImage("assets/sprites/spritesheet1.png");
-	soundKey = loadSound("assets/sounds/clink1.mp3");
-	soundHeart = loadSound("assets/sounds/243701__ertfelda__correct.wav");
-	soundJump = loadSound("assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
-	soundSpike = loadSound("assets/sounds/344131__thebuilder15__sword-slice.wav");
+	sprite1 = loadImage("sprites/spritesheet1.png");
+	soundKey = loadSound("sounds/clink1.mp3");
+	soundHeart = loadSound("sounds/243701__ertfelda__correct.wav");
+	soundJump = loadSound("sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
+	soundSpike = loadSound("sounds/344131__thebuilder15__sword-slice.wav");
 	
 	
 }
@@ -60,7 +60,8 @@ function setup() {
 	imgKey = sprite1.get(100, 200, 50, 50);
 	imgPortal = sprite1.get(100, 250, 50, 50);
 	imgFlower = sprite1.get(150, 0, 50, 50);
-	
+	imgFlower2 = sprite1.get(150, 50, 50, 50); //61619
+	imgFossil = sprite1.get(200, 100, 50, 50); //61619
 	
 	
 	//def player

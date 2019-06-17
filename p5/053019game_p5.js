@@ -314,18 +314,17 @@ class Portal{
 	}
 	update(player){
 		if(collide(this,player)&&player.gotKey){
-			fadeColor=color(255, 255, 255, transparency);
-			transparency+=5;
-			if(transparency>255){
-				this.complete=true;
+				fadeColor=color(255, 255, 255, transparency);
+				transparency+=5;
+				if(transparency>255){
+					this.complete=true;
+				}
+			}else if(collide(this,player)&&!player.gotKey){
+				fill(0, 0, 0);
+				textSize(15);
+				textAlign(CENTER,CENTER);
+				text("You need the key",this.P.x+this.w/2,this.P.y-this.h/2);
 			}
-		}
-		else if(collide(this,player)&&!player.gotKey){
-			fill(0, 0, 0);
-			textSize(15);
-			textAlign(CENTER,CENTER);
-			text("You need the key",this.P.x+this.w/2,this.P.y-this.h/2);
-		}
 	}
 }
 
@@ -367,12 +366,12 @@ class Spike{
 
 		fill(212, 232, 255);
 		triangle(this.P.x,this.P.y+this.h,
-			this.P.x+this.w,this.P.y+this.h,
-			this.P.x+this.w/2,this.P.y + this.jab);
+				this.P.x+this.w,this.P.y+this.h,
+				this.P.x+this.w/2,this.P.y + this.jab);
 		fill(22, 124, 171);
 		triangle(this.P.x+this.w/2,this.P.y+this.h,
-			this.P.x+this.w-this.w/15,this.P.y+this.h,
-			this.P.x+this.w/2,this.P.y + this.jab);
+				this.P.x+this.w-this.w/15,this.P.y+this.h,
+				this.P.x+this.w/2,this.P.y + this.jab);
 		stroke(255, 255, 255);
 		strokeWeight(2);
 		line(this.P.x, this.P.y+this.h-1, 
@@ -704,6 +703,8 @@ class Deco{
 		else if(img === "brick"){this.z_Index=0;}
 		else if(img === "glass"){this.z_Index=1;}
 		else if(img === "flower"){this.img=imgFlower; this.z_Index=3;}
+		else if(img === "flower2"){this.img=imgFlower2; this.z_Index=3;}
+		else if(img === "fossil"){this.img=imgFossil; this.z_Index=3;}
 		else if(img === "water"){this.z_Index=3;}
 	}
  

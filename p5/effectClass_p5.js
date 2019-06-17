@@ -93,14 +93,19 @@ class ObjectHandler{
 	}
 	season(string){
 		var hillColor;
+		var skyStart, skyEnd, hillStart, hillEnd;
 		if (string === "winter"){
-			this.shadeSky(color(82, 149, 204), color(250,210,255));  
+			skyStart = color(82,149,204);
+			skyEnd = color(250,200,255);
+			hillStart = color(45,75,130);
+			hillEnd = color(150,201,235);
+			this.shadeSky(skyStart, skyEnd);  
 			this.initHills(0.15);
 			
 			for(var i = 0; i < this.hills.length; i++){
-				if(i===0){hillColor = color(45, 75, 130);}
-				if(i===1){hillColor = color(94, 145, 199);}
-				if(i===2){hillColor = color(150, 201, 235);}
+				if(i===0){hillColor = lerpColor(hillStart,skyStart, 0.25);}
+				if(i===1){hillColor = lerpColor(hillColor, hillEnd, 0.5);}
+				if(i===2){hillColor = hillEnd;}
 				this.hills[i].draw(hillColor);
 			}
 			this.add("snow"); 
@@ -110,28 +115,44 @@ class ObjectHandler{
 			}
 		}
 		else if (string === "spring"){
-			this.shadeSky(color(107, 139, 163),color(242, 252, 255));
+			skyEnd = color(242,252,255);
+			hillStart = color(40,95,75);
+			hillEnd = color(85,158,106);
+			if (this.player.P.y > 300){
+				skyStart = color(70,110,120);
+			}
+			else {
+				skyStart = color(150,175,225);
+			}
+			this.shadeSky(skyStart, skyEnd);
+			
 			this.initHills(0.15);
 			for(var i = 0; i < this.hills.length; i++){
-				if(i===0){hillColor = color(20, 75, 65);}
-				if(i===1){hillColor = color(40, 120, 97);}
-				if(i===2){hillColor = color(85, 158, 106);}
+				if(i===0){hillColor = lerpColor(hillStart,skyStart, 0.25);}
+				if(i===1){hillColor = lerpColor(hillColor, hillEnd, 0.5);}
+				if(i===2){hillColor = hillEnd;}
 				this.hills[i].draw(hillColor);
 			}
 			this.add("rain"); 
-			for(var i=0; i< this.rain.length; i++){
-				this.rain[i].update();
-				this.rain[i].draw();
+			if (this.player.P.y > 300){
+				for(var i=0; i< this.rain.length; i++){
+					this.rain[i].update();
+					this.rain[i].draw();
+				}
 			}
 			
 		}
 		else if (string === "summer"){
-			this.shadeSky(color(153, 209, 255),color(255, 237, 244));
+			skyStart = color(153, 209, 255);
+			skyEnd = color(255, 237, 244);
+			hillStart = color(150, 190, 220);
+			hillEnd = color(120, 200, 90);
+			this.shadeSky(skyStart, skyEnd);
 			this.initHills(0.15);
 			for(var i = 0; i < this.hills.length; i++){
-				if(i===0){hillColor = color(150, 190, 220);}
-				if(i===1){hillColor = color(50, 145, 105);}
-				if(i===2){hillColor = color(120, 200, 90);}
+				if(i===0){hillColor = lerpColor(hillStart,skyStart, 0.25);}
+				if(i===1){hillColor = color(50,140,50);}
+				if(i===2){hillColor = hillEnd;}
 				this.hills[0].lake = true;
 				this.hills[i].draw(hillColor);
 			}
@@ -145,12 +166,16 @@ class ObjectHandler{
 			
 		}
 		else if (string === "fall"){
-			this.shadeSky(color(107, 191, 255),color(250, 219, 255));
+			skyStart = color(107, 191, 255);
+			skyEnd = color(250, 239, 255);
+			hillStart = color(225, 170, 100);
+			hillEnd = color(225, 150, 25);
+			this.shadeSky(skyStart, skyEnd);
 			this.initHills(0.15);
 			for(var i = 0; i < this.hills.length; i++){
-				if(i===0){hillColor = color(190, 170, 220);}
-				if(i===1){hillColor = color(240, 175, 40);}
-				if(i===2){hillColor = color(200, 100, 50);}
+				if(i===0){hillColor = lerpColor(hillStart,skyStart, 0.25);}
+				if(i===1){hillColor = lerpColor(hillColor, hillEnd, 0.5);}
+				if(i===2){hillColor = hillEnd;}
 				this.hills[i].draw(hillColor);
 			}
 			this.add("leaves");  

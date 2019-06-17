@@ -30,22 +30,35 @@ class Game{
 				"22L2122222LLLLLLLL11LLLLLLLL111222222222",    //0
 
 			],
-
 			[
-				"                      72",
-				"                   f2221",
-				"                  221  1",
-				"             2   21 1 91",
-				"             1222      1",
-				"          8821        21",
-				"    f  2222211 2 2222  1",
-				"20 22881       181  12 1",
-				"1   1221        1   1  1",
-				"122 1        22       21",
-				"  1       f 818      f 1",
-				"  12222  222212222 2 221"
-			],
+			  "                 FFFfFFff  7 f               ",
+			  "               444444444444444               ",
+			  "     cCCCCd                                  ",
+			  "fff                                          ",
+			  "4444                                         ",
+			  "33334                                        ",
+			  "         m                                  h",
+			  "                           cCCCCCCCCCCCCCCCCC",
+			  "                cCCCCCCCCCd                  ",
+			  "                                             ",
+			  "           m                                 ",
+			  "                                             ",
+			  "     m                                       ",
+			  "                                  8 8        ",
+			  "CCd          8     cd    cd      cCCCd       ",
+			  "    8  8   cCCCd             cd       cd    f",
+			  "   cCCCCd                                  F2",
+			  "                                   2 F f   21",
+			  "                           8f      12222     ",
+			  "                          222           2    ",
+			  "                        8 111               h",
+			  " 0              F      222111              22",
+			  "F f  fF    8f   22    f1111              F 11", 
+			  "2222222   222        221111       m      2211", 
+			  "1111111              1119                1111", 
+			  "1111111LLLLLLLLLLLLLL11122222LLLLLLLLLLLL1111"
 			
+			],
 			
 			[
 			//   0        1         2         3         4
@@ -62,18 +75,18 @@ class Game{
 				"444                           ",
 				"   3                          ",
 				"        m                     ",
-				"                    b b b b b ",
+				"           F        b b b b b ",
 				"          44        bgbgbgbgbg",
 				"               4    b b b b b ",
 				"               2wwwwBBBBBBBBBB", //10
 				"0             4133343434443443",
-				"           83               92",
-				"443334   433                 1",
-				"        4          8  8   3441",
+				" f  F      83               92",
+				"443334   433                f1",
+				"        4         f8  8   3441",
 				"                  443343     2",
 				"      3                      1",
 				"       4     m               1",
-				"h  88                        2",
+				"h  88   fF                   2",
 				"4334433343LLLLLLLLLLLLLLLLLLL1"
 			],
 
@@ -97,7 +110,7 @@ class Game{
 				"   1                    ",
 				"  2             2 3  2  ",
 				"      8        8 8 8 8  ",
-				"232233222   223322322232"
+				"232233222LLL223322322232"
 			],
 			[
 				"1"
@@ -168,7 +181,7 @@ class Game{
 					this.objectHandler.fgSnow[i].draw();
 				}
 		}
-		if(this.currentLevel===1){
+		if(this.currentLevel===1 && this.player.P.y > 300){
 		for(var i=0; i< this.objectHandler.fgRain.length; i++){
 				this.objectHandler.fgRain[i].update();
 				this.objectHandler.fgRain[i].draw();
@@ -217,9 +230,14 @@ class Game{
 					blocks.push(new Block(row*S,col*S,S,S,imgD1)); //dirt 
 				}
 				else if(s==="2"){
-					blocks.push(new Block(row*S,col*S,S,S,imgG1)); // dirt w grass
-				}			
-				
+					blocks.push(new Block(row*S,col*S,S,S,imgG1)); //dirt w grass
+				}
+				else if(s==="3"){  
+					blocks.push(new Block(row*S,col*S,S,S,imgR3)); //rocks
+				}	
+				else if(s==="4"){  
+					blocks.push(new Block(row*S,col*S,S,S,imgR2)); //rocks w grass
+				}	
 				else {this.levelKeyAll(s, S, col, row);}  		
 			}
 		}	
@@ -306,7 +324,10 @@ class Game{
 		//decorative images.  level app when needed
 		else if(s==="f"){
 			decoImages.push(new Deco(row*S,col*S,S,S, "flower"));
-		}	
+		}
+		else if(s==="F"){
+			decoImages.push(new Deco(row*S,col*S,S,S, "flower2"));
+		}
 						 
 		else if(s==="g"){
 			decoImages.push(new Deco(row*S,col*S,S,S, "glass"));
