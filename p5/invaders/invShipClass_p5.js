@@ -38,6 +38,9 @@ class Ship{
 		rect(width-55, height-10, 50, 7,2);
 		noStroke();
 		fill(155,0,40);
+		if (this.health < 0){
+			this.health = 0;
+		}
 		rect(width-54, height-9, map(this.health,0,250,0,50), 5,2);
 	}
 	draw(){
