@@ -5,12 +5,26 @@ header, section, footer, aside, nav, main, article, figure {
 
 body {
 	margin: 15px;
-	background-color: slategray;
+	background-color: silver;
 }
 
+p {
+	margin: 25px;
+	font-family: "helvetica";
+	font-size: 14px;
+}
 
 canvas {
+	position: relative;
+	top: 5px;
 	display: block;
-	border: 1px solid black;
-	margin: 25px;
+	border: 1px solid #ddf;
+	margin: 0px;
 }
+
+#cParent {
+	padding: 5px 0px;
+	font-size: 16px;
+	font-family: "comic sans MS";
+}
+
