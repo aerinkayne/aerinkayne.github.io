@@ -4,15 +4,22 @@ var invGame;
 var btnStart, btnPause, btnRestart, btnSel1, btnSel2, btnSel3;
 var ship;
 var bads = [];
+var pups = [];
 
-var sPhaser, sEnmDmg, sEnmDestr, sEnmSpawn, sShipDestr;
+var sPup, sPhaser, sEnmDmg, sEnmDestr, sEnmSpawn, sShipDestr;
 var sEnmD2;
 var sEnmAtt, sEnmAtt2;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
+	sPup = loadSound("assets/sounds/UI/171527__leszek-szary__menu-click.wav");
 	sPhaser = loadSound("assets/sounds/phasers/phaserPulse.mp3");
 	sPhaser.setVolume(0.5);
+	sPhaserG = loadSound("assets/sounds/phasers/159230__noirenex__deepscan.mp3");
+	sPhaserG.setVolume(0.5);
+	sPhaserB = loadSound("assets/sounds/phasers/67426__aji__pair03.wav");
+	sPhaserY = loadSound("assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3");
+	
 	sEnmDmg = loadSound("assets/sounds/alien/117740__donalfonso__kurzschluss.wav");
 	//sEnmDmg = loadSound("assets/sounds/322485__liamg-sfx__explosion-11.wav");
 	sEnmD2 = loadSound("assets/sounds/alien/205753__scorpion67890__surge-leech-1.wav");
@@ -98,6 +105,4 @@ function mouseClicked(){
 
 function draw(){
 	invGame.manageScenes();
-	//if (bads.length>0){console.log(onScreen(ship,bads[0]));}
-	
 }

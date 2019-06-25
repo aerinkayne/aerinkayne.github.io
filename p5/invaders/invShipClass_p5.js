@@ -17,31 +17,38 @@ class Ship{
 	this.shots = [];
 	this.firing = false;
 	this.firingDelay = 0;
-	this.health = 200;
+	this.health = 250;
+	this.score = 0;
 	this.dmgDelay = 41;
 	this.dest = sShipDestr;
 	
 	//weapon stats
+	this.gunType = "0"; //not currently used
+	this.weaponSound = sPhaser;
 	this.weaponColor = color(0,200,185);
 	this.weaponW = 5;
 	this.weaponH = 10;
 	this.weaponSpeed = 10; //speed of projectile.  higher is faster.
 	this.weaponRecharge = 15; //weap recharge time.  lower allows faster shots. 
-	this.weaponDamage = 25;
+	this.weaponDamage = 10;
 	}
 	shoot(){
 		this.shots.push(new Laser(this));
 	}
 	healthBar(){
+		noStroke();
+		fill(225,225,255);
+		text("score: " + this.score, width-50, height-20);
+		
 		fill(0,0,0);
-		stroke(175,150,250);
-		rect(width-55, height-10, 50, 7,2);
+		stroke(150,175,255);
+		rect(width-70, height-10, 51, 7,2);
 		noStroke();
 		fill(155,0,40);
 		if (this.health < 0){
 			this.health = 0;
 		}
-		rect(width-54, height-9, map(this.health,0,250,0,50), 5,2);
+		rect(width-69, height-9, map(this.health,0,250,0,50), 5,2);
 	}
 	draw(){
 		push();
@@ -199,7 +206,7 @@ class Ship{
 		
 		//fire gun
 		if (mouseIsPressed && !this.firing && this.health >= 0){ //change with pwrups
-			sPhaser.play(); 
+			this.weaponSound.play(); 
 			this.shoot(); 
 			this.firing = true;
 			this.firingDelay = 0;
@@ -210,10 +217,10 @@ class Ship{
 			for (var i = this.shots.length-1; i >= 0; i--){
 				this.shots[i].draw();
 				if(invGame.gameState==="inGame"){
-					this.shots[i].update();
+					this.shots[i].update(this);
 				}
 				
-				if (this.shots[i].P.y < -this.h){ 
+				if (this.shots[i].P.y < -100){ 
 					this.shots.splice(i,1);
 				}
 			}
@@ -222,9 +229,9 @@ class Ship{
 		//bads direct collision
 		for (var i = bads.length-1; i>=0; i--){
 			if (collide(bads[i], this) && this.dmgDelay > 40){
-				this.health-=25;
+				this.health-=50;
 				this.dmgDelay=0;
-				bads[i].health-=25;
+				bads[i].health-=50;
 				sEnmDmg.play();
 			}
 		}
@@ -234,7 +241,7 @@ class Ship{
 		
 		//end game if no health remaining
 		if(this.health<=0){
-			this.health = 0;
+			
 			this.dest.play();
 			
 			for (var i = bads.length-1; i >=0; i--){

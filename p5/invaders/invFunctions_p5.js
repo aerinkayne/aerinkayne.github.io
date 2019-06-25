@@ -1,4 +1,6 @@
-//functions
+//functions: camera, sort, collision, onscreen
+
+//camera
 var gameCamera = function(ship){
     if(ship.P.x + ship.w/2  > width/2){
         translate((width/2-(ship.P.x + ship.w/2)), 0);
@@ -34,7 +36,10 @@ var onScreen = function(obj1, obj2){ //checks if obj1 and 2 are both onscreen
            abs(obj2.P.y-obj1.P.y)<height/2+min(height/2,abs(obj2.P.y-obj1.P.y));
 };
 
-//classes
+
+
+
+//classes:  button, stars, laser, powerup
 class Button{
 	constructor(x,y,w,h,r,txt){
 	this.P = createVector(x,y);
@@ -61,8 +66,6 @@ class Button{
 				mouseY > this.P.y && mouseY < this.P.y + this.h);
 	}
 }
-
-
 
 class StarField{
 	constructor(number){
@@ -121,7 +124,6 @@ class StarField{
 }	
 
 
-
 class Laser{
 	constructor(vessel){
 		this.w = vessel.weaponW; //change with powerups later, pass type
@@ -139,10 +141,70 @@ class Laser{
 		rect(this.P.x+this.w/3, this.P.y, this.w/3, this.h);
 	}
 	
-	update(){
+	update(vessel){
+		
+		if (vessel.type==="ship5"){
+			this.targetShot(vessel);
+		}
 		this.P.add(this.V);	
+		
+	}
+	
+	targetShot(vessel){
+		var shipP = createVector(ship.P.x+ship.w/2, ship.P.y+ship.h/2);
+		var sourceP = createVector(vessel.P.x+vessel.w/2, vessel.P.y+vessel.h/2);
+		var dirP = sourceP.sub(shipP);
+		this.V = dirP.setMag(vessel.weaponSpeed);
 	}
 	
 }
 
-
+class PowerUp{
+	constructor(vessel){
+		this.P = createVector(vessel.P.x,vessel.P.y+vessel.h/2);
+		this.w = 25;
+		this.h = 8;
+		this.c = vessel.weaponColor;
+		this.Lw = vessel.weaponW;
+		this.Lh = vessel.weaponH;
+		this.Ls = -vessel.weaponSpeed; //ship vals are opposite Y vec
+		this.dmg = vessel.weaponDamage;
+		
+		if(vessel.type==="ship1"){
+			this.Lchrg = 10;
+			this.sound = sPhaser;	//change later		
+		}
+		else if(vessel.type==="ship2"){
+			this.Lchrg = 18;
+			this.sound = sPhaser;
+		}
+		else if(vessel.type==="ship3"){
+			this.Lchrg = 25;	
+			this.sound = sPhaserG;
+		}
+		else if(vessel.type==="ship4"){
+			this.Lchrg = 40;
+			this.sound = sPhaserY;
+		}
+	}
+	draw(){
+		strokeWeight(2);
+		stroke(random(50,220),random(50,220),random(50,220));
+		fill(this.c);
+		rect(this.P.x, this.P.y, this.w, this.h, 6);
+		noStroke();
+	}
+	update(){
+		this.P.x+= 3/4*sin(invGame.timer);
+		this.P.y+= 0.5;
+	}
+	modShip(){
+		ship.weaponColor = this.c;
+		ship.weaponSound = this.sound;
+		ship.weaponW = this.Lw;
+		ship.weaponH = this.Lh;
+		ship.weaponSpeed = this.Ls;    //speed of projectile.  higher is faster.
+		ship.weaponRecharge = this.Lchrg; //weap recharge time.  lower allows faster shots. 
+		ship.weaponDamage = this.dmg;
+	}
+}

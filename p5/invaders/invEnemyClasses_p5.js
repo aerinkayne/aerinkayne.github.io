@@ -8,6 +8,7 @@ class Enemy{
 		this.V = createVector(0.5,0);  //update later
 		this.shots = [];
 		this.firing = false;
+		this.drop = false;
 		this.firingDelay = 0;
 		
 		if (type === "ship1"){
@@ -16,16 +17,17 @@ class Enemy{
 			this.c = color(130,0,75);
 			this.c2 = color(60, 0, 15);
 			this.c3 = color(175, 70,95);
-			this.health = 25;
+			this.health = 20;
 			this.att = sEnmAtt;
 			this.dest = sEnmDestr;
+
 			//weapon stats
 			this.weaponColor = color(200,0,0);
 			this.weaponW = 4;
 			this.weaponH = 12;
 			this.weaponSpeed = -7.5; //speed of projectile.  higher is faster. (neg for enemy ships)
 			this.weaponRecharge = 100; //weap recharge time.  lower allows faster shots. 
-			this.weaponDamage = 10;
+			this.weaponDamage = 15;
 			this.shotRoll = 0.1; //testing
 		}
 		else if (type === "ship2"){
@@ -46,6 +48,8 @@ class Enemy{
 			this.weaponRecharge = 150;  
 			this.weaponDamage = 25;
 			this.shotRoll = 0.1; //testing
+			
+
 		}
 		else if (type === "ship3"){
 			this.w = 35;
@@ -53,17 +57,17 @@ class Enemy{
 			this.c = color(35,140,120);
 			this.c2 = color(0,75,50);
 			this.c3 = color(75,175,120);
-			this.health = 100;
+			this.health = 80;
 			this.att = sEnmAtt;
 			this.dest = sEnmDestr;
 			
 			this.weaponColor = color(0,200,135);
-			this.weaponW = 10;
+			this.weaponW = 16;
 			this.weaponH = 30;
 			this.weaponSpeed = -6; 
 			this.weaponRecharge = 150;  
-			this.weaponDamage = 35;
-			this.shotRoll = 0.1; //testing
+			this.weaponDamage = 40;
+			this.shotRoll = 0.3; //testing
 		}
 		else if (type === "ship4"){
 			this.w = 20;
@@ -71,45 +75,98 @@ class Enemy{
 			this.c = color(100,75,0);
 			this.c2 = color(80,40,0);
 			this.c3 = color(150,75,100);
-			this.health = 200;
+			this.health = 160;
 			this.att = sEnmAtt;
 			this.dest = sEnmD2;
 		
-			
 			this.weaponColor = color(225,150,0);
 			this.weaponW = 4;
-			this.weaponH = 50;
+			this.weaponH = 60;
 			this.weaponSpeed = -3; 
 			this.weaponRecharge = 150;  
-			this.weaponDamage = 50;
-			this.shotRoll = 0.1; //testing
+			this.weaponDamage = 75;
+			this.shotRoll = 0.2; //testing
 		}
 		else if (type === "ship5"){
-			this.w = 40;
-			this.h = 50;
-			this.c = color(0,50,100);
-			this.c2 = color(0,25,70);
-			this.c3 = color(70,75,200);
-			this.health = 600;
+			this.w = 50;
+			this.h = 60;
+			this.c = color(0,25,70);
+			this.c2 = color(0,50,100);
+			this.c3 = color(0,175,200);
+			this.numEyes = 20;
+			this.eyes = [];
+			for (var i = 0; i< this.numEyes; i++){
+				this.eyes.push(new Object());
+				this.eyes[i].P = createVector (random(-this.w/2,this.w/20), random(-this.h/2,this.h/2));
+				this.eyes[i].SF = random(0.15, 1);
+				this.eyes[i].ani = random(0,PI/2);
+			}
+			
+			this.health = 1000;
 			this.att = sEnmAtt;
 			this.dest = sEnmD2;
 			
-			this.weaponColor = color(0,150,200);
-			this.weaponW = 4;
-			this.weaponH = 50;
-			this.weaponSpeed = -4; 
-			this.weaponRecharge = 150;  
-			this.weaponDamage = 50;
-			this.shotRoll = 0.1; //testing
+			this.weaponColor = color(0,160,230);
+			this.weaponW = 7;
+			this.weaponH = 7;
+			this.weaponSpeed = -6; 
+			this.weaponRecharge = 300;  
+			this.weaponDamage = 75;
+			this.shotRoll = 1; //testing
 		}
 	}
 	
 	draw(){
 		if (this.health>0){
 			if (this.type === "ship5"){
+				
+				//hit box
 				noStroke();
 				fill(this.c);  
-				rect(this.P.x, this.P.y, this.w, this.h, this.w);
+				rect(this.P.x, this.P.y, this.w, this.h, 8);
+				
+				fill(this.c2);
+				stroke(this.c3);
+				for (var i = 0; i <5; i++){
+					rect(this.P.x, this.P.y+i*this.h/5.5, this.w, this.h/6, 3);
+				}
+				
+				for (var i = 1; i < this.numEyes; i++){
+					push();
+					
+					translate(this.P.x+this.w/2+this.eyes[i].P.x, this.P.y+this.h/2+this.eyes[i].P.y);
+					scale(this.eyes[i].SF);
+					fill(0, 17, 79);
+					noStroke();
+					ellipse(15,1,30,13+2*abs(sin(invGame.timer+this.eyes[i].ani)));
+
+
+					fill(0, 73, 133);
+					strokeWeight(1);
+					stroke(0, 242, 255);
+
+					beginShape();
+					curveVertex(15,0);
+					curveVertex(0,0);
+					curveVertex(15,-10+4*abs(sin((invGame.timer+this.eyes[i].ani)/2)));
+					curveVertex(30,0);
+					curveVertex(15,10-4*abs(sin((invGame.timer+this.eyes[i].ani)/2)));
+					curveVertex(0,0);
+					curveVertex(10,-5);
+					endShape();
+
+					noStroke();
+					fill(0, 255, 255);
+					ellipse(15,0,25,10-6*abs(sin((invGame.timer+this.eyes[i].ani)/2)));
+					fill(64, 0, 94,140);
+					ellipse(15,0,14,12);
+					fill(0, 0, 0);
+					ellipse(15,0,3,9);
+					fill(255, 255, 255);
+					ellipse(11,-2,3,3);
+					pop();
+				}
+
 			}	
 			else {
 				
@@ -176,6 +233,10 @@ class Enemy{
 		this.att.play();
 	}
 	
+	dropItem(){
+		pups.push(new PowerUp(this));
+	}
+	
 	//called in sketch loop through bads.length
 	update(){  
 	
@@ -184,10 +245,10 @@ class Enemy{
 			for (var i = this.shots.length-1; i >= 0; i--){
 				this.shots[i].draw();
 				if(invGame.gameState==="inGame"){
-					this.shots[i].update();
+					this.shots[i].update(this);
 				}	
 				
-				if (this.shots[i].P.y > height){ 
+				if (this.shots[i].P.y > height+100){ 
 					this.shots.splice(i,1);
 				}
 			}
@@ -248,10 +309,10 @@ class Enemy{
 			this.P.add(this.V);
 			
 			//limit firing rate
-			if (this.firingDelay < this.weaponRecharge+1){
+			if (this.firingDelay < this.weaponRecharge){
 				this.firingDelay++;  
 			}  
-			if (this.firingDelay > this.weaponRecharge){
+			if (this.firingDelay >= this.weaponRecharge){
 				this.firing=false;
 			}
 			
@@ -271,7 +332,9 @@ class Enemy{
 						sEnmDmg.play();
 					}
 					else if (this.health <= 0){
-						this.dest.play();	
+						this.dest.play();
+						ship.score+= this.weaponDamage;
+						if(this.drop === true){this.dropItem();}
 					}
 				}	
 			}
