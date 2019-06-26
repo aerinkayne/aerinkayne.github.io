@@ -8,6 +8,7 @@ class Game{
 		this.gameState = "gameStart"; //"testing"; //"gameStart";
 		this.currentWave = 0;
 		this.spawned = [false, false, false, false, false, false];
+		this.waveTimer = 300;  //tenths of sec
 		this.waveMap = [
 			[	//0
 				"221122",  //game.waveMap[currentWave===0].length === 3
@@ -152,7 +153,7 @@ class Game{
 	
 	waveCheck(){
 		if (!this.spawned[this.currentWave] && this.currentWave < this.waveMap.length && 
-							this.timer > this.currentWave*30){  //*30.  seconds 0,30,60,90,120,150
+							this.timer > this.currentWave*this.waveTimer){  
 			this.spawnBads(this.currentWave); 
 			this.spawned[this.currentWave] = true; 
 			this.currentWave++;
@@ -164,7 +165,7 @@ class Game{
 		
 		this.timeNow = new Date();
 		//if dif between now and ref is 1 sec, timer++ and reset ref point
-		if (this.timeNow - this.timeRef >= 1000){
+		if (this.timeNow - this.timeRef >= 100){  //tenths of a sec.  using with sin for animations too so need extra dec point.
 			this.timer++;
 			this.timeRef = new Date();
 		}
