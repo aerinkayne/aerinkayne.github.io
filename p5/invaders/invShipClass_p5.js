@@ -39,18 +39,19 @@ class Ship{
 	healthBar(){
 		noStroke();
 		fill(225,225,255);
-		text("score: " + this.score, width-50, height-20);
+		textAlign(LEFT);
+		text("score: " + this.score, width-65, height-20);
 		
 		fill(0,0,0);
 		stroke(150,175,255);
-		rect(width-70, height-10, 51, 7,2);
+		rect(width-65, height-10, 51, 7,2);
 		noStroke();
 		fill(155,0,40);
 		//or map will hate you
 		if (this.health < 0){
 			this.health = 0;
 		}
-		rect(width-69, height-9, map(this.health,0,250,0,50), 5,2);
+		rect(width-64, height-9, map(this.health,0,250,0,50), 5,2);
 	}
 	draw(){
 		push();
@@ -246,12 +247,18 @@ class Ship{
 		if(this.health<=0){
 			
 			this.dest.play();
-			
-			for (var i = bads.length-1; i >=0; i--){
-				for (var s = bads[i].shots.length-1; s>=0; s--){
-					bads[i].shots.splice(s,1);
+			if (bads.length > 0){
+				for (var i = bads.length-1; i >=0; i--){
+					for (var s = bads[i].shots.length-1; s>=0; s--){
+						bads[i].shots.splice(s,1);
+					}
+					bads.splice(i,1);
 				}
-				bads.splice(i,1);
+			}	
+			if (pups.length > 0){
+				for (var i = pups.length-1; i >= 0; i--){
+					pups.splice(i,1);
+				}
 			}
 			invGame.gameState = "gameOver";
 		}

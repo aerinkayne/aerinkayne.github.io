@@ -2,11 +2,16 @@
 
 //camera
 var gameCamera = function(ship){
-    if(ship.P.x + ship.w/2  > width/2){
-        translate((width/2-(ship.P.x + ship.w/2)), 0);
+	let shipC = ship.P.x + ship.w/2;
+	let bordL = width/2;
+	let bordR = levelW - width/2;
+	
+	if(shipC > bordL){    
+        translate(-(shipC-bordL), 0);  
     }
-    if(levelW - (ship.P.x + ship.w/2 ) < width/2){
-        translate(width/2-(levelW - ship.P.x - ship.w/2), 0);
+	                           
+    if(shipC > bordR){   
+        translate(shipC-bordR, 0);  
     }
 }
 
