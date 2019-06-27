@@ -25,6 +25,7 @@ class Ship{
 	//weapon stats
 	this.gunType = "0"; //not currently used
 	this.weaponSound = sPhaser;
+	this.weaponHits = 1;
 	this.weaponColor = color(0,200,185);
 	this.weaponW = 5;
 	this.weaponH = 10;
@@ -45,6 +46,7 @@ class Ship{
 		rect(width-70, height-10, 51, 7,2);
 		noStroke();
 		fill(155,0,40);
+		//or map will hate you
 		if (this.health < 0){
 			this.health = 0;
 		}
@@ -226,7 +228,8 @@ class Ship{
 			}
 		}
 		
-		//bads direct collision
+		
+		//direct collision of ship with bads
 		for (var i = bads.length-1; i>=0; i--){
 			if (collide(bads[i], this) && this.dmgDelay > 40){
 				this.health-=50;

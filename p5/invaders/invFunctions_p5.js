@@ -131,6 +131,7 @@ class Laser{
 		this.P = createVector(vessel.P.x+vessel.w/2-this.w/2,vessel.P.y+vessel.h/2);
 		this.V = createVector(0,-vessel.weaponSpeed); //change with powerups 
 		this.C = vessel.weaponColor;
+		this.hits = vessel.weaponHits;  //number of times shot can do damage before it's spliced
 	}
 	draw(){
 		noStroke();
@@ -169,6 +170,7 @@ class PowerUp{
 		this.Lh = vessel.weaponH;
 		this.Ls = -vessel.weaponSpeed; //ship vals are opposite Y vec
 		this.dmg = vessel.weaponDamage;
+		this.weaponHits = vessel.weaponHits;
 		
 		if(vessel.type==="ship1"){
 			this.Lchrg = 10;
@@ -199,6 +201,7 @@ class PowerUp{
 		this.P.y+= 0.5;
 	}
 	modShip(){
+		ship.weaponHits = this.weaponHits;
 		ship.weaponColor = this.c;
 		ship.weaponSound = this.sound;
 		ship.weaponW = this.Lw;

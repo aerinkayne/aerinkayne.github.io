@@ -10,6 +10,7 @@ class Enemy{
 		this.firing = false;
 		this.drop = false;
 		this.firingDelay = 0;
+		this.weaponHits = 1;
 		
 		if (type === "ship1"){
 			this.w = 30;
@@ -78,7 +79,8 @@ class Enemy{
 			this.health = 160;
 			this.att = sEnmAtt;
 			this.dest = sEnmD2;
-		
+			
+			this.weaponHits = 2;
 			this.weaponColor = color(225,150,0);
 			this.weaponW = 4;
 			this.weaponH = 60;
@@ -93,6 +95,7 @@ class Enemy{
 			this.c = color(0,25,70);
 			this.c2 = color(0,50,100);
 			this.c3 = color(0,175,200);
+			
 			this.numEyes = 20;
 			this.eyes = [];
 			for (var i = 0; i< this.numEyes; i++){
@@ -255,12 +258,18 @@ class Enemy{
 		}
 		
 		
-		//dmg done to player ship. remove if collision
+		//dmg done to player ship. remove if collision && hits 0, update hits
 		for (var i = this.shots.length - 1; i >= 0; i--){
-			if(collide(this.shots[i], ship)){
+			if(collide(this.shots[i], ship) && ship.dmgDelay > 40){
 				this.shots[i].draw();
-				this.shots.splice(i,1);
+				this.shots[i].hits--;
+				
+				if (this.shots[i].hits===0){
+					this.shots.splice(i,1);
+				}
+				
 				ship.health -= this.weaponDamage;
+				ship.dmgDelay = 0;
 						
 				if (ship.health > 0){
 						sEnmDmg.play();
@@ -324,8 +333,14 @@ class Enemy{
 			//dmg taken by player ship
 			for (var i = ship.shots.length - 1; i >= 0; i--){
 				if(collide(ship.shots[i], this)){
+					ship.shots[i].hits--;
 					ship.shots[i].draw();
-					ship.shots.splice(i,1);
+					
+					if (ship.shots[i].hits===0){
+						ship.shots.splice(i,1);
+					}
+					
+					
 					this.health -= ship.weaponDamage;
 					
 					if (this.health > 0){
