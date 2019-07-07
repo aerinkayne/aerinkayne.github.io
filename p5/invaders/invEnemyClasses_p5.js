@@ -12,6 +12,7 @@ class Enemy{
 		this.firingDelay = 0;
 		this.weaponHits = 1;
 		
+		//switchtho
 		if (type === "ship1"){
 			this.w = 30;
 			this.h = 35;
@@ -63,8 +64,8 @@ class Enemy{
 			this.dest = sEnmDestr;
 			
 			this.weaponColor = color(0,200,135);
-			this.weaponW = 16;
-			this.weaponH = 30;
+			this.weaponW = 15;
+			this.weaponH = 18;
 			this.weaponSpeed = -6; 
 			this.weaponRecharge = 150;  
 			this.weaponDamage = 40;
@@ -109,7 +110,7 @@ class Enemy{
 			this.att = sEnmAtt;
 			this.dest = sEnmD2;
 			
-			this.weaponColor = color(0,160,230);
+			this.weaponColor = color(230,0,100);
 			this.weaponW = 7;
 			this.weaponH = 7;
 			this.weaponSpeed = -6; 
@@ -129,6 +130,7 @@ class Enemy{
 				rect(this.P.x, this.P.y, this.w, this.h, 8);
 				
 				fill(this.c2);
+				strokeWeight(1);
 				stroke(this.c3);
 				for (var i = 0; i <5; i++){
 					rect(this.P.x, this.P.y+i*this.h/5.5, this.w, this.h/6, 3);
@@ -200,6 +202,7 @@ class Enemy{
 				
 				
 				rectMode(CORNER);
+				strokeWeight(1);
 				stroke(0,0,0,150);
 				push();
 				translate(this.P.x, this.P.y);
@@ -246,7 +249,7 @@ class Enemy{
 		//update shots fired.  remove if offscreen.
 		if (this.shots.length>0){
 			for (var i = this.shots.length-1; i >= 0; i--){
-				this.shots[i].draw();
+				this.shots[i].draw(); //070319
 				if(invGame.gameState==="inGame"){
 					this.shots[i].update(this);
 				}	

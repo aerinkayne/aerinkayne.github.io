@@ -2,16 +2,16 @@
 
 //camera
 var gameCamera = function(ship){
-	let shipC = ship.P.x + ship.w/2;
+	let shipCX = ship.P.x + ship.w/2;
 	let bordL = width/2;
 	let bordR = levelW - width/2;
 	
-	if(shipC > bordL){    
-        translate(-(shipC-bordL), 0);  
+	if(shipCX > bordL){    
+        translate(-(shipCX-bordL), 0);  
     }
 	                           
-    if(shipC > bordR){   
-        translate(shipC-bordR, 0);  
+    if(shipCX > bordR){   
+        translate(shipCX-bordR, 0);  
     }
 }
 
@@ -75,87 +75,106 @@ class Button{
 class StarField{
 	constructor(number){
 		//this seems convoluted but whatever
-		this.P = [];  //array of number Pvecs
+		this.stars = [];  //array of number Pvecs
 
 		for (var i = 0; i < number; i++){
-			this.P[i] = createVector(random(0,levelW),random(0,levelH));
+			this.stars.push(new Object());
+			this.stars[i].P = createVector(random(0,levelW),random(0,levelH));
 			
 			//~75% small, 20% medium, 5% large stars, with dif base color for each size.
 			var sizeRoll = random(0,number);
 			if (sizeRoll < 3/4*number) {
-				this.P[i].s = 1.75;
-				this.P[i].R = 0;
-				this.P[i].G = 80;
-				this.P[i].B = 200;
+				this.stars[i].s = 1.75;
+				this.stars[i].R = 0;
+				this.stars[i].G = 80;
+				this.stars[i].B = 200;
 			}
 			else if (sizeRoll < 19/20*number){
-				this.P[i].s = 2.5;
-				this.P[i].R = 25;
-				this.P[i].G = 150;
-				this.P[i].B = 200;
+				this.stars[i].s = 2.5;
+				this.stars[i].R = 25;
+				this.stars[i].G = 150;
+				this.stars[i].B = 200;
 			}
 			else {
-				this.P[i].s = 5;
-				this.P[i].R = 200;
-				this.P[i].G = 150;
-				this.P[i].B = 150;
+				this.stars[i].s = 5;
+				this.stars[i].R = 200;
+				this.stars[i].G = 150;
+				this.stars[i].B = 150;
 			}
-			this.P[i].alph = this.P[i].s*75;  
+			this.stars[i].alph = this.stars[i].s*75;  
 		}
 		
 		
 	}
 	draw(){
 		
-		for (var i = 0; i< this.P.length; i++){
-			strokeWeight(this.P[i].s);
-			stroke(random(this.P[i].R-75,this.P[i].R+75), 
-				random(this.P[i].G-75,this.P[i].G+75),
-				random(this.P[i].B-90,this.P[i].B+90), this.P[i].alph);
-			point(this.P[i].x, this.P[i].y);
-			
+		for (var i = 0; i< this.stars.length; i++){
+			if(onScreen(bg_stars.stars[i], ship)){
+				strokeWeight(this.stars[i].s);
+				stroke(random(this.stars[i].R-75,this.stars[i].R+75), 
+				random(this.stars[i].G-75,this.stars[i].G+75),
+				random(this.stars[i].B-90,this.stars[i].B+90), this.stars[i].alph);
+				point(this.stars[i].P.x, this.stars[i].P.y);
+			}
 		}
 		strokeWeight(1);
 	}	
 	update(){
-		for (var i = 0; i< this.P.length; i++){
-			this.P[i].y += 0.15*(this.P[i].s-1.0);
-			if (this.P[i].y > levelH){
-				this.P[i].y = 0;
-				this.P[i].x = random(0, levelW);
+		for (var i = 0; i< this.stars.length; i++){
+			this.stars[i].P.y += 0.15*(this.stars[i].s-1.0);
+			if (this.stars[i].P.y > levelH){
+				this.stars[i].P.y = 0;
+				this.stars[i].P.x = random(0, levelW);
 			} 
 		}
 	}	
 }	
 
-
+//fix ellpise based collision oy
 class Laser{
 	constructor(vessel){
 		this.w = vessel.weaponW; //change with powerups later, pass type
 		this.h = vessel.weaponH;
+		this.type = vessel.type;
+		//always use location compatible with rect collision
 		this.P = createVector(vessel.P.x+vessel.w/2-this.w/2,vessel.P.y+vessel.h/2);
 		this.V = createVector(0,-vessel.weaponSpeed); //change with powerups 
 		this.C = vessel.weaponColor;
 		this.hits = vessel.weaponHits;  //number of times shot can do damage before it's spliced
 	}
 	draw(){
-		noStroke();
-		fill(this.C);
-		rect(this.P.x, this.P.y, this.w, this.h);
-		strokeWeight(1);
-		fill(255,255,255,150);
-		rect(this.P.x+this.w/3, this.P.y, this.w/3, this.h);
+		
+		if(this.type === "ship3"){
+			noFill();
+			stroke(this.C);
+			strokeWeight(this.w/2);
+			//correct the drawing for ellipse here
+			ellipse(this.P.x+this.w/2, this.P.y+this.h/2, this.w, this.h);
+			stroke(255,255,255,150);
+			strokeWeight(this.w/6);
+			ellipse(this.P.x+this.w/2, this.P.y+this.h/2, this.w, this.h);
+			
+		}	
+		else{
+			
+			noStroke();
+			fill(this.C);
+			rect(this.P.x, this.P.y, this.w, this.h);
+			strokeWeight(1);
+			fill(255,255,255,150);
+			rect(this.P.x+this.w/3, this.P.y, this.w/3, this.h);
+		}	
 	}
 	
 	update(vessel){
 		
-		if (vessel.type==="ship5"){
+		if (this.type==="ship5"){ //070319
 			this.targetShot(vessel);
 		}
 		this.P.add(this.V);	
 		
 	}
-	
+	//sets shot's vector direction towards player ship
 	targetShot(vessel){
 		var shipP = createVector(ship.P.x+ship.w/2, ship.P.y+ship.h/2);
 		var sourceP = createVector(vessel.P.x+vessel.w/2, vessel.P.y+vessel.h/2);
@@ -170,6 +189,7 @@ class PowerUp{
 		this.P = createVector(vessel.P.x,vessel.P.y+vessel.h/2);
 		this.w = 25;
 		this.h = 8;
+		this.type = vessel.type;
 		this.c = vessel.weaponColor;
 		this.Lw = vessel.weaponW;
 		this.Lh = vessel.weaponH;
@@ -206,6 +226,7 @@ class PowerUp{
 		this.P.y+= 0.5;
 	}
 	modShip(){
+		ship.type = this.type; //070419
 		ship.weaponHits = this.weaponHits;
 		ship.weaponColor = this.c;
 		ship.weaponSound = this.sound;

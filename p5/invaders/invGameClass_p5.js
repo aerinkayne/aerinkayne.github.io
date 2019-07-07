@@ -49,16 +49,16 @@ class Game{
 	manageScenes(){
 		if (this.gameState === "gameStart"){
 			background(2,0,10);
-			stars.draw(); 
-			stars.update(); 
+			bg_stars.draw(); 
+			bg_stars.update(); 
 			btnStart.draw(color(0,150,200));
 		}
 		else if (this.gameState === "inGame"){
 			
 			gameCamera(ship);
 			background(2,0,10);
-			stars.draw(); 
-			stars.update(); 
+			bg_stars.draw(); 
+			bg_stars.update(); 
 			this.updateTimer();
 
 			ship.update();
@@ -106,8 +106,8 @@ class Game{
 		else if (this.gameState === "gamePaused"){
 			gameCamera(ship);
 			background(2,0,10);
-			stars.draw(); 
-			stars.update();
+			bg_stars.draw(); 
+			bg_stars.update();
 			
 			if (ship.shots.length>0){
 					for (var s = ship.shots.length-1; s >= 0; s--){
@@ -133,8 +133,8 @@ class Game{
 			
 			//gameCamera(ship); //update later
 			background(2,0,10);
-			stars.draw(); 
-			stars.update(); 
+			bg_stars.draw(); 
+			bg_stars.update(); 
 			btnStart.draw(color(0,150,200));	
 		}
 		

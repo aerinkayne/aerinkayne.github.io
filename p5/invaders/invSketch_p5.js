@@ -1,5 +1,5 @@
 var levelW, levelH;
-var stars; 
+var bg_stars; 
 var invGame;
 var btnStart, btnPause, btnRestart, btnSel1, btnSel2, btnSel3;
 var ship;
@@ -21,15 +21,13 @@ function preload(){
 	sPhaserY = loadSound("assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3");
 	
 	sEnmDmg = loadSound("assets/sounds/alien/117740__donalfonso__kurzschluss.wav");
-	//sEnmDmg = loadSound("assets/sounds/322485__liamg-sfx__explosion-11.wav");
 	sEnmD2 = loadSound("assets/sounds/alien/205753__scorpion67890__surge-leech-1.wav");
 	sEnmDestr = loadSound("assets/sounds/350976__cabled-mess__boom-c-01.wav");
 	sEnmSpawn = loadSound("assets/sounds/alien/ambientIntro.wav");
 	sEnmAtt = loadSound("assets/sounds/alien/163095__fantozzi__ftz-gc-118-phaserattack1.wav");
 	sEnmAtt.setVolume(0.3);
 	sEnmAtt2 = loadSound("assets/sounds/alien/61818__tim-kahn__hard-kick.wav");
-	//reverb = new p5.Reverb();
-	//reverb.process(sEnmSpawn, 10,16);
+
 	
 	sShipDestr = loadSound("assets/sounds/397702__mrthenoronha__explosion-8-bit.wav");
 }
@@ -42,8 +40,8 @@ function setup(){
 	levelH = 400;
 	invGame = new Game();
 	ship = new Ship(width/2-20, height-40, 40,40);
-	stars = new StarField(150); 
-	sortArrByProp(stars.P, "s");
+	bg_stars = new StarField(150); 
+	sortArrByProp(bg_stars.stars, "s");
 	btnStart = new Button(width/2-50,height/2-25,100,50,5, "Start");
 	btnPause = new Button(5, height-25, 40, 20, 4, "Pause");
 }	

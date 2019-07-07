@@ -7,7 +7,8 @@ class Ship{
 	this.P = createVector(x,y);
 	this.V = createVector(0,0);
 	this.w = w;
-	this.h = h;	
+	this.h = h;
+	this.type = "player";	
 	this.length = 0; //for laser update function. maybe
 	this.move = [false,false,false,false];  //R,L,U,D
 	this.acc = 1.0;
