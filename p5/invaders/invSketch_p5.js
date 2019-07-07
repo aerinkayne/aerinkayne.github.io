@@ -103,4 +103,5 @@ function mouseClicked(){
 
 function draw(){
 	invGame.manageScenes();
+	
 }

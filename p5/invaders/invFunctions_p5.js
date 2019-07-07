@@ -36,12 +36,22 @@ var collide = function(obj1,obj2){
 }
 
 //onscreen check
-var onScreen = function(obj1, obj2){ //checks if obj1 and 2 are both onscreen
-    return abs(obj2.P.x-obj1.P.x)<width/2+min(width/2,abs(obj2.P.x-obj1.P.x))&&
-           abs(obj2.P.y-obj1.P.y)<height/2+min(height/2,abs(obj2.P.y-obj1.P.y));
+
+var onScreen = function(obj1, obj2){ //check if 1 and 2 are both onscreen.  player is 2.  no vertical scrolling.
+	//top and left side
+	if (obj1.P.y+obj1.h > 0 && obj2.P.x + obj2.w/2 <= width/2){
+		return obj1.P.x + obj1.w > 0 && obj1.P.x < width;
+		}
+	//top and center
+	else if (obj1.P.y+obj1.h > 0 && obj2.P.x + obj2.w/2 > width/2 && obj2.P.x + obj2.w/2 < levelW-width/2 ){
+		return (abs(obj2.P.x+obj2.w/2 -(obj1.P.x+obj1.w)) < width/2 ||
+				abs(obj2.P.x+obj2.w/2 -obj1.P.x) < width/2);
+		}
+	//top and right side	
+    else if (obj1.P.y+obj1.h > 0 && obj2.P.x + obj2.w/2 >= levelW - width/2) {
+		return obj1.P.x < levelW && obj1.P.x + obj1.w > levelW - width; 
+		}
 };
-
-
 
 
 //classes:  button, stars, laser, powerup
@@ -84,24 +94,24 @@ class StarField{
 			//~75% small, 20% medium, 5% large stars, with dif base color for each size.
 			var sizeRoll = random(0,number);
 			if (sizeRoll < 3/4*number) {
-				this.stars[i].s = 1.75;
+				this.stars[i].w = this.stars[i].h = 1.75;
 				this.stars[i].R = 0;
 				this.stars[i].G = 80;
 				this.stars[i].B = 200;
 			}
 			else if (sizeRoll < 19/20*number){
-				this.stars[i].s = 2.5;
+				this.stars[i].w = this.stars[i].h = 2.5;
 				this.stars[i].R = 25;
 				this.stars[i].G = 150;
 				this.stars[i].B = 200;
 			}
 			else {
-				this.stars[i].s = 5;
+				this.stars[i].w = this.stars[i].h = 5;
 				this.stars[i].R = 200;
 				this.stars[i].G = 150;
 				this.stars[i].B = 150;
 			}
-			this.stars[i].alph = this.stars[i].s*75;  
+			this.stars[i].alph = this.stars[i].w*75;  
 		}
 		
 		
@@ -110,7 +120,7 @@ class StarField{
 		
 		for (var i = 0; i< this.stars.length; i++){
 			if(onScreen(bg_stars.stars[i], ship)){
-				strokeWeight(this.stars[i].s);
+				strokeWeight(this.stars[i].w);
 				stroke(random(this.stars[i].R-75,this.stars[i].R+75), 
 				random(this.stars[i].G-75,this.stars[i].G+75),
 				random(this.stars[i].B-90,this.stars[i].B+90), this.stars[i].alph);
@@ -121,7 +131,7 @@ class StarField{
 	}	
 	update(){
 		for (var i = 0; i< this.stars.length; i++){
-			this.stars[i].P.y += 0.15*(this.stars[i].s-1.0);
+			this.stars[i].P.y += 0.15*(this.stars[i].w-1.0);
 			if (this.stars[i].P.y > levelH){
 				this.stars[i].P.y = 0;
 				this.stars[i].P.x = random(0, levelW);

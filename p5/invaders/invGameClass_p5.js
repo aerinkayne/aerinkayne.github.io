@@ -69,7 +69,7 @@ class Game{
 
 				bads[i].update();
 				
-				if(onScreen(ship, bads[i])){
+				if(onScreen(bads[i], ship)){
 					bads[i].draw();
 				}
 				
@@ -101,6 +101,7 @@ class Game{
 			resetMatrix();
 			btnPause.draw(color(0,175,150));
 			ship.healthBar();	
+			//console.log(onScreen(bads[0], ship)); //debug
 		}
 
 		else if (this.gameState === "gamePaused"){
@@ -117,7 +118,7 @@ class Game{
 			ship.draw();
 
 			for (var i = bads.length-1; i >=0 ; i--){
-				if(onScreen(ship, bads[i])){
+				if(onScreen(bads[i], ship)){
 					bads[i].draw();
 					bads[i].update();
 				}	
