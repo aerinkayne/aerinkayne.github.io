@@ -35,23 +35,16 @@ var collide = function(obj1,obj2){
             obj1.P.y < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y;
 }
 
-//onscreen check
-
-var onScreen = function(obj1, obj2){ //check if 1 and 2 are both onscreen.  player is 2.  no vertical scrolling.
-	//top and left side
-	if (obj1.P.y+obj1.h > 0 && obj2.P.x + obj2.w/2 <= width/2){
-		return obj1.P.x + obj1.w > 0 && obj1.P.x < width;
-		}
-	//top and center
-	else if (obj1.P.y+obj1.h > 0 && obj2.P.x + obj2.w/2 > width/2 && obj2.P.x + obj2.w/2 < levelW-width/2 ){
-		return (abs(obj2.P.x+obj2.w/2 -(obj1.P.x+obj1.w)) < width/2 ||
-				abs(obj2.P.x+obj2.w/2 -obj1.P.x) < width/2);
-		}
-	//top and right side	
-    else if (obj1.P.y+obj1.h > 0 && obj2.P.x + obj2.w/2 >= levelW - width/2) {
-		return obj1.P.x < levelW && obj1.P.x + obj1.w > levelW - width; 
-		}
-};
+//onscreen check. levelW levelH global
+var onScreen = function(obj1, obj2){ 
+	var obj2CX = obj2.P.x + obj2.w/2;
+	var obj2CY = obj2.P.y + obj2.h/2;
+		//player center - obj1 center <   screen/2    +obj1 size/2  +dif if at L side      +dif if at Rside 
+    	return (
+		abs(obj2CX - (obj1.P.x + obj1.w/2)) < width/2 + obj1.w/2 + max(0, width/2 - obj2CX) + max(0, obj2CX-(levelW-width/2)) &&
+		abs(obj2CY - (obj1.P.y + obj1.h/2)) < height/2 + obj1.h/2 + max(0, height/2 - obj2CY) + max(0, obj2CY-(levelH-height/2))
+		);   
+}
 
 
 //classes:  button, stars, laser, powerup
