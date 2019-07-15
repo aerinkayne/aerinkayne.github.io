@@ -3,72 +3,73 @@ class Game{
 		this.player = player;
 		this.mapLoaded = "mapInitial";
 		this.ts = 40;  //tile size
-		this.currentLevel=0;   
+		this.currentLevel=3;
 		this.levels=[
-			//   0        1         2         3         4
-			//   1234567890123456789012345678901234567890
-			[  
-				"                    2                   ",    //1
-				"                    1                   ",    //2
-				"    8  8            1                  7",    //3
-				"   222222  22  2    1          8  8  222",    //4
-				"2               2  21         2222222   ",    //5 
-				"                1   1      22           ",    //6
-				" 2              12  1                   ",    //7
-				"   22           1  91    2              ",    //8
-				"                1222111111              ",    //9
-				"      22                    22          ",    //0
-				"                                        ",    //1
-				"   222                         22       ",    //2
-				"                                        ",    //3
-				"2                                  22   ",    //4
-				" 222                            22      ",    //5 
-				"                                       2",    //6
-				"0     2                 m     2         ",    //7
-				"    2   2    m    22          1      2  ",    //8
-				"    18            11        221h 8 8    ",    //9
-				"22L2122222LLLLLLLL11LLLLLLLL111222222222",    //0
 
-			],
-			[
-			  "                 FFFfFFff  7 f               ",
-			  "               444444444444444               ",
-			  "     cCCCCd                                  ",
-			  "fff                                          ",
-			  "4444                                         ",
-			  "33334                                        ",
-			  "         m                                  h",
-			  "                           cCCCCCCCCCCCCCCCCC",
-			  "                cCCCCCCCCCd                  ",
-			  "                                             ",
-			  "           m                                 ",
-			  "                                             ",
-			  "     m                                       ",
-			  "                                  8 8        ",
-			  "CCd          8     cd    cd      cCCCd       ",
-			  "    8  8   cCCCd             cd       cd    f",
-			  "   cCCCCd                                  F2",
-			  "                                   2 F f   21",
-			  "                           8f      12222     ",
-			  "                          222           2    ",
-			  "                        8 111               h",
-			  " 0              F      222111              22",
-			  "F f  fF    8f   22    f1111              F 11", 
-			  "2222222   222        221111       m      2211", 
-			  "1111111              1119                1111", 
-			  "1111111LLLLLLLLLLLLLL11122222LLLLLLLLLLLL1111"
-			
+			[   "                                        ",
+				"h                                       ",
+				"Cd                                      ",
+				"                                        ",
+				"    cCCCCCd                             ",
+				"                                        ",
+				"Cd                                      ",  
+				"                    2                   ",
+				"      m             1                   ",    
+				"    8  8            1                   ",    
+				"   222222  22  2    1          8  8    7",    
+				"2               2  21         2222222222",    
+				"                1   1      22           ",    
+				" 2              12  1                   ",    
+				"   22           1  91    2              ",    
+				"                1222122221              ",    
+				"      22                    22          ",    
+				"                                        ",    
+				"   222                         22       ",    
+				"                                        ",    
+				"2                                  22   ",    
+				" 222                            22      ",    
+				"                                       2",    
+				"0     2                 m     2         ",    
+				"    2   2    m    22          1      2  ",    
+				"    18            11        221h 8 8    ",    
+				"22L2122222LLLLLLLL11LLLLLLLL111222222222"    
 			],
 			
+			[ 
+				"                 FFFfFFff  7 f               ",
+				"               444444444444444               ",
+				"       cCCCd                                 ",
+				"fff                                          ",
+				"4444                                         ",
+				"33334                                       h",
+				"         m                 cCCCCCCCCCCCCCCCCC",
+				"             cCCCCCCCCCCCCCd                 ",
+				"                                             ",
+				"         m                                   ",
+				"                                             ",
+				"     m                                       ",
+				"                                  8 8        ",
+				"CCd          8     cd    cd      cCCCd       ",
+				"    8  8   cCCCd             cd       cd    f",
+				"   cCCCCd                                   2",
+				"                                       F f   ",
+				"                           8f         2222   ",
+				"                          222               h",
+				"                        8 111               2",
+				"                F      222111              21",
+				"F f0 fF    8f   22    f1111              F 11", 
+				"2222222   222        221111       m      2211", 
+				"1111111              1119                1111", 
+				"1111111LLLLLLLLLLLLLL11122222LLLLLLLLLLLL1111"
+			],
+			
 			[
-			//   0        1         2         3         4
-			//   1234567890123456789012345678901234567890
-				"                              ", //25
+				"                              ", 
 				"                            7 ",
 				"                          cCCC",
 				"                   cCCCd      ",
 				"                              ",
-				"          cCCCCCd             ", //20
+				"          cCCCCCd             ", 
 				"                              ",
 				"     m                        ",
 				" h                            ",
@@ -78,7 +79,7 @@ class Game{
 				"           F        b b b b b ",
 				"          44        bgbgbgbgbg",
 				"               4    b b b b b ",
-				"               2wwwwBBBBBBBBBB", //10
+				"               2wwwwBBBBBBBBBB", 
 				"0             4133343434443443",
 				" f  F      83               92",
 				"443334   433                f1",
@@ -90,13 +91,13 @@ class Game{
 				"4334433343LLLLLLLLLLLLLLLLLLL1"
 			],
 
-			[   "                      7 ",
+			[   "                        ",
+				"                        ",
+				"                      7 ",
 				"h   cCCCd  cCd   cCCCCCC",   //2, 3 leaves.  1, 4 rocks
 				"3                       ",
 				"                        ",
-				"   m                    ",
-				"                        ",
-				"     m                  ",
+				"    m                   ",
 				"                        ",
 				"2   3   2     2  32     ",
 				"4            2 88  3    ",
@@ -116,51 +117,56 @@ class Game{
 				"1"
 			]
 		];
-		this.levelW = 0;
-		this.levelH = 0;
-		this.objectHandler = new ObjectHandler(150, this.levelW, this.levelH, this.player);
-	}
+		}
 
-	renderArr(arrToRender){  //probably: move this to a global function and pass player object from game
+	renderArr(arrToRender){ 
 		for(var i=0; i<arrToRender.length; i++){
-			if (onScreen(arrToRender[i], this.player)){
+			if (onScreen(arrToRender[i], this.player, this.levelW, this.levelH)){
 				arrToRender[i].draw(this.player); //some objects need player info 
 			}
-			//call the update method if the object has one
-			if (onScreen(arrToRender[i], this.player) && arrToRender[i] !== this.player && typeof arrToRender[i].update === "function" ){
+			//call update() if object has that method, but don't update the player here.  
+			if (arrToRender[i] !== this.player && typeof arrToRender[i].update === "function" ){
 				arrToRender[i].update(this.player);
-				//console.log(typeof arrToRender[i].update);
 			}       
 		}
 	}
+	
 	camera(){   
 		//horizontal constrain
 		this.player.P.x= constrain(this.player.P.x, 0, this.levelW-this.player.w);  
 		
 		//camera
-		if(this.player.P.x + this.player.w/2 > width/2){
-			translate((width/2-(this.player.P.x + this.player.w/2)), 0);
+		let playCX = this.player.P.x + this.player.w/2;
+		let playCY = this.player.P.y + this.player.h/2;
+		let bordL = width/2;
+		let bordR = this.levelW - width/2;
+		let bordT = height/2;
+		let bordB = this.levelH - height/2;
+	
+		if(playCX > bordL){    
+			translate(-(playCX-bordL), 0);  
 		}
-		if(this.levelW - (this.player.P.x + this.player.w/2) < width/2){
-			translate(width/2-(this.levelW - this.player.P.x - this.player.w/2), 0);
+								   
+		if(playCX > bordR){   
+			translate(playCX-bordR, 0);  
+		}
+		//no top limit
+		translate(0, -(playCY-bordT));    
+		
+		if(playCY > bordB){   
+			translate(0, playCY-bordB);  
 		}
 		
-		translate(0, height/2-(this.player.P.y + this.player.h/2));
 		
-		if(this.levelH - (this.player.P.y+this.player.h/2) < height/2){
-		   translate(0, height/2-(this.levelH - this.player.P.y - this.player.h/2));
-		}
-
 		//move player fall death somewhere better, stats?
 		if(this.player.P.y > this.levelH + height){
 			this.player.health=0;
 		}
 	}
 
-	bgManager(){  //BG_Object
+	bgManager(){  //BG object effects. move this to effectClass maybe heehee
 		if(this.currentLevel===0){ 
-			this.objectHandler.season("winter");
-			
+			this.objectHandler.season("winter");	
 		}
 		else if(this.currentLevel===1){ 
 			this.objectHandler.season("spring");
@@ -174,28 +180,20 @@ class Game{
 	}
 	
 	fgManager(){  
-		if(this.currentLevel===0){ 
-			this.objectHandler.add("snow"); 
-				for(var i=0; i< this.objectHandler.fgSnow.length; i++){
-					this.objectHandler.fgSnow[i].update();
-					this.objectHandler.fgSnow[i].draw();
-				}
-		}
-		if(this.currentLevel===1 && this.player.P.y > 300){
-		for(var i=0; i< this.objectHandler.fgRain.length; i++){
-				this.objectHandler.fgRain[i].update();
-				this.objectHandler.fgRain[i].draw();
+		if(this.currentLevel===0 || this.currentLevel===2 || this.currentLevel===3){ 
+			for(var i=0; i< this.objectHandler.fgObj.length; i++){
+				this.objectHandler.fgObj[i].update();
+				this.objectHandler.fgObj[i].draw();
 			}
 		}
-		if(this.currentLevel===2){ 
+		
+		else if(this.currentLevel===1 && this.player.P.y > 300){
+			for(var i=0; i< this.objectHandler.fgObj.length; i++){
+				this.objectHandler.fgObj[i].update();
+				this.objectHandler.fgObj[i].draw();
+			}
 		}
-		if(this.currentLevel===3){ 
-			this.objectHandler.add("leaves");  
-				for(var i=0; i< this.objectHandler.fgLeaves.length; i++){
-					this.objectHandler.fgLeaves[i].update();
-					this.objectHandler.fgLeaves[i].draw();
-				}
-		}
+
 	}
 	
 	levelKey0(S){
@@ -364,7 +362,7 @@ class Game{
 }
 	
 	loadMap(){
-			//recalc level width and height for each level 
+			//recalc level width and height for each level since they aren't all the same.
 			this.levelW = this.levels[this.currentLevel][0].length*this.ts;
 			this.levelH = this.levels[this.currentLevel].length*this.ts;
 			var S = this.ts;  //map tile size
@@ -374,27 +372,33 @@ class Game{
 			//add player to the decoImages array so that it can be sorted by z_Index
 			decoImages.push(this.player); 
 			sortArrByProperty(decoImages, "z_Index");
-			//all map tiles  CHANGE TO CONCAT, change double loops 
+			
+			//all map tiles  CHANGE TO CONCAT, change double loop splicing maybe 
 			this.mapTiles = [lava, blocks, portals, spikes, portkeys, hearts, decoImages];
-			//reload objectH w level sizes and player info
-			this.objectHandler = new ObjectHandler(150, this.levelW, this.levelH, this.player);
-			this.mapLoaded = "mapLoaded";	
+			//rewrite objectH w level sizes and player info
+			this.objectHandler = new ObjectHandler(this.levelW, this.levelH, this.player);
+			if (this.currentLevel < this.objectHandler.sScape.length){ 
+				this.objectHandler.sScape[this.currentLevel].loop(); 
+			}	
+			this.mapLoaded = "mapLoaded";		
 	}
 	removeMap(arr){
-		for(var i=0; i<arr.length; i++){
-			for(var j=0; j<arr[i].length; j++){
-				arr[i].splice(j,arr[i].length);
-			}
+		for (var i = arr.length-1; i>=0; i--){
+			arr[i].splice(0, arr[i].length); //splice is shallow I think
 		}
+		arr.splice(0, arr.length);		
 		this.mapLoaded = "mapRemoved";
+		
 	}
-	clickRestart(){
+	clickToRestart(){
+		this.removeMap(this.mapTiles);
 		
         if(buttonClicked(width/2-50,height/2-15,100,30,"Click to restart",10)){
-            this.removeMap(this.mapTiles);
+            
             this.player.health = 3;
             this.loadMap();
             state="inGame";
+			
             transparency=0;
             fadeColor=color(255, 255, 255,transparency);
         }else{
@@ -408,28 +412,31 @@ class Game{
         }
 	}
 	runGame(){
+		
 		this.bgManager(); //background effects
-		this.camera();
-
-		//draw and update objects of map (2D array)
+		this.camera();  
+		
+		//draw and update objects of map 
 		for (var i=0; i<this.mapTiles.length; i++){
 			this.renderArr(this.mapTiles[i]); 
 		}
-		//player is drawn along with deco images for z_indexing
+		//player is updated here but drawn along with deco images for z_indexing
 		this.player.update(blocks);
 		this.player.stats();
 		this.fgManager();  //forground effects
-		// manage level transitions
-		for(var i=0; i<portals.length; i++){
-			if(portals[i].complete){
-				transparency=0;
-				fadeColor=color(255, 255, 255, transparency);
-				this.currentLevel++; 
-				this.removeMap(this.mapTiles);
-				this.loadMap(); 
-				this.player.gotKey=false;
-			} 
-		}
+		
+		// manage level transitions.  always 1 portal per lv.
+		if(portals[0].complete){
+			transparency=0;
+			fadeColor=color(255, 255, 255, transparency);
+			this.objectHandler.sScape[this.currentLevel].stop();
+			this.removeMap(this.mapTiles);
+				
+			this.currentLevel++; 
+			this.loadMap(); 
+			this.player.gotKey=false;
+		} 
+		
 		// create an invisible screen for fading when needed
 		resetMatrix();
 		fill(fadeColor);
