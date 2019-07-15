@@ -3,7 +3,7 @@ class Game{
 		this.player = player;
 		this.mapLoaded = "mapInitial";
 		this.ts = 40;  //tile size
-		this.currentLevel=3;
+		this.currentLevel=0;
 		this.levels=[
 
 			[   "                                        ",
