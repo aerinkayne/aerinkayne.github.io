@@ -8,8 +8,12 @@ body {
 	background-color: silver;
 }
 
+h3 {
+	margin: 10px 25px;
+}
+
 p {
-	margin: 25px;
+	margin: 10px 25px;
 	font-family: "helvetica";
 	font-size: 14px;
 }
@@ -18,7 +22,7 @@ canvas {
 	position: relative;
 	top: 5px;
 	display: block;
-	border: 1px solid #ddf;
+	border: 1px solid #000;
 	margin: 0px;
 }
 
