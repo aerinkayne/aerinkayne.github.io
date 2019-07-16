@@ -14,7 +14,7 @@ class Enemy{
 		
 		//switchtho
 		if (type === "ship1"){
-			this.w = 30;
+			this.w = 40;
 			this.h = 35;
 			this.c = color(130,0,75);
 			this.c2 = color(60, 0, 15);
@@ -33,7 +33,7 @@ class Enemy{
 			this.shotRoll = 0.1; //testing
 		}
 		else if (type === "ship2"){
-			this.w = 40;
+			this.w = 50;
 			this.h = 45;
 			this.c = color(35,95,130);
 			this.c2 = color(35,0,80);
@@ -54,8 +54,8 @@ class Enemy{
 
 		}
 		else if (type === "ship3"){
-			this.w = 35;
-			this.h = 35;
+			this.w = 50;
+			this.h = 45;
 			this.c = color(35,140,120);
 			this.c2 = color(0,75,50);
 			this.c3 = color(75,175,120);
@@ -72,8 +72,8 @@ class Enemy{
 			this.shotRoll = 0.3; //testing
 		}
 		else if (type === "ship4"){
-			this.w = 20;
-			this.h = 30;
+			this.w = 25;
+			this.h = 40;
 			this.c = color(100,75,0);
 			this.c2 = color(80,40,0);
 			this.c3 = color(150,75,100);
@@ -172,9 +172,57 @@ class Enemy{
 					pop();
 				}
 
-			}	
+			}
 			else {
+				push();
+				translate(this.P.x, this.P.y);
+				//noFill();  //hitbox check
+				//stroke(200,0,0);
+				//rect(0,0,this.w, this.h);
+				imageMode(CENTER);
 				
+				if (this.type === "ship1"){
+					if (sin(frameCount/2.5) > 0){
+						this.img = sprBadR1;
+					}
+					else {
+						this.img = sprBadR2;
+					}
+				}
+				
+				if (this.type === "ship2"){
+					if (sin(frameCount/2.7) > 0){
+						this.img = sprBadB1;
+					}
+					else {
+						this.img = sprBadB2;
+					}
+				}
+				
+				else if (this.type === "ship3"){
+					if (sin(frameCount/2.4) > 0){
+						this.img = sprBadG1;
+					}
+					else {
+						this.img = sprBadG2;
+					}
+				}
+				
+				else if (this.type === "ship4"){
+					if (sin(frameCount/2.4) > 0){
+						this.img = sprBadBr1; 
+					}
+					else {
+						this.img = sprBadBr2; 
+					}
+				}
+				
+				image(this.img, this.w/2, this.h/2, this.w, this.h);
+				pop();
+			}		
+		}	
+	}
+				/*
 				rectMode(CENTER);
 				push();
 				translate(this.P.x+this.w/2, this.P.y+this.h/2);
@@ -198,8 +246,6 @@ class Enemy{
 					rect(this.w/2.5,i*this.h/10+this.h/30*sin(invGame.timer), this.w/2, this.h/30);
 				}
 				pop();
-				
-				
 				
 				rectMode(CORNER);
 				strokeWeight(1);
@@ -228,12 +274,9 @@ class Enemy{
 				}	
 				pop();
 			}
-			
-			
-			
-	
 		}
 	}
+	*/
 	shoot(){
 		this.shots.push(new Laser(this));
 		this.att.play();

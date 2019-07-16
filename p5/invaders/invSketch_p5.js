@@ -6,12 +6,18 @@ var ship;
 var bads = [];
 var pups = [];
 
+var sprBadR1, sprBadR2;
+var sprBadG1, sprBadG2;
+var sprBadB1, sprBadB2;
+
 var sPup, sPhaser, sEnmDmg, sEnmDestr, sEnmSpawn, sShipDestr;
 var sEnmD2;
 var sEnmAtt, sEnmAtt2;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
+	sprites = loadImage("assets/sprites/invSprites1.png");
+	
 	sPup = loadSound("assets/sounds/UI/171527__leszek-szary__menu-click.wav");
 	sPhaser = loadSound("assets/sounds/phasers/phaserPulse.mp3");
 	sPhaser.setVolume(0.5);
@@ -38,6 +44,15 @@ function setup(){
 	frameRate(60);
 	levelW = 750;
 	levelH = 400;
+	sprBadR1 = sprites.get(50,250,132,81);
+	sprBadR2 = sprites.get(200,250,132,81);
+	sprBadG1 = sprites.get(50,50,132,81);
+	sprBadG2 = sprites.get(200,50,132,81);
+	sprBadB1 = sprites.get(50,150,132,81);
+	sprBadB2 = sprites.get(200,150,132,81);
+	sprBadBr1 = sprites.get(50,350,132,81);
+	sprBadBr2 = sprites.get(200,350,132,81);
+	
 	invGame = new Game();
 	ship = new Ship(width/2-20, height-40, 40,40);
 	bg_stars = new StarField(150); 

@@ -1,19 +1,19 @@
 //functions: camera, sort, collision, onscreen
 
 //camera
-var gameCamera = function(ship){
-	let shipCX = ship.P.x + ship.w/2;
+var gameCamera = function(player){
+	let playCX = player.P.x + player.w/2;
 	let bordL = width/2;
 	let bordR = levelW - width/2;
 	
-	if(shipCX > bordL){    
-        translate(-(shipCX-bordL), 0);  
+	if(playCX > bordL){    
+        translate(-(playCX-bordL), 0);  
     }
 	                           
-    if(shipCX > bordR){   
-        translate(shipCX-bordR, 0);  
+    if(playCX > bordR){   
+        translate(playCX-bordR, 0);  
     }
-}
+} 
 
 //sorts an array by a property value (str is property name)
 var sortArrByProp = function(arr, str){
@@ -35,16 +35,19 @@ var collide = function(obj1,obj2){
             obj1.P.y < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y;
 }
 
-//onscreen check. levelW levelH global
+
+
+//test 071019.  levelW levelH global
 var onScreen = function(obj1, obj2){ 
 	var obj2CX = obj2.P.x + obj2.w/2;
 	var obj2CY = obj2.P.y + obj2.h/2;
-		//player center - obj1 center <   screen/2    +obj1 size/2  +dif if at L side      +dif if at Rside 
-    	return (
-		abs(obj2CX - (obj1.P.x + obj1.w/2)) < width/2 + obj1.w/2 + max(0, width/2 - obj2CX) + max(0, obj2CX-(levelW-width/2)) &&
-		abs(obj2CY - (obj1.P.y + obj1.h/2)) < height/2 + obj1.h/2 + max(0, height/2 - obj2CY) + max(0, obj2CY-(levelH-height/2))
-		);   
-}
+			//player center - obj1 center <   screen/2    +obj1 size/2  +dif if at L side      +dif if at Rside 
+    return (
+			abs(obj2CX - (obj1.P.x + obj1.w/2)) < width/2 + obj1.w/2 + max(0, width/2 - obj2CX) + max(0, obj2CX-(levelW-width/2)) &&
+			abs(obj2CY - (obj1.P.y + obj1.h/2)) < height/2 + obj1.h/2 + max(0, height/2 - obj2CY) + max(0, obj2CY-(levelH-height/2))
+			);   
+};
+
 
 
 //classes:  button, stars, laser, powerup

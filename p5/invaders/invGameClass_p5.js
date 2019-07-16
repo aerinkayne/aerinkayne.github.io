@@ -60,6 +60,7 @@ class Game{
 			bg_stars.draw(); 
 			bg_stars.update(); 
 			this.updateTimer();
+			this.waveCheck();
 
 			ship.update();
 			ship.animate();  
@@ -101,7 +102,6 @@ class Game{
 			resetMatrix();
 			btnPause.draw(color(0,175,150));
 			ship.healthBar();	
-			//console.log(onScreen(bads[0], ship)); //debug
 		}
 
 		else if (this.gameState === "gamePaused"){
@@ -131,8 +131,6 @@ class Game{
 		
 		else if (this.gameState === "gameOver"){
 
-			
-			//gameCamera(ship); //update later
 			background(2,0,10);
 			bg_stars.draw(); 
 			bg_stars.update(); 
@@ -140,13 +138,24 @@ class Game{
 		}
 		
 		else if (this.gameState === "testing"){
+			//original drawings, for sprite images
+			background(2,0,10);
+			
+			this.updateTimer();
+			
+			ship.update();
+			ship.animate();  
+			ship.draw();
+			
+			
 			if(bads.length === 0){
-				bads.push(new Enemy(0, 0, "ship3"));
-				bads[0].w*=5;
-				bads[0].h*=5;
+				bads.push(new Enemy(0, 0, "ship4"));
+				bads[0].w*=3;
+				bads[0].h*=3;
 				bads[0].P = createVector(width/2-bads[0].w/2, height/2-bads[0].h/2);
 			}
-			background(0,0,0);
+			
+			bads[0].update();
 			bads[0].draw();
 			
 		}
@@ -170,7 +179,6 @@ class Game{
 			this.timer++;
 			this.timeRef = new Date();
 		}
-		this.waveCheck();
 	}
 	
 	
