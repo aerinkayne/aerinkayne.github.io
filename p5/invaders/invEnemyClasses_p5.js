@@ -16,9 +16,9 @@ class Enemy{
 		if (type === "ship1"){
 			this.w = 40;
 			this.h = 35;
-			this.c = color(130,0,75);
-			this.c2 = color(60, 0, 15);
-			this.c3 = color(175, 70,95);
+			//this.c = color(130,0,75);
+			//this.c2 = color(60, 0, 15);
+			//this.c3 = color(175, 70,95);
 			this.health = 20;
 			this.att = sEnmAtt;
 			this.dest = sEnmDestr;
@@ -35,9 +35,9 @@ class Enemy{
 		else if (type === "ship2"){
 			this.w = 50;
 			this.h = 45;
-			this.c = color(35,95,130);
-			this.c2 = color(35,0,80);
-			this.c3 = color(125,75,200);
+			//this.c = color(35,95,130);
+			//this.c2 = color(35,0,80);
+			//this.c3 = color(125,75,200);
 			
 			this.health = 50;
 			this.att = sEnmAtt2;
@@ -56,9 +56,9 @@ class Enemy{
 		else if (type === "ship3"){
 			this.w = 50;
 			this.h = 45;
-			this.c = color(35,140,120);
-			this.c2 = color(0,75,50);
-			this.c3 = color(75,175,120);
+			//this.c = color(35,140,120);
+			//this.c2 = color(0,75,50);
+			//this.c3 = color(75,175,120);
 			this.health = 80;
 			this.att = sEnmAtt;
 			this.dest = sEnmDestr;
@@ -74,9 +74,9 @@ class Enemy{
 		else if (type === "ship4"){
 			this.w = 25;
 			this.h = 40;
-			this.c = color(100,75,0);
-			this.c2 = color(80,40,0);
-			this.c3 = color(150,75,100);
+			//this.c = color(100,75,0);
+			//this.c2 = color(80,40,0);
+			//this.c3 = color(150,75,100);
 			this.health = 160;
 			this.att = sEnmAtt;
 			this.dest = sEnmD2;
@@ -97,7 +97,7 @@ class Enemy{
 			this.c2 = color(0,50,100);
 			this.c3 = color(0,175,200);
 			
-			this.numEyes = 20;
+			this.numEyes = 15;
 			this.eyes = [];
 			for (var i = 0; i< this.numEyes; i++){
 				this.eyes.push(new Object());
