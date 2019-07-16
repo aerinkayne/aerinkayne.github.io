@@ -9,6 +9,7 @@ var pups = [];
 var sprBadR1, sprBadR2;
 var sprBadG1, sprBadG2;
 var sprBadB1, sprBadB2;
+var sprBadBr1, sprBadBr2;
 
 var sPup, sPhaser, sEnmDmg, sEnmDestr, sEnmSpawn, sShipDestr;
 var sEnmD2;
