@@ -20,20 +20,20 @@ var game;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
-	sprite1 = loadImage("assets/sprites/spritesheet1.png");
-	soundKey = loadSound("assets/sounds/clink1.mp3");
-	soundHeart = loadSound("assets/sounds/243701__ertfelda__correct.wav");
-	soundJump = loadSound("assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
+	sprite1 = loadImage("sprites/spritesheet1.png");
+	soundKey = loadSound("sounds/clink1.mp3");
+	soundHeart = loadSound("sounds/243701__ertfelda__correct.wav");
+	soundJump = loadSound("sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundJump.setVolume(0.4);
-	soundSpike = loadSound("assets/sounds/344131__thebuilder15__sword-slice.wav");
+	soundSpike = loadSound("sounds/344131__thebuilder15__sword-slice.wav");
 	
-	sScapeW = loadSound("assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
+	sScapeW = loadSound("sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
 	sScapeW.setVolume(0.4);
-	sScapeSpr = loadSound("assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
+	sScapeSpr = loadSound("sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
 	sScapeSpr.setVolume(0.4);
-	sScapeSummer = loadSound("assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
+	sScapeSummer = loadSound("sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
 	sScapeSummer.setVolume(0.4);
-	sScapeF = loadSound("assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
+	sScapeF = loadSound("sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
 	sScapeF.setVolume(0.4);
 }
 
@@ -56,6 +56,9 @@ function setup() {
 	imgS2 = sprite1.get(50,100,50,50);
 	imgIce1 = sprite1.get(0,150,50,50);
 	imgIce2 = sprite1.get(50,150,50,50);
+	imgWood1 = sprite1.get(300, 0, 50, 50);
+	imgWood2 = sprite1.get(350, 0, 50, 50);
+	imgBrick = sprite1.get(400, 0, 50, 50);
 
 	imgHeart = sprite1.get(100,50,50,50);
 	imgR1 = sprite1.get(0, 200, 50, 50);

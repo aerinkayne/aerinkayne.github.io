@@ -76,9 +76,9 @@ class Game{
 				"444                           ",
 				"   3                          ",
 				"        m                     ",
-				"           F        b b b b b ",
-				"          44        bgbgbgbgbg",
-				"               4    b b b b b ",
+				"           F        eEeEeEeEeE",
+				"          44        egegegegeg",
+				"               4    eEeEeEeEeE",
 				"               2wwwwBBBBBBBBBB", 
 				"0             4133343434443443",
 				" f  F      83               92",
@@ -274,16 +274,16 @@ class Game{
 					this.player.P.y = col*S;
 				}
 				else if(s==="1"){
-					blocks.push(new Block(row*S,col*S,S,S,imgR3)); //rock3 
+					blocks.push(new Block(row*S,col*S,S,S,imgD1)); //dirt
 				}
 				else if(s==="2"){
-					blocks.push(new Block(row*S,col*S,S,S,imgL1)); // rock w leaves
+					blocks.push(new Block(row*S,col*S,S,S,imgL1)); // dirt w leaves
 				}
 				else if(s==="3"){
-				blocks.push(new Block(row*S,col*S,S,S,imgL2)); //rock w leaves 2 
+				blocks.push(new Block(row*S,col*S,S,S,imgL2)); //dirt w leaves 2 
 				}
 				else if(s==="4"){
-					blocks.push(new Block(row*S,col*S,S,S,imgR4)); // rock4
+					blocks.push(new Block(row*S,col*S,S,S,imgD2)); // dirt2
 				}
 				
 				else {this.levelKeyAll(s, S, col, row);}  
@@ -333,8 +333,11 @@ class Game{
 		else if(s==="w"){
 			decoImages.push(new Deco(row*S,col*S,S,S, "water"));
 		}
-		else if(s==="b"){
-			decoImages.push(new Deco(row*S,col*S,S,S, "wood"));
+		else if(s==="e"){
+			decoImages.push(new Deco(row*S,col*S,S,S, "wood1"));
+		}
+		else if(s==="E"){
+			decoImages.push(new Deco(row*S,col*S,S,S, "wood2"));
 		}
 		else if(s==="B"){
 			decoImages.push(new Deco(row*S,col*S,S,S, "brick"));

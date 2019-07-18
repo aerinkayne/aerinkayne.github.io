@@ -98,11 +98,11 @@ class ObjectHandler{
 			}
 		}
 		else if (string === "fall"){
-			skyStart = color(25, 40, 80);
+			skyStart = color(45, 50, 90);
 			skyEnd = color(255, 180, 200);
-			hillStart = color(95, 55, 50);
-			hillMid = color(105,65,20);
-			hillEnd = color(135, 70, 30); 
+			hillStart = color(75, 40, 30);
+			hillMid = color(90,55,20);
+			hillEnd = color(135, 75, 30); 
 			if (this.bgObj.length===0){
 				this.addObj(20, Leaf);
 			} 

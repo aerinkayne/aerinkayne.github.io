@@ -710,8 +710,9 @@ class Deco{
 		this.w=w;
 		this.h=h;
 		this.img = img; //pass string name to assign image and z_Index.  fix naming.
-		if(img === "wood"){this.z_Index=0;}
-		else if(img === "brick"){this.z_Index=0;}
+		if(img === "brick"){this.img=imgBrick; this.z_Index=0;} 
+		else if(img === "wood1"){this.img=imgWood1; this.z_Index=0;}
+		else if(img === "wood2"){this.img=imgWood2; this.z_Index=0;}
 		else if(img === "glass"){this.z_Index=1;}
 		else if(img === "flower"){this.img=imgFlower; this.z_Index=3;}
 		else if(img === "flower2"){this.img=imgFlower2; this.z_Index=3;}
@@ -728,7 +729,7 @@ class Deco{
 		for (var r = 0; r < 2; r++){  //pane row position
 			for (var c = 0; c < 2; c++){  //pane col position
 				noStroke();
-				fill(0, 0, 40, 75);
+				fill(0, 0, 30, 125);
 				rect(13/50*this.w+c*this.w/2, 13/50*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
 				fill(245, 245, 255, 200);
 				rect(1/25*this.w+c*this.w/2, 1/25*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
@@ -742,6 +743,7 @@ class Deco{
 		noStroke();
 		pop();
 	}
+	/*
 	wood(){
 		push();
 		translate(this.P.x, this.P.y);
@@ -794,28 +796,27 @@ class Deco{
 		}
 		pop();
 	}
+	*/
 	water(){
 		var waveH = this.w/12.5;
 		push();
 
 		translate(this.P.x, this.P.y);
-		fill(76, 117, 222,170);
-		rect(0,0,this.w+0.49,this.h);
-		fill(225, 235, 255);
+		fill(76, 117, 222,150);
+		rect(0,0,this.w,this.h);
+		fill(230, 245, 255);
 		beginShape(); 
 		
 		curveVertex(0,0);
 		curveVertex(0,0);
-		curveVertex(this.w/4,  waveH*sin(radians(frameCount)));
-		curveVertex(this.w/2, 0);
-		curveVertex(3/4*this.w,  waveH*sin(radians(frameCount)));
+		curveVertex(this.w/2, waveH*sin(radians(frameCount))); 
+		
 		curveVertex(this.w,0);
 		waveH = -waveH;
 			
 		curveVertex(this.w,0);
-		curveVertex(3/4*this.w,  waveH*sin(radians(frameCount)));
-		curveVertex(this.w/2,0);
-		curveVertex(this.w/4,  waveH*sin(radians(frameCount)));
+		curveVertex(this.w/2, waveH*sin(radians(frameCount))); 
+		
 		curveVertex(0,0);
 		curveVertex(0,0);
 		this.waveH = -waveH;
@@ -829,16 +830,16 @@ class Deco{
 		if (this.img === "glass"){
 			this.glass();
 		}
-		else if (this.img === "wood"){
-			this.wood();
-		}
-		else if (this.img === "brick"){
-			this.brick();
-		}
+		//else if (this.img === "wood"){
+		//	this.wood();
+		//}
+		//else if (this.img === "brick"){
+		//	this.brick();
+		//}
 		else if (this.img === "water"){
 			this.water();
 		}
 		//sprites
-		else {image(this.img, this.P.x, this.P.y, this.w, this.h);}
+		else {image(this.img, this.P.x, this.P.y, this.w+1, this.h);}
 	}
 }
