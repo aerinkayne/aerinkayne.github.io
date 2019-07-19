@@ -1,18 +1,18 @@
 //functions: camera, sort, collision, onscreen
 
-//camera
+//camera.  levelW, levelH are global
 var gameCamera = function(player){
 	let playCX = player.P.x + player.w/2;
 	let bordL = width/2;
 	let bordR = levelW - width/2;
 	
-	if(playCX > bordL){    
-        translate(-(playCX-bordL), 0);  
-    }
+	if(playCX > bordL && playCX < bordR){    
+        	translate(-(playCX-bordL), 0);  
+    	}
 	                           
-    if(playCX > bordR){   
-        translate(playCX-bordR, 0);  
-    }
+    	else if(playCX >= bordR){   
+        	translate(-(levelW-width), 0);  
+    	}
 } 
 
 //sorts an array by a property value (str is property name)
