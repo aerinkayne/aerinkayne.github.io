@@ -143,18 +143,21 @@ class Game{
 		let bordT = height/2;
 		let bordB = this.levelH - height/2;
 	
-		if(playCX > bordL){    
+		if(playCX > bordL && playCX < bordR){    
 			translate(-(playCX-bordL), 0);  
 		}
 								   
-		if(playCX > bordR){   
-			translate(playCX-bordR, 0);  
+		else if(playCX >= bordR){   
+			translate(-(this.levelW-width), 0);  
 		}
-		//no top limit
-		translate(0, -(playCY-bordT));    
 		
-		if(playCY > bordB){   
-			translate(0, playCY-bordB);  
+		//no top limit
+		if (playCY < bordB){
+		    translate(0, -(playCY-bordT)); 
+		}
+		
+		else if(playCY >= bordB){   
+			translate(0, -(this.levelH-height));  
 		}
 		
 		
