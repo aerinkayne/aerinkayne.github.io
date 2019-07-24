@@ -99,7 +99,7 @@ function draw() {
 		game.objectHandler.sScape[game.currentLevel].stop();
 		game.clickToRestart();
     	}
-    	if(game.gameState === "win"){ /
+    	if(game.gameState === "win"){ 
 		fill(0, 200, 0,1);
 		noStroke();
 		rect(0,0,width,height);
