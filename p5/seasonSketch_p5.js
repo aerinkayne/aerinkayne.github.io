@@ -20,20 +20,20 @@ var hillColor;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
-	sprite1 = loadImage("sprites/spritesheet1.png");
-	soundKey = loadSound("sounds/clink1.mp3");
-	soundHeart = loadSound("sounds/243701__ertfelda__correct.wav");
-	soundJump = loadSound("sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
+	sprite1 = loadImage("assets/sprites/spritesheet1.png");
+	soundKey = loadSound("assets/sounds/clink1.mp3");
+	soundHeart = loadSound("assets/sounds/243701__ertfelda__correct.wav");
+	soundJump = loadSound("assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundJump.setVolume(0.4);
-	soundSpike = loadSound("sounds/344131__thebuilder15__sword-slice.wav");
+	soundSpike = loadSound("assets/sounds/344131__thebuilder15__sword-slice.wav");
 	
-	sScapeW = loadSound("sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
+	sScapeW = loadSound("assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
 	sScapeW.setVolume(0.4);
-	sScapeSpr = loadSound("sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
+	sScapeSpr = loadSound("assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
 	sScapeSpr.setVolume(0.4);
-	sScapeSummer = loadSound("sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
+	sScapeSummer = loadSound("assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
 	sScapeSummer.setVolume(0.4);
-	sScapeF = loadSound("sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
+	sScapeF = loadSound("assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
 	sScapeF.setVolume(0.4);
 }
 
@@ -75,11 +75,8 @@ function setup() {
 	imgFlower2 = sprite1.get(150, 50, 50, 50); //61619
 	imgFossil = sprite1.get(200, 100, 50, 50); //61619
 	
-	//player
-	players.push(new Player(0,0,28,28));  // 0.7 * tile size
-
 	//game
-	game=new Game(players[0]);
+	game=new Game();
 }
 
 
@@ -92,24 +89,23 @@ function keyReleased(){keys[keyCode]=false;}
 
 
 function draw() {
-	if (game.gameState === "gameStart"){ //game.mapLoaded === "mapInitial"){
+	if (game.gameState === "gameStart"){ 
 		game.loadMap();
-		} //only load map once here
-	
-    if(game.gameState === "inGame"){ //state==="inGame"){
-        game.runGame();
-    }
-    if(game.gameState === "dead"){ //state==="dead"){
+	} 
+	if(game.gameState === "inGame"){ 
+        	game.runGame();
+    	}
+    	if(game.gameState === "dead"){ 
 		game.objectHandler.sScape[game.currentLevel].stop();
 		game.clickToRestart();
-    }
-    if(game.gameState === "win"){ //state==="win"){
-        fill(0, 200, 0,1);
-        noStroke();
-        rect(0,0,width,height);
-        fill(0, 0, 0);
-        textAlign(CENTER,CENTER);
-        textSize(50);
-        text("You Win!",width/2,height/2);
-    }
+    	}
+    	if(game.gameState === "win"){ /
+		fill(0, 200, 0,1);
+		noStroke();
+		rect(0,0,width,height);
+		fill(0, 0, 0);
+		textAlign(CENTER,CENTER);
+		textSize(50);
+		text("You Win!",width/2,height/2);
+    	}
 }
