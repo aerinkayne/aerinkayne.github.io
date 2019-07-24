@@ -1,5 +1,6 @@
-// issues: mover collision of top of player from bottom needs fix (check btm of player vs top of mover) 
-// concat map tiles and fix loop.  check p5 button related things.  rework spike objects so that direction 
+// issues: mover collision of top of player from bottom needs fix 
+// extend more Things.
+// concat map tiles and fix loop.  rework spike objects so that direction 
 // can be changed and collision still works.  fix camera/effect interactions
 // notes: ObjectHandler and Game classes are in their own files.
 
@@ -57,9 +58,6 @@ function collide(obj1,obj2){ //make player consistently obj2
     }    
 }
 
-
-
-//test 071019
 var onScreen = function(obj1, obj2, levelW, levelH){ 
 	var obj2CX = obj2.P.x + obj2.w/2;
 	var obj2CY = obj2.P.y + obj2.h/2;
@@ -69,7 +67,6 @@ var onScreen = function(obj1, obj2, levelW, levelH){
 			abs(obj2CY - (obj1.P.y + obj1.h/2)) < height/2 + obj1.h/2 + max(0, height/2 - obj2CY) + max(0, obj2CY-(levelH-height/2))
 			);   
 };
-
 
 //sorts an array by a property value, where str is the property name)
 function sortArrByProperty(arr, str){
@@ -86,7 +83,6 @@ function sortArrByProperty(arr, str){
 }
 
 
-// Player Object
 class Player {
 	constructor (x,y,w,h){
 		this.P = createVector(x,y);
@@ -106,7 +102,7 @@ class Player {
 		this.z_Index = 2;
 	}
 
-	update(blocks){  //blocks are maptiles with collision
+	update(blocks){  //blocks are tiles that can be stood on
 		// key inputs and responses
 		if(keys[this.keyInputs[0]]){  //39
 			this.V.x += this.moveSpeed;
@@ -114,8 +110,8 @@ class Player {
 		if(keys[this.keyInputs[1]]){  //37
 			this.V.x -= this.moveSpeed;
 		}
-		if(keys[this.keyInputs[2]]&&!this.falling){ //38 jump
-			this.V.y = -9;
+		if(keys[this.keyInputs[2]] && !this.falling){ //38 jump
+			this.V.y = -this.h/3.11;  
 			this.falling=true;
 			soundJump.play();
 		}
@@ -155,10 +151,6 @@ class Player {
 		if (this.delay < 41){
 			this.delay++;
 		}	
-		
-		if(this.health<=0){
-			state="dead";
-		}
 	}
 	checkCollision(obj, velx, vely){  
 		for(var i=0; i<obj.length; i++){
@@ -222,7 +214,6 @@ class Player {
 	}
 	stats(){
 		noStroke();
-		resetMatrix();
 		fill(255, 255, 255);
 		textSize(height/25);
 		textAlign(LEFT,CENTER);
@@ -266,8 +257,8 @@ class Block {
 		}
 	}
 
-
 	draw() {
+		push();
 		if (this.img==="mover"){
 			fill(50, 205, 235);
 			stroke(200, 255, 255);
@@ -295,6 +286,7 @@ class Block {
 				image(this.img, this.P.x, this.P.y, this.w+1, this.h+1);  //overlap helps with spaces
 			}	
 		}
+		pop();
 	}    
 	update(player){ //for moving blocks only
 		if (this.type === "mover"){
@@ -307,6 +299,10 @@ class Block {
 	}
 }
 
+//class Collidable extends Block{
+//
+//	
+
 class Portal{
 	constructor(x,y,w,h){
 		this.P = createVector(x,y);
@@ -314,25 +310,23 @@ class Portal{
 		this.h=h;
 		this.complete=false;
 		this.img = imgPortal;
-		this.type = "portal";
 	}
-
 	draw() {
 		image(this.img, this.P.x, this.P.y, this.w, this.h);
 	}
 	update(player){
-		if(collide(this,player)&&player.gotKey){
-				fadeColor=color(255, 255, 255, transparency);
-				transparency+=5;
-				if(transparency>255){
-					this.complete=true;
-				}
-			}else if(collide(this,player)&&!player.gotKey){
-				fill(0, 0, 0);
-				textSize(15);
-				textAlign(CENTER,CENTER);
-				text("You need the key",this.P.x+this.w/2,this.P.y-this.h/2);
+		if(collide(this, player) && player.gotKey){
+			fadeColor=color(255, 255, 255, transparency);
+			transparency+=10;
+			if(transparency>255){
+				this.complete=true;
 			}
+		}else if(collide(this,player) && !player.gotKey){
+			fill(0, 0, 0);
+			textSize(15);
+			textAlign(CENTER,CENTER);
+			text("You need the key",this.P.x+this.w/2,this.P.y-this.h/2);
+		}
 	}
 }
 
@@ -343,7 +337,6 @@ class Portkey{
 		this.h=h;
 		this.collected=false;
 		this.img = imgKey;
-		this.type = "portkey";
 	}
 
 	draw(player) {
@@ -418,12 +411,13 @@ class Heart{
 		this.h = h;
 		this.collected = false;
 		this.img = imgHeart;  //heart image 
-		this.type = "heart";
 	}
 
 	draw() {
 		if (!this.collected){
+			push();
 			image(this.img, this.P.x, this.P.y, this.w, this.h);
+			pop();
 		}
 	}
 	update(player){
@@ -469,33 +463,33 @@ class Lava{
 	}
 }
 
-//background and foreground objects 
+//background/foreground objects.  
 class Snowflake{
 	constructor(player, lvW, lvH){
 		this.lvW = lvW;
 		this.lvH = lvH;
 		this.player = player;
-		this.SF = random(0.3,1.5);
-		this.w = this.h = this.SF;
-		this.P = createVector(random(width),random(2*height));
+		this.P = createVector(random(width),random(height));
 		this.V = createVector(random(-1,1),2.0);
+		this.SF = random(0.3,1.5);
+		this.w = this.h = 15;  //just for bounds check
 		this.V.mult(this.SF);
 	}
-
 	update(){
-			
-		if(this.P.y > 2*height){ //accounts for player falling
-			this.P.y = -height/8;         
+		if(this.P.y <  -this.h){ 
+			this.P.y = height + this.h;         
 		}
-		if(this.P.x > width + this.w/2){ //ellipses
-			this.P.x = -this.w/2;
+		if(this.P.y > height + this.h){ 
+			this.P.y = -this.h;         
 		}
-		if(this.P.x < -this.w/2){
-			this.P.x = width+this.w/2;
+		if(this.P.x > width + this.w){ 
+			this.P.x = -this.w;
 		}
-		
+		if(this.P.x < -this.w){
+			this.P.x = width + this.w;
+		}
 		this.P.add(this.V);
-
+		
 		//so falling objects don't move with char.  
 		if (this.player.P.x + this.player.w/2 > width/2 &&
 			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
@@ -506,106 +500,32 @@ class Snowflake{
 		}
 	}
 	draw() {
+		push();
 		fill(255, 255, 255, 50+150*this.SF);
-		ellipse(this.P.x, this.P.y, this.SF*random(3,5), this.SF*random(3,5));
+		ellipse(this.P.x, this.P.y, this.SF*random(2.5,4.5), this.SF*random(2.5,4.5));
+		pop();
 	}
 }
-
-class Raindrop{
+class Raindrop extends Snowflake{
 	constructor(player, lvW, lvH){
-		this.lvW = lvW;
-		this.lvH = lvH;
-		this.player = player;
-		this.SF = random(0.3,1.3);
-		this.P = createVector(random(width),random(height));
+		super(player, lvW, lvH);
 		this.V = createVector(4,10);
-		this.V.mult(4/5*this.SF);
-	}
-
-	update(){
-			
-		if(this.P.y > height + height/4){ //player can pass snow if quickly climbing 
-			this.P.y = -height/4;         //or falling, so increasing loop height
-		}
-		if(this.P.x > width){
-			this.P.x = 0;
-		}
-		if(this.P.x < 0){
-			this.P.x = width;
-		}
-		
-		this.P.add(this.V);
-
-		//so falling objects don't move with char.  
-		if (this.player.P.x + this.player.w/2 > width/2 &&
-			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
-			this.P.x-=this.player.V.x;  
-		}
-		if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
-			this.P.y-=this.player.V.y;
-		}
+		this.SF = random(0.3,1.3);
 	}
 	draw() {
-		stroke(186, 219, 255, 50+150*this.SF);
+		stroke(186, 219, 255, 25+150*this.SF);
 		push();
 		translate(this.P.x, this.P.y);
 		line(0,0,this.V.x,this.V.y);
 		pop();
 	}
 }
-
-
-class Bird{ //from noise/walker tutortial.  so broke fix plox
+class Leaf extends Snowflake{
 	constructor(player, lvW, lvH){
-		this.lvW = lvW;
-		this.lvH = lvH;
-		this.P = createVector(width/2,height/6);
-		this.player = player;
-		this.tx = 0;
-		this.ty = 8000;
-	}
-	update() {
-		var xStepSize = map(noise(this.tx), 0, 1, 0, 5);
-		var yStepSize = map(noise(this.ty), 0, 1, 0, 5);
-		this.P.x += xStepSize/5;
-		this.P.y += yStepSize/5;
-		this.tx+=0.02;
-		this.ty+=0.02;
-		
-		//so falling objects don't move with char.  
-		if (this.player.P.x + this.player.w/2 > width/2 &&
-			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
-			this.P.x-=this.player.V.x;  
-		}
-		if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
-			this.P.y-=this.player.V.y;
-		}
-		
-		this.checkBounds();
-	}
-	draw() {
-		strokeWeight(3);
-		stroke(40, 70, 90);
-		point(this.P.x, this.P.y);
-		noStroke();
-	}
-
-	checkBounds() {
-		if (this.P.x < 0){this.P.x =this.lvW;}
-		if (this.P.x > width+400){this.P.x = 0;}
-		if (this.P.y < 0){this.P.y+=1;}
-		if (this.P.y > this.lvH/6){this.P.y-=1;}
-	}
-}
-
-class Leaf{
-	constructor(player, lvW, lvH){
-		this.lvW = lvW;
-		this.lvH = lvH;
-		this.player = player;
-		this.P = createVector(random(width), random(height));
+		super(player, lvW, lvH);
 		this.V = createVector(random(-1,1), random(0.5, 1));
-		this.w = random(5,10);
+		this.SF = random(0.65,1.10);
+		this.w = random(5, 10);
 		this.h = random(5, 10);
 		this.angle = 0;
 		this.spinSpeed = random(1,5);
@@ -613,38 +533,15 @@ class Leaf{
 		this.G = random(50, 200);
 		this.B = random(25, 50);
 	}
-
 	draw() {
+		this.angle += this.spinSpeed; //updating spin here
 		noStroke();
-		
 		fill(this.R, this.G, this.B);
 		push();
-			translate(this.P.x,this.P.y);
-			rotate(this.angle);
-			ellipse(0,0,this.w,this.h);
+		translate(this.P.x,this.P.y);
+		rotate(radians(this.angle));
+		ellipse(0,0,this.SF*this.w,this.SF*this.h);
 		pop();
-	}
-	update(){
-
-		if(this.P.y>height){
-			this.P.y=0;
-		}
-		if(this.P.x>width){
-			this.P.x=0;
-		}
-		if(this.P.x<0){
-			this.P.x=width;
-		}
-		this.angle+=this.spinSpeed;
-		this.P.add(this.V);
-		
-		if (this.player.P.x + this.player.w/2 > width/2 &&
-			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
-			this.P.x-=this.player.V.x;  
-		}
-		if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
-			this.P.y-=this.player.V.y;
-		}
 	}
 }
 
@@ -655,41 +552,37 @@ class Hills {
 		this.levelH = levelH;
 		this.player = player;
 		this.speed = speed;
-		this.x = 0;
-		this.y = 0;
 		this.lake = false;
 	}
-
 	draw(color) {
 		push();
-		
-		//parallax effect
+		//parallax effect 
 		if (this.player.P.x + this.player.w/2 > width/2 &&
 			this.player.P.x + this.player.w/2 < this.levelW-width/2){ 
 				translate(this.speed*(width/2-this.player.w/2-this.player.P.x),   0);
-				}
+		}
 		if (this.player.P.x + this.player.w/2 >= this.levelW-width/2) {
 				translate(this.speed*(-this.levelW+width),   0);
-				}        
+		}        
 		if (this.player.P.y + this.player.h/2 < this.levelH-height/2){
 				translate(0,   this.speed*(this.levelH-height/2-this.player.h/2-this.player.P.y));
-				}
-
-		
-		//noStroke();
+		}
 		
 		fill(color);
 		beginShape();
 		curveVertex(0, this.levelH);
 		curveVertex(0, this.levelH);
-		curveVertex(this.arrPV[0].x, this.arrPV[0].y);
+		curveVertex(0, this.arrPV[0].y); 
+		
 			for (var i = 0; i < this.arrPV.length; i++){
 				curveVertex(this.arrPV[i].x,  this.arrPV[i].y); 
 			}
+			
 		curveVertex(this.levelW, this.arrPV[this.arrPV.length-1].y);
 		curveVertex(this.levelW, this.levelH);
 		curveVertex(this.levelW, this.levelH);
 		endShape(CLOSE); 
+		
 		//draw a lake effect if it has been set to true.
 		if (this.lake){
 			fill(30, 100, 150);
@@ -699,28 +592,29 @@ class Hills {
 					rect(0, this.arrPV[0].y+66, this.levelW, height/(5+5*i*i));
 				}
 		}
-		pop();   
+		pop();
 	}
 }
 
+
 //decorative images with draw method or sprite but no updates
 class Deco{
-	constructor(x,y,w,h, img){
+	constructor(x, y, w, h, img, z){
 		this.P = createVector(x,y);
 		this.w=w;
 		this.h=h;
-		this.img = img; //pass string name to assign image and z_Index.  fix naming.
-		if(img === "brick"){this.img=imgBrick; this.z_Index=0;} 
-		else if(img === "wood1"){this.img=imgWood1; this.z_Index=0;}
-		else if(img === "wood2"){this.img=imgWood2; this.z_Index=0;}
-		else if(img === "glass"){this.z_Index=1;}
-		else if(img === "flower"){this.img=imgFlower; this.z_Index=3;}
-		else if(img === "flower2"){this.img=imgFlower2; this.z_Index=3;}
-		else if(img === "fossil"){this.img=imgFossil; this.z_Index=3;}
-		else if(img === "water"){this.z_Index=3;}
+		this.img = img; //pass variable to assign image, pass z_Index.  fix naming.
+		this.z_Index = z;
 	}
- 
-	glass(){
+	draw(){
+		image(this.img, this.P.x, this.P.y, this.w+1, this.h);
+	}
+}	
+class Glass extends Deco{
+	constructor(x, y, w, h, img, z){
+		super(x, y, w, h, img, z);
+	}	
+	draw(){
 		push();
 		translate(this.P.x, this.P.y);
 		noStroke();
@@ -743,61 +637,12 @@ class Deco{
 		noStroke();
 		pop();
 	}
-	/*
-	wood(){
-		push();
-		translate(this.P.x, this.P.y);
-		noStroke();
-		fill(148, 107, 75);
-		rect(0,0, 2*this.w,this.h);
-
-		
-		fill(156, 129, 91);
-		rect(2*0.5/50*this.w, 0.5/50*this.h, 2*49/50*this.w,24/50*this.h);
-		rect(0, 25/50*this.h, 2*24.5/50*this.w,25/50*this.h);
-		rect(2*25.0/50*this.w, 25/50*this.h, 2*25/50*this.w,24.5/50*this.h); 
-
-		stroke(255,255,255,55);
-		line(2*1/50*this.w,0.5/50*this.h,2*49/50*this.w,0.5/50*this.h);
-		line(2*0.5/50*this.w,1/50*this.h,2*0.5/50*this.w,23/50*this.h);
-		line(0,25/50*this.h,2*24/50*this.w,25/50*this.h);
-		line(2*25.5/50*this.w, 25/50*this.h, 2*this.w,25/50*this.h);
-		line(2*25.5/50*this.w,25/50*this.h,2*25.5/50*this.w,49/50*this.h);
-		stroke(0, 0, 0,25);
-		strokeWeight(2);
-		point(2*3/50*this.w, 5/50*this.h);
-		point(2*47/50*this.w, 5/50*this.h);
-		point(2*22/50*this.w, 29/50*this.h);
-		point(2*29/50*this.w, 29/50*this.h);
-		point(2*22/50*this.w, 46/50*this.h);
-		point(2*29/50*this.w, 46/50*this.h);
-		strokeWeight(1);
-		noStroke();
-		pop();
-	}
-	brick(){
-		push();
-		translate(this.P.x, this.P.y);
-		noStroke();
-		fill(0,0,0);
-		rect(0,0, this.w,this.h);
-		for (var i = 0; i<this.h; i+=this.h/2){
-			noStroke();
-			fill(156, 129, 91);
-			rect(0, 0+i, 49/50*this.w,11.5/50*this.h);
-			rect(0, 12.5/50*this.h+i, 25.0/50*this.w,11/50*this.h);
-			rect(25.5/50*this.w, 12.5/50*this.h+i, 25.0/50*this.w,11/50*this.h); 
-			stroke(255,255,255,175);
-			line(1/50*this.w,1/50*this.h+i,48/50*this.w,1/50*this.h+i);
-			line(1/50*this.w,1/50*this.h+i,1/50*this.w,11/50*this.h+i);
-			line(0,14/50*this.h+i,24/50*this.w,14/50*this.h+i);
-			line(27.5/50*this.w, 14/50*this.h+i, 49/50*this.w,14/50*this.h+i);
-			line(27.5/50*this.w,15/50*this.h+i,27.5/50*this.w,23/50*this.h+i);
-		}
-		pop();
-	}
-	*/
-	water(){
+}
+class Water extends Deco{
+	constructor(x, y, w, h, img, z){
+		super(x, y, w, h, img, z);
+	}	
+	draw(){
 		var waveH = this.w/12.5;
 		push();
 
@@ -825,21 +670,4 @@ class Deco{
 		pop();
 		strokeWeight(1);
 	}
-	draw() {  
-		//non sprites
-		if (this.img === "glass"){
-			this.glass();
-		}
-		//else if (this.img === "wood"){
-		//	this.wood();
-		//}
-		//else if (this.img === "brick"){
-		//	this.brick();
-		//}
-		else if (this.img === "water"){
-			this.water();
-		}
-		//sprites
-		else {image(this.img, this.P.x, this.P.y, this.w+1, this.h);}
-	}
-}
+}	
