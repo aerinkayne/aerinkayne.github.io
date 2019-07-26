@@ -1,5 +1,4 @@
 // issues: mover collision of top of player from bottom needs fix 
-// extend more Things.
 // concat map tiles and fix loop.  rework spike objects so that direction 
 // can be changed and collision still works.  fix camera/effect interactions
 // notes: ObjectHandler and Game classes are in their own files.
@@ -39,25 +38,6 @@ function buttonClicked(x,y,w,h,txt){
     strokeWeight(1);
 }
 
-// works for (upwards) triangles and rectangles
-function collide(obj1,obj2){ //make player consistently obj2
-    if (obj1.type !== "triangle"){
-        return  obj1.P.x < obj2.P.x + obj2.w && obj1.P.x + obj1.w > obj2.P.x &&
-                obj1.P.y < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y;
-        }
-    else if (obj1.type === "triangle"){
-        //subtracts from X collision points using char baseY of object height
-        var subX;
-        if (obj1.P.y + obj1.jab < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y){
-            subX =  obj1.w/2 * ( (obj1.P.y + obj1.h)-(obj2.P.y + obj2.h) ) / obj1.h;
-            return  obj1.P.x + subX < obj2.P.x + obj2.w && 
-                    obj1.P.x - subX + obj1.w > obj2.P.x &&
-                    obj1.P.y < obj2.P.y + obj2.h && 
-                    obj1.P.y + obj1.h > obj2.P.y;
-        }
-    }    
-}
-
 var onScreen = function(obj1, obj2, levelW, levelH){ 
 	var obj2CX = obj2.P.x + obj2.w/2;
 	var obj2CY = obj2.P.y + obj2.h/2;
@@ -82,28 +62,28 @@ function sortArrByProperty(arr, str){
         }
 }
 
-
 class Player {
 	constructor (x,y,w,h){
 		this.P = createVector(x,y);
-		this.w=w;
-		this.h=h;
+		this.w = w;
+		this.h = h;
 		this.V = createVector(0,0);
-		this.moveSpeed=0.25;
-		this.MAXSPEED=4;
+		this.moveSpeed = 0.25;
+		this.MAXSPEED = 4;
 		this.MAXHEALTH = 6;
-		this.falling=false;
-		this.gravity=0.4;
+		this.falling = false;
+		this.gravity = createVector(0,0.4);
+		//this.move = [false,false,false,false];  //R,L,U,D
 		this.keyInputs=[39,37,38]; //RIGHT,LEFT,UP.  40 DOWN
-		this.color= (50, 50, 50);
-		this.health=3;
-		this.gotKey=false;
+		this.color = (50, 50, 50);
+		this.health = 3;
+		this.gotKey = false;
 		this.delay = 41; //for damaging collisions
 		this.z_Index = 2;
 	}
 
-	update(blocks){  //blocks are tiles that can be stood on
-		// key inputs and responses
+	update(arr){  //arr used to check collision with tiles that affect position
+		// key inputs
 		if(keys[this.keyInputs[0]]){  //39
 			this.V.x += this.moveSpeed;
 		}
@@ -115,68 +95,70 @@ class Player {
 			this.falling=true;
 			soundJump.play();
 		}
-		//  3, duck, multiple issues
-		
-		//decelerate.  add different surfaces?  will need block type
-		if( !keys[this.keyInputs[0]] && !keys[this.keyInputs[1]]){
-				if(this.V.x > 0){
-					this.V.x -= this.moveSpeed;
-				}
-				if(this.V.x < 0){
-					this.V.x += this.moveSpeed;
-				}
-		}
-
-		// limit the player's horizontal speed
+		// limit horizontal speed
 		if (this.V.x < -this.MAXSPEED){  
 			this.V.x = -this.MAXSPEED;
 		}
 		if (this.V.x > this.MAXSPEED){
 			this.V.x = this.MAXSPEED;
 		}
-		if (this.V.y > 12){
-			this.V.y = 12;
+		if (this.V.y > 3/7*this.h){
+			this.V.y = 3/7*this.h;
 		}
 		
-		// update the x and y positions
+		//update x position
 		this.P.x += this.V.x;
-		this.checkCollision(blocks,this.V.x, 0); 
-		
+		//check x collision 
+		this.checkCollision(arr,this.V.x, 0); 
+		//update y position
 		this.falling=true;
+		this.V.add(this.gravity);
 		this.P.y += this.V.y;
-		this.checkCollision(blocks,0,this.V.y);  
+		//check y collision
+		this.checkCollision(arr,0,this.V.y);  
 		
-		this.V.y += this.gravity;
-		
+		//decelerate.  TODO vary dec with different surfaces
+		if( !keys[this.keyInputs[0]] && !keys[this.keyInputs[1]]){
+			if(this.V.x > 0){
+				this.V.x -= this.moveSpeed;
+			}
+			if(this.V.x < -0){
+				this.V.x += this.moveSpeed;
+			}
+		}
+	
+		//dmg delay timer
 		if (this.delay < 41){
 			this.delay++;
 		}	
 	}
-	checkCollision(obj, velx, vely){  
-		for(var i=0; i<obj.length; i++){
-			//don't check any blocks that aren't onscreen 
-			if(onScreen(obj[i], this, game.levelW, game.levelH) && collide(obj[i], this)){  //try this 071019
-				if(vely > 0){
+	
+	//collision with map tiles that affect position.  check x and y separately in player.update.
+	checkCollision(arr, Vx, Vy){  
+		for(var i=0; i<arr.length; i++){
+			//don't bother checking collision for blocks that are more than a few tiles away
+			if(abs(arr[i].P.dist(this.P)) < 3*arr[i].w && arr[i].collide(this)){ 
+				if(Vy > 0){
 					this.V.y=0;
 					this.falling=false;
-					this.P.y=obj[i].P.y-this.h;
-					if (obj[i].type==="mover"){
-							this.P.x+=obj[i].inc;
-					}
+					this.P.y=arr[i].P.y-this.h;  
 				}
-				if(vely < 0 && obj[i].type !== "mover"){
+				if (arr[i].img === "mover" && !keys[this.keyInputs[0]] && !keys[this.keyInputs[1]]){
+					this.V.x = arr[i].V.x*(1+this.moveSpeed);  //accounts for deceleration
+				}
+				//can jump through movers from below.
+				if(Vy < 0 && arr[i].img !== "mover"){
 					this.V.y=0;
-					this.P.y=obj[i].P.y+obj[i].h;
+					this.P.y=arr[i].P.y+arr[i].h;
 				}
-				if(velx < 0 && obj[i].type !== "mover"){
+				if(Vx < 0 && arr[i].img !== "mover"){
 					this.V.x=0;
-					this.P.x=obj[i].P.x+obj[i].w;
+					this.P.x=arr[i].P.x+arr[i].w;
 				}
-				if(velx > 0 && obj[i].type !== "mover"){
+				if(Vx > 0 && arr[i].img !== "mover"){
 					this.V.x=0;
-					this.P.x=obj[i].P.x-this.w;
+					this.P.x=arr[i].P.x-this.w;
 				}
-				
 			}
 		}
 	}
@@ -187,7 +169,7 @@ class Player {
 		translate(this.P.x, this.P.y);
 		rect(0,0,this.w,this.h,8);
 		
-		// eyes.  setting height relative to width so size doesn't change while ducking
+		//eyes.  set height relative to width so size doesn't change while ducking
 		fill(59, 255, 180);
 		if( sin(radians(frameCount/2))>0 && sin(radians(frameCount/2))< 0.05 ) {
 		ellipse(this.w/3.3,this.h/3,  this.w/3,this.w/15);
@@ -198,11 +180,11 @@ class Player {
 		ellipse(this.w/1.4,this.h/3,  this.w/4,this.w/4.2);
 		}
 		fill(0, 0, 0);
-		if (keys[this.keyInputs[0]]){
+		if (keys[this.keyInputs[0]]){ //(this.move[0]){//(keys[this.keyInputs[0]]){
 			 ellipse(this.w/2.80,this.h/3,  this.w/14,this.w/14);
 			 ellipse(this.w/1.25,this.h/3,  this.w/14,this.w/14);
 		}
-		else if (keys[this.keyInputs[1]]){
+		else if (keys[this.keyInputs[1]]){ //(this.move[1]){//(keys[this.keyInputs[1]]){
 			 ellipse(this.w/4.80,this.h/3,  this.w/14,this.w/14);
 			 ellipse(this.w/1.55,this.h/3,  this.w/14,this.w/14);
 		}
@@ -243,85 +225,78 @@ class Player {
 }
 
 class Block {  
-	constructor(x,y,w,h,type,flip){  //pass image name or type, flip with 'H' or 'V'
+	constructor(x,y,w,h,img,flip){  //pass image var, flip with 'H' or 'V'
 		this.P = createVector(x,y);
 		this.w=w;
 		this.h=h;
-		this.img=type;
+		this.img=img;
 		this.flip = flip;
-		if (type === "mover"){
-			this.type = "mover";  //needed for update call
-			this.disp = random(-125,125);
-			this.P.x = this.P.x+this.disp;
-			this.inc = 1;
-		}
 	}
-
+	collide(obj){
+		//rect(this.P.x, this.P.y, this.w, this.h);  character distance check
+		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
+                this.P.y < obj.P.y + obj.h && this.P.y + this.h > obj.P.y;
+	}
 	draw() {
 		push();
-		if (this.img==="mover"){
-			fill(50, 205, 235);
-			stroke(200, 255, 255);
-			strokeWeight(2);
-			rect(this.P.x, this.P.y, this.w, this.h, 4);
-			strokeWeight(1);
-			noStroke();
-			fill(0, 0, 50,100);
-			rect(this.P.x, this.P.y+3/4*this.h, this.w, this.h/4, 4);
-			fill(255, 255, 255, 125);
-			rect(this.P.x, this.P.y, this.w, this.h/4, 4);
-		}
-		else {
-			if (this.flip === "H"){  //horizontal flip
-				scale(-1.0,1.0)
-				image(this.img, -this.P.x-this.w, this.P.y, this.w+1, this.h+1);
-				scale(-1.0,1.0)  //flip it back or bad things happen
-				}	
-			else if (this.flip === "V"){  //vertical flip.  will I need this ever?
-				scale(1.0,-1.0)
-				image(this.img, this.P.x, -this.P.y-this.h, this.w+1, this.h+1);
-				scale(1.0,-1.0)
-				}				
-			else {
-				image(this.img, this.P.x, this.P.y, this.w+1, this.h+1);  //overlap helps with spaces
+		if (this.flip === "H"){  //horizontal flip
+			scale(-1.0,1.0)
+			image(this.img, -this.P.x-this.w, this.P.y, this.w+1, this.h+1);
 			}	
-		}
+		else if (this.flip === "V"){  //vertical flip. 
+			scale(1.0,-1.0)
+			image(this.img, this.P.x, -this.P.y-this.h, this.w+1, this.h+1);
+			}				
+		else {
+			image(this.img, this.P.x, this.P.y, this.w+1, this.h+1);  //overlap helps with spaces
+		}	
 		pop();
-	}    
-	update(player){ //for moving blocks only
-		if (this.type === "mover"){
-			if (this.disp > 125 || this.disp < -125){
-				this.inc*=-1;
-			}
-			this.disp+=this.inc;
-			this.P.x+=this.inc;
+	}  
+}
+class Mover extends Block{
+	constructor(x,y,w,h,img){
+		super(x,y,w,h,img);
+		this.V = createVector(1,0);
+		this.img = "mover";  //needed for now for char position updates
+		this.disp = floor(random(-75,75));  //so they don't all start at same P.x
+		this.P.x += this.disp;
+	}
+	draw(){
+		push();
+		fill(50, 205, 235);
+		stroke(200, 255, 255);
+		strokeWeight(2);
+		rect(this.P.x, this.P.y, this.w, this.h, 4);
+		strokeWeight(1);
+		noStroke();
+		fill(0, 0, 50,100);
+		rect(this.P.x, this.P.y+3/4*this.h, this.w, this.h/4, 4);
+		fill(255, 255, 255, 125);
+		rect(this.P.x, this.P.y, this.w, this.h/4, 4);
+		pop();
 		}
+	update(player){ 
+		if (this.disp > 3*player.w || this.disp < -3*player.w){
+			this.V.x *= -1;
+			this.P.x -= 2*this.V.x; //fixes turn around jitter
+		}
+		this.disp += this.V.x;
+		this.P.add(this.V); 
 	}
 }
-
-//class Collidable extends Block{
-//
-//	
-
-class Portal{
-	constructor(x,y,w,h){
-		this.P = createVector(x,y);
-		this.w=w;
-		this.h=h;
-		this.complete=false;
-		this.img = imgPortal;
-	}
-	draw() {
-		image(this.img, this.P.x, this.P.y, this.w, this.h);
+class Portal extends Block{
+	constructor(x,y,w,h,img,flip){
+		super(x,y,w,h,img,flip);
+		this.collected=false;
 	}
 	update(player){
-		if(collide(this, player) && player.gotKey){
+		if(this.collide(player) && player.gotKey){
 			fadeColor=color(255, 255, 255, transparency);
 			transparency+=10;
 			if(transparency>255){
-				this.complete=true;
-			}
-		}else if(collide(this,player) && !player.gotKey){
+				this.collected=true;
+			} 
+		}else if(this.collide(player) && !player.gotKey){ 
 			fill(0, 0, 0);
 			textSize(15);
 			textAlign(CENTER,CENTER);
@@ -329,39 +304,43 @@ class Portal{
 		}
 	}
 }
-
-class Portkey{
-	constructor(x,y,w,h){
-		this.P = createVector(x,y);
-		this.w=w;
-		this.h=h;
+class Portkey extends Block{
+	constructor(x,y,w,h,img,flip){
+		super(x,y,w,h,img,flip);
 		this.collected=false;
-		this.img = imgKey;
 	}
-
 	draw(player) {
 		if(!player.gotKey){
 			image(this.img, this.P.x, this.P.y, this.w, this.h);
 		}
 	}
 	update(player){
-		if(collide(this,player) && !player.gotKey){
+		if(!player.gotKey && this.collide(player)){
 			soundKey.play();
 			this.collected=true;
 			player.gotKey=true;
 		}
 	}
 }
-
-class Spike{
+class Spike extends Block{
 	constructor(x,y,w,h){
-		this.P = createVector(x,y);
-		this.w=w;
-		this.h=h;
-		this.type = "triangle";
+		super(x,y,w,h);
+		this.jab;
+		this.hurt;
 	}
-
+	collide(obj) {
+		//rect(this.P.x, this.P.y, this.w, this.h); //checking dist from character when called
+		var subX;
+        if (this.P.y + this.jab < obj.P.y + obj.h && this.P.y + this.h > obj.P.y){
+            subX =  this.w/2 * ( (this.P.y + this.h)-(obj.P.y + obj.h) ) / this.h;
+            return  this.P.x + subX < obj.P.x + obj.w && 
+                    this.P.x - subX + this.w > obj.P.x &&
+                    this.P.y < obj.P.y + obj.h && 
+                    this.P.y + this.h > obj.P.y;
+        }
+    }
 	draw() {
+		push();
 		noStroke();
 		this.jab = 2.5*abs(sin(radians(1/2*frameCount*2%100))*this.h/6);
 
@@ -382,16 +361,16 @@ class Spike{
 			this.P.x+this.w/2, this.P.y+2+ this.jab);
 		strokeWeight(1);
 		noStroke();
+		pop();
 	}
 	update(player){
-		if(collide(this,player)&& player.delay >40){ 
+		if(abs(player.P.dist(this.P)) < 5/4*this.h && this.collide(player) && player.delay >40){ 
 			this.hurt=true;
 			transparency=150;  
 			player.health--;
 			player.delay = 0;
 			soundSpike.play();
 		}
-	   
 		if(this.hurt){
 			fadeColor=color(255, 0, 0,transparency);
 			transparency-=15;
@@ -403,16 +382,11 @@ class Spike{
 		}
 	}
 }
-
-class Heart{
-	constructor(x,y,w,h){
-		this.P = createVector(x,y);
-		this.w = w;
-		this.h = h;
-		this.collected = false;
-		this.img = imgHeart;  //heart image 
+class Heart extends Block{
+	constructor(x,y,w,h,img,flip){
+		super(x,y,w,h,img,flip);
+		this.collected=false;
 	}
-
 	draw() {
 		if (!this.collected){
 			push();
@@ -421,7 +395,7 @@ class Heart{
 		}
 	}
 	update(player){
-		if(collide(this,player) && !this.collected && player.health < 6){
+		if(!this.collected && player.health < player.MAXHEALTH && this.collide(player) ){
 			soundHeart.play();
 			player.health++;
 			this.collected = true;	
@@ -441,7 +415,6 @@ class Lava{
 			this.color= color(0, 120, 0);
 		}
 	}
-
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);
@@ -596,14 +569,13 @@ class Hills {
 	}
 }
 
-
 //decorative images with draw method or sprite but no updates
 class Deco{
 	constructor(x, y, w, h, img, z){
 		this.P = createVector(x,y);
 		this.w=w;
 		this.h=h;
-		this.img = img; //pass variable to assign image, pass z_Index.  fix naming.
+		this.img = img; 
 		this.z_Index = z;
 	}
 	draw(){

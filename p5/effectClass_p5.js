@@ -53,7 +53,7 @@ class ObjectHandler{
 			//make objects if not set up
 			this.initHills(0.15);
 			if (level === 0){
-				this.addObj(160, Snowflake);
+				this.addObj(140, Snowflake);
 				this.skyStart = color(82,149,204);
 				this.skyEnd = color(250, 200, 255);
 				this.hillStart = color(60,85,130);
@@ -61,7 +61,7 @@ class ObjectHandler{
 				this.hillEnd = color(150,200,235);
 			}	
 			else if (level === 1){
-				this.addObj(130, Raindrop);
+				this.addObj(120, Raindrop);
 				this.skyStart = color(70,110,120);
 				this.skyEnd = color(242,252,255);
 				this.hillStart = color(50,85,85,120);

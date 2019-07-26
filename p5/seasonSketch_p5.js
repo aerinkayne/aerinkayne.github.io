@@ -74,38 +74,39 @@ function setup() {
 	imgFlower = sprite1.get(150, 0, 50, 50);
 	imgFlower2 = sprite1.get(150, 50, 50, 50); //61619
 	imgFossil = sprite1.get(200, 100, 50, 50); //61619
-	
+
 	//game
-	game=new Game();
+	game=new Game();  
 }
 
 
 
 function keyPressed(){keys[keyCode]=true;}   
 function keyReleased(){keys[keyCode]=false;}
-  
+
 
 
 
 
 function draw() {
-	if (game.gameState === "gameStart"){ 
+	if (game.gameState === "gameStart"){ //game.mapLoaded === "mapInitial"){
 		game.loadMap();
-	} 
-	if(game.gameState === "inGame"){ 
-        	game.runGame();
-    	}
-    	if(game.gameState === "dead"){ 
+		} //only load map once here
+	
+    if(game.gameState === "inGame"){ //state==="inGame"){
+        game.runGame();
+    }
+    if(game.gameState === "dead"){ //state==="dead"){
 		game.objectHandler.sScape[game.currentLevel].stop();
 		game.clickToRestart();
-    	}
-    	if(game.gameState === "win"){ 
-		fill(0, 200, 0,1);
-		noStroke();
-		rect(0,0,width,height);
-		fill(0, 0, 0);
-		textAlign(CENTER,CENTER);
-		textSize(50);
-		text("You Win!",width/2,height/2);
-    	}
+    }
+    if(game.gameState === "win"){ //state==="win"){
+        fill(0, 200, 0,1);
+        noStroke();
+        rect(0,0,width,height);
+        fill(0, 0, 0);
+        textAlign(CENTER,CENTER);
+        textSize(50);
+        text("You Win!",width/2,height/2);
+    }
 }

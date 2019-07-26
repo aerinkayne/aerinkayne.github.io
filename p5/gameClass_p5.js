@@ -4,8 +4,9 @@ class Game{
 		this.player = (new Player(0,0,0.7*this.ts,0.7*this.ts)); 
 		this.gameState = "gameStart";  
 		this.currentLevel=0;
+		this.levelW;
+		this.levelH;
 		this.levels=[
-			//test 072119
 			[   "                                                                                                                        ",
 				"0h                                       		                                                                         ",
 				"0C 0d                                                                                                                   ",
@@ -14,9 +15,9 @@ class Game{
 				"                                                                                                                        ",
 				"0C 0d                                                                                                                   ",  
 				"                                                            02                                                          ",
-				"                  0m                                        01                                                          ",    
+				"               0m                                           01                                                          ",    
 				"            08       08                                     01                                                          ",     
-				"         02 02 02 02 02 02       02 02       02             01                                             08  08    07 ",    
+				"         02 02 02 02 02 02       02 02       02             01                                     08    08       07    ",    
 				"02                                              02       02 01                            02 02 02 02 02 02 02 02 02 02 ",    
 				"                                                01          01                   02 02                                  ",    
 				"   02                                           01 02       01                                                          ",    
@@ -175,6 +176,7 @@ class Game{
 					this.player.P.x = row*S;
 					this.player.P.y = col*S;
 				}
+				//blocks array contains map tiles passed to player.update because they affect player position
 				else if(s==="01"){  //ice
 					blocks.push(new Block(row*S,col*S,S,S,imgIce1)); 
 				}
@@ -209,7 +211,7 @@ class Game{
 					blocks.push(new Block(row*S,col*S,S,S,imgD2)); 
 				}
 				else if(s==="0m"){  //moving platform
-					blocks.push(new Block(row*S,col*S,3/2*S,S/3,"mover"));
+					blocks.push(new Mover(row*S,col*S,3/2*S,S/3,"mover")); //
 				}
 				else if (s==="0C"){  //cloud middle
 					blocks.push(new Block(row*S,col*S,S,S,imgClMid));  
@@ -217,10 +219,11 @@ class Game{
 				else if (s==="0c"){  //cloud left side
 					blocks.push(new Block(row*S,col*S,S,S,imgClSide));  
 				}
-				else if (s==="0d"){  //cloud left side w/H flip to right
+				else if (s==="0d"){  //cloud left side w/H flip
 					blocks.push(new Block(row*S,col*S,S,S,imgClSide, "H")); 
 				}
 				
+				//collidables do not affect position but are used for other updates (health, dmg, inventory)  
 				else if(s==="08"){
 					spikes.push(new Spike(row*S+(S-S/1.75)/2.0, col*S-1.25*S, S/1.75, 2.25*S));
 				}
@@ -228,16 +231,16 @@ class Game{
 					lava.push(new Lava(row*S,col*S+S/5,S,S-S/5, "l"));
 				}
 				else if(s==="0h"){
-					hearts.push(new Heart(row*S+S/4,col*S+S/4,S/2,S/2));
+					hearts.push(new Heart(row*S+S/4,col*S+S/4,S/2,S/2, imgHeart));
 				}
 				else if(s==="07"){
-					portals.push(new Portal(row*S,col*S,S,S));
+					portals.push(new Portal(row*S, col*S, S, S, imgPortal));
 				}
 				else if(s==="09"){
-					portkeys.push(new Portkey (row*S,col*S,S,S));
+					portkeys.push(new Portkey (row*S, col*S, S, S, imgKey));
 				}
 
-				//decorative.  player is ind2
+				//decorative images.  player is ind2
 				else if(s==="0f"){
 					decoImages.push(new Deco(row*S,col*S,S,S, imgFlower, 3));
 				}
@@ -324,19 +327,15 @@ class Game{
 		//player is updated here rather than above
 		this.player.update(blocks);
 		
-		
-		
 		resetMatrix();
 		this.player.stats(); //health, info
 		if(this.player.health<=0){
 			this.gameState="dead";
 		}
-		
 		this.objectHandler.fgEffects(this.currentLevel); //forground effects
 		
-		
 		// manage level transitions.  always 1 portal per lv.
-		if(portals[0].complete){
+		if(portals[0].collected){
 			transparency=0;
 			fadeColor=color(255, 255, 255, transparency);
 			this.objectHandler.sScape[this.currentLevel].stop();
