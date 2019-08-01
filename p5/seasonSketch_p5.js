@@ -64,26 +64,27 @@ function setup() {
 	imgR2 = sprite1.get(50, 200, 50, 50);
 	imgR3 = sprite1.get(0,250,50,50);
 	imgR4 = sprite1.get(50,250,50,50);
-	imgClSide = sprite1.get(200,0,50,50); //61519
-	imgClMid = sprite1.get(250,0,50,50);  //61519
-	imgL1 = sprite1.get(200, 50, 50,50);  //61519
-	imgL2 = sprite1.get(250, 50, 50,50);  //61519
-	imgPot = sprite1.get(100,100,50,50); //61519
+	imgClL = sprite1.get(200,0,50,50); 
+	imgClM = sprite1.get(250,0,50,50);  
+	imgClR = sprite1.get(250,100,50,50);  
+	imgL1 = sprite1.get(200, 50, 50,50);  
+	imgL2 = sprite1.get(250, 50, 50,50);  
+	imgPot = sprite1.get(100,100,50,50); 
 	imgKey = sprite1.get(100, 200, 50, 50);
 	imgPortal = sprite1.get(100, 250, 50, 50);
 	imgFlower = sprite1.get(150, 0, 50, 50);
-	imgFlower2 = sprite1.get(150, 50, 50, 50); //61619
-	imgFossil = sprite1.get(200, 100, 50, 50); //61619
+	imgFlower2 = sprite1.get(150, 50, 50, 50); 
+	imgFossil = sprite1.get(200, 100, 50, 50); 
+	imgPumpk = sprite1.get(150, 100, 50, 50); 
 
 	//game
 	game=new Game();  
 }
 
-
+  
 
 function keyPressed(){keys[keyCode]=true;}   
 function keyReleased(){keys[keyCode]=false;}
-
 
 
 
@@ -97,7 +98,7 @@ function draw() {
         game.runGame();
     }
     if(game.gameState === "dead"){ //state==="dead"){
-		game.objectHandler.sScape[game.currentLevel].stop();
+		game.effectsHandler.sScape[game.currentLevel].stop();
 		game.clickToRestart();
     }
     if(game.gameState === "win"){ //state==="win"){

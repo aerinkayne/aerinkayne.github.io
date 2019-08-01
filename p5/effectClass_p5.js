@@ -1,4 +1,4 @@
-class ObjectHandler{ 
+class EffectsHandler{ 
 	constructor(levelW, levelH, player){ 
 		this.levelW = levelW; 
 		this.levelH = levelH;
@@ -9,6 +9,8 @@ class ObjectHandler{
 		this.hills=[];
 		this.skyStart, this.skyEnd;
 		this.hillStart, this.hillMid, this.hillEnd;
+		this.transparency = 0;
+		this.overlayC = color(255,255,255,this.transparency);
 		this.sScape = [sScapeW, sScapeSpr, sScapeSummer, sScapeF];
 	}
 	initHills(speed){  //creates point vectors for hill peak locations    
@@ -45,8 +47,7 @@ class ObjectHandler{
 				var shift = lerpColor(skyStart, skyEnd, i*0.03);
 				fill(shift);
 				rect(0,i*H,width,H);
-			}
-		
+			}	
 	}
 	bgEffects(level){
 		if (this.setup === false){
@@ -64,9 +65,9 @@ class ObjectHandler{
 				this.addObj(120, Raindrop);
 				this.skyStart = color(70,110,120);
 				this.skyEnd = color(242,252,255);
-				this.hillStart = color(50,85,85,120);
-				this.hillMid = color(75,110,88);
-				this.hillEnd = color(85,150,105);
+				this.hillStart = color(50,85,95,120);
+				this.hillMid = color(78,110,90);
+				this.hillEnd = color(90,145,105);
 			}
 			else if (level === 2){
 				//will change to something else
@@ -82,9 +83,9 @@ class ObjectHandler{
 				this.addObj(30, Leaf);
 				this.skyStart = color(45, 50, 90);
 				this.skyEnd = color(255, 180, 200);
-				this.hillStart = color(75, 40, 30);
+				this.hillStart = color(55, 35, 25);
 				this.hillMid = color(90,55,20);
-				this.hillEnd = color(135, 75, 30); 
+				this.hillEnd = color(140, 80, 30); 
 			}
 			this.setup = true;
 		}	

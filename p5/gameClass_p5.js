@@ -3,9 +3,13 @@ class Game{
 		this.ts = 40;  //tile size
 		this.player = (new Player(0,0,0.7*this.ts,0.7*this.ts)); 
 		this.gameState = "gameStart";  
-		this.currentLevel=0;
+		this.currentLevel=2;
 		this.levelW;
 		this.levelH;
+		this.bordL = width/2;
+		this.bordR; 
+		this.bordT = height/2; 
+		this.bordB;
 		this.levels=[
 			[   "                                                                                                                        ",
 				"0h                                       		                                                                         ",
@@ -16,10 +20,10 @@ class Game{
 				"0C 0d                                                                                                                   ",  
 				"                                                            02                                                          ",
 				"               0m                                           01                                                          ",    
-				"            08       08                                     01                                                          ",     
-				"         02 02 02 02 02 02       02 02       02             01                                     08    08       07    ",    
+				"            0^       0^                                     01                                                          ",     
+				"         02 02 02 02 02 02       02 02       02             01                                     0^    0^       07    ",    
 				"02                                              02       02 01                            02 02 02 02 02 02 02 02 02 02 ",    
-				"                                                01          01                   02 02                                  ",    
+				"                                                01       0v 01                   02 02                                  ",    
 				"   02                                           01 02       01                                                          ",    
 				"         02 02                                  01       09 01             02                                           ",    
 				"                                                01 02 02 02 01 02 02 02 02 01                                           ",    
@@ -29,16 +33,14 @@ class Game{
 				"                                                                                                                        ",    
 				"02                                                                                                       02 02          ",    
 				"   02 02 02                                                                                     02 02                   ",    
-				"                                                                                                                     02 ",    
+				"   0v                                                                                                                02 ",    
 				"00                02                                                    0m                02                            ",    
 				"            02          02             0m             02 02                               01                   02       ",    
-				"            01 08                                     01 01                         02 02 01 0h    08    08             ",    
+				"            01 0^                                     01 01                         02 02 01 0h    0^    0^             ",    
 				"02 02 0L 02 01 02 02 02 02 02 0L 0L 0L 0L 0L 0L 0L 0L 01 01 0L 0L 0L 0L 0L 0L 0L 0L 01 01 01 02 02 02 02 02 02 02 02 02 "    
 			],
 		
-
-				//03 rocks  04 rocks w grass
-			[ 	//05 dirt   06 dirt w grass
+			[ 	//03 rocks  04 rocks w grass   05 dirt   06 dirt w grass
 				"                                                   0F 0F 0F 0f 0F 0F 0f 0f       07    0f                                              ",  
 				"                                             04 04 04 04 04 04 04 04 04 04 04 04 04 04 04                                              ",  
 				"                     0c 0C 0C 0C 0d                                                                                                    ",
@@ -51,22 +53,22 @@ class Game{
 				"                           0m                                                                                                          ",
 				"                                                                                                                                       ",
 				"               0m                                                                                                                      ",
-				"                                                                                                      08    08                         ",
-				"0C 0C 0d                               08                0c 0d             0c 0d                   0c 0C 0C 0C 0d                      ",
-				"            08       08          0c 0C 0C 0C 0d                                        0c 0d                      0c 0d             0f ",
+				"                                                                                                      0^    0^                         ",
+				"0C 0C 0d                               0^                0c 0d             0c 0d                   0c 0C 0C 0C 0d                      ",
+				"            0^       0^          0c 0C 0C 0C 0d                                        0c 0d                      0c 0d             0f ",
 				"         0c 0C 0C 0C 0C 0d                                                                                                          06 ",
 				"                                                                                                                     0F    0f          ",
-				"                                                                                 08 0f                            06 06 06 06          ",
+				"                                                                                 0^ 0f                            06 06 06 06          ",
 				"                                                                              06 06 06                                              0h ",
-				"                                                                        08    05 05 05                                              06 ",
+				"                                                                        0^    05 05 05                                              06 ",
 				"                                                0F                   06 06 06 05 05 05                                           06 05 ",
-				"0F    0f 00 0f 0F                08 0f          06 06             0f 05 05 05 05                                           0F    05 05 ", 
+				"0F    0f 00 0f 0F                0^ 0f          06 06             0f 05 05 05 05                                           0F    05 05 ", 
 				"06 06 06 06 06 06 06          06 06 06                         06 06 05 05 05 05                      0m                   06 06 05 05 ", 
 				"05 05 05 05 05 05 05                                           05 05 05 09                                                 05 05 05 05 ", 
 				"05 05 05 05 05 05 05 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 05 05 05 06 06 06 06 06 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 05 05 05 05 "
 			],
 			
-			[	//03 10 rocks 04 11 rocks w grass
+			[	//03 10 rocks   04 11 rocks w grass
 				"                                                                                          ",  
 				"                                                                                       07 ",
 				"                                                                              0c 0C 0C 0C ",
@@ -84,13 +86,13 @@ class Game{
 				"                                             04             0e 0E 0e 0E 0e 0E 0e 0E 0e 0E ",
 				"                                             10 0w 0w 0w 0w 0B 0B 0B 0B 0B 0B 0B 0B 0B 0B ", 
 				"00                                        04 03 11 11 11 04 11 04 11 04 04 04 11 04 04 11 ",
-				"   0f       0F                   08 11                                              09 10 ",
-				"04 04 11 11 11 04          04 11 11                                                 0f 03 ",
-				"                        04                            0f 08       08          11 04 04 03 ",
-				"                                                      04 04 11 11 04 11                10 ",
+				"   0f       0F                   0^ 11                                        0v          ",
+				"04 04 11 11 11 04          04 11 11                                                    09 ",
+				"                        04                            0f 0^       0^                0f 11 ",
+				"                                                      04 04 11 11 04 11       11 04 04 10 ",
 				"                  11                                                                   03 ",
 				"                     04                0m                                              03 ",
-				"0h       08 08          0f 0F                                                          10 ",
+				"0h       0^ 0^          0f 0F                                                          10 ",
 				"04 11 11 04 04 11 11 11 04 11 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 03 "
 			],
 
@@ -102,19 +104,19 @@ class Game{
 				"13                                                                      ",
 				"                                                                        ",
 				"            0m                                                          ",
-				"                                                                        ",
+				"0p                                                                      ",
 				"12          13          12                12       13 12                ",
-				"14                                     12    08 08       13             ",
-				"05                            12 13 13 05 12 12 13 13 12 14 12 13       ",
+				"14                               0p    12    0^ 0^       13             ",
+				"05                            12 13 13 05 12 12 13 13 12 dF 12 13       ",
 				"14             12          12                                        12 ",
-				"05       12                05    09                               12    ",
-				"05       05             12 05 12 12 12 13       12 08 12 13 08          ",
+				"dF       12                05    09                               12    ",
+				"05       05             12 05 12 12 12 13       12 0^ 12 13 0^          ",
 				"05    13 05             14    00                   12       12 13 13 12 ",
-				"14       14 08    08 12 05                                              ",
+				"14       14 0^    0^ 12 05          0p                                  ",
 				"05 12    05 12 13 12 05 14 12 13 13 12 12 12 13 13 12 12 12             ",
 				"         05                                                             ",
 				"      12                                        12    13    12          ",
-				"                  08                         08    08    08    08       ",
+				"                  0^                         0^    0^    0^    0^    0p ",
 				"12 13 12 12 13 13 12 12 12 0L 0L 0L 12 12 13 13 12 12 13 12 12 12 13 12 "
 			],
 			[
@@ -137,27 +139,22 @@ class Game{
 	
 	camera(){   
 		//horizontal constrain
-		this.player.P.x= constrain(this.player.P.x, 0, this.levelW-this.player.w);  
-		
+		this.player.P.x = constrain(this.player.P.x, 0, this.levelW-this.player.w);  
 		//camera
 		let playCX = this.player.P.x + this.player.w/2;
 		let playCY = this.player.P.y + this.player.h/2;
-		let bordL = width/2;
-		let bordR = this.levelW - width/2;
-		let bordT = height/2;
-		let bordB = this.levelH - height/2;
 		//Xtranslate
-		if(playCX > bordL && playCX < bordR){    
-			translate(-(playCX-bordL), 0);  
+		if(playCX > this.bordL && playCX < this.bordR){    
+			translate(-(playCX-this.bordL), 0);  
 		}						   
-		else if(playCX >= bordR){   
+		else if(playCX >= this.bordR){   
 			translate(-(this.levelW-width), 0);  
 		}
 		//Ytranslate. no top limit
-		if (playCY < bordB){
-		    translate(0, -(playCY-bordT)); 
+		if (playCY < this.bordB){
+		    translate(0, -(playCY-this.bordT)); 
 		}
-		else if(playCY >= bordB){   
+		else if(playCY >= this.bordB){   
 			translate(0, -(this.levelH-height));  
 		}
 		//check if player has fallen.  convenient here because it needs lvH.  move later maybe.
@@ -165,7 +162,6 @@ class Game{
 			this.player.health=0;
 		}
 	}
-	//072119.  change to a switch eventually
 	levelKey(){   
 		var S = this.ts;  //map tile size											
 		for(var col=0; col<this.levels[this.currentLevel].length; col++){ //#strings in lv map. ie tilesY
@@ -214,18 +210,21 @@ class Game{
 					blocks.push(new Mover(row*S,col*S,3/2*S,S/3,"mover")); //
 				}
 				else if (s==="0C"){  //cloud middle
-					blocks.push(new Block(row*S,col*S,S,S,imgClMid));  
+					blocks.push(new Block(row*S,col*S,S,S,imgClM));  
 				}
 				else if (s==="0c"){  //cloud left side
-					blocks.push(new Block(row*S,col*S,S,S,imgClSide));  
+					blocks.push(new Block(row*S,col*S,S,S,imgClL));  
 				}
 				else if (s==="0d"){  //cloud left side w/H flip
-					blocks.push(new Block(row*S,col*S,S,S,imgClSide, "H")); 
+					blocks.push(new Block(row*S,col*S,S,S,imgClR)); 
 				}
 				
 				//collidables do not affect position but are used for other updates (health, dmg, inventory)  
-				else if(s==="08"){
-					spikes.push(new Spike(row*S+(S-S/1.75)/2.0, col*S-1.25*S, S/1.75, 2.25*S));
+				else if(s==="0^"){
+					spikes.push(new SpikeU(row*S+(S-S/1.75)/2.0, col*S-1.5*S, S/1.75, 2.5*S));
+				}
+				else if(s==="0v"){
+					spikes.push(new SpikeD(row*S+(S-S/1.75)/2.0, col*S, S/1.75, 2.5*S));
 				}
 				else if(s==="0L"){  
 					lava.push(new Lava(row*S,col*S+S/5,S,S-S/5, "l"));
@@ -247,6 +246,13 @@ class Game{
 				else if(s==="0F"){
 					decoImages.push(new Deco(row*S,col*S,S,S, imgFlower2, 3));
 				}
+				else if(s==="0p"){
+					decoImages.push(new Deco(row*S,col*S,S,S, imgPumpk, 3));
+				}
+				else if(s==="dF"){  //dirt2 with fossil
+					blocks.push(new Block(row*S,col*S,S,S,imgD2)); 
+					decoImages.push(new Deco(row*S,col*S,S,S,imgFossil)); 
+				}
 				else if(s==="0g"){
 					decoImages.push(new Glass(row*S,col*S,S,S, "glass", 1));
 				}
@@ -266,11 +272,8 @@ class Game{
 			}
 		}
 	}
-	
 	loadMap(){
-		//recalc level width and height for each level since they aren't all the same.
-		this.levelW = this.levels[this.currentLevel][0].length/3*this.ts;
-		this.levelH = this.levels[this.currentLevel].length*this.ts;
+		this.getLevelVals();
 		this.levelKey();
 			
 		//add player to decoImages array and sort by z_Index property to change draw order
@@ -278,15 +281,21 @@ class Game{
 		sortArrByProperty(decoImages, "z_Index");
 			
 		//all map tiles. change to concat.  change double loops for iteration and splicing.
-		this.mapTiles = [lava, blocks, decoImages, spikes, portkeys, hearts, portals];
+		this.mapTiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals];
 		//rewrite objectH w level sizes and player info
-		this.objectHandler = new ObjectHandler(this.levelW, this.levelH, this.player);
-			if (this.currentLevel < this.objectHandler.sScape.length){ 
-				this.objectHandler.sScape[this.currentLevel].loop(); 
+		this.effectsHandler = new EffectsHandler(this.levelW, this.levelH, this.player);
+			if (this.currentLevel < this.effectsHandler.sScape.length){ 
+				this.effectsHandler.sScape[this.currentLevel].loop(); 
 			}	
 		this.gameState = "inGame"; //this.mapLoaded = "mapLoaded";		
 	}
-	
+	getLevelVals(){
+		//recalc level width and height for each level since they aren't all the same.
+		this.levelW = this.levels[this.currentLevel][0].length/3*this.ts;
+		this.levelH = this.levels[this.currentLevel].length*this.ts;
+		this.bordR = this.levelW - width/2;
+		this.bordB = this.levelH - height/2;
+	}
 	removeMap(arr){
 		for (var i = arr.length-1; i>=0; i--){
 			arr[i].splice(0, arr[i].length); //splice is shallow I think
@@ -302,13 +311,13 @@ class Game{
             
             this.player.health = 3;
             this.loadMap();
-            this.gameState = "inGame";  //state="inGame";
+            this.gameState = "inGame";  
 			
             transparency=0;
             fadeColor=color(255, 255, 255,transparency);
         }else{
             noStroke();
-            fill(255, 0, 0,1);
+            fill(200, 0, 0,1);
             rect(0,0,width,height);
             fill(255, 255, 255);
             textSize(50);
@@ -317,7 +326,7 @@ class Game{
         }
 	}
 	runGame(){
-		this.objectHandler.bgEffects(this.currentLevel); //background effects.  don't trans with camera
+		this.effectsHandler.bgEffects(this.currentLevel); //background effects.  don't trans with camera
 		this.camera();
 		
 		//draw and update objects of map 
@@ -332,13 +341,17 @@ class Game{
 		if(this.player.health<=0){
 			this.gameState="dead";
 		}
-		this.objectHandler.fgEffects(this.currentLevel); //forground effects
+		this.effectsHandler.fgEffects(this.currentLevel); //forground effects
+		
+		//overlay effects
+		fill(fadeColor);
+		rect(0,0,width,height);
 		
 		// manage level transitions.  always 1 portal per lv.
 		if(portals[0].collected){
 			transparency=0;
 			fadeColor=color(255, 255, 255, transparency);
-			this.objectHandler.sScape[this.currentLevel].stop();
+			this.effectsHandler.sScape[this.currentLevel].stop();
 			this.removeMap(this.mapTiles);
 				
 			this.currentLevel++; 
@@ -346,9 +359,7 @@ class Game{
 			this.player.gotKey=false;
 		} 
 		
-		// create an invisible screen for fading when needed
-		fill(fadeColor);
-		rect(0,0,width,height);
+
 		
 		if(this.currentLevel===4){
 			this.gameState="win";
