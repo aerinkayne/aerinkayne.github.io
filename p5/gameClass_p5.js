@@ -3,7 +3,7 @@ class Game{
 		this.ts = 40;  //tile size
 		this.player = (new Player(0,0,0.7*this.ts,0.7*this.ts)); 
 		this.gameState = "gameStart";  
-		this.currentLevel=2;
+		this.currentLevel=0;
 		this.levelW;
 		this.levelH;
 		this.bordL = width/2;
