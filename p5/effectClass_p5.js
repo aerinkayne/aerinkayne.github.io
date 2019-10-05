@@ -9,8 +9,8 @@ class EffectsHandler{
 		this.hills=[];
 		this.skyStart, this.skyEnd;
 		this.hillStart, this.hillMid, this.hillEnd;
-		this.transparency = 0;
-		this.overlayC = color(255,255,255,this.transparency);
+		this.transparency = 0; //check this
+		this.overlayC = color(255,255,255,this.transparency);  //check this
 		this.sScape = [sScapeW, sScapeSpr, sScapeSummer, sScapeF];
 	}
 	initHills(speed){  //creates point vectors for hill peak locations    
@@ -101,12 +101,14 @@ class EffectsHandler{
 		//bgobjects
 		for(var i=0; i< this.bgObj.length; i++){
 			this.bgObj[i].update();
+			this.bgObj[i].antiCam();
 			this.bgObj[i].draw();
 		}
 	}	
 	fgEffects(level){  
 		for(var i=0; i< this.fgObj.length; i++){
 			this.fgObj[i].update();
+			this.fgObj[i].antiCam();
 			this.fgObj[i].draw();
 		}
 	}

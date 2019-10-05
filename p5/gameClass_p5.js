@@ -2,11 +2,12 @@ class Game{
 	constructor() {  
 		this.ts = 40;  //tile size
 		this.player = (new Player(0,0,0.7*this.ts,0.7*this.ts)); 
-		this.gameState = "gameStart";  
-		this.currentLevel=0;
-		this.levelW;
+		this.gameState = "levelSelect"; 
+		this.paused = false;
+		this.currentLevel=0;  //default if none selected
+		this.levelW;  //defined at lv load
 		this.levelH;
-		this.bordL = width/2;
+		this.bordL = width/2; 
 		this.bordR; 
 		this.bordT = height/2; 
 		this.bordB;
@@ -136,7 +137,43 @@ class Game{
 			}       
 		}
 	}
-	
+	manageScenes(){ //call on mouseclick.  buttons are currently global objects. 
+		if (this.gameState === "levelSelect"){
+			for (var i = 0; i < btnLevels.length; i++){
+				if (btnLevels[i].isOver(mouseX,mouseY)){
+					btnLevels[i].selected = true;
+					btnLevels[i].boarderC = 255;
+					this.setLevel(btnLevels[i].LV); 
+				}
+				else {
+					btnLevels[i].boarderC = 0;
+					btnLevels[i].selected = false;
+				}
+			}
+		}
+		//load chosen lv map
+		if (this.gameState === "levelSelect" && btnStart.isOver(mouseX,mouseY)){
+			this.gameState = "gameStart";
+		}
+		//toggle pause
+		if (this.gameState === "inGame" && btnPause.isOver(mouseX,mouseY) && !this.paused){
+			this.paused = true;
+		}
+		else if (this.gameState === "inGame" && btnPause.isOver(mouseX,mouseY) && this.paused){
+			this.paused = false;
+		}
+
+		//continue and restart options 
+		if (this.gameState === "gameOver" && btnContinue.isOver(mouseX,mouseY)){
+			this.clickToContinue();
+		}
+		if (this.gameState === "gameOver" && btnRestart.isOver(mouseX,mouseY)){
+			this.removeMap(this.mapTiles); 
+			transparency=0;
+			canvasOverlay=color(255, 255, 255,transparency);
+			game = new Game();
+		}
+	}
 	camera(){   
 		//horizontal constrain
 		this.player.P.x = constrain(this.player.P.x, 0, this.levelW-this.player.w);  
@@ -272,22 +309,90 @@ class Game{
 			}
 		}
 	}
-	loadMap(){
-		this.getLevelVals();
-		this.levelKey();
+	//screens 
+	screenLvSelect(){
+		background(200,210,225);
+		textSize(height/21);
+		fill(0);
+		text("Select a level and press the start button to begin.",width/10,height/12);
+		btnWint.draw();
+		btnSpr.draw();
+		btnSum.draw();
+		btnFall.draw();
+		btnStart.draw();
+	}
+	screenInGame(){
+		if (!this.paused){
+			this.effectsHandler.bgEffects(this.currentLevel); //background effects.  don't translate with camera
+			this.camera();
+			
+			//draw and update objects of map 
+			for (var i=0; i<this.mapTiles.length; i++){
+				this.renderArr(this.mapTiles[i]); 
+			}
+			//player is updated here rather than above
+			this.player.update(blocks);
+
+			if(this.player.health<=0){
+				this.gameState="gameOver";
+			}
+
+			//incr level if portal.collected. always 1 portal per lv.
+			if(portals[0].collected){
+				transparency=0;
+				canvasOverlay=color(255, 255, 255, transparency);
+				this.effectsHandler.sScape[this.currentLevel].stop();
+				this.removeMap(this.mapTiles);
+					
+				this.currentLevel++; 
+				this.loadMap(); 
+				this.player.gotKey=false;
+			} 
+	
+			if(this.currentLevel===4){ //todo: not like this.
+				this.gameState="win";
+			}
+		
+			//HUD, foreground and overlay effects
+			resetMatrix();
+			this.player.stats(); //health, info
+			btnPause.draw();
+			this.effectsHandler.fgEffects(this.currentLevel); //forground effects
+			fill(canvasOverlay);
+			rect(0,0,width,height);
+		}
+	}
+	screenGameOver(){
+		noStroke();
+		fill(200, 0, 0,1);
+		rect(0,0,width,height);
+		fill(255, 255, 255,175);
+		textSize(width/12);
+		textAlign(CENTER,CENTER);
+		text("You have died!",width/2,1/3*height);
+		btnRestart.draw();
+		btnContinue.draw();
+	}
+	
+	setLevel(n){
+		this.currentLevel = n;
+	}
+	loadMap(){  //load map, then set state to inGame
+		this.getLevelVals();	//width, height of levels vary
+		this.levelKey();  		//get map tiles 
 			
 		//add player to decoImages array and sort by z_Index property to change draw order
 		decoImages.push(this.player); 
 		sortArrByProperty(decoImages, "z_Index");
 			
-		//all map tiles. change to concat.  change double loops for iteration and splicing.
+		//all map tiles. TODO concat and change double loops for iteration and splicing?
 		this.mapTiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals];
-		//rewrite objectH w level sizes and player info
+		//use level W, H and player info for effects
 		this.effectsHandler = new EffectsHandler(this.levelW, this.levelH, this.player);
 			if (this.currentLevel < this.effectsHandler.sScape.length){ 
 				this.effectsHandler.sScape[this.currentLevel].loop(); 
 			}	
-		this.gameState = "inGame"; //this.mapLoaded = "mapLoaded";		
+		this.gameState = "inGame"; 
 	}
 	getLevelVals(){
 		//recalc level width and height for each level since they aren't all the same.
@@ -298,71 +403,20 @@ class Game{
 	}
 	removeMap(arr){
 		for (var i = arr.length-1; i>=0; i--){
-			arr[i].splice(0, arr[i].length); //splice is shallow I think
+			arr[i].splice(0, arr[i].length); //splice is shallow
 		}
 		arr.splice(0, arr.length);		
-		//this.mapLoaded = "mapRemoved";
-		
 	}
-	clickToRestart(){
-		this.removeMap(this.mapTiles);
+	
+	clickToContinue(){
+		this.removeMap(this.mapTiles);  
+		this.player.health = 3;
+		this.loadMap(); //reload map for current level
+		this.gameState = "inGame";  //restore state to inGame
 		
-        if(buttonClicked(width/2-50,height/2-15,100,30,"Click to restart",10)){
-            
-            this.player.health = 3;
-            this.loadMap();
-            this.gameState = "inGame";  
-			
-            transparency=0;
-            fadeColor=color(255, 255, 255,transparency);
-        }else{
-            noStroke();
-            fill(200, 0, 0,1);
-            rect(0,0,width,height);
-            fill(255, 255, 255);
-            textSize(50);
-            textAlign(CENTER,CENTER);
-            text("You Died!",width/2,1/3*height);
-        }
+		transparency=0;
+		canvasOverlay=color(255, 255, 255,transparency);
 	}
-	runGame(){
-		this.effectsHandler.bgEffects(this.currentLevel); //background effects.  don't trans with camera
-		this.camera();
-		
-		//draw and update objects of map 
-		for (var i=0; i<this.mapTiles.length; i++){
-			this.renderArr(this.mapTiles[i]); 
-		}
-		//player is updated here rather than above
-		this.player.update(blocks);
-		
-		resetMatrix();
-		this.player.stats(); //health, info
-		if(this.player.health<=0){
-			this.gameState="dead";
-		}
-		this.effectsHandler.fgEffects(this.currentLevel); //forground effects
-		
-		//overlay effects
-		fill(fadeColor);
-		rect(0,0,width,height);
-		
-		// manage level transitions.  always 1 portal per lv.
-		if(portals[0].collected){
-			transparency=0;
-			fadeColor=color(255, 255, 255, transparency);
-			this.effectsHandler.sScape[this.currentLevel].stop();
-			this.removeMap(this.mapTiles);
-				
-			this.currentLevel++; 
-			this.loadMap(); 
-			this.player.gotKey=false;
-		} 
-		
+	
 
-		
-		if(this.currentLevel===4){
-			this.gameState="win";
-		}	
-	}
 }

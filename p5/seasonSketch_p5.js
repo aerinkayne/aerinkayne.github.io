@@ -1,5 +1,5 @@
 var transparency;  
-var fadeColor;
+var canvasOverlay;
 var keys=[]; //for movements
 var decoImages = [];
 var lava = [];
@@ -10,6 +10,9 @@ var portals = [];
 var players = [];
 var blocks = [];
 var sprite1;
+var btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
+var btnLevels = [];
+
 var soundJump;
 var soundKey;
 var soundHeart;
@@ -44,9 +47,16 @@ function setup() {
 	frameRate(60);
 
 	transparency=0;  //overlay effects
-	fadeColor=color(255, 255, 255, transparency);
+	canvasOverlay=color(255, 255, 255, transparency);
 	
 	//sprites
+	imgStart = sprite1.get(150,179,30,20);
+	imgSS_Wint = sprite1.get(150,200,171,129);
+	imgSS_Spr = sprite1.get(329,200,171,129);
+	imgSS_Sum = sprite1.get(150,329,171,129);
+	imgSS_Fall = sprite1.get(329,329,171,129);
+	
+	
 	imgG1 = sprite1.get(0,0,50,50);
 	imgG2 = sprite1.get(50,0,50,50); 
 	imgD1 = sprite1.get(0,50,50,50);
@@ -76,9 +86,30 @@ function setup() {
 	imgFlower2 = sprite1.get(150, 50, 50, 50); 
 	imgFossil = sprite1.get(200, 100, 50, 50); 
 	imgPumpk = sprite1.get(150, 100, 50, 50); 
-
+	
 	//game
 	game=new Game();  
+	
+	//buttons.  PX,PY, W, H, radius, color, label, level index (if any)
+	btnWint = new Button(width/10, 1.65*height/10, width/3.5, height/3.1, 3, color(220), "Winter",0); 
+	btnSpr = new Button(5*width/10, 1.65*height/10, width/3.5, height/3.1, 3, color(220), "Spring",1); 
+	btnSum = new Button(width/10, 5.95*height/10, width/3.5, height/3.1, 3, color(220), "Summer",2); 
+	btnFall = new Button(5*width/10, 5.95*height/10, width/3.5, height/3.1, 3, color(220), "Fall",3);
+	btnWint.img = imgSS_Wint;
+	btnSpr.img = imgSS_Spr;
+	btnSum.img = imgSS_Sum;
+	btnFall.img = imgSS_Fall;
+	btnLevels = [btnWint, btnSpr, btnSum, btnFall];
+	
+	btnStart = new Button(8.62*width/10, 8.5*height/10, width/15, height/15, 4, color(0,200,100));
+	btnStart.tSize = btnStart.h/2; 
+	btnStart.img = imgStart;
+	
+	btnPause = new SmlButton(1.75*width/10, 0.1*height/10, width/20, height/25, 2, color(175,235,180,200), "Pause");
+	btnPause.tSize = btnPause.h/2;
+	
+	btnContinue = new SmlButton(width/2-3*width/20, height/2, width/10, height/16, 8, color(75,200,255), "Continue");
+	btnRestart = new SmlButton(width/2+width/20, height/2, width/10, height/16, 0, color(255,75,110), "Restart");
 }
 
   
@@ -86,22 +117,30 @@ function setup() {
 function keyPressed(){keys[keyCode]=true;}   
 function keyReleased(){keys[keyCode]=false;}
 
+function mouseClicked(){
+	game.manageScenes();	
+}  
 
-
-
+//sketch main
 function draw() {
-	if (game.gameState === "gameStart"){ //game.mapLoaded === "mapInitial"){
-		game.loadMap();
-		} //only load map once here
 	
-    if(game.gameState === "inGame"){ //state==="inGame"){
-        game.runGame();
+	
+	if (game.gameState === "levelSelect"){
+		game.screenLvSelect();
+	}
+	if(game.gameState === "gameStart"){ 
+		game.loadMap(); //only load map once here
+		} 
+    if(game.gameState === "inGame"){ 
+        game.screenInGame(); 
     }
-    if(game.gameState === "dead"){ //state==="dead"){
+    if(game.gameState === "gameOver"){ 
 		game.effectsHandler.sScape[game.currentLevel].stop();
-		game.clickToRestart();
+		game.screenGameOver();
     }
-    if(game.gameState === "win"){ //state==="win"){
+	
+	
+    if(game.gameState === "win"){ 
         fill(0, 200, 0,1);
         noStroke();
         rect(0,0,width,height);

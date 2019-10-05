@@ -3,40 +3,89 @@
 // can be changed and collision still works.  fix camera/effect interactions
 // notes: EffectsHandler and Game classes are in their own files.
 
-function buttonClicked(x,y,w,h,txt){
-    stroke(0);
-    strokeWeight(1);
-    
-    if(mouseX>=x&&mouseX<=x+w&&mouseY>=y&&mouseY<=y+h){
-        fill(65,250,255);
-    }
-    else{
-        fill(75,205,225);
-    }
-    
-    var txtPos=h/30;
-	
-    if(mouseX>=x&&mouseX<=x+w&&mouseY>=y&&mouseY<=y+h&& mouseIsPressed){
-        rect(x,y,w,h,10);
-        
-        fill(0);
-        textAlign(CENTER,CENTER);
-        textSize(10);
-        text(txt,x+(w/2),y+(h/2)+txtPos);
-        textAlign(LEFT,LEFT);
-        
-        return true; 
-    }
-    
-    rect(x,y,w,h,10);
-    
-    fill(0);
-    textAlign(CENTER,CENTER);
-    textSize(10);
-    text(txt,x+(w/2),y+(h/2));
-    textAlign(LEFT,LEFT);
-    strokeWeight(1);
+// new buttons 092519
+class Button{
+	constructor(x,y,w,h,r,c,txt,LV){
+	this.P = createVector(x,y);
+	this.w = w;
+	this.h = h;
+	this.r = r;  
+	this.c = c;
+	this.txt = txt;
+	this.LV=LV;
+	this.img = undefined;
+	this.tSize = this.h/8;
+	this.boarderW = 3;
+	this.boarderC = 0;
+	this.overlay = 100;
+	this.selected = false;
+	}
+	isOver(mouseX, mouseY){
+		return (mouseX > this.P.x && mouseX < this.P.x + this.w &&
+				mouseY > this.P.y && mouseY < this.P.y + this.h);
+	}
+	draw(){
+		stroke(this.boarderC);
+		strokeWeight(this.boarderW);
+		
+		fill(this.c); //for boarders
+		rect(this.P.x, this.P.y, this.w, this.h, this.r);
+		
+		if(this.img !== undefined){
+			image(this.img, this.P.x, this.P.y, this.w, this.h);
+		}
+		
+		strokeWeight(1);
+		noStroke(); 
+		if (!this.isOver(mouseX,mouseY) && !this.selected){
+			fill(40,40,40,this.overlay);
+		}	
+		else {
+			fill(0,0,0,0);
+		}
+		rect(this.P.x, this.P.y, this.w, this.h, this.r);
+		textAlign(LEFT,CENTER);
+		textSize(this.tSize);
+		fill(255);
+		text(this.txt,this.P.x+this.tSize/2, this.P.y+this.h-this.tSize/1.5);
+	}
 }
+
+class SmlButton extends Button{  
+	constructor(x,y,w,h,r,c,txt){
+		super(x,y,w,h,r,c,txt);
+		this.tSize = this.h/2.5;
+		this.overlay = 70;
+		this.boarderW=0.5;
+	}
+	draw(){
+		stroke(this.boarderC);
+		strokeWeight(this.boarderW);
+		
+		fill(this.c); //for boarders
+		rect(this.P.x, this.P.y, this.w, this.h, this.r);
+		
+		if(this.img !== undefined){
+			image(this.img, this.P.x, this.P.y, this.w, this.h);
+		}
+		
+		strokeWeight(1); //reset strokeweight
+		noStroke(); 
+		if (!this.isOver(mouseX,mouseY) && !this.selected){
+			fill(40,40,40,this.overlay);
+		}	
+		else {
+			fill(0,0,0,0);
+		}
+		rect(this.P.x, this.P.y, this.w, this.h, this.r);
+		
+		textSize(this.tSize);
+		fill(0,0,0,225);
+		textAlign(CENTER,CENTER);
+		text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
+	}
+}
+
 
 var onScreen = function(obj1, obj2, levelW, levelH){ 
 	var obj2CX = obj2.P.x + obj2.w/2;
@@ -295,7 +344,7 @@ class Portal extends Block{
 	//replace this shit with collideEffect and check collision in player update
 	update(player){
 		if(this.collide(player) && player.gotKey){
-			fadeColor=color(255, 255, 255, transparency);
+			canvasOverlay=color(255, 255, 255, transparency);
 			transparency+=10;
 			if(transparency>255){
 				this.collected=true;
@@ -375,11 +424,11 @@ class SpikeU extends Block{
 			soundSpike.play();
 		}
 		if(this.hurt){
-			fadeColor=color(255, 0, 0,transparency);
+			canvasOverlay=color(255, 0, 0,transparency);
 			transparency-=15;
 			if(transparency<0){
 				transparency=0;
-				fadeColor=color(255, 255, 255,transparency);
+				canvasOverlay=color(255, 255, 255,transparency);
 				this.hurt=false;
 			}
 		}
@@ -463,7 +512,6 @@ class Lava{
 		push();
 		translate(this.P.x, this.P.y);
 		fill(this.color);
-		stroke(this.color);
 		beginShape();
 
 		var alt = 2.5;
@@ -506,8 +554,9 @@ class Snowflake{
 			this.P.x = width + this.w;
 		}
 		this.P.add(this.V);
-		
-		//so falling objects don't move with char.  
+	}
+	antiCam(){
+		//So background objects don't move with char.
 		if (this.player.P.x + this.player.w/2 > width/2 &&
 			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
 			this.P.x-=this.player.V.x;  
@@ -517,10 +566,8 @@ class Snowflake{
 		}
 	}
 	draw() {
-		push();
 		fill(255, 255, 255, 50+150*this.SF);
 		ellipse(this.P.x, this.P.y, this.SF*random(2.5,4.5), this.SF*random(2.5,4.5));
-		pop();
 	}
 }
 class Raindrop extends Snowflake{
