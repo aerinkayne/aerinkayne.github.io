@@ -1,72 +1,98 @@
-<!doctype html>
-
-<!-- current ao 122918 -->
+<!DOCTYPE html>
 
 <html>
+	<head> 
+		<meta charset="utf-8"/>
 
-	<head>
-	<meta charset="utf-8"/>
-	<title>Slides and Borders Testing</title>
-	<link rel="stylesheet" type="text/css" href="CSS_Styles2.css">
-	<script src="myScripts1.js"></script> 
+		<title>CSS and JS Experiments</title>
+		
+
+		<link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+		
+		<link rel="stylesheet" type="text/css" href="css_general.css">
+		<link rel="stylesheet" type="text/css" href="css_grid.css">
+	
+		
+
 	</head>
-
 	
 	<body>
-    <div class="darken">
-		
-		<div class="parentBox1">
-			
-			<div class="homeBtn">
-			<p><a href="index.html">HOME</a></p>
-			</div>	
+	
 
-			<div class="dropBtn" >   <!-- drop function now in JS with listener -->
-				<p>JS Testing&#8628;</p>
-				<ul class="dropContent drop" style="display:none;">
-					<li><a href="ghAKp2.html">Slideshows</a></li>
-					<li><a href="ghAKp3.html">Canvas Things</a></li>
-					<li><a href="p5/gameIndex_p5.html">Seasons Spin Off</a></li> 
-					<li><a href="p5/invaders/invGameIndex.html">Space Invaders</a></li> 
-				</ul></div>	<!-- don't create empty text node or lastChild selector won't target ul -->
-			
-			<div class="dropBtn" >   
-				<p>ARTWORK&#8628;</p>
-				<ul class="dropContent drop" style="display:none;">
-					<li>Fantasy</li>
-					<li>Mythic</li>
-					<li>Surrealism</li>
-				</ul></div>  <!-- don't create empty text node -->
-			
-			<div class="dropBtn">   
-				<p>OTHER &#8628;</p>
-				<ul class="dropContent drop" style="display:none;">
-					<li>Collection 1</li>
-					<li>Collection 2</li>
-					<li>Collection 3</li>
-				</ul></div>  <!-- don't create empty text node -->
-		</div>		
-		
-	    	<br>	
-		<hr> 
-		<br>	
-	    
-		<div class="book">
-			<p>Test this thing</p>
+	<nav>
+		<div class="mid"> <!-- used to center nav content -->
+			<div class="navIcon">MY<span>LOGO</span></div>
+			<ul id="navLinks">
+				<li class="dropdown">Javascript Projects
+					<ul class="dropdownContent">
+						<li><a href="">Canvas Art</a></li>
+						<li><a href="../gameTest/p5Testing/seasonsRework/gameIndex_p5.html">Seasons Spin Off</a></li>
+					</ul>
+				</li>
+				<li><a href="">Contact</a></li>
+				<li><a href="">About</a></li>
+			</ul>
+			<div id="burger">
+				<div class="top"></div>
+				<div class="mid"></div>
+				<div class="btm"></div>
+			</div>
+		</div> <!-- middle -->	
+	</nav>
+
+	
+	<h1>Select an Option to Display a Gallery</h1>
+
+	<form id="gridTheme">
+		<input type="radio" id="abstract" name="theme" value="abstract" checked="checked">
+		<label for="abstract">Abstract</label>
+		<input type="radio" id="sandWater" name="theme" value="sandWater">
+		<label for="sandWater">Ocean</label>
+	</form>	
+
+	
+	<section>
+		<div class="gridDisplay" id="abstract"> 
+			<div class="gridItem gt1"></div>
+			<div class="gridItem gt2"></div>
+			<div class="gridItem gt3"></div>
+			<div class="gridItem gt4"></div>
+			<div class="gridItem gt5"></div>
+			<div class="gridItem gt6"></div>
 		</div>
 		
-		<div id="footer">
-			<p>Test this thing</p>
+		<div class="gridDisplay" id="sandWater">  
+			<div class="gridItem gt1"></div>
+			<div class="gridItem gt2"></div>
+			<div class="gridItem gt3"></div>
+			<div class="gridItem gt4"></div>
+			<div class="gridItem gt5"></div>
+			<div class="gridItem gt6"></div>
+			<div class="gridItem gt7"></div>
 		</div>
+	</section>
+	
+	<h1>Lorem ipsum dolor sit amet</h1>
+	<section>
+		<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+		ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+		laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+		voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+		non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, 
+		consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+		<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+		ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+		laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+		voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+		<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+		ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+		laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+		voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+		non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+	</section>
 		
 	
-	</div> <!-- div class soften -->
-	
-	<script>
-	addListeners();
-	</script>
-		
-  	</body>
-
-
-</html>
+	<script src="myScript.js"></script>
+	</body>
+</html>	
