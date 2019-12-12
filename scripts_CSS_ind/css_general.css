@@ -32,9 +32,12 @@ input[type="radio"] {
 		margin: 0px 5px 0px 25px;
 }
 
+
+.columns {
+	justify-content: space-between;
+}
 .flex3 {	
-	width: 30%;
-	margin: 0 auto;
+	width: 31%;
 	padding: 2%;
 	background-color: #e8e8f8;
 	color: #000020;
@@ -53,7 +56,7 @@ h1 {
 
 nav {
 	background-color: #333;
-	height: 40px;
+	height: 50px;
 }
 nav .mid {
 	position: relative;
@@ -136,11 +139,11 @@ nav a {
 	display: block;
 }
 .dropdownContent {
+	display: none;
 	position: absolute;
 	top: 99%;
 	left:0;
 	width: 100%;
-	display: none;
 	z-index: 1;
 	border-radius: 5px;
 	box-shadow: 1px 1px 4px 4px rgba(0,0,15,0.1);
