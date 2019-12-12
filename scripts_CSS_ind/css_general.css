@@ -6,7 +6,7 @@
 }
 
 body {
-	background-image: linear-gradient(to bottom right, #efefff, #c8c0d8);
+	background-image: linear-gradient(to bottom right, #efefff, #c4c0d8);
 }
 
 
@@ -104,7 +104,7 @@ nav a {
 
 #navLinks li  {
 	list-style: none;
-	font-size: 18px;
+	font-size: 16px;
 	color: #ccc;
 	margin: 0px 10px;
 	padding: 5px 8px;
@@ -117,7 +117,8 @@ nav a {
 	color: #000;
 }
 #navLinks > li:hover,
-#navLinks > li:focus {
+#navLinks > li:focus, 
+#navLinks > li:active {
 	background-color: rgb(0,200,200);
 	color: #000;
 }
@@ -129,6 +130,9 @@ nav a {
 	cursor: pointer;
 }
 .dropdown:hover .dropdownContent {
+	display: block;
+}
+.dropdown:active .dropdownContent {
 	display: block;
 }
 .dropdownContent {
@@ -162,7 +166,9 @@ nav a {
 #navLinks .dropdownContent a:hover {
 	color: rgb(0,200,200);
 }
-
+#navLinks .dropdownContent a:active {
+	color: rgb(0,200,200);
+}
 
 #burger{
 	position: absolute;
