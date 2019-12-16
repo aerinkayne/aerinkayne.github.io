@@ -4,33 +4,17 @@ elGridDisplay[0].style.display = "grid";
 let elBurger = document.getElementById('burger');
 let elNavLinks = document.getElementById('navLinks');
 let themeOptions = document.getElementById('gridTheme'); 
-let dropBtns = document.getElementsByClassName('dropdown'); //there's only 1
+let elDropBtn1 = document.getElementById('dropBtn1');
+let elDrop1Content = document.getElementById('drop1Content');
 
 
-//IE why do you hate us?
-function getTarget(e) {
-	if (!e) {
-		e = window.event;
-	}
-	return e.target || e.srcElement;
-}
-
-//first li within ul#navLinks
-dropBtns[0].addEventListener('click', (e)=> {
-	let target = getTarget(e);
-	let children = target.childNodes; 
-	let drop;  //need to change display property of this element
-	for (let i = 0; i < children.length; i ++) {  
-		if (children[i].className === "dropdownContent") {  //use a param later 
-			drop = children[i];  //get correct element amidst whitespace nodes
-		}
-	}
-	if (drop.style.display === "none") {  
-		drop.style.display = "block";  //hope that the hover in CSS doesn't break the &world
-		} else {
-		drop.style.display = "none";
-		}	
-})	
+elDropBtn1.addEventListener('click', ()=> {
+	if (elDrop1Content.style.display === "none") {  
+		elDrop1Content.style.display = "block";  
+	} else {
+		elDrop1Content.style.display = "none";
+	}	
+})
 
 //uses radio to change the class of element with the #gridDisplay id.  
 themeOptions.addEventListener('change',()=> {
