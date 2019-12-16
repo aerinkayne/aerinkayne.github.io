@@ -1,3 +1,5 @@
+/* LINK THIS FILE FIRST */
+
 * {
 	margin: 0;
 	padding: 0;
@@ -6,30 +8,43 @@
 }
 
 body {
-	background-image: linear-gradient(to bottom right, #efefff, #c4c0d8);
+	background-image: linear-gradient(to bottom right, #d4d0d4, #b3b0d8);
+	--navTextColor: #bbb;
+	--navHoverColor: #000;
+	--navMidBGColor: #111;
+	--navBGColor: #333;
+	--sectionTextColor: #000;
+	--maxWidth: 1024px;
 }
 
+canvas {
+	display: block;
+	margin: 2%;
+	border: 1px solid black;
+}
 
 section { 
 	display: flex;
-	margin: 1% auto;
+	margin: 3% auto;
 	width: 90%;
-	max-width: 1024px;
+	max-width: var(--maxWidth, 1024px);
 }
 form {
 	display: flex;
-	margin: 1% auto;
+	justify-content: center;
+	margin: 0% auto;
 	width: 90%;
-	max-width: 1024px;
+	max-width: var(--maxWidth, 1024px);
 }
 
 #gridTheme {
 	font-family: 'Mansalva', cursive;
+	font-size: 14px;
 	font-weight: bold;
 	text-transform: uppercase;
 }
 input[type="radio"] {
-		margin: 0px 5px 0px 25px;
+	margin: 0px 5px 0px 35px;
 }
 
 
@@ -38,32 +53,32 @@ input[type="radio"] {
 }
 .flex3 {	
 	width: 31%;
-	padding: 2%;
+	padding: 1%;
 	background-color: #e8e8f8;
-	color: #000020;
+	color: var(--sectionTextColor, #000020);
 	border-radius: 5px;
 	font-family: 'Dosis', sans-serif;
 }
 
 h1 {
 	text-align: center;
-	margin: 6% auto 4% auto;
-	font-family: 'Mansalva', cursive;
+	margin: 3% auto;
+	font-family: 'Dosis', sans-serif;
 	font-size: 28px;
-	color: #111;
+	color: var(--sectionTextColor);
 	letter-spacing: 1.3px;
 }
 
 nav {
-	background-color: #333;
+	background-color: var(--navBGColor, #333);
 	height: 50px;
 }
 nav .mid {
 	position: relative;
 	margin: 0px auto;
 	width: 90%;
-	max-width: 1024px;
-	background-color: #111;
+	max-width: var(--maxWidth, 1024px);
+	background-color: var(--navMidBGColor, #111);
 	height: 100%;
 }
 .navIcon {
@@ -97,7 +112,7 @@ nav a {
 }
 #navLinks a,
 #navLinks a:visited {
-	color: #bbb;
+	color: var(--navTextColor);
 }
 /*showNav class is toggled with event listener on #burger div*/
 #navLinks.showNav {
@@ -108,7 +123,7 @@ nav a {
 #navLinks li  {
 	list-style: none;
 	font-size: 16px;
-	color: #ccc;
+	color: var(--navTextColor);
 	margin: 0px 10px;
 	padding: 5px 8px;
 	border-radius: 5px;
@@ -152,7 +167,7 @@ nav a {
 	margin: 0;
 	background-color: #f0f0ff;
 	line-height: 1.3;
-	border: 1px solid #444;
+	border: 1px solid #9090a8;
 }
 #navLinks .dropdownContent a {
 	font-size: 14px;
@@ -183,7 +198,7 @@ nav a {
 #burger div {
 	width: 25px;
 	height: 2px;
-	margin: 5px;
+	margin: 5px 10px;
 	background-color: #999;
 	transition: all 0.5s;
 }
@@ -196,8 +211,6 @@ nav a {
 .burgX .btm {
 	transform: rotate(45deg) translate(-5px,-5px);
 }
-
-
 
 
 
