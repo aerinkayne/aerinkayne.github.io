@@ -1,34 +1,33 @@
-
-header, section, footer, aside, nav, main, article, figure {
-  display: block; 
-}
-
 body {
-	margin: 15px;
-	background-color: silver;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	background-color: #aaa;
+	font-family: 'Dosis', sans-serif;
 }
 
-h3 {
+h2 {
 	margin: 10px 25px;
+	letter-spacing: 1.5px;
 }
 
 p {
 	margin: 10px 25px;
-	font-family: "helvetica";
-	font-size: 14px;
-}
+	font-size: 16px;
 
-canvas {
-	position: relative;
-	top: 5px;
-	display: block;
-	border: 1px solid #000;
-	margin: 0px;
 }
 
 #cParent {
-	padding: 5px 0px;
+	position: relative;
 	font-size: 16px;
-	font-family: "comic sans MS";
+	height: 450px;
+}
+
+canvas {
+	position: absolute;
+	top: 30px;
+	display: block;
+	border: 1px solid #000;
+	border-radius: 4px;
 }
 
