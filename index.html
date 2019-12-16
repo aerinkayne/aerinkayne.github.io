@@ -18,81 +18,89 @@
 	</head>
 	
 	<body>
-	
+		<nav>
+			<div class="mid"> <!-- used to center nav content -->
+				<div class="navIcon">MY<span>LOGO</span></div>
+				<ul id="navLinks">
+					<li class="dropdown" id="dropBtn1">Javascript Projects
+						<ul class="dropdownContent" id="drop1Content">
+							<li><a href="">Canvas Art</a></li>
+							<li><a href="../gameTest/p5Testing/seasonsRework/gameIndex_p5.html">Seasons Spin Off</a></li>
+						</ul>
+					</li>
+					<li><a href="">Contact</a></li>
+					<li><a href="">About</a></li>
+				</ul>
+				<div id="burger">
+					<div class="top"></div>
+					<div class="mid"></div>
+					<div class="btm"></div>
+				</div>
+			</div> <!-- middle -->	
+		</nav>
 
-	<nav>
-		<div class="mid"> <!-- used to center nav content -->
-			<div class="navIcon">MY<span>LOGO</span></div>
-			<ul id="navLinks">
-				<li class="dropdown">Javascript Projects
-					<ul class="dropdownContent">
-						<li><a href="">Canvas Art</a></li>
-						<li><a href="p5/gameIndex_p5.html">Seasons Spin Off</a></li>
-					</ul>
-				</li>
-				<li><a href="">Contact</a></li>
-				<li><a href="">About</a></li>
-			</ul>
-			<div id="burger">
-				<div class="top"></div>
-				<div class="mid"></div>
-				<div class="btm"></div>
-			</div>
-		</div> <!-- middle -->	
-	</nav>
 
-	
-	<h1>Select an Option to Display a Gallery</h1>
+		<h1>Select an Option to Display an Image Collection</h1>
 
-	<form id="gridTheme">
-		<input type="radio" id="abstract" name="theme" value="abstract" checked="checked">
-		<label for="abstract">Abstract</label>
-		<input type="radio" id="sandWater" name="theme" value="sandWater">
-		<label for="sandWater">Ocean</label>
-	</form>	
+		<form id="gridTheme">
+			<input type="radio" id="abstract" name="theme" value="abstract" checked="checked">
+			<label for="abstract">Abstract</label>
+			<input type="radio" id="sandWater" name="theme" value="sandWater">
+			<label for="sandWater">Ocean</label>
+			<input type="radio" id="birds" name="theme" value="birds">
+			<label for="birds">birds</label>
+		</form>	
 
-	
 
-	<div class="gridDisplay" id="abstract"> 
-		<div class="spinner"><div class="gridItem gt1"></div></div>
-		<div class="gridItem gt2"></div>
-		<div class="gridItem gt3"></div>
-		<div class="gridItem gt4"></div>
-		<div class="gridItem gt5"></div>
-		<div class="gridItem gt6"></div>
-	</div>
-	
-	<div class="gridDisplay" id="sandWater">  
-		<div class="gridItem gt1"></div>
-		<div class="gridItem gt2"></div>
-		<div class="gridItem gt3"></div>
-		<div class="flipper"><div class="gridItem gt4"></div></div>
-		<div class="gridItem gt5"></div>
-		<div class="gridItem gt6"></div>
-		<div class="gridItem gt7"></div>
-	</div>
 
-	
-	<h1>Lorem ipsum dolor sit amet</h1>
-	<section class="columns">
-		<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-		ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-		laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-		non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, 
-		consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-		<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-		ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-		laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-		<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-		ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-		laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-		non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-	</section>
-		
-	
-	<script src="scripts_CSS_ind/myScript.js"></script>
+		<div class="gridDisplay" id="abstract"> 
+			<div class="spinner"><div class="gridItem gt1"></div></div>
+			<div class="gridItem gt2"></div>
+			<div class="gridItem gt3"></div>
+			<div class="gridItem gt4"></div>
+			<div class="gridItem gt5"></div>
+			<div class="gridItem gt6"></div>
+		</div>
+
+		<div class="gridDisplay" id="sandWater">  
+			<div class="gridItem gt1"></div>
+			<div class="gridItem gt2"></div>
+			<div class="gridItem gt3"></div>
+			<div class="gridItem gt4"></div>
+			<div class="gridItem gt5"></div>
+			<div class="gridItem gt6"></div>
+			<div class="gridItem gt7"></div>
+		</div>
+
+		<div class="gridDisplay" id="birds">  
+			<div class="gridItem gt1"></div>
+			<div class="gridItem gt2"></div>
+			<div class="gridItem gt3"></div>
+			<div class="gridItem gt4"></div>
+			<div class="gridItem gt5"></div>
+			<div class="gridItem gt6"></div>
+		</div>
+
+		<h1>Lorem ipsum dolor sit amet</h1>
+		<section class="columns">
+			<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+			ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+			voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, 
+			consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+			<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+			ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+			voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+			<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+			ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+			voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+		</section>
+
+
+		<script src="scripts_CSS_ind/myScript.js"></script>
 	</body>
 </html>	
