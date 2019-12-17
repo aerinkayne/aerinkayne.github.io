@@ -7,8 +7,15 @@
 	box-sizing: border-box;	
 }
 
+html {
+	height: 100%;
+}
+
 body {
 	background-image: linear-gradient(to bottom right, #d4d0d4, #b3b0d8);
+	font-family: 'Dosis', sans-serif;
+	background-repeat: no-repeat;
+    background-attachment: fixed;
 	--navTextColor: #bbb;
 	--navHoverColor: #000;
 	--navMidBGColor: #111;
@@ -19,8 +26,13 @@ body {
 
 canvas {
 	display: block;
-	margin: 2%;
+	margin-top: 10px;
 	border: 1px solid black;
+}
+#cParent {
+	position: relative;
+	font-size: 16px;
+	height: 450px;
 }
 
 section { 
@@ -29,27 +41,13 @@ section {
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
 }
-form {
-	display: flex;
-	justify-content: center;
-	margin: 0% auto;
-	width: 90%;
-	max-width: var(--maxWidth, 1024px);
-}
-
-#gridTheme {
-	font-family: 'Mansalva', cursive;
-	font-size: 14px;
-	font-weight: bold;
-	text-transform: uppercase;
-}
-input[type="radio"] {
-	margin: 0px 5px 0px 35px;
-}
 
 
 .columns {
 	justify-content: space-between;
+}
+.rows {
+	flex-direction: column;
 }
 .flex3 {	
 	width: 31%;
@@ -57,16 +55,19 @@ input[type="radio"] {
 	background-color: #e8e8f8;
 	color: var(--sectionTextColor, #000020);
 	border-radius: 5px;
-	font-family: 'Dosis', sans-serif;
 }
 
 h1 {
 	text-align: center;
-	margin: 3% auto;
-	font-family: 'Dosis', sans-serif;
+	margin: auto;
+	margin-top: 3%;
+	padding: 1% 0;
 	font-size: 28px;
+	font-weight: bold;
 	color: var(--sectionTextColor);
-	letter-spacing: 1.3px;
+	letter-spacing: 1.1px;
+	width: fit-content;
+	max-width: var(--maxWidth, 1024px);
 }
 
 nav {

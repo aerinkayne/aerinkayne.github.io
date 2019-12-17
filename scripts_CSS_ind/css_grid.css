@@ -4,7 +4,7 @@
 	grid-template-rows: repeat(10, 1fr);
 	grid-template-columns: repeat(12, 1fr);
 	grid-gap: 1.2vw;
-	margin: 2% auto;
+	margin: 1% auto;
 	width: 90%;
 	height: 55vw;
 	max-width: var(--maxWidth, 1024px);
@@ -21,6 +21,25 @@
 }
 .gridItem:hover {
 	border: 1px solid #fff;
+}
+
+
+#gridTheme {
+	width: fit-content;
+	text-align: center;
+	margin: auto;
+	margin-bottom: 1%;
+	max-width: var(--maxWidth, 1024px);
+	font-family: 'Mansalva', cursive;
+	color: #282840;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+#gridTheme label {
+	margin-left: 4px;
+}
+#gridTheme input:not(#abstract) {
+	margin-left: 40px;
 }
 
 
@@ -106,6 +125,7 @@
   0% { transform: translate(-50vw, 0); }
   100% { transform: 0; }
 }
+
 
 
 #sandWater > div:active {
@@ -206,7 +226,8 @@
 	border-top-left-radius: 50% 35%;
 	border-top-right-radius: 50% 35%;
 	box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.4) inset;
-	border: 1px solid #303038;
+	border: 1px solid #000;
+	border-right: 2px solid #000;
 	background-image: url("../images/pexels/forest/fallMaple_edit_589840.jpeg");
 }
 #birds .gt2 {
@@ -215,8 +236,9 @@
 	border-top-left-radius: 50% 45%;
 	border-top-right-radius: 50% 45%;
 	box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.4) inset;
-	border: 1px solid #303038;
-	background-image: url("../images/pexels/forest/pine_yellowUnder_cut_247421.jpeg");
+	border: 1px solid #000;
+	border-right: 2px solid #000;
+	background-image: url("../images/pexels/forest/pine_yellowUnder_247421.jpeg");
 }
 
 #birds .gt3 {
@@ -225,7 +247,8 @@
 	border-top-left-radius: 50% 35%;
 	border-top-right-radius: 50% 35%;
 	box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.4) inset;
-	border: 1px solid #303038;
+	border: 1px solid #000;
+	border-right: 2px solid #000;
 	background-image: url("../images/pexels/forest/forest-sunbeams-trees-sunlight-70365.jpeg");
 }
 
