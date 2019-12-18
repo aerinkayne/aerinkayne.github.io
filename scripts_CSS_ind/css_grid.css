@@ -7,8 +7,8 @@
 	margin: 1% auto;
 	width: 90%;
 	height: 55vw;
-	max-width: var(--maxWidth, 1024px);
-	max-height: 635px;
+	max-width: 884px; /*var(--maxWidth, 1024px);*/
+	max-height: 550px;
 }
 .gridItem {
 	height: 100%;
@@ -27,16 +27,18 @@
 #gridTheme {
 	width: fit-content;
 	text-align: center;
-	margin: auto;
-	margin-bottom: 1%;
+	margin: 1% auto;
 	max-width: var(--maxWidth, 1024px);
 	font-family: 'Mansalva', cursive;
-	color: #282840;
+	color: #000;
 	font-size: 14px;
 	text-transform: uppercase;
 }
 #gridTheme label {
 	margin-left: 4px;
+}
+#gridTheme input {
+	width: 12px;
 }
 #gridTheme input:not(#abstract) {
 	margin-left: 40px;
@@ -127,14 +129,6 @@
 }
 
 
-
-#sandWater > div:active {
-	transform: rotateY(180deg);
-	transition: transform 1.5s linear; 
-}
-#sandWater > div {
-	transition: transform 1.5s linear;
-}
 #sandWater .gt1 {
 	grid-row: 1/3;
 	grid-column: 1/10;
@@ -151,7 +145,7 @@
 	grid-column: 10/13;
 	background-image: url("../images/pexels/ocean/sandReeds1300510sm.jpg");
 	animation-name: water_2;
-	animation-duration: 4.5s;
+	animation-duration: 4s;
 }
 @keyframes water_2 { 
   0% { transform: translate(100vw, -50vh); }
@@ -162,7 +156,7 @@
 	grid-column: 1/4;
 	background-image: url("../images/pexels/ocean/jellyCr1076758.jpg"); 
 	animation-name: water_3;
-	animation-duration: 4s;
+	animation-duration: 3.5s;
 }
 @keyframes water_3 { 
   0% { transform: translate(-50vw, 0); }
@@ -173,7 +167,7 @@
 	grid-column: 4/11;
 	background-image: url("../images/pexels/ocean/turtle2765872.jpeg");
 	animation-name: water_4;
-	animation-duration: 1.8s;
+	animation-duration: 1.5s;
 }
 @keyframes water_4 { 
   0% { transform: translate(50vw, 0); }
@@ -183,8 +177,8 @@
 	grid-row: 3/9;
 	grid-column: 11/13;
 	background-image: url("../images/pexels/ocean/sharkCr2_67854.jpg");
-	animation-name: water_5;
-	animation-duration: 3.5s;
+	animation-name: water_5; 
+	animation-duration: 3s;
 }
 @keyframes water_5 { 
   0% { transform: translate(0, -150vh); }
@@ -212,7 +206,9 @@
   0% { transform: translate(50vw, 0); }
   100% { transform: 0; }
 }
-
+#sandWater > div {
+	transition: transform 1.2s ease-in-out;
+} 
 
 
 
