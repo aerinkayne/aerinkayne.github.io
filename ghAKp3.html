@@ -1,67 +1,48 @@
 <!doctype html>
-<!-- current 122918 -->
-
 
 <html>
 
 	<head>
 	<meta charset="utf-8"/>
-	<title>Canvas Tests</title>
-	<link rel="stylesheet" type="text/css" href="CSS_Styles2.css">
-	<script src="myScripts1.js"></script> 
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+	<title>Canvas Art</title>
+		
+	<!-- google fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+	<!-- styles -->
+	<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/css_general.css">
 	<script src="processing.js"></script> 
 	</head>
 
-	
 	<body>
-    <div class="darken">
-		<div class="parentBox1">
-			
-			<div class="homeBtn">
-			<p><a href="index.html">HOME</a></p>
-			</div>	
+		<nav>
+			<div class="mid"> <!-- used to center nav content -->
+				<div class="navIcon">MY<span>LOGO</span></div>
+				<ul id="navLinks">
+					<li class="dropdown" id="dropBtn1">Javascript Projects
+						<ul class="dropdownContent" id="drop1Content">
+							<li><a href="ghAKp3.html">Canvas Art</a></li>
+							<li><a href="seasons_p5.html">Seasons Spin Off</a></li>
+						</ul>
+					</li>
+					<li><a href="">Contact</a></li>
+					<li><a href="">About</a></li>
+				</ul>
+				<div id="burger">
+					<div class="top"></div>
+					<div class="mid"></div>
+					<div class="btm"></div>
+				</div>
+			</div> <!-- middle -->	
+	</nav>
 
-			<div class="dropBtn" >   <!-- drop function now in JS with listener -->
-				<p>JS Testing&#8628;</p>
-				<ul class="dropContent drop" style="display:none;">
-					<li><a href="ghAKp2.html">Slideshows</a></li>
-					<li><a href="ghAKp3.html">Canvas Things</a></li>
-					<li><a href="p5/gameIndex_p5.html">Game Testing</a></li> 
-				</ul></div>	 <!-- don't allow empty text node or lastChild selector won't target ul -->
-			
-			<div class="dropBtn" >   
-				<p>ARTWORK&#8628;</p>
-				<ul class="dropContent drop" style="display:none;">
-					<li>Fantasy</li>
-					<li>Mythic</li>
-					<li>Surrealism</li>
-					<li>Reeeealism</li>
-				</ul></div>
-			
-			<div class="dropBtn">   
-				<p>OTHER &#8628;</p>
-				<ul class="dropContent drop" style="display:none;">
-					<li>Collection 1</li>
-					<li>Collection 2</li>
-					<li>Collection 3</li>
-				</ul></div>
-		</div>	
-		
-	<br>
-	<hr>
 		
 	<canvas id="fishtank" width="400" height="400" data-processing-sources="fishPDE/fishPDE.pde"></canvas>
-	<p class="limit">Click inside the canvas to create up to 8 additional fish.</p>
-	<br>
-	<hr>
-	<br>
-	<canvas id="seaMonster" width="400" height="400" data-processing-sources="critterPDE/critterPDE.pde"></canvas>
-	<p class="limit">An animated sea monster that I first created using the modified processing JS library available on the Khan Academy website. I later rewrote parts of it in Java with the Processing IDE.  Ultros' cousin, maybe.</p>
-		
-	<script>
-	addListeners();
-	</script>
-	</div> <!--div overlay -->	
+	<h3>Click inside the canvas to create up to 8 additional fish.</h3>
+
+	
   	</body>
 
 
