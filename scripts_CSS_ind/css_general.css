@@ -66,6 +66,7 @@ h2, h3 {
 	margin-top: 3%;
 	font-weight: bold;
 	color: var(--sectionTextColor);
+	width: 90%;
 	max-width: var(--maxWidth, 1024px);
 }
 .centerFit {
@@ -78,6 +79,7 @@ h2, h3 {
 nav {
 	background-color: var(--navBGColor, #333);
 	height: 50px;
+	z-index: 1;
 }
 .mid {
 	position: relative;
@@ -124,12 +126,12 @@ nav a {
 	opacity: 1;
 }
 
-#navLinks li  {
+#navLinks li {
 	list-style: none;
 	font-size: 16px;
 	color: var(--navTextColor);
 	margin: 0px 10px;
-	padding: 2px 8px;
+	padding: 5px;
 	border-radius: 6px;
 }
 #navLinks li:hover {
@@ -164,7 +166,7 @@ nav a {
 	top: 100%;
 	left:0;
 	width: 100%;
-	z-index: 1;
+	z-index: 10;
 	border-radius: 6px;
 }
 #navLinks .dropdownContent li {
@@ -262,5 +264,8 @@ ul#footerLinks {
 	.flex3 {
 		width: 100%;
 		margin: 1% auto;
+	}
+	h2 {
+		font-size: 22px;
 	}
 }
