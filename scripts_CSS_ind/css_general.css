@@ -63,19 +63,16 @@ section {
 }
 
 h2, h3 {
-	margin: auto;
 	margin-top: 3%;
 	font-weight: bold;
 	color: var(--sectionTextColor);
-
-	width: fit-content;
-	text-align: center;
 	max-width: var(--maxWidth, 1024px);
 }
 .centerFit {
 	width: fit-content;  /* IEedge I hate you */
 	text-align: center;
 	margin: auto;
+	margin-top: 3%;
 }
 
 nav {
@@ -169,14 +166,14 @@ nav a {
 	width: 100%;
 	z-index: 1;
 	border-radius: 6px;
-	/*box-shadow: 1px 1px 4px 4px rgba(0,0,15,0.1);*/
 }
 #navLinks .dropdownContent li {
 	margin: auto;
 	padding: 2px 8px 6px 8px;
 	background-color: #f0f0ff;
-	border: 1px solid #9090a8;
+	border: 1px solid #808098;
 	border-radius: 6px;
+	box-shadow: 1px 1px 4px 4px rgba(0,0,15,0.2);
 }
 #navLinks .dropdownContent a {
 	font-size: 14px;
