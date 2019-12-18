@@ -29,6 +29,9 @@ canvas {
 	margin-top: 10px;
 	border: 1px solid black;
 }
+canvas#fishtank{
+	width: 400px;
+}
 #cParent {
 	position: relative;
 	font-size: 16px;
