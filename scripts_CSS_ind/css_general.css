@@ -29,15 +29,16 @@ canvas {
 	margin-top: 10px;
 	border: 1px solid black;
 }
-canvas#fishtank{
-	width: 400px;
-}
 #cParent {
 	position: relative;
+	z-index: 1;
 	font-size: 16px;
 	height: 450px;
+	width: 600px;
 }
-
+#fishtank {
+	width: 400px;
+}
 section { 
 	display: flex;
 	margin: 3% auto;
@@ -65,7 +66,8 @@ section {
 	border-radius: 5px;
 }
 
-h2, h3 {
+h1, h2, h3, h4, h5 {
+	display: block;
 	margin-top: 3%;
 	font-weight: bold;
 	color: var(--sectionTextColor);
@@ -177,6 +179,7 @@ nav a {
 	padding: 2px 8px 6px 8px;
 	background-color: #f0f0ff;
 	border: 1px solid #808098;
+	z-index: 10;
 	border-radius: 6px;
 	box-shadow: 1px 1px 4px 4px rgba(0,0,15,0.2);
 }
