@@ -89,7 +89,7 @@ class StarField{
 			}
 			else {
 				this.stars[i].w = this.stars[i].h = random(5,8);
-				this.stars[i].color = [255, random(125,200), random(100, 200)];
+				this.stars[i].color = [255, random(150,225), random(100, 210)];
 			}
 		}	
 	}
@@ -142,51 +142,56 @@ class WeaponShot{
 			stroke(c[0], c[1], c[2], 55+200*sin(frameCount/2));
 			strokeWeight(w/2);
 
-			ellipse(this.P.x + w/2, this.P.y + h/2, w, min(abs(this.yInitial - this.P.y), h));
+			ellipse(this.P.x + w/2, this.P.y + h/2, w+w/4*cos(frameCount/2), min(abs(this.yInitial - this.P.y), h+h/4*cos(frameCount)));
 			stroke(200,255,255,170);
 			strokeWeight(w/8);
-			ellipse(this.P.x + w/2, this.P.y + h/2, w, min(abs(this.yInitial - this.P.y), h));
+			ellipse(this.P.x + w/2, this.P.y + h/2, w+w/4*cos(frameCount/2), min(abs(this.yInitial - this.P.y), h+h/4*cos(frameCount)));
 			strokeWeight(1);
 			noStroke();
 		}
 		else if (this.gunType === homingMissile){
 			fill(c);
 			rect(this.P.x, this.P.y, w, h, 5);
-			fill(255,255,255,random(0,255));
-			rect(this.P.x + w/4, this.P.y, w/2, h, 10);
+			fill(255,200,255,random(0,255));
+			rect(this.P.x + w/4, this.P.y + h/8, w/2, 3*h/4, 5);
 		}
 		else{
 			noStroke();
-			fill(c);
-			rect(this.P.x, this.P.y, w, min(abs(this.yInitial - this.P.y), h), 5);
-			fill(255,255,255,160);
-			rect(this.P.x + w/3, this.P.y, w/3, min(abs(this.yInitial - this.P.y), h), 5);
+			fill(c[0],c[1],c[2],255-80*abs(cos(frameCount/15)));
+			rect(this.P.x, this.P.y, w, min(abs(this.yInitial - this.P.y), h), 3);
+			fill(255,255,255,130);
+			rect(this.P.x + 3*w/8, this.P.y, w/4, min(abs(this.yInitial - this.P.y), h), 5);
 			fill(255,255,255);
-			ellipse(this.P.x + w/2, this.P.y + h*vessel.modifyLocation, 2/3*w, w/2);  //yes w
+			ellipse(this.P.x + w/2, this.P.y + h*vessel.modifyLocation, 2/3*w, w/4);  
 		}	
 	}
-	update(vessel){
+	update(vessel, target){  //vessel shooting, target for targeted weapons
 		this.P.add(this.V);	
 		//moves shot with vessel's P.x until fully fired.
 		if (this.gunType !== homingMissile && abs(this.yInitial - this.P.y) < this.gunType.h){
 			this.P.x += vessel.V.x;
 		}
 		if (this.targeted){ 
-			this.targetShot(this, ship);  //works because ship is in scope.  fix params later.  need way to get a target if used by player
+			this.targetShot(this, target, this.gunType.trackTime); 
 		}
 		
 	}
 	//sets shot's vector direction towards target ship
-	targetShot(shotSource, targetVessel){ 
-		let source = createVector(shotSource.P.x + shotSource.w/2, shotSource.P.y + shotSource.h/2);
-		let target = createVector(targetVessel.P.x + targetVessel.w/2, targetVessel.P.y + targetVessel.h/2);
-		let dirP = target.sub(source);
-		this.V = dirP.setMag(this.gunType.speed);
-		
-		this.timer ++;
-		if (this.timer > 300){  //estimated 60fps, ~5sec track
+	targetShot(shotSource, targetVessel, trackTime){ 
+		if(targetVessel === "none"){
 			this.targeted = false;
-		}	
+		}
+		else {
+			let source = createVector(shotSource.P.x + shotSource.w/2, shotSource.P.y + shotSource.h/2);
+			let target = createVector(targetVessel.P.x + targetVessel.w/2, targetVessel.P.y + targetVessel.h/2);
+			let dirP = target.sub(source);
+			this.V = dirP.setMag(this.gunType.speed);
+			
+			this.timer ++;
+			if (this.timer > trackTime){  //estimated 60fps, ~4sec track
+				this.targeted = false;
+			}	
+		}
 	}
 }
 
@@ -210,12 +215,12 @@ class PowerUp{
 		this.P.y += 0.5;
 	}
 	modShip(playerShip){ 
-		if (playerShip.gunType === this.gunType && playerShip.powerLevel < playerShip.powerLevelMAX){
+		//might still be buggy.
+		if (playerShip.gunType.name === this.gunType.name && playerShip.powerLevel < playerShip.powerLevelMAX){
 			playerShip.powerLevel++;
 		}
-		if (playerShip.gunType !== this.gunType) {
+		if (playerShip.gunType.name !== this.gunType.name) {
 			playerShip.gunType = this.gunType;
-			playerShip.powerLevel = 0;
 		}
 	}
 }

@@ -26,9 +26,8 @@ class Ship{
 	this.dmgTaken = sEnmDestr;
 	this.dest = sShipDestr;
 	}
-
-	spreadShot(number){
-		let angleRadians = radians(15);
+	spreadShot(number, angle){
+		let angleRadians = radians(angle);
 		let vMag = this.gunType.speed;
 		let a = angleRadians/(number-1);
 		let a0 = PI/2-angleRadians/2;
@@ -39,7 +38,16 @@ class Ship{
 			this.shots[lastIndex - i].V.setMag(vMag);
 		}
 	}
-
+	getTarget (arr){
+		let target = "none";
+		for (let i=0; i < arr.length; i++){
+			if (this.P.dist(arr[i].P) < 0.6*width){
+				target = arr[i];
+				break;
+			}
+		}
+		return target;
+	}
 	shoot(){ 
 		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h*this.modifyLocation);
 		let V = createVector(0, this.gunType.speed*this.shotDirection);
@@ -50,7 +58,7 @@ class Ship{
 				this.shots.push(new WeaponShot(this, P, V));
 			}
 			if(this.gunType === spreader){
-				this.spreadShot(this.gunType.pushNumber);
+				this.spreadShot(this.gunType.pushNumber, this.gunType.spreadAngle);
 			}
 			P.x += this.w/4;
 		}	
@@ -109,7 +117,6 @@ class Ship{
 		}
 		pop();	
 	}	
-	
 	playerShipDestroyed(){
 		this.dest.play();
 		//remove remaining shots, enemies and powerups
@@ -127,14 +134,12 @@ class Ship{
 			}
 		}
 		invGame.gameState = "gameOver";
-	}
-	
+	}	
 	damageTaken(damage){  
 		this.health -= damage;
 		this.dmgDelayTimer = 0;
 		this.dmgTaken.play();	
 	}
-	
 	update(){
 		//constrain
 		this.P.x= constrain(this.P.x, 0, levelW-this.w);
@@ -176,8 +181,9 @@ class Ship{
 		if (this.shots.length > 0){
 			for (let i = this.shots.length-1; i >= 0; i--){
 				this.shots[i].draw(this);
+				let target = this.shots[i].targeted ? this.getTarget(bads) : "none";
 				if(invGame.gameState==="inGame"){
-					this.shots[i].update(this);
+					this.shots[i].update(this, target);
 				}
 				if (this.shots[i].P.y < -this.shots[i].h){ 
 					this.shots.splice(i,1);
@@ -194,4 +200,3 @@ class Ship{
 		}
 	}
 }
-

@@ -11,11 +11,13 @@ let sprBadR1, sprBadR2;
 let sprBadG1, sprBadG2;
 let sprBadB1, sprBadB2;
 let sprBadBr1, sprBadBr2;
+let sprCrim1, sprCrim2, sprCrim3;
 let eye1, eye2, eyeClosed;
 let sprShip1, sprShipF;
 
-let sPup, sPhaser, sPhaserG, sPhaserY, sShipDestr;
-let sEnmSpawn, sEnmAtt, sEnmAtt2, sEnmDmg, sEnmDestr, sEnmD2;
+let sPup, sPhaser, sPhaserB, sPhaserG, sPhaserY, sShipDestr;
+let sEnmSpawn, sEnmAtt, sEnmAtt2, sEnmCrimAtt; 
+let sEnmDmg, sEnmDestr, sEnmD2;
 let startLaser, redLaser, blueLaser, greenPulse, orangeLaser, homingMissile, spreader;
 
 function preload(){
@@ -23,8 +25,10 @@ function preload(){
 	sprites2 = loadImage("scripts_CSS_ind/invaders/assets/sprites/invSprites2.png");
 	
 	sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav");
+	
 	sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3");
 	sPhaser.setVolume(0.2);
+	sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.wav");
 	sPhaserG = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/159230__noirenex__deepscan.mp3");
 	sPhaserG.setVolume(0.5);
 	sPhaserY = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3");
@@ -34,6 +38,7 @@ function preload(){
 
 	sEnmSpawn = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/ambientIntro.wav");
 	sEnmAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/163095__fantozzi__ftz-gc-118-phaserattack1.wav");
+	sEnmCrimAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/146732__leszek-szary__creature.wav");
 	sEnmAtt.setVolume(0.3);
 	sEnmAtt2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/61818__tim-kahn__hard-kick.wav");
 
@@ -42,54 +47,60 @@ function preload(){
 	
 	//copy values that need to change in WeaponShot creation; don't change them here!
 	startLaser = {
+		name: "startLaser",
 		w: 6,
 		h: 10,
 		speed: 10,
 		weaponColor: [0,150,175],
 		pushNumber: 1,
 		hits: 1,  
-		rechargeTime: 15,
+		rechargeTime: 16,
 		damage: 15,
 		targeted: false,
 		weaponSound: sPhaser
 	};
 	redLaser = {
-		w: 8,
+		name: "redLaser",
+		w: 4,
 		h: 12,
 		speed: 7.5,
 		weaponColor: [200,0,0],
 		pushNumber: 1,
 		hits: 1,
-		rechargeTime: 10,
+		rechargeTime: 8,
 		damage: 15,
 		targeted: false,
 		weaponSound: sPhaser
 	};
 	blueLaser = {
-		w: 8,
-		h: 18,
+		name: "blueLaser",
+		w: 9,
+		h: 20,
 		speed: 6,
-		weaponColor: [125,0,200],
+		weaponColor: [100,50,220],
 		pushNumber: 1,
 		hits: 2,
-		rechargeTime: 30,
-		damage: 25,
+		rechargeTime: 35,
+		damage: 30,
 		targeted: false,
-		weaponSound: sPhaser
+		weaponSound: sPhaserB
 	};
 	greenPulse = {
-		w: 18,
-		h: 10,
-		speed: 6,
-		weaponColor: [0,200,150],
+		name: "greenPulse",
+		w: 16,
+		h: 9,
+		speed: 5,
+		weaponColor: [0,175,155],
 		pushNumber: 1,
-		hits: 1,
+		hits: 2,
 		rechargeTime: 25,
-		damage: 50,
-		targeted: false,
+		damage: 35,
+		targeted: true, 
+		trackTime: 5,
 		weaponSound: sPhaserG
 	};
 	orangeLaser = {
+		name: "orangeLaser",
 		w: 5,
 		h: 55,
 		speed: 4,
@@ -102,26 +113,30 @@ function preload(){
 		weaponSound: sPhaserY
 	};
 	homingMissile = {
+		name: "homingMissile",
 		w: 9,
 		h: 9,
-		speed: 2.5,
+		speed: 2,
 		weaponColor: [230,0,100],
 		pushNumber: 1,
 		hits: 1,
 		rechargeTime: 40,
 		damage: 70,
 		targeted: true,
+		trackTime: 250,
 		weaponSound: sEnmAtt
 	};
 	spreader = {
-		w: 6,
-		h: 4,
+		name: "spreader",
+		w: 7,
+		h: 5,
 		speed: 5,
-		weaponColor: [200,0,200],
-		pushNumber: 3,
+		weaponColor: [200,0,100],
+		pushNumber: 4,
 		hits: 1,
+		spreadAngle: 20,
 		rechargeTime: 30,
-		damage: 8,
+		damage: 15,
 		targeted: false,
 		weaponSound: sEnmAtt
 	};
@@ -142,6 +157,9 @@ function setup(){
 	sprBadB2 = sprites2.get(205,142,120,110);
 	sprBadBr1 = sprites2.get(380,36,127,162);
 	sprBadBr2 = sprites2.get(537,36,127,162);
+	sprCrim1 = sprites2.get(337,433,132,110);
+	sprCrim2 = sprites2.get(337,560,132,110);
+	sprCrim3 = sprites2.get(474,508,132,110);
 	eye1 = sprites2.get(366,278,150,98);
 	eye2 = sprites2.get(535,278,150,98);
 	eyeClosed = sprites2.get(535,367,150,98);

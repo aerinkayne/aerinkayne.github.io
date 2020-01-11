@@ -1,4 +1,3 @@
-//TODO fix this disaster
 class Enemy{
 	constructor(x, y, w, h){  //ship type
 		this.spawnInP = createVector(0,-height/2);
@@ -17,9 +16,9 @@ class Enemy{
 		this.shots = [];
 		this.drop = false;
 		this.firingDelay = 0;
-		this.modifyLocation = 1; //0 or 1.  used as a multiplier in some statements in draw method
+		this.modifyLocation = 1; //0 or 1.  used as a multiplier in some statements in shot draw method
 		this.shotDirection = 1;  //-1 for player ship, 1 for enemy ships
-		this.powerLevel = 1;
+		this.powerLevel = 0;
 		this.shotRoll = 0.3; //used for chance of attacking once attackcooldown is up
 	}
 	spawnIn(){
@@ -36,11 +35,12 @@ class Enemy{
 			push();
 			translate(this.P.x, this.P.y);
 			image(this.imageSprites[i], this.w/2, this.h/2, this.w, this.h);
-			pop();		
+			pop();
+			this.updateDrawTimer();
 		}
 	}
 	shoot(){
-		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h*this.modifyLocation);
+		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h/2); //*this.modifyLocation);
 		let V = createVector(0, this.gunType.speed*this.shotDirection);
 		this.shots.push(new WeaponShot(this, P, V));
 		this.att.play();
@@ -69,9 +69,10 @@ class Enemy{
 			if(onScreen(this.shots[i],ship)){ 
 				this.shots[i].draw(this);
 			} 
-			if(invGame.gameState==="inGame"){
-				this.shots[i].update(this);
-			}	
+			
+			//pass ship as target for targeted shots
+			this.shots[i].update(this, ship);
+
 			//check for collision with player ship.  update shot.hits.  remove shot if collision && shot.hits 0
 			if(collide(this.shots[i], ship) && ship.dmgDelayTimer > ship.dmgDelay){
 				this.shots[i].draw(this);  //draw a final time.  looks better.
@@ -83,7 +84,7 @@ class Enemy{
 				}
 			}
 			//remove shots if they go off the level bord. extra -y distance because enemies move in from off screen
-			if (this.shots[i].P.y > height || this.shots[i].P.y < -height/2 ||   
+			if (this.shots[i].P.y > height || this.shots[i].P.y < -height/3 ||   
 				this.shots[i].P.x < -this.shots[i].w || this.shots[i].P.x > levelW ){ 
 				this.shots.splice(i,1);
 			}
@@ -113,7 +114,7 @@ class Enemy{
 		if (this.shots.length > 0 ){
 			this.updateShots();
 		}
-		this.updateDrawTimer();
+		
 		this.checkDirectCollision();
 		if (this.checkIfAttackable){this.checkIfAttackable();}
 		
@@ -161,7 +162,6 @@ class Enemy{
 	}
 }
 
-
 class RedShip extends Enemy{
 	constructor(x, y, w, h, type){
 		super(x, y, w, h, type);
@@ -191,6 +191,45 @@ class BlueShip extends Enemy{
 		//if moving right vs if moving left
 		(this.V.x >= 0) ? this.V.x = abs(cos(frameCount/20)) : this.V.x = -abs(cos(frameCount/20));
 		this.V.y = cos(frameCount/40);
+	}
+}
+class CrimsonShip extends Enemy{
+	constructor(x, y, w, h){
+		super(x, y, w, h);
+		this.imageSprites = [sprCrim1, sprCrim2, sprCrim3, sprCrim2];
+		this.cycleTime = 90;
+		this.drawTimer = random(0,this.cycleTime);
+		this.gunType = spreader;
+		this.health = 70;
+		this.attackCooldown = 30; 
+		this.att = sEnmCrimAtt;
+		this.dest = sEnmD2; 
+	}
+	updateV(){
+		//if moving right vs if moving left
+		(this.V.x >= 0) ? this.V.x = abs(cos(frameCount/40)) : this.V.x = -abs(cos(frameCount/40));
+		this.V.y = 1/2*cos(frameCount/20);
+	}
+	spreadShot(number, angle){
+		let angleRadians = radians(angle);
+		let vMag = this.gunType.speed;
+		let a = angleRadians/(number-1);
+		let a0 = PI/2-angleRadians/2;
+		let lastIndex = this.shots.length-1;
+		for (let i = 0; i < number; i++){
+			this.shots[lastIndex - i].V.x = cos(a0 + i*a);
+			this.shots[lastIndex - i].V.y = sin(a0 + i*a)*this.shotDirection;
+			this.shots[lastIndex - i].V.setMag(vMag);
+		}
+	}
+	shoot(){
+		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h*this.modifyLocation);
+		let V = createVector(0, this.gunType.speed*this.shotDirection);
+		for (let i=0; i< this.gunType.pushNumber; i++){
+			this.shots.push(new WeaponShot(this, P, V));
+		}
+		this.spreadShot(this.gunType.pushNumber, this.gunType.spreadAngle);
+		this.att.play();
 	}
 }
 class GreenShip extends Enemy{

@@ -12,40 +12,45 @@ class Game{
 			[	//0
 				"221122",  //game.waveMap[currentWave===0].length === 3
 				"111111",  //game.waveMap[currentWave===0][row].length === 8
-				"111111"
+				"122221"
 			],
 			
 			[	//1
 				"232232",
 				"212221",
-				"121212"
+				"626262"
 			],
 			
 			[	//2
 				"312213",
-				"112211",
-				"233332"
+				"662266",
+				"236632"
 			],
 			
 			[	//3
+				"334433",
+				"136631",
+				"632236"
+			],
+			
+			[	//4
 				"242242",
 				"213312",
 				"343343"
 			],
 			
-			[	//4
+			[	//5
 				"324423",
 				"343243",
 				"434343"
 			],
 			
-			[	//5
+			[	//6
 				"5 5 5",
 				" 5 5 "
 			]
 		];
 	}
-
 	manageScenes(){
 		if (this.gameState === "gameStart"){
 			background(2,0,10);
@@ -114,7 +119,6 @@ class Game{
 			for (let i = bads.length-1; i >=0 ; i--){
 				if(onScreen(bads[i], ship)){
 					bads[i].draw();
-					bads[i].update();
 				}	
 			}
 			resetMatrix();
@@ -170,11 +174,12 @@ class Game{
 			for(let col=0; col<this.waveMap[wave][row].length; col++){  //0-5
 				let s=this.waveMap[wave][row][col];  //character in game.waveMap array
 			if(s===" "){continue;}
-			else if(s==="1"){bads.push(new RedShip(50+70*col, 50+50*row, 55, 45));}
+			else if(s==="1"){bads.push(new RedShip(50+70*col, 50+50*row, 55, 45));}  //55 45
 			else if(s==="2"){bads.push(new BlueShip(50+70*col, 50+50*row, 35, 35));}
 			else if(s==="3"){bads.push(new GreenShip(50+70*col, 50+50*row, 45, 40));}
 			else if(s==="4"){bads.push(new OrangeShip(50+70*col, 50+50*row, 35, 70));}
-			else if(s==="5"){bads.push(new Eye(50+70*col, 50+50*row, 75, 50));}
+			else if(s==="5"){bads.push(new Eye(50+70*col, 50+50*row, 75, 50));} 
+			else if(s==="6"){bads.push(new CrimsonShip(50+70*col, 50+50*row, 50, 45));}
 			else {console.log("unexpected char in game waveMap: " + s);}
 			}
 		}
