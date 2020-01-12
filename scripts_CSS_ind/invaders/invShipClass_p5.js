@@ -10,13 +10,15 @@ class Ship{
 	this.dec = 0.25;
 	this.MAXSP = 4.5;
 	this.thruster = 0; 
-	this.gunType = startLaser;
+	this.gunType = orangeLaser;
+	this.shielded = true;
+	this.shield = new Shield(this.P.x, this.P.y, this.w, this.h);
 	this.shots = [];
 	this.firing = false;
 	this.firingDelay = 0;
 	this.modifyLocation = 0; //0 or 1.  used as a multiplier for some image alterations
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
-	this.powerLevel = 0;  //zero based
+	this.powerLevel = 2;  //zero based
 	this.powerLevelMAX = 2;
 	this.healthMAX = 2000;  //for testing
 	this.health = this.healthMAX;  
@@ -26,6 +28,7 @@ class Ship{
 	this.dmgTaken = sEnmDestr;
 	this.dest = sShipDestr;
 	}
+
 	spreadShot(number, angle){
 		let angleRadians = radians(angle);
 		let vMag = this.gunType.speed;
@@ -115,7 +118,17 @@ class Ship{
 		else {
 			image(sprShip1, this.w/2, this.h/2, this.w, this.h+ .2275*this.h);
 		}
+		
+		if (this.shielded){
+			this.shield.updatePosition(this);
+			this.shield.draw();
+		}
+		
 		pop();	
+		
+		
+
+		
 	}	
 	playerShipDestroyed(){
 		this.dest.play();
@@ -135,10 +148,20 @@ class Ship{
 		}
 		invGame.gameState = "gameOver";
 	}	
-	damageTaken(damage){  
+	
+	
+	damageTaken(damage){
+		if (this.shielded){
+			this.shield.absorb -= damage;
+			if (this.shield.absorb <= 0){
+				this.shielded = false;
+			}
+		}
+		else{
 		this.health -= damage;
 		this.dmgDelayTimer = 0;
-		this.dmgTaken.play();	
+		this.dmgTaken.play();
+		}		
 	}
 	update(){
 		//constrain

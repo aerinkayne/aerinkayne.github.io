@@ -199,9 +199,11 @@ class WeaponShot{
 class PowerUp{
 	constructor(vessel){ //param is vessel that drops the item
 		this.P = createVector(vessel.P.x,vessel.P.y+vessel.h/2);
-		this.w = 25;
+		this.w = 22;
 		this.h = 8;
-		this.gunType = vessel.gunType;
+		if (vessel.drop === "gun"){
+			this.gunType = vessel.gunType;
+		}	
 	}
 	draw(){
 		let c = this.gunType.weaponColor;
@@ -216,11 +218,55 @@ class PowerUp{
 	}
 	modShip(playerShip){ 
 		//might still be buggy.
+		sPup.play();
 		if (playerShip.gunType.name === this.gunType.name && playerShip.powerLevel < playerShip.powerLevelMAX){
 			playerShip.powerLevel++;
 		}
 		if (playerShip.gunType.name !== this.gunType.name) {
 			playerShip.gunType = this.gunType;
 		}
+	}
+}
+
+class ShieldDrop extends PowerUp{
+	constructor(vessel){
+		super(vessel);
+		//this.P = createVector(vessel.P.x, vessel.P.y + vessel.h/2);
+		this.w = 12;
+		this.h = 12;	
+	}
+	modShip(playerShip){
+		sPup.play();
+		playerShip.shielded = true;
+		playerShip.shield = new Shield(playerShip.P.x, playerShip.P.y, playerShip.w, playerShip.h);
+	}
+	draw(){
+		stroke(random(50,200),random(50,200),random(50,200));
+		fill(225, 60, 200, 100+100*sin(frameCount/10));
+		rect(this.P.x, this.P.y, this.w, this.h, 12);
+		noStroke();
+	}
+}
+
+class Shield {
+	constructor(x,y,w,h){
+		this.P = createVector (x,y);
+		this.w = w;
+		this.h = h;	
+		this.r = w;
+		this.s = w/3;
+		this.c = [225,60,200];
+		this.absorb = 200;
+	}
+	updatePosition(playerShip){
+		this.P.x = playerShip.P.x;
+		this.P.y = playerShip.P.y;
+	}
+	draw(){
+		let c = this.c;
+		stroke(255,255,255, 125+55*sin(frameCount/10));
+		fill(c[0], c[1], c[2], 175+75*sin(frameCount/10));
+		ellipse(this.w/2+this.r*cos(frameCount/5), this.h/2+this.r*sin(frameCount/5), this.s, this.s);
+		noStroke();
 	}
 }

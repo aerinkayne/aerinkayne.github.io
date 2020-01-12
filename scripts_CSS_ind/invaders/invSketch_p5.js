@@ -28,7 +28,7 @@ function preload(){
 	
 	sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3");
 	sPhaser.setVolume(0.2);
-	sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3");
+	sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.wav");
 	sPhaserG = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/159230__noirenex__deepscan.mp3");
 	sPhaserG.setVolume(0.5);
 	sPhaserY = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3");
@@ -140,7 +140,6 @@ function preload(){
 		targeted: false,
 		weaponSound: sEnmAtt
 	};
-	
 }
 	
 function setup(){
@@ -176,7 +175,7 @@ function setup(){
 	bg_stars = new StarField(150); 
 	sortArrByProp(bg_stars.stars, "w");
 	btnStart = new Button(width/2-50,height/2-25,100,50,5, "Start");
-	btnPause = new Button(5, height-25, 35, 20, 4, "❚❚");
+	btnPause = new Button(5, height-25, 35, 20, 2, "❚❚");
 }	
 
 function keyPressed(){

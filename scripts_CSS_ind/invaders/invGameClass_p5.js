@@ -46,8 +46,8 @@ class Game{
 			],
 			
 			[	//6
-				"5 5 5",
-				" 5 5 "
+				"50505",
+				"05050"
 			]
 		];
 	}
@@ -89,7 +89,6 @@ class Game{
 					}
 					else if (collide(pups[i], ship)){
 						pups[i].modShip(ship);
-						sPup.play();
 						pups.splice(i,1);
 					}
 				}
@@ -131,22 +130,7 @@ class Game{
 			bg_stars.update(); 
 			btnStart.draw(color(0,150,200));	
 		}
-		else if (this.gameState === "testing"){
-			//test drawings
-			background(2,0,10);
-			
-			ship.update(); 
-			ship.draw();
-			
-			if(bads.length === 0){
-				bads.push(new Eye(0, 0, 50, 50));
-				bads[0].w*=3.5;
-				bads[0].h*=3.5;
-					
-				bads[0].P = createVector(width/2-bads[0].w/2, height/2-bads[0].h/2);
-			}
-			bads[0].draw();
-		}
+
 	}
 	startGame(){
 		this.dateRefMillisecs = new Date().getTime();
@@ -169,24 +153,32 @@ class Game{
 			sEnmSpawn.play();
 		}
 }
-	spawnBads(wave){
-		for(let row=0; row<this.waveMap[wave].length; row++){  //0-2
-			for(let col=0; col<this.waveMap[wave][row].length; col++){  //0-5
-				let s=this.waveMap[wave][row][col];  //character in game.waveMap array
-			if(s===" "){continue;}
-			else if(s==="1"){bads.push(new RedShip(50+70*col, 50+50*row, 55, 45));}  //55 45
-			else if(s==="2"){bads.push(new BlueShip(50+70*col, 50+50*row, 35, 35));}
-			else if(s==="3"){bads.push(new GreenShip(50+70*col, 50+50*row, 45, 40));}
-			else if(s==="4"){bads.push(new OrangeShip(50+70*col, 50+50*row, 35, 70));}
-			else if(s==="5"){bads.push(new Eye(50+70*col, 50+50*row, 75, 50));} 
-			else if(s==="6"){bads.push(new CrimsonShip(50+70*col, 50+50*row, 50, 45));}
-			else {console.log("unexpected char in game waveMap: " + s);}
-			}
-		}
+	setPup(wave, item){
 		if (wave!==this.waveMap.length-1){ //if it's not the final wave
-			let L = this.waveMap[wave][0].length;  //#bads per row, eg 6
-			let r = ceil(random(0,L));  //random int based on bads per row, eg 1-6
-			bads[bads.length-r].drop = true;  //sets drop property of random first row bad to true
+			let max = bads.length-1;
+			let min = ceil(max/2);
+			let i = ceil(random(min,max));   //random bad in last half of array
+			bads[i].drop = item;  
 		}
+	}
+	spawnBads(wave){
+		let numRows = this.waveMap[wave].length;
+		let numCols = this.waveMap[wave][0].length;
+		for(let row=0; row < numRows; row++){  //0-2
+			for(let col=0; col < numCols; col++){  //0-5
+				let s=this.waveMap[wave][row][col];  //character in game.waveMap array
+					if(s==="0"){continue;}
+					else if(s==="1"){bads.push(new RedShip(50+70*col, 50+50*row, 55, 45));}  //55 45
+					else if(s==="2"){bads.push(new BlueShip(50+70*col, 50+50*row, 35, 35));}
+					else if(s==="3"){bads.push(new GreenShip(50+70*col, 50+50*row, 45, 40));}
+					else if(s==="4"){bads.push(new OrangeShip(50+70*col, 50+50*row, 35, 70));}
+					else if(s==="5"){bads.push(new Eye(50+70*col, 50+50*row, numCols - col));}  //, 75, 50
+					else if(s==="6"){bads.push(new CrimsonShip(50+70*col, 50+50*row, 50, 45));}
+					else {console.log("unexpected char in game waveMap: " + s);}
+					}
+		}
+		this.setPup(wave, "gun");
+		this.setPup(wave, "shield");
+
 	}
 }

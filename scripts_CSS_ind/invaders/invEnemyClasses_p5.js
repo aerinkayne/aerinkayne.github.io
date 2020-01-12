@@ -14,7 +14,7 @@ class Enemy{
 		this.points = 10;  //placeholder
 		this.animationOffset = random(0,1.6);
 		this.shots = [];
-		this.drop = false;
+		this.drop = 0;
 		this.firingDelay = 0;
 		this.modifyLocation = 1; //0 or 1.  used as a multiplier in some statements in shot draw method
 		this.shotDirection = 1;  //-1 for player ship, 1 for enemy ships
@@ -40,7 +40,7 @@ class Enemy{
 		}
 	}
 	shoot(){
-		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h/2); //*this.modifyLocation);
+		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h/2); 
 		let V = createVector(0, this.gunType.speed*this.shotDirection);
 		this.shots.push(new WeaponShot(this, P, V));
 		this.att.play();
@@ -52,7 +52,12 @@ class Enemy{
 		}
 	}	
 	dropItem(){
-		pups.push(new PowerUp(this));
+		if (this.drop === "gun"){
+			pups.push(new PowerUp(this));
+		}
+		else if (this.drop === "shield"){
+			pups.push(new ShieldDrop(this));
+		}
 	}
 	updateDrawTimer() {
 		this.drawTimer ++;
@@ -60,7 +65,7 @@ class Enemy{
 			this.drawTimer = 0;
 		}
 	}
-	updateV(){
+	updateVelocity(){
 		return;
 	}
 	updateShots(){
@@ -77,7 +82,7 @@ class Enemy{
 			if(collide(this.shots[i], ship) && ship.dmgDelayTimer > ship.dmgDelay){
 				this.shots[i].draw(this);  //draw a final time.  looks better.
 				this.shots[i].hits--; 
-				ship.damageTaken(this.gunType.damage);
+				ship.damageTaken(this.gunType.damage);  //shield absorbs done in this method too
 				if (this.shots[i].hits <= 0){
 					this.shots.splice(i,1);
 					continue;
@@ -122,7 +127,7 @@ class Enemy{
 		if (this.health > 0 && invGame.gameState==="inGame"){
 			this.spawnIn();
 			this.movementBounds();
-			this.updateV();
+			this.updateVelocity();
 			this.P.add(this.V);
 			
 			
@@ -153,7 +158,7 @@ class Enemy{
 						else if (this.health <= 0){
 							this.dest.play();
 							ship.score+= this.points;
-							if(this.drop === true){this.dropItem();}
+							if(this.drop){this.dropItem();}
 						}
 					}	
 				}	
@@ -163,8 +168,8 @@ class Enemy{
 }
 
 class RedShip extends Enemy{
-	constructor(x, y, w, h, type){
-		super(x, y, w, h, type);
+	constructor(x, y, w, h){
+		super(x, y, w, h);
 		this.imageSprites = [sprBadR1,sprBadR2];
 		this.cycleTime = 40;
 		this.drawTimer = random(0,this.cycleTime);
@@ -187,7 +192,7 @@ class BlueShip extends Enemy{
 		this.att = sEnmAtt2;
 		this.dest = sEnmD2; 
 	}
-	updateV(){
+	updateVelocity(){
 		//if moving right vs if moving left
 		(this.V.x >= 0) ? this.V.x = abs(cos(frameCount/20)) : this.V.x = -abs(cos(frameCount/20));
 		this.V.y = cos(frameCount/40);
@@ -205,7 +210,7 @@ class CrimsonShip extends Enemy{
 		this.att = sEnmCrimAtt;
 		this.dest = sEnmD2; 
 	}
-	updateV(){
+	updateVelocity(){
 		//if moving right vs if moving left
 		(this.V.x >= 0) ? this.V.x = abs(cos(frameCount/40)) : this.V.x = -abs(cos(frameCount/40));
 		this.V.y = 1/2*cos(frameCount/20);
@@ -259,13 +264,18 @@ class OrangeShip extends Enemy{
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
 	}
-	updateV(){
+	updateVelocity(){
 		(this.V.x >= 0) ? this.V.x = abs(cos(frameCount/20)) : this.V.x = -abs(cos(frameCount/20));
 	}
 }
 class Eye extends Enemy{
-	constructor(x, y, w, h){
-		super(x, y, w, h);
+	constructor(x, y, column){
+		super(x, y);
+		this.w = 70;
+		this.h = 40;
+		this.column = column;
+		this.boundXL = x;
+		this.boundXR = levelW - this.column * this.w;  
 		this.imageSprites = [eye2, eye1, eye1, eye2, eyeClosed, eyeClosed, eyeClosed, eyeClosed];
 		this.cycleTime = 1000;
 		this.drawTimer = random(0,this.cycleTime);
@@ -275,6 +285,12 @@ class Eye extends Enemy{
 		this.attackCooldown = 90; 
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
+	}
+	
+	movementBounds(){
+		if (this.P.x < this.boundXL || this.P.x > this.boundXR){
+			this.V.x *= -1;
+		}
 	}
 	checkIfAttackable(){
 		(this.drawTimer < this.cycleTime/2) ?  this.takesDamage = true : this.takesDamage = false;
