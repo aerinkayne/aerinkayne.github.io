@@ -10,7 +10,7 @@ class Ship{
 	this.dec = 0.25;
 	this.MAXSP = 4.5;
 	this.thruster = 0; 
-	this.gunType = new Gun(blueLaser); //orangeLaser;
+	this.gunType = new Gun(startLaser); //orangeLaser;
 	this.shielded = true;
 	this.shield = new Shield(this.P.x, this.P.y, this.w, this.h);
 	this.shots = [];
@@ -18,9 +18,9 @@ class Ship{
 	this.firingDelay = 0;
 	this.modifyLocation = 0; //0 or 1.  used as a multiplier for some image alterations
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
-	this.powerLevel = 2;  //zero based
+	this.powerLevel = 0;  //zero based
 	this.powerLevelMAX = 2;
-	this.healthMAX = 2000;  //for testing
+	this.healthMAX = 1000;  //for testing
 	this.health = this.healthMAX;  
 	this.score = 0;
 	this.dmgDelay = 30;
