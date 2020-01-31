@@ -58,6 +58,7 @@ class Enemy{
 		else if (this.drop === "shield"){
 			pups.push(new ShieldDrop(this));
 		}
+		this.drop = false;
 	}
 	updateDrawTimer() {
 		this.drawTimer ++;

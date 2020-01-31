@@ -84,11 +84,12 @@ class Game{
 					pups[i].draw();
 					pups[i].update();
 					//splice pup out if it goes offscreen or if it's picked up
-					if (pups[i].P.y > height){
-						pups.splice(i,1);
-					}
-					else if (collide(pups[i], ship)){
+					if (collide(pups[i], ship)){
 						pups[i].modShip(ship);
+						pups.splice(i,1);
+						continue;
+					}
+					if (pups[i].P.y > height){
 						pups.splice(i,1);
 					}
 				}

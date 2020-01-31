@@ -52,20 +52,57 @@ class Button{
 	this.r = r;  //border radius for rectangles
 	this.txt = txt;
 	this.txtColor = [0,0,0];
+	this.clickTimer = 0;
+	this.clickDelay = 20;
+	}
+	onClick(){
+		console.log("clicked"); 
+	}
+	checkClicks(){  //called in draw.  timer used to limit calls
+		if (this.clickTimer < this.clickDelay) {this.clickTimer++;}
+		if (this.mouseIsOver(mouseX,mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
+			this.onClick();
+			this.clickTimer=0;
+		}
 	}
 	draw(color){
-		
 		fill(color);
 		rect(this.P.x, this.P.y, this.w, this.h, this.r);
-		
 		textAlign(CENTER,CENTER);
 		textSize(this.h/2);
 		fill(this.txtColor);
 		text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
+		this.checkClicks();
 	}
-	isClicked(mouseX, mouseY){
+	mouseIsOver(mouseX, mouseY){
 		return (mouseX > this.P.x && mouseX < this.P.x + this.w &&
 				mouseY > this.P.y && mouseY < this.P.y + this.h);
+	}
+}
+class StartBtn extends Button{
+	constructor(x,y,w,h,r,txt){
+	super(x,y,w,h,r,txt);
+	}
+	onClick(){
+		console.log("clicked");
+		invGame.startGame();
+		invGame.gameState = "inGame";
+	}
+}
+class PauseBtn extends Button{
+	constructor(x,y,w,h,r,txt){
+	super(x,y,w,h,r,txt);
+	}
+	onClick(){
+		if (invGame.gameState === "inGame"){
+			this.txtColor = [75,255,200];
+			this.txt = "➤";
+			invGame.gameState = "gamePaused";
+		} else{
+			this.txtColor = [0,0,0];
+			this.txt = "❚❚";
+			invGame.gameState = "inGame";
+		}
 	}
 }
 
@@ -137,7 +174,7 @@ class WeaponShot{
 		let c = this.gunType.weaponColor;
 		let w = this.gunType.w;
 		let h = this.gunType.h;
-		if(this.gunType === greenPulse){
+		if(this.gunType.name === "greenPulse"){
 			noFill();
 			stroke(c[0], c[1], c[2], 55+200*sin(frameCount/2));
 			strokeWeight(w/2);
@@ -149,7 +186,7 @@ class WeaponShot{
 			strokeWeight(1);
 			noStroke();
 		}
-		else if (this.gunType === homingMissile){
+		else if (this.gunType.name === "homingMissile"){
 			fill(c);
 			rect(this.P.x, this.P.y, w, h, 5);
 			fill(255,200,255,random(0,255));
@@ -168,7 +205,7 @@ class WeaponShot{
 	update(vessel, target){  //vessel shooting, target for targeted weapons
 		this.P.add(this.V);	
 		//moves shot with vessel's P.x until fully fired.
-		if (this.gunType !== homingMissile && abs(this.yInitial - this.P.y) < this.gunType.h){
+		if (this.gunType.name !== "homingMissile" && abs(this.yInitial - this.P.y) < this.gunType.h){
 			this.P.x += vessel.V.x;
 		}
 		if (this.targeted){ 
@@ -217,21 +254,18 @@ class PowerUp{
 		this.P.y += 0.5;
 	}
 	modShip(playerShip){ 
-		//might still be buggy.
 		sPup.play();
 		if (playerShip.gunType.name === this.gunType.name && playerShip.powerLevel < playerShip.powerLevelMAX){
 			playerShip.powerLevel++;
 		}
-		if (playerShip.gunType.name !== this.gunType.name) {
-			playerShip.gunType = this.gunType;
+		else if (playerShip.gunType.name !== this.gunType.name) {
+			playerShip.gunType = new Gun(this.gunType);
 		}
 	}
 }
-
 class ShieldDrop extends PowerUp{
 	constructor(vessel){
 		super(vessel);
-		//this.P = createVector(vessel.P.x, vessel.P.y + vessel.h/2);
 		this.w = 12;
 		this.h = 12;	
 	}
@@ -245,6 +279,25 @@ class ShieldDrop extends PowerUp{
 		fill(225, 60, 200, 100+100*sin(frameCount/10));
 		rect(this.P.x, this.P.y, this.w, this.h, 12);
 		noStroke();
+	}
+}
+
+
+class Gun {
+	constructor(config){
+		this.name = config.name;
+		this.w = config.w;
+		this.h = config.h;
+		this.speed = config.speed;
+		this.weaponColor = config.weaponColor;
+		this.pushNumber = config.pushNumber;
+		this.hits = config.hits;
+		this.rechargeTime = config.rechargeTime ;
+		this.damage = config.damage;
+		this.targeted = config.targeted;
+		this.trackTime = config.trackTime;
+		this.spreadAngle = config.spreadAngle;
+		this.weaponSound = config.weaponSound;
 	}
 }
 

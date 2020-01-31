@@ -5,20 +5,20 @@ class Ship{
 	this.V = createVector(0,0);
 	this.w = w;
 	this.h = h;
-	this.move = [false,false,false,false];  //R,L,U,D {R: false, L: false, U: false, D: false} move.keys();
+	this.movements = {39: false, 37: false, 38: false, 40: false}; //R,L,U,D 
 	this.acc = 1.0;
 	this.dec = 0.25;
 	this.MAXSP = 4.5;
 	this.thruster = 0; 
-	this.gunType = startLaser;
-	this.shielded = false;
+	this.gunType = new Gun(blueLaser); //orangeLaser;
+	this.shielded = true;
 	this.shield = new Shield(this.P.x, this.P.y, this.w, this.h);
 	this.shots = [];
 	this.firing = false;
 	this.firingDelay = 0;
 	this.modifyLocation = 0; //0 or 1.  used as a multiplier for some image alterations
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
-	this.powerLevel = 0;  //zero based
+	this.powerLevel = 2;  //zero based
 	this.powerLevelMAX = 2;
 	this.healthMAX = 2000;  //for testing
 	this.health = this.healthMAX;  
@@ -60,7 +60,7 @@ class Ship{
 			for (let i=0; i< this.gunType.pushNumber; i++){
 				this.shots.push(new WeaponShot(this, P, V));
 			}
-			if(this.gunType === spreader){
+			if(this.gunType.name === "spreader"){
 				this.spreadShot(this.gunType.pushNumber, this.gunType.spreadAngle);
 			}
 			P.x += this.w/4;
@@ -92,7 +92,7 @@ class Ship{
 		
 		fill(0, 62, 156, 30+60*abs(sin(radians(frameCount))));
 		//animate thruster with UP
-		if (this.move[2]){
+		if (this.movements['38']){
 			this.thruster = this.h/3;
 		} else {this.thruster = 0;}
 		rect(this.w/2-14/40*this.w, this.h-this.h/8, this.w/2.5, this.h/2+this.thruster, 25);
@@ -168,22 +168,31 @@ class Ship{
 		this.P.x= constrain(this.P.x, 0, levelW-this.w);
 		this.P.y= constrain(this.P.y, 0, levelH-this.h);
 		//accelerate according to speed and arrow keys specified in sketch keypressed function
-		if (this.move[0]){this.V.x+=this.acc;}
-		if (this.move[1]){this.V.x-=this.acc;}
-		if (this.move[2]){this.V.y-=this.acc;}
-		if (this.move[3]){this.V.y+=this.acc;}
+		if (this.movements['39']){this.V.x+=this.acc;}
+		if (this.movements['37']){this.V.x-=this.acc;}
+		if (this.movements['38']){this.V.y-=this.acc;}
+		if (this.movements['40']){this.V.y+=this.acc;}
 		this.V.limit(this.MAXSP);
 		this.P.add(this.V);
 
-		//slow down if key not pressed
-		if (!this.move[0] && this.V.x < 0){this.V.x+=this.dec;}
-		if (!this.move[1] && this.V.x > 0){this.V.x-=this.dec;}
-		if (!this.move[2] && this.V.y > 0){this.V.y-=this.dec;}
-		if (!this.move[3] && this.V.y < 0){this.V.y+=this.dec;}
-		//keeps ship from sliding 
-		if (!this.move[0] && !this.move[1] && this.V.x < 0.5 && this.V.x > -0.5){this.V.x=0;}
-		if (!this.move[2] && !this.move[3] && this.V.y < 0.5 && this.V.y > -0.5){this.V.y=0;}
-		
+		//slow down if key not pressed, stop if 0 point passed
+		if (!this.movements['39'] && this.V.x < 0){
+			this.V.x+=this.dec;
+				if (this.V.x > 0){this.V.x = 0;}
+		}
+		if (!this.movements['37'] && this.V.x > 0){
+			this.V.x-=this.dec;
+				if (this.V.x < 0){this.V.x = 0;}
+		}
+		if (!this.movements['38'] && this.V.y > 0){
+			this.V.y-=this.dec;
+				if (this.V.y < 0){this.V.y = 0;}
+		}
+		if (!this.movements['40'] && this.V.y < 0){
+			this.V.y+=this.dec;
+				if (this.V.y > 0){this.V.y = 0;}
+		}
+
 		//limit firing rate
 		if (this.firingDelay <= this.gunType.rechargeTime){ //weaponRecharge){
 			this.firingDelay++;  

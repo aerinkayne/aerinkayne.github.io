@@ -45,19 +45,20 @@ function preload(){
 	sEnmDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/350976__cabled-mess__boom-c-01.wav");
 	sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav");
 	
-	//copy values that need to change in WeaponShot creation; don't change them here!
+	//gun configs 
 	startLaser = {
-		name: "startLaser",
-		w: 6,
-		h: 10,
-		speed: 10,
-		weaponColor: [0,150,175],
-		pushNumber: 1,
-		hits: 1,  
-		rechargeTime: 16,
-		damage: 15,
-		targeted: false,
-		weaponSound: sPhaser
+	name: "startLaser",
+	w: 6,
+	h: 10,
+	speed: 10,
+	weaponColor: [0,150,175],
+	pushNumber: 1,
+	hits: 1,  
+	rechargeTime: 16,
+	damage: 15,
+	targeted: false,
+	trackTime: 0,
+	weaponSound: sPhaser
 	};
 	redLaser = {
 		name: "redLaser",
@@ -70,6 +71,7 @@ function preload(){
 		rechargeTime: 8,
 		damage: 15,
 		targeted: false,
+		trackTime: 0,
 		weaponSound: sPhaser
 	};
 	blueLaser = {
@@ -83,6 +85,7 @@ function preload(){
 		rechargeTime: 35,
 		damage: 30,
 		targeted: false,
+		trackTime: 0,
 		weaponSound: sPhaserB
 	};
 	greenPulse = {
@@ -110,6 +113,7 @@ function preload(){
 		rechargeTime: 45,
 		damage: 75,
 		targeted: false,
+		trackTime: 0,
 		weaponSound: sPhaserY
 	};
 	homingMissile = {
@@ -138,6 +142,7 @@ function preload(){
 		rechargeTime: 30,
 		damage: 15,
 		targeted: false,
+		trackTime: 0,
 		weaponSound: sEnmAtt
 	};
 }
@@ -174,59 +179,22 @@ function setup(){
 	ship = new Ship(width/2-35,height-35, 35,35);
 	bg_stars = new StarField(150); 
 	sortArrByProp(bg_stars.stars, "w");
-	btnStart = new Button(width/2-50,height/2-25,100,50,5, "Start");
-	btnPause = new Button(5, height-25, 35, 20, 2, "❚❚");
+	btnStart = new StartBtn(width/2-50,height/2-25,100,50,5, "Start");
+	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
 }	
 
+//movements = {39:bool,37:bool,38:bool,40:bool}
 function keyPressed(){
-	if (keyCode === RIGHT_ARROW){
-		ship.move[0] = true;
-	}
-	if (keyCode === LEFT_ARROW){
-		ship.move[1] = true;
-	}
-	if (keyCode === UP_ARROW){
-		ship.move[2] = true;
-	}
-	if (keyCode === DOWN_ARROW){
-		ship.move[3] = true;
-	}
-}
+	if (ship.movements.hasOwnProperty(keyCode)){
+		ship.movements[keyCode] = true;  
+	};
+}		
 function keyReleased(){
-	if (keyCode === RIGHT_ARROW){
-		ship.move[0] = false;
-	}
-	if (keyCode === LEFT_ARROW){
-		ship.move[1] = false;
-	}
-	if (keyCode === UP_ARROW){
-		ship.move[2] = false;
-	}
-	if (keyCode === DOWN_ARROW){
-		ship.move[3] = false;
+	if (ship.movements.hasOwnProperty(keyCode)){
+		ship.movements[keyCode] = false;
 	}
 }
 
-function mouseClicked(){
-    if (invGame.gameState === "gameStart" && btnStart.isClicked(mouseX,mouseY)){
-		invGame.startGame();
-		invGame.gameState = "inGame";
-	}
-    else if (invGame.gameState === "inGame" && btnPause.isClicked(mouseX,mouseY)){
-		btnPause.txtColor = [75,255,200];
-		btnPause.txt = "➤";
-		invGame.gameState = "gamePaused";
-	}
-	else if (invGame.gameState === "gamePaused" && btnPause.isClicked(mouseX,mouseY)){
-		btnPause.txtColor = [0,0,0];
-		btnPause.txt = "❚❚";
-		invGame.gameState = "inGame";
-	}
-	else if (invGame.gameState === "gameOver" && btnStart.isClicked(mouseX,mouseY)) {
-		ship = new Ship(width/2-35,height-35, 35,35); 
-		invGame = new Game();
-	}
-}  
 
 function draw(){
 	invGame.manageScenes();
