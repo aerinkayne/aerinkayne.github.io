@@ -55,10 +55,10 @@ class Button{
 	this.clickTimer = 0;
 	this.clickDelay = 20;
 	}
-	onClick(){
+	onClick(){  //stuff to do
 		console.log("clicked"); 
 	}
-	checkClicks(){  //called in draw.  timer used to limit calls
+	checkClicks(){  //called in draw.  timer used to limit calls.  works ontouch
 		if (this.clickTimer < this.clickDelay) {this.clickTimer++;}
 		if (this.mouseIsOver(mouseX,mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
 			this.onClick();
@@ -84,7 +84,7 @@ class StartBtn extends Button{
 	super(x,y,w,h,r,txt);
 	}
 	onClick(){
-		console.log("clicked");
+		ship = new Ship(width/2-35,height-35, 35,35);
 		invGame.startGame();
 		invGame.gameState = "inGame";
 	}
@@ -98,11 +98,50 @@ class PauseBtn extends Button{
 			this.txtColor = [75,255,200];
 			this.txt = "➤";
 			invGame.gameState = "gamePaused";
+			invGame.timePaused = new Date().getTime();
 		} else{
 			this.txtColor = [0,0,0];
 			this.txt = "❚❚";
 			invGame.gameState = "inGame";
+			invGame.timeUnpaused = new Date().getTime();
 		}
+	}
+}
+class GunBtn extends Button{
+	constructor(x,y,w,h,r,img, gunType){
+	super(x,y,w,h,r);
+	this.img = img;
+	this.gunType = gunType;
+	this.selected = false;
+	this.opacity = 120;  
+	this.powerLevel = -1;
+	this.powerLevelMAX = 2;
+	}
+	draw(){
+		push();
+		translate(this.P.x, this.P.y);
+		image(this.img,this.w/2, this.h/2, this.w, this.h);
+		(this.powerLevel>-1) ? this.opacity = 30 : this.opacity = 125;
+		fill(0,0,0, this.opacity);
+		rect(0, 0, this.w, this.h);
+		fill(255,175,220);
+		for (let i=0; i <= this.powerLevel; i++){
+			ellipse(this.w/4+i*this.w/4, 8/10*this.h,this.w/6, this.w/6);
+		}
+		
+		noFill();
+		stroke(255);
+		if (this.selected){rect(0,0,this.w, this.h,2);}
+		pop();
+		this.checkClicks();
+	}
+	onClick(){
+		if (this.powerLevel>-1){
+			ship.gunType = this.gunType;
+			ship.powerLevel = this.powerLevel;
+		}
+		ship.gunz.forEach(gun => {gun.selected = false;});
+		this.selected = true;
 	}
 }
 
@@ -253,13 +292,17 @@ class PowerUp{
 		this.P.x += sin(frameCount/10); 
 		this.P.y += 0.5;
 	}
+	//mod inventory
 	modShip(playerShip){ 
 		sPup.play();
+		playerShip.gunz.forEach(gun => {
+			if (this.gunType.name === gun.gunType.name && gun.powerLevel < gun.powerLevelMAX){
+				gun.powerLevel++;
+			}
+		});
+		//so that player does not need to reselect the gun they have to inc its power
 		if (playerShip.gunType.name === this.gunType.name && playerShip.powerLevel < playerShip.powerLevelMAX){
 			playerShip.powerLevel++;
-		}
-		else if (playerShip.gunType.name !== this.gunType.name) {
-			playerShip.gunType = new Gun(this.gunType);
 		}
 	}
 }

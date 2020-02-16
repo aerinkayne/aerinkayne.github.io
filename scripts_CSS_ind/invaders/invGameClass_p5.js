@@ -2,50 +2,70 @@ class Game{
 	constructor(){
 		this.levelW = 850;
 		this.levelH = 375;
-		this.waveTimer = 30000;  //milliseconds
+		this.waveTimer = 25000;  //milliseconds
 		this.dateRefMillisecs = 0; //update in start
+		this.timePaused = 0;
+		this.timeUnpaused = 0;
 		this.currentTime = 0;
 		this.gameState = "gameStart"; 
 		this.currentWave = 0;
 		this.spawned = [false, false, false, false, false, false];
 		this.waveMap = [
 			[	//0
-				"221122",  //game.waveMap[currentWave===0].length === 3
-				"111111",  //game.waveMap[currentWave===0][row].length === 8
-				"122221"
+				"2112",  //game.waveMap[currentWave===0].length === 3
+				"1111",  //game.waveMap[currentWave===0][row].length === 8
+				"1221"
 			],
 			
 			[	//1
-				"232232",
-				"212221",
-				"626262"
+				"2222",
+				"1111",
+				"2112"
 			],
 			
 			[	//2
-				"312213",
-				"662266",
-				"236632"
+				"3223",
+				"6226",
+				"1331"
 			],
 			
 			[	//3
+				"3333",
+				"6666",
+				"2222"
+			],
+			
+			[	//4
+				"31213",
+				"66266",
+				"23632"
+			],
+			
+			[	//5
+				"34243",
+				"66266",
+				"66666"
+			],
+			
+			[	//6
 				"334433",
 				"136631",
 				"632236"
 			],
 			
-			[	//4
+			[	//7
 				"242242",
 				"213312",
 				"343343"
 			],
 			
-			[	//5
+			[	//8
 				"324423",
 				"343243",
 				"434343"
 			],
 			
-			[	//6
+			[	//9
 				"50505",
 				"05050"
 			]
@@ -59,7 +79,7 @@ class Game{
 			btnStart.draw([0,150,200]);
 		}
 		else if (this.gameState === "inGame"){
-			this.checkTime();  //updates time if not paused
+			this.checkTime(invGame.timeUnpaused, invGame.timePaused);  
 			gameCamera(ship);
 			background(2,0,10);
 			bg_stars.draw(); 
@@ -96,6 +116,8 @@ class Game{
 			}
 			resetMatrix();
 			btnPause.draw(color(0,175,150));
+			ship.gunz.forEach(gun => {gun.draw()});
+			
 			ship.healthBar();	
 		}
 		else if (this.gameState === "gamePaused"){
@@ -123,6 +145,7 @@ class Game{
 			}
 			resetMatrix();
 			btnPause.draw([0,100,75]);
+			ship.gunz.forEach(gun => {gun.draw()});
 			ship.healthBar();	
 		}
 		else if (this.gameState === "gameOver"){
@@ -136,15 +159,20 @@ class Game{
 	startGame(){
 		this.dateRefMillisecs = new Date().getTime();
 	}
-	checkTime(){
+	checkTime(timeUnpaused, timePaused){
 		this.currentTime = new Date().getTime();
 		if (this.currentWave === 0) {
 			this.waveCheck()
 		}
-		if (this.currentTime - this.dateRefMillisecs > this.waveTimer) {
+		//add duration of pause to refdate in case game has been paused
+		this.dateRefMillisecs+=(timeUnpaused-timePaused)
+		if (this.currentTime  - this.dateRefMillisecs > this.waveTimer) {
 			this.dateRefMillisecs = new Date().getTime();
 			this.waveCheck();
 		}
+		//clear pause duration
+		this.timePaused = 0;
+		this.timeUnpaused = 0;
 	}
 	waveCheck(){
 		if (!this.spawned[this.currentWave] && this.currentWave < this.waveMap.length ){  

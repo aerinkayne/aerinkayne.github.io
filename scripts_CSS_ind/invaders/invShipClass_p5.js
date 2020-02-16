@@ -3,6 +3,7 @@ class Ship{
 	constructor(x,y,w,h){
 	this.P = createVector(x,y); 
 	this.V = createVector(0,0);
+	this.T = createVector(0,0);
 	this.w = w;
 	this.h = h;
 	this.movements = {39: false, 37: false, 38: false, 40: false}; //R,L,U,D 
@@ -11,16 +12,18 @@ class Ship{
 	this.MAXSP = 4.5;
 	this.thruster = 0; 
 	this.gunType = new Gun(startLaser); //orangeLaser;
-	this.shielded = true;
+	this.shielded = false;
 	this.shield = new Shield(this.P.x, this.P.y, this.w, this.h);
 	this.shots = [];
 	this.firing = false;
 	this.firingDelay = 0;
 	this.modifyLocation = 0; //0 or 1.  used as a multiplier for some image alterations
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
+	
 	this.powerLevel = 0;  //zero based
 	this.powerLevelMAX = 2;
-	this.healthMAX = 1000;  //for testing
+	this.gunz = [btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun];
+	this.healthMAX = 800;  
 	this.health = this.healthMAX;  
 	this.score = 0;
 	this.dmgDelay = 30;
@@ -70,18 +73,17 @@ class Ship{
 		noStroke();
 		fill(225,225,255);
 		textAlign(LEFT);
-		text("score: " + this.score, width-65, height-20);
+		text("score: " + this.score, width-6*width/50, height-4*height/40);
 		
 		fill(0,0,0);
-		stroke(150,175,255);
-		rect(width-65, height-10, 51, 7,2);
+		stroke(100,175,255);
+		rect(width-6*width/50-1, height-3*height/40-1, 51, 6,2);
 		noStroke();
 		fill(155,0,40);
 		//or map() will hate you
-		if (this.health < 0){
-			this.health = 0;
-		}
-		rect(width-64, height-9, map(this.health,0,this.healthMAX,0,50), 5,2);
+		if (this.health < 0){this.health = 0;}
+		if (this.health > this.healthMAX){this.health = this.healthMAX;}
+		rect(width-6*width/50, height-3*height/40, map(this.health,0,this.healthMAX,0,50), 4,2);
 	}
 	draw(){
 		push();
@@ -163,6 +165,11 @@ class Ship{
 		this.dmgTaken.play();
 		}		
 	}
+	
+	updateTranslocVector(){  
+		this.T.x = (this.P.x + this.w/2 >= levelW-width/2) ? levelW-width  : round(max(0, this.P.x + this.w/2 - width/2));
+		this.T.y = (this.P.y + this.h/2 >= levelH-height/2)? levelH-height : round(max(0,this.P.y + this.h/2 - height/2));
+	}
 	update(){
 		//constrain
 		this.P.x= constrain(this.P.x, 0, levelW-this.w);
@@ -174,6 +181,7 @@ class Ship{
 		if (this.movements['40']){this.V.y+=this.acc;}
 		this.V.limit(this.MAXSP);
 		this.P.add(this.V);
+		this.updateTranslocVector();
 
 		//slow down if key not pressed, stop if 0 point passed
 		if (!this.movements['39'] && this.V.x < 0){
