@@ -127,10 +127,7 @@ class Game{
 			ship.healthBar();	
 		}
 		else if (this.gameState === "gameOver"){
-			background(2,0,10);
-			bg_stars.draw(); 
-			bg_stars.update(); 
-			btnStart.draw(color(0,150,200));	
+			invGame = new Game();	
 		}
 	}
 	startGame(){
