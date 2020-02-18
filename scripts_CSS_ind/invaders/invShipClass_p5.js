@@ -10,6 +10,12 @@ class Ship{
 	this.acc = 1.0;
 	this.dec = 0.25;
 	this.MAXSP = 4.5;
+	
+	this.onTouchTimer = 0;
+	this.onTouchMoveDirection = createVector(0,0);
+	this.onTouchShipP = createVector(0,0);
+	this.onTouchMouseP = createVector(0,0);
+	
 	this.thruster = 0; 
 	this.gunType = new Gun(startLaser); //orangeLaser;
 	this.shielded = false;
@@ -31,7 +37,20 @@ class Ship{
 	this.dmgTaken = sEnmDestr;
 	this.dest = sShipDestr;
 	}
-
+	touchMove(){
+		this.onTouchShipP = createVector(this.P.x+this.w/2, this.P.y+this.h/2); 
+		this.onTouchMouseP = createVector(mouseX, mouseY);
+		this.onTouchTimer = 40;
+		this.onTouchMouseP.add(this.T);
+		this.onTouchMoveDirection = this.onTouchMouseP.sub(this.onTouchShipP);
+		this.V = this.onTouchMoveDirection.setMag(this.MAXSP);
+	}
+	updateTouchTimer(){
+		if(this.onTouchTimer<0){this.onTouchTimer=0;}
+			else {
+				this.onTouchTimer--;
+			}
+	}
 	spreadShot(number, angle){
 		let angleRadians = radians(angle);
 		let vMag = this.gunType.speed;
@@ -93,8 +112,8 @@ class Ship{
 		noStroke();
 		
 		fill(0, 62, 156, 30+60*abs(sin(radians(frameCount))));
-		//animate thruster with UP
-		if (this.movements['38']){
+		//animate thruster with -V.y
+		if (this.V.y < 0){
 			this.thruster = this.h/3;
 		} else {this.thruster = 0;}
 		rect(this.w/2-14/40*this.w, this.h-this.h/8, this.w/2.5, this.h/2+this.thruster, 25);
@@ -111,26 +130,18 @@ class Ship{
 		fill(184, 230, 255);
 		ellipse(this.w/2-this.w/8, this.h-this.h/50, this.w/9.5, this.h/10+this.thruster/2); //left
 		ellipse(this.w/2+this.w/7, this.h-this.h/50, this.w/9.5, this.h/10+this.thruster/2);
-		
-		//2020: wut.  it's on the list of fixes
-		//adjust h+ the aprox fraction of image height not associated with the image hitbox 
+		 
 		if (this.firing){
 			image(sprShipF, this.w/2, this.h/2, this.w, this.h+ .2275*this.h);
 		}
 		else {
 			image(sprShip1, this.w/2, this.h/2, this.w, this.h+ .2275*this.h);
 		}
-		
 		if (this.shielded){
 			this.shield.updatePosition(this);
 			this.shield.draw();
 		}
-		
 		pop();	
-		
-		
-
-		
 	}	
 	playerShipDestroyed(){
 		this.dest.play();
@@ -150,8 +161,6 @@ class Ship{
 		}
 		invGame.gameState = "gameOver";
 	}	
-	
-	
 	damageTaken(damage){
 		if (this.shielded){
 			this.shield.absorb -= damage;
@@ -179,27 +188,30 @@ class Ship{
 		if (this.movements['37']){this.V.x-=this.acc;}
 		if (this.movements['38']){this.V.y-=this.acc;}
 		if (this.movements['40']){this.V.y+=this.acc;}
+		//if click to move
+		this.updateTouchTimer();
+		//slow down if key not pressed, stop if reversed
+		if (this.onTouchTimer <= 0){
+			if (!this.movements['39'] && this.V.x < 0){
+				this.V.x+=this.dec;
+					if (this.V.x > 0){this.V.x = 0;}
+			}
+			if (!this.movements['37'] && this.V.x > 0){
+				this.V.x-=this.dec;
+					if (this.V.x < 0){this.V.x = 0;}
+			}
+			if (!this.movements['38'] && this.V.y > 0){
+				this.V.y-=this.dec;
+					if (this.V.y < 0){this.V.y = 0;}
+			}
+			if (!this.movements['40'] && this.V.y < 0){
+				this.V.y+=this.dec;
+					if (this.V.y > 0){this.V.y = 0;}
+			}
+		}
 		this.V.limit(this.MAXSP);
 		this.P.add(this.V);
 		this.updateTranslocVector();
-
-		//slow down if key not pressed, stop if 0 point passed
-		if (!this.movements['39'] && this.V.x < 0){
-			this.V.x+=this.dec;
-				if (this.V.x > 0){this.V.x = 0;}
-		}
-		if (!this.movements['37'] && this.V.x > 0){
-			this.V.x-=this.dec;
-				if (this.V.x < 0){this.V.x = 0;}
-		}
-		if (!this.movements['38'] && this.V.y > 0){
-			this.V.y-=this.dec;
-				if (this.V.y < 0){this.V.y = 0;}
-		}
-		if (!this.movements['40'] && this.V.y < 0){
-			this.V.y+=this.dec;
-				if (this.V.y > 0){this.V.y = 0;}
-		}
 
 		//limit firing rate
 		if (this.firingDelay <= this.gunType.rechargeTime){ //weaponRecharge){
@@ -216,11 +228,9 @@ class Ship{
 			this.firing = true;
 			this.firingDelay = 0;
 		}
-		
 		//update shots fired
 		if (this.shots.length > 0){
 			for (let i = this.shots.length-1; i >= 0; i--){
-				this.shots[i].draw(this);
 				let target = this.shots[i].targeted ? this.getTarget(bads) : "none";
 				if(invGame.gameState==="inGame"){
 					this.shots[i].update(this, target);
@@ -230,10 +240,8 @@ class Ship{
 				}
 			}
 		}
-
 		//dmgDelay update
 		this.dmgDelayTimer++
-		
 		//end game if no health remaining
 		if(this.health <= 0){
 			this.playerShipDestroyed()

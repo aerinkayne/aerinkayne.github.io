@@ -69,13 +69,16 @@ class Enemy{
 	updateVelocity(){
 		return;
 	}
+	drawShots(){
+		this.shots.forEach(shot => {	
+			if(onScreen(shot,ship)){ 
+				shot.draw(this);
+			}
+		});
+	}
 	updateShots(){
-		//draw. update P if inGame. decrement to avoid problems from shots being spliced out  
+		//update P if inGame. decrement to avoid problems from shots being spliced out  
 		for (let i = this.shots.length-1; i >= 0; i--){
-			if(onScreen(this.shots[i],ship)){ 
-				this.shots[i].draw(this);
-			} 
-			
 			//pass ship as target for targeted shots
 			this.shots[i].update(this, ship);
 

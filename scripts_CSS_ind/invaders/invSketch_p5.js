@@ -20,6 +20,7 @@ let sEnmSpawn, sEnmAtt, sEnmAtt2, sEnmCrimAtt;
 let sEnmDmg, sEnmDestr, sEnmD2;
 let startLaser, redLaser, blueLaser, greenPulse, orangeLaser, homingMissile, spreader;
 
+
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
 	sprites2 = loadImage("scripts_CSS_ind/invaders/assets/sprites/invSprites2.png");
@@ -181,11 +182,6 @@ function setup(){
 	
 	btnStart = new StartBtn(width/2-50,height/2-25,100,50,5, "Start");
 	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
-	btnRedGun = new GunBtn(7/10*width,9.45/10*height,width/18,height/19,3, sprBadR1, redLaser);
-	btnBlueGun = new GunBtn(7.6/10*width,9.45/10*height,width/18,height/19,3, sprBadB1, blueLaser);
-	btnGreenGun = new GunBtn(8.2/10*width,9.45/10*height,width/18,height/19,3, sprBadG1, greenPulse);
-	btnOrangeGun = new GunBtn(8.8/10*width,9.45/10*height,width/18,height/19,3, sprBadBr1, orangeLaser);
-	btnSpreadGun = new GunBtn(9.4/10*width,9.45/10*height,width/18,height/19,3, sprCrim1, spreader);
 	ship = new Ship(width/2-35,height-35, 35,35);
 }	
 
@@ -201,13 +197,11 @@ function keyReleased(){
 	}
 }
 
-function touchMoved(){
-	let shipP = createVector(ship.P.x+ship.w/2, ship.P.y+ship.h/2); 
-	let touchP = createVector(mouseX, mouseY);
-	touchP.add(ship.T);
-	let moveDirection = touchP.sub(shipP);
-	ship.V = moveDirection.setMag(4.5);
-}
+//* well no
+function mouseClicked(){
+	ship.touchMove();
+} 
+//*/
 
 function draw(){
 	invGame.manageScenes();

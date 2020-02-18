@@ -1,3 +1,15 @@
+/*
+new changes.  
+gun selection inventory added.  
+game resets at gameover and guns reset at restart.
+added translation vector to ship to simplify camera and future image management.
+managed pause better.
+changed powerup drops so that they are always assigned to the full range of newest enemy ships
+and fixed a condition where shields could overwrite gun powerups.
+click to move test
+*/
+
+
 //anon functions: sort, collision, camera, onscreen check
 
 //bubble sorts an array by the given key's value
@@ -21,15 +33,7 @@ let collide = function(obj1,obj2){
 }
 
 let gameCamera = function(player) {
-		//no Y camera translation
-		let playerCenterX = player.P.x + player.w/2;
-	
-		if (playerCenterX  > bordL && playerCenterX < bordR){    
-			translate(-(playerCenterX - bordL), 0);  
-		}						   
-		else if (playerCenterX >= bordR){   
-			translate(-(levelW - width), 0);  
-		}
+		translate(-player.T.x, -player.T.y);
 	}
 
 let onScreen = function(obj, player){ 
@@ -40,6 +44,7 @@ let onScreen = function(obj, player){
 			(abs(playerCenterX-(obj.P.x + obj.w/2)) - obj.w/2 < width/2 + max(0,bordL-playerCenterX) + max(0, playerCenterX-bordR))		
 		);	
 	}
+	
 
 
 
@@ -84,7 +89,13 @@ class StartBtn extends Button{
 	super(x,y,w,h,r,txt);
 	}
 	onClick(){
+		btnRedGun = new GunBtn(7/10*width,9.45/10*height,width/18,height/19,3, sprBadR1, redLaser);
+		btnBlueGun = new GunBtn(7.6/10*width,9.45/10*height,width/18,height/19,3, sprBadB1, blueLaser);
+		btnGreenGun = new GunBtn(8.2/10*width,9.45/10*height,width/18,height/19,3, sprBadG1, greenPulse);
+		btnOrangeGun = new GunBtn(8.8/10*width,9.45/10*height,width/18,height/19,3, sprBadBr1, orangeLaser);
+		btnSpreadGun = new GunBtn(9.4/10*width,9.45/10*height,width/18,height/19,3, sprCrim1, spreader);
 		ship = new Ship(width/2-35,height-35, 35,35);
+		
 		invGame.startGame();
 		invGame.gameState = "inGame";
 	}
@@ -94,15 +105,15 @@ class PauseBtn extends Button{
 	super(x,y,w,h,r,txt);
 	}
 	onClick(){
-		if (invGame.gameState === "inGame"){
+		if (!invGame.paused){
 			this.txtColor = [75,255,200];
 			this.txt = "➤";
-			invGame.gameState = "gamePaused";
+			invGame.paused = true;
 			invGame.timePaused = new Date().getTime();
 		} else{
 			this.txtColor = [0,0,0];
 			this.txt = "❚❚";
-			invGame.gameState = "inGame";
+			invGame.paused = false;
 			invGame.timeUnpaused = new Date().getTime();
 		}
 	}

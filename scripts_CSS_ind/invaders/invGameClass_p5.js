@@ -9,6 +9,8 @@ class Game{
 		this.currentTime = 0;
 		this.gameState = "gameStart"; 
 		this.currentWave = 0;
+		this.numBadsOld = 0;
+		this.numBadsNew = 0;
 		this.spawned = [false, false, false, false, false, false];
 		this.waveMap = [
 			[	//0
@@ -79,16 +81,21 @@ class Game{
 			btnStart.draw([0,150,200]);
 		}
 		else if (this.gameState === "inGame"){
-			this.checkTime(invGame.timeUnpaused, invGame.timePaused);  
+			
+			if (!this.paused){
+				this.checkTime(invGame.timeUnpaused, invGame.timePaused);
+			}
 			gameCamera(ship);
 			background(2,0,10);
 			bg_stars.draw(); 
 			bg_stars.update(); 
-			ship.update(); 
+			if (!this.paused){ship.update();} 
 			ship.draw();
+			ship.shots.forEach(shot=> {shot.draw(this);});
 		
 			for (let i = bads.length-1; i >=0 ; i--){
-				bads[i].update();
+				bads[i].drawShots(); 
+				if (!this.paused){bads[i].update();}
 				if(onScreen(bads[i], ship)){
 					bads[i].draw();
 				}
@@ -102,7 +109,7 @@ class Game{
 			if (pups.length > 0){
 				for (let i = pups.length-1; i >=0 ; i--){
 					pups[i].draw();
-					pups[i].update();
+					if (!this.paused){pups[i].update();}
 					//splice pup out if it goes offscreen or if it's picked up
 					if (collide(pups[i], ship)){
 						pups[i].modShip(ship);
@@ -117,44 +124,8 @@ class Game{
 			resetMatrix();
 			btnPause.draw(color(0,175,150));
 			ship.gunz.forEach(gun => {gun.draw()});
-			
 			ship.healthBar();	
 		}
-		else if (this.gameState === "gamePaused"){
-			gameCamera(ship);
-			background(2,0,10);
-			bg_stars.draw(); 
-			
-			if (pups.length>0){
-				for (let i = pups.length-1; i >=0 ; i--){
-					pups[i].draw();
-				}
-			}	
-			
-			if (ship.shots.length>0){
-				for (let s = ship.shots.length-1; s >= 0; s--){
-					ship.shots[s].draw(ship);
-				}
-			}
-			ship.draw();
-
-			for (let i = bads.length-1; i >=0 ; i--){
-				if(onScreen(bads[i], ship)){
-					bads[i].draw();
-				}	
-			}
-			resetMatrix();
-			btnPause.draw([0,100,75]);
-			ship.gunz.forEach(gun => {gun.draw()});
-			ship.healthBar();	
-		}
-		else if (this.gameState === "gameOver"){
-			background(2,0,10);
-			bg_stars.draw(); 
-			bg_stars.update(); 
-			btnStart.draw(color(0,150,200));	
-		}
-
 	}
 	startGame(){
 		this.dateRefMillisecs = new Date().getTime();
@@ -162,7 +133,7 @@ class Game{
 	checkTime(timeUnpaused, timePaused){
 		this.currentTime = new Date().getTime();
 		if (this.currentWave === 0) {
-			this.waveCheck()
+			this.waveCheck();
 		}
 		//add duration of pause to refdate in case game has been paused
 		this.dateRefMillisecs+=(timeUnpaused-timePaused)
@@ -175,19 +146,30 @@ class Game{
 		this.timeUnpaused = 0;
 	}
 	waveCheck(){
-		if (!this.spawned[this.currentWave] && this.currentWave < this.waveMap.length ){  
+		if (!this.spawned[this.currentWave] && this.currentWave < this.waveMap.length ){
+			this.numBadsOld = bads.length;			
 			this.spawnBads(this.currentWave); 
+			this.numBadsNew = bads.length - this.numBadsOld;
+			
+			this.setPup("gun");
+			this.setPup("shield");
 			this.spawned[this.currentWave] = true; 
 			this.currentWave++;
 			sEnmSpawn.play();
 		}
 }
-	setPup(wave, item){
-		if (wave!==this.waveMap.length-1){ //if it's not the final wave
-			let max = bads.length-1;
-			let min = ceil(max/2);
-			let i = ceil(random(min,max));   //random bad in last half of array
-			bads[i].drop = item;  
+	setPup(item){
+		if (this.currentWave!==this.waveMap.length-1){ //if it's not the final wave
+			let max = bads.length;
+			let min = bads.length-this.numBadsNew;
+			//console.log(min, max);
+			let i = floor(random(min,max));  //rand from newly added, eg old=2, new=12, newlen=14, possible rand vals 2-13.999, floor to index 2-13
+			if(!bads[i].drop){
+				bads[i].drop = item;
+				}  else {
+					//console.log(bads[i] + " already has " + bads[i].drop + ". Attempting to reassign shield.");
+					this.setPup(item);
+					}
 		}
 	}
 	spawnBads(wave){
@@ -206,8 +188,5 @@ class Game{
 					else {console.log("unexpected char in game waveMap: " + s);}
 					}
 		}
-		this.setPup(wave, "gun");
-		this.setPup(wave, "shield");
-
 	}
 }
