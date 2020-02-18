@@ -1,7 +1,7 @@
 class Game{
 	constructor(){
 		this.levelW = 850;
-		this.levelH = 375;
+		this.levelH = 350;
 		this.waveTimer = 25000;  //milliseconds
 		this.dateRefMillisecs = 0; //update in start
 		this.timePaused = 0;
@@ -125,6 +125,12 @@ class Game{
 			btnPause.draw(color(0,175,150));
 			ship.gunz.forEach(gun => {gun.draw()});
 			ship.healthBar();	
+		}
+		else if (this.gameState === "gameOver"){
+			background(2,0,10);
+			bg_stars.draw(); 
+			bg_stars.update(); 
+			btnStart.draw(color(0,150,200));	
 		}
 	}
 	startGame(){
