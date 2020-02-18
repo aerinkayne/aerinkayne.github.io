@@ -40,7 +40,7 @@ class Ship{
 	touchMove(){
 		this.onTouchShipP = createVector(this.P.x+this.w/2, this.P.y+this.h/2); 
 		this.onTouchMouseP = createVector(mouseX, mouseY);
-		this.onTouchTimer = 40;
+		this.onTouchTimer = 30;
 		this.onTouchMouseP.add(this.T);
 		this.onTouchMoveDirection = this.onTouchMouseP.sub(this.onTouchShipP);
 		this.V = this.onTouchMoveDirection.setMag(this.MAXSP);
