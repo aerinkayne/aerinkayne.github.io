@@ -149,7 +149,7 @@ function preload(){
 }
 	
 function setup(){
-	let c = createCanvas(450,375);
+	let c = createCanvas(450,350);
 	c.parent('cParent');
 	frameRate(60);
 	imageMode(CENTER);
