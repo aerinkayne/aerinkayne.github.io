@@ -197,8 +197,8 @@ function keyReleased(){
 	}
 }
 
-//* well no
-function mouseClicked(){
+//* touch to move
+function touchEnded(){
 	ship.touchMove();
 } 
 //*/
