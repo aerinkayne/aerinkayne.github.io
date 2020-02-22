@@ -14,27 +14,27 @@ class Game{
 		this.spawned = [false, false, false, false, false, false];
 		this.waveMap = [
 			[	//0
-				"2112",  //game.waveMap[currentWave===0].length === 3
-				"1111",  //game.waveMap[currentWave===0][row].length === 8
-				"1221"
+				"212",  //game.waveMap[currentWave===0].length === 3
+				"111",  //game.waveMap[currentWave===0][row].length === 8
+				"121"
 			],
 			
 			[	//1
-				"2222",
-				"1111",
-				"2112"
+				"222",
+				"121",
+				"212"
 			],
 			
 			[	//2
-				"3223",
-				"6226",
+				"1221",
+				"2222",
 				"1331"
 			],
 			
 			[	//3
 				"3333",
 				"6666",
-				"2222"
+				"3333"
 			],
 			
 			[	//4
@@ -45,31 +45,37 @@ class Game{
 			
 			[	//5
 				"34243",
-				"66266",
-				"66666"
+				"63236",
+				"16661"
 			],
 			
 			[	//6
-				"334433",
-				"136631",
+				"124421",
+				"436634",
 				"632236"
 			],
 			
 			[	//7
-				"242242",
+				"134431",
+				"446644",
+				"334433"
+			],
+			
+			[	//8
+				"642246",
 				"213312",
 				"343343"
 			],
 			
-			[	//8
+			[	//9
 				"324423",
-				"343243",
+				"643246",
 				"434343"
 			],
 			
-			[	//9
-				"50505",
-				"05050"
+			[	//10
+				"0505050",
+				"7050507"
 			]
 		];
 	}
@@ -89,10 +95,7 @@ class Game{
 			background(2,0,10);
 			bg_stars.draw(); 
 			bg_stars.update(); 
-			if (!this.paused){ship.update();} 
-			ship.draw();
-			ship.shots.forEach(shot=> {shot.draw(this);});
-		
+			
 			for (let i = bads.length-1; i >=0 ; i--){
 				bads[i].drawShots(); 
 				if (!this.paused){bads[i].update();}
@@ -104,6 +107,9 @@ class Game{
 					bads.splice(i,1);
 				} 
 			}
+			if (!this.paused){ship.update();} 
+			ship.shots.forEach(shot=> {shot.draw(this);});
+			ship.draw();
 			
 			//update powerups and also remove them if they go offscreen(Y).
 			if (pups.length > 0){
@@ -127,7 +133,7 @@ class Game{
 			ship.healthBar();	
 		}
 		else if (this.gameState === "gameOver"){
-			invGame = new Game();	
+			invGame = new Game();
 		}
 	}
 	startGame(){
@@ -182,12 +188,13 @@ class Game{
 			for(let col=0; col < numCols; col++){  //0-5
 				let s=this.waveMap[wave][row][col];  //character in game.waveMap array
 					if(s==="0"){continue;}
-					else if(s==="1"){bads.push(new RedShip(50+70*col, 50+50*row, 55, 45));}  //55 45
-					else if(s==="2"){bads.push(new BlueShip(50+70*col, 50+50*row, 35, 35));}
-					else if(s==="3"){bads.push(new GreenShip(50+70*col, 50+50*row, 45, 40));}
-					else if(s==="4"){bads.push(new OrangeShip(50+70*col, 50+50*row, 35, 70));}
-					else if(s==="5"){bads.push(new Eye(50+70*col, 50+50*row, numCols - col));}  //, 75, 50
-					else if(s==="6"){bads.push(new CrimsonShip(50+70*col, 50+50*row, 50, 45));}
+					else if(s==="1"){bads.push(new RedShip(50+70*col, 50*row));}  
+					else if(s==="2"){bads.push(new BlueShip(50+70*col, 50*row));}
+					else if(s==="3"){bads.push(new GreenShip(50+70*col, 50*row));}
+					else if(s==="4"){bads.push(new OrangeShip(50+70*col, 50*row));}
+					else if(s==="5"){bads.push(new Eye(50+70*col, 50+50*row, numCols - col));}  
+					else if(s==="6"){bads.push(new CrimsonShip(50+70*col, 50*row));}
+					else if(s==="7"){bads.unshift(new EnmBase(30+70*col, -15+50*row, numCols - col));}
 					else {console.log("unexpected char in game waveMap: " + s);}
 					}
 		}
