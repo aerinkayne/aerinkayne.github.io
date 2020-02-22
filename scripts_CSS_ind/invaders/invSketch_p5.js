@@ -202,6 +202,7 @@ function keyReleased(){
 function touchEnded(){
 	if (window.windowWidth <= 600){
 	ship.touchMove();
+	return false;  //prevents default behavior
 	}
 } 
 //*/
