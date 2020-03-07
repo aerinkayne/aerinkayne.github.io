@@ -2,11 +2,11 @@ let levelW, levelH, bordL, bordR;  //define after game created
 let bg_stars; 
 let invGame;
 let btnStart, btnPause, btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun;
-let ship;
+let invShip;
 let bads = [];
 let pups = [];
 
-let sprites2;
+let sprites2, starBG, imgStarBG;;
 let sprBadR1, sprBadR2;
 let sprBadG1, sprBadG2;
 let sprBadB1, sprBadB2;
@@ -15,37 +15,34 @@ let sprCrim1, sprCrim2, sprCrim3;
 let eye1, eye2, eyeClosed, base1;
 let sprShip1, sprShipF;
 
-let sPup, sPhaser, sPhaserB, sPhaserG, sPhaserY, sShipDestr;
-let sEnmSpawn, sEnmAtt, sEnmAtt2, sEnmCrimAtt; 
-let sEnmDmg, sEnmDestr, sEnmD2;
+let slider, oldVolume, newVolume;
+let sPup,sPhaser,sPhaserB,sPhaserG,sPhaserY,sShipDestr,sEnmSpawn,sEnmAtt,sEnmAtt2,sEnmCrimAtt,sEnmDmg,sEnmDestr,sEnmD2;
+let soundEffects = [];
+
 let startLaser, redLaser, blueLaser, greenPulse, orangeLaser, homingMissile, spreader;
 
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
 	sprites2 = loadImage("scripts_CSS_ind/invaders/assets/sprites/invSprites2.png");
+	starBG = loadImage("scripts_CSS_ind/invaders/assets/sprites/pexels-photo-176851InstaWalli.jpeg");
 	
-	sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav");
-	
-	sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3");
-	sPhaser.setVolume(0.2);
-	sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3");
-	sPhaserG = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/159230__noirenex__deepscan.mp3");
-	sPhaserG.setVolume(0.5);
-	sPhaserY = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3");
-	
-	sEnmDmg = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/117740__donalfonso__kurzschluss.wav");
-	sEnmD2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/205753__scorpion67890__surge-leech-1.wav");
+	soundEffects = [
+		sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav"), 
+		sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3"), 
+		sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3"), 
+		sPhaserG = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/159230__noirenex__deepscan.mp3"), 
+		sPhaserY = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3"),
+		sEnmDmg = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/117740__donalfonso__kurzschluss.wav"),
+		sEnmD2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/205753__scorpion67890__surge-leech-1.wav"),
+		sEnmSpawn = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/ambientIntro.wav"),
+		sEnmAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/163095__fantozzi__ftz-gc-118-phaserattack1.wav"),
+		sEnmCrimAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/146732__leszek-szary__creature.wav"),
+		sEnmAtt2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/61818__tim-kahn__hard-kick.wav"),
+		sEnmDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/350976__cabled-mess__boom-c-01.wav"),
+		sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav")
+	];
 
-	sEnmSpawn = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/ambientIntro.wav");
-	sEnmAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/163095__fantozzi__ftz-gc-118-phaserattack1.wav");
-	sEnmCrimAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/146732__leszek-szary__creature.wav");
-	sEnmAtt.setVolume(0.3);
-	sEnmAtt2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/61818__tim-kahn__hard-kick.wav");
-
-	sEnmDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/350976__cabled-mess__boom-c-01.wav");
-	sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav");
-	
 	//gun configs.  todo callback onload, list configs outside of preload 
 	startLaser = {
 	name: "startLaser",
@@ -151,6 +148,11 @@ function preload(){
 function setup(){
 	let c = createCanvas(450,350);
 	c.parent('cParent');
+
+	slider = createSlider(0, 0.1, 0.05, 0.01)
+	oldVolume = slider.value();
+	newVolume = slider.value();
+	slider.parent('volumeSliderContainer');
 	frameRate(60);
 	imageMode(CENTER);
 	
@@ -178,35 +180,47 @@ function setup(){
 	bordL = width/2;
 	bordR = levelW - width/2;
 	
-	bg_stars = new StarField(100); 
-	sortArrByProp(bg_stars.stars, "w");
-	
 	btnStart = new StartBtn(width/2-50,height/2-25,100,50,5, "Start");
 	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
-	ship = new Ship(width/2-35,height-35, 35,35);
+
+	invShip = new Ship(width/2-35,height-35, 35,35);
+	bg_stars = new StarField(invShip); 
+	sortArrByProp(bg_stars.stars, "w");
 }	
 
 //movements = {39:bool,37:bool,38:bool,40:bool}
 function keyPressed(){
-	if (ship.movements.hasOwnProperty(keyCode)){
-		ship.movements[keyCode] = true;  
+	if (invShip.movements.hasOwnProperty(keyCode)){
+		invShip.movements[keyCode] = true;  
 	};
 }		
 function keyReleased(){
-	if (ship.movements.hasOwnProperty(keyCode)){
-		ship.movements[keyCode] = false;
+	if (invShip.movements.hasOwnProperty(keyCode)){
+		invShip.movements[keyCode] = false;
 	}
 }
 
 //* 
 function touchEnded(){
 	if (window.windowWidth <= 600){
-	ship.touchMove();
+	invShip.touchMove();
 	return false;  //prevents default behavior
 	}
 } 
 //*/
 
+function changeVolume(){
+	soundEffects.forEach(sound=> {
+		sound.setVolume(slider.value());
+	});
+}
+
+
 function draw(){
-	invGame.manageScenes();
+	newVolume = slider.value();
+
+	if(newVolume!==oldVolume){
+		changeVolume();
+	}
+	invGame.manageScenes(invShip, bg_stars);
 }

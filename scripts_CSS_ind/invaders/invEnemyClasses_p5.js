@@ -76,14 +76,14 @@ class Enemy{
 	updateVelocity(){
 		return;
 	}
-	drawShots(){
+	drawShots(ship){
 		this.shots.forEach(shot => {	
 			if(onScreen(shot,ship)){ 
 				shot.draw(this);
 			}
 		});
 	}
-	updateShots(){
+	updateShots(ship){
 		//update P if inGame. decrement to avoid problems from shots being spliced out  
 		for (let i = this.shots.length-1; i >= 0; i--){
 			//pass ship as target for targeted shots
@@ -106,7 +106,7 @@ class Enemy{
 			}
 		}
 	}
-	checkDirectCollision(){
+	checkDirectCollision(ship){
 		//check for direct collision with player
 		if (collide(this, ship) && this.health > 0 && ship.dmgDelayTimer > ship.dmgDelay){
 			ship.damageTaken(100);      //************
@@ -126,12 +126,12 @@ class Enemy{
 	}
 	
 	//called in Game.managescenes, through loop of bads.length
-	update(){  
+	update(ship){  
 		if (this.shots.length > 0 ){
-			this.updateShots();
+			this.updateShots(ship);
 		}
 		
-		this.checkDirectCollision();
+		this.checkDirectCollision(ship);
 		if (this.checkIfAttackable){this.checkIfAttackable();}
 		
 		//if enemy is alive and state is inGame

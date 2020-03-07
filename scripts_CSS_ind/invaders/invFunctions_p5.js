@@ -32,8 +32,8 @@ let collide = function(obj1,obj2){
             obj1.P.y < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y;
 }
 
-let gameCamera = function(player) {
-		translate(-player.T.x, -player.T.y);
+let gameCamera = function(ship) {
+		translate(-ship.T.x, -ship.T.y);
 	}
 
 let onScreen = function(obj, player){ 
@@ -94,7 +94,10 @@ class StartBtn extends Button{
 		btnGreenGun = new GunBtn(8.2/10*width,9.45/10*height,width/18,height/19,3, sprBadG1, greenPulse);
 		btnOrangeGun = new GunBtn(8.8/10*width,9.45/10*height,width/18,height/19,3, sprBadBr1, orangeLaser);
 		btnSpreadGun = new GunBtn(9.4/10*width,9.45/10*height,width/18,height/19,3, sprCrim1, spreader);
-		ship = new Ship(width/2-35,height-35, 35,35);
+
+		invShip = new Ship(width/2-35,height-35, 35,35);
+		bg_stars = new StarField(invShip); 
+		sortArrByProp(bg_stars.stars, "w");
 		
 		invGame.startGame();
 		invGame.gameState = "inGame";
@@ -148,29 +151,36 @@ class GunBtn extends Button{
 	}
 	onClick(){
 		if (this.powerLevel>-1){
-			ship.gunType = this.gunType;
-			ship.powerLevel = this.powerLevel;
+			invShip.gunType = this.gunType;
+			invShip.powerLevel = this.powerLevel;
 		}
-		ship.gunz.forEach(gun => {gun.selected = false;});
+		invShip.gunz.forEach(gun => {gun.selected = false;});
 		this.selected = true;
 	}
 }
 
+//make this a gameScreen class
 class StarField{
-	constructor(number){
+	constructor(ship){
+		this.P = createVector(ship.T.x, ship.T.y);
+		this.w = width;
+		this.h = height;
+		this.numStars = 70;
 		this.stars = [];  //for array of objects 
 		this.planets = []; //soon (TM)
-		for (let i = 0; i < number; i++){ //how many from param
+		//meth setup
+
+		for (let i = 0; i < this.numStars; i++){ //how many from param
 			this.stars.push(new Object());
-			this.stars[i].P = createVector(random(0, levelW), random(0, levelH));
+			this.stars[i].P = createVector(random(this.P.x, this.P.x + this.w), random(this.P.y, this.P.y + this.h));
 			
 			//~75% small, 22.5% medium, 2.5% large stars, vary colors for each size somewhat.
-			let sizeRoll = random(0,number);
-			if (sizeRoll < 3/4*number) {
+			let sizeRoll = random(0,this.numStars);
+			if (sizeRoll < 3/4*this.numStars) {
 				this.stars[i].w = this.stars[i].h = random(1.5, 2.5);
 				this.stars[i].color = [random(0, 25), random(50,100), random(125, 175)];
 			}
-			else if (sizeRoll < 19.5/20*number){
+			else if (sizeRoll < 19.5/20*this.numStars){
 				this.stars[i].w  = this.stars[i].h = random(2, 4);
 				this.stars[i].color = [random(0, 50), random(75,150), random(150, 225)];
 			}
@@ -180,26 +190,54 @@ class StarField{
 			}
 		}	
 	}
-	draw(){
+	updatePosition(ship){
+		this.P.x = ship.T.x;
+		this.P.y = ship.T.y;
+	}
+	isWithinField(obj){
+		return  obj.P.x + obj.w/2 > this.P.x && obj.P.x - obj.w/2 < this.P.x + this.w &&
+				obj.P.y + obj.h/2 > this.P.y && obj.P.y - obj.h/2 < this.P.y + this.h; 
+	}
+	checkBounds(obj){
+		if (obj.P.x + obj.w/2 < this.P.x){
+			obj.P.x = this.P.x + this.w + obj.w/2;
+		}
+		if (obj.P.x - obj.w/2 > this.P.x + this.w){
+			obj.P.x = this.P.x - obj.w/2;
+		}
+		if (obj.P.y + obj.h/2 < this.P.y){
+			obj.P.y = this.P.y + this.h + obj.h/2;
+		}
+		if (obj.P.y - obj.h/2 > this.P.y + this.h){
+			obj.P.y = this.P.y - obj.h/2;
+		}
+	}
+	backgroundImg(){
+		imgStarBG = starBG.get(this.P.x/3, 0, 1.5*width, 1.5*height);
+		push();
+		translate(this.P.x, this.P.y);
+		image(imgStarBG, width/2, height/2, width, height);   //imagemode is center heehee
+		pop();
+	} 
+	drawStars(){
 		for (let i = 0; i< this.stars.length; i++){
-			if(onScreen(bg_stars.stars[i], ship)){
-				let c = this.stars[i].color; 
-				let s = this.stars[i].w;
-				strokeWeight(s);
-				//divided by size so that large stars twinkle less than smaller ones.
-				stroke(c[0]+random(-175/s, 175/s), c[1]+random(-175/s,175/s), c[2]+random(-175/s,175/s));
-				point(this.stars[i].P.x, this.stars[i].P.y); 
-				strokeWeight(1);
-				noStroke();
-			}
+			this.checkBounds(this.stars[i]);
+			let c = this.stars[i].color; 
+			let s = this.stars[i].w;
+			strokeWeight(s);
+			//divided by size so that large stars twinkle less than smaller ones.
+			stroke(c[0]+random(-175/s, 175/s), c[1]+random(-175/s,175/s), c[2]+random(-175/s,175/s));
+			point(this.stars[i].P.x, this.stars[i].P.y); 
+			strokeWeight(1);
+			noStroke();
 		}
 	}	
-	update(){
+	updateStars(){
 		for (let i = 0; i< this.stars.length; i++){
 			this.stars[i].P.y += 0.3*sqrt((this.stars[i].h));
 			if (this.stars[i].P.y > levelH + this.stars[i].h){
 				this.stars[i].P.y = -this.stars[i].h;
-				this.stars[i].P.x = random(0, levelW);
+				this.stars[i].P.x = random(this.P.x, this.P.x+this.w);
 			} 
 		}
 	}	
@@ -326,7 +364,7 @@ class ShieldDrop extends PowerUp{
 	modShip(playerShip){
 		sPup.play();
 		playerShip.shielded = true;
-		playerShip.shield = new Shield(playerShip.P.x, playerShip.P.y, playerShip.w, playerShip.h);
+		playerShip.shield.absorb = playerShip.shield.absorbMax;
 	}
 	draw(){
 		stroke(random(50,200),random(50,200),random(50,200));
@@ -363,7 +401,8 @@ class Shield {
 		this.r = w;
 		this.s = w/3;
 		this.c = [225,60,200];
-		this.absorb = 200;
+		this.absorb = 0;
+		this.absorbMax = 200;
 	}
 	updatePosition(playerShip){
 		this.P.x = playerShip.P.x;

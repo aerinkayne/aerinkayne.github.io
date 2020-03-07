@@ -79,26 +79,28 @@ class Game{
 			]
 		];
 	}
-	manageScenes(){
+ 
+	manageScenes(ship, gameScreen){
 		if (this.gameState === "gameStart"){
-			background(2,0,10);
-			bg_stars.draw(); 
-			bg_stars.update();
+			gameScreen.backgroundImg();
+			gameScreen.drawStars(); 
+			gameScreen.updateStars();
 			btnStart.draw([0,150,200]);
 		}
 		else if (this.gameState === "inGame"){
 			
 			if (!this.paused){
-				this.checkTime(invGame.timeUnpaused, invGame.timePaused);
+				this.checkTime(this.timeUnpaused, this.timePaused);
 			}
 			gameCamera(ship);
-			background(2,0,10);
-			bg_stars.draw(); 
-			bg_stars.update(); 
+			gameScreen.updatePosition(ship);
+			gameScreen.backgroundImg();
+			gameScreen.drawStars(); 
+			gameScreen.updateStars(); 
 			
 			for (let i = bads.length-1; i >=0 ; i--){
-				bads[i].drawShots(); 
-				if (!this.paused){bads[i].update();}
+				bads[i].drawShots(ship); 
+				if (!this.paused){bads[i].update(ship);}
 				if(onScreen(bads[i], ship)){
 					bads[i].draw();
 				}
@@ -108,7 +110,7 @@ class Game{
 				} 
 			}
 			if (!this.paused){ship.update();} 
-			ship.shots.forEach(shot=> {shot.draw(this);});
+			ship.shots.forEach(shot=> {shot.draw(ship);});
 			ship.draw();
 			
 			//update powerups and also remove them if they go offscreen(Y).
@@ -130,10 +132,15 @@ class Game{
 			resetMatrix();
 			btnPause.draw(color(0,175,150));
 			ship.gunz.forEach(gun => {gun.draw()});
-			ship.healthBar();	
+			ship.healthBar();
+			ship.shieldBar();	
 		}
 		else if (this.gameState === "gameOver"){
 			invGame = new Game();
+			invShip = new Ship(width/2-35,height-35, 35,35);
+			bg_stars = new StarField(invShip); 
+			sortArrByProp(bg_stars.stars, "w");
+			this.gameState = "gameStart";
 		}
 	}
 	startGame(){

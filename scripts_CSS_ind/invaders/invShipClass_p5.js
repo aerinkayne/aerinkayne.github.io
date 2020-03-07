@@ -29,14 +29,14 @@ class Ship{
 	this.powerLevel = 0;  //zero based
 	this.powerLevelMAX = 2;
 	this.gunz = [btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun];
-	this.healthMAX = 8000;  
+	this.healthMAX = 800;  
 	this.health = this.healthMAX;  
 	this.score = 0;
 	this.dmgDelay = 30;
 	this.dmgDelayTimer = this.dmgDelay;
 	this.dmgTaken = sEnmDestr;
 	this.dest = sShipDestr;
-	}
+	} 
 	touchMove(){
 		this.onTouchShipP = createVector(this.P.x+this.w/2, this.P.y+this.h/2); 
 		this.onTouchMouseP = createVector(mouseX, mouseY);
@@ -92,17 +92,29 @@ class Ship{
 		noStroke();
 		fill(225,225,255);
 		textAlign(LEFT);
-		text("score: " + this.score, width-6*width/50, height-4*height/40);
-		
+		text("HP", width-15*width/50, height-4*height/40);
 		fill(0,0,0);
 		stroke(100,175,255);
-		rect(width-6*width/50-1, height-3*height/40-1, 51, 6,2);
+		rect(width-15*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
 		noStroke();
 		fill(155,0,40);
 		//or map() will hate you
 		if (this.health < 0){this.health = 0;}
 		if (this.health > this.healthMAX){this.health = this.healthMAX;}
-		rect(width-6*width/50, height-3*height/40, map(this.health,0,this.healthMAX,0,50), 4,2);
+		rect(width-15*width/50, height-3*height/40, map(this.health,0,this.healthMAX,0,width/10), 4,2);
+	}
+	shieldBar(){
+		noStroke();
+		fill(225,225,255);
+		textAlign(LEFT);
+		text("shields", width-9*width/50, height-4*height/40);
+		fill(0,0,0);
+		stroke(100,175,255);
+		rect(width-9*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
+		noStroke();
+		fill(100,0,120);
+		if (this.shield.absorb < 0){this.shield.absorb = 0;}
+		rect(width-9*width/50, height-3*height/40, map(this.shield.absorb, 0, this.shield.absorbMax, 0, width/10), 4,2);
 	}
 	draw(){
 		push();
@@ -165,17 +177,21 @@ class Ship{
 		if (this.shielded){
 			this.shield.absorb -= damage;
 			if (this.shield.absorb <= 0){
+				this.shield.absord = 0;
 				this.shielded = false;
 			}
 		}
 		else{
-		this.health -= damage;
-		this.dmgDelayTimer = 0;
-		this.dmgTaken.play();
+			this.health -= damage;
+			this.dmgDelayTimer = 0;
+			this.dmgTaken.play();
+			if(this.health <= 0){
+				this.health = 0;
+			}
 		}		
 	}
 	
-	updateTranslocVector(){  
+	updateTranslationVector(){  
 		this.T.x = (this.P.x + this.w/2 >= levelW-width/2) ? levelW-width  : round(max(0, this.P.x + this.w/2 - width/2));
 		this.T.y = (this.P.y + this.h/2 >= levelH-height/2)? levelH-height : round(max(0,this.P.y + this.h/2 - height/2));
 	}
@@ -211,7 +227,7 @@ class Ship{
 		}
 		this.V.limit(this.MAXSP);
 		this.P.add(this.V);
-		this.updateTranslocVector();
+		this.updateTranslationVector();
 
 		//limit firing rate
 		if (this.firingDelay <= this.gunType.rechargeTime){ //weaponRecharge){
