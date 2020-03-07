@@ -162,6 +162,7 @@ class Bubble{
     if (this.P.y < height/5){
 		this.P.y = height + this.w;
 		this.w = random(this.scaleMin, this.scaleMax)*width/15;
+		this.P.x = random(width);
 	}
     if (this.P.x + this.w < 0){this.P.x = width + this.w;}
     if (this.P.x - this.w > width){this.P.x = - this.w ;}
