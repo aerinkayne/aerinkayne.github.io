@@ -194,7 +194,7 @@ class StarField{
 		this.P.x = ship.T.x;
 		this.P.y = ship.T.y;
 	}
-	isWithinField(obj){
+	isWithinField(obj){  //replace onScreen?
 		return  obj.P.x + obj.w/2 > this.P.x && obj.P.x - obj.w/2 < this.P.x + this.w &&
 				obj.P.y + obj.h/2 > this.P.y && obj.P.y - obj.h/2 < this.P.y + this.h; 
 	}
@@ -234,7 +234,7 @@ class StarField{
 	}	
 	updateStars(){
 		for (let i = 0; i< this.stars.length; i++){
-			this.stars[i].P.y += 0.3*sqrt((this.stars[i].h));
+			this.stars[i].P.y += 0.2*sqrt((this.stars[i].h));
 			if (this.stars[i].P.y > levelH + this.stars[i].h){
 				this.stars[i].P.y = -this.stars[i].h;
 				this.stars[i].P.x = random(this.P.x, this.P.x+this.w);

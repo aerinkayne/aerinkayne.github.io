@@ -152,6 +152,7 @@ function setup(){
 	slider = createSlider(0, 0.1, 0.05, 0.01)
 	oldVolume = slider.value();
 	newVolume = slider.value();
+	changeVolume();
 	slider.parent('volumeSliderContainer');
 	frameRate(60);
 	imageMode(CENTER);
@@ -170,7 +171,7 @@ function setup(){
 	eye1 = sprites2.get(366,278,150,98);
 	eye2 = sprites2.get(535,278,150,98);
 	eyeClosed = sprites2.get(535,367,150,98);
-	base1 = sprites2.get(76,742,317,144);
+	base1 = sprites2.get(26,742,317,144);
 	sprShip1 = sprites2.get(50,450,102,123);
 	sprShipF = sprites2.get(200,450,102,123);
 	
