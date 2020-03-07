@@ -6,14 +6,13 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-	<title>Canvas Art</title>
+	<title>Fishtank</title>
 		
 	<!-- google fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
 	<!-- styles -->
-	<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/css_general.css">
-	<script src="processing.js"></script> 
+	<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/css_general.css">	
+	
 	</head>
 
 	<body>
@@ -41,14 +40,22 @@
 	</nav>
 
 	<section class="rows">	
-		<canvas id="fishtank" width="400" height="400" data-processing-sources="fishPDE/fishPDE.pde"></canvas>
-		<!-- rewrite this some day maybe -->
-		<br>
-		<h4>Click inside the canvas to create up to 8 additional fish.</h4>
+		<div id="cParent">
+		</div>
+		
+
+		<p>Click inside the canvas to create some additional fish.</p>
 		
 	</section>
-	
+	<!-- p5 library -->
+	<script src="scripts_CSS_ind/p5.min.js"></script> 
+	<script src="scripts_CSS_ind/p5.sound.min.js"></script> 
+	<script src="scripts_CSS_ind/p5.dom.min.js"></script> 
+	<!-- site scripts -->
 	<script src="scripts_CSS_ind/myScript.js"></script>	
+	<!-- fishtank -->
+	<script src="scripts_CSS_ind/fishtank/fishtank.js"></script>
+	<script src="scripts_CSS_ind/fishtank/fishtankSketch.js"></script>
   	</body>
 
 
