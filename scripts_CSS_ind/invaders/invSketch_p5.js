@@ -12,7 +12,7 @@ let sprBadG1, sprBadG2;
 let sprBadB1, sprBadB2;
 let sprBadBr1, sprBadBr2;
 let sprCrim1, sprCrim2, sprCrim3;
-let eye1, eye2, eyeClosed, base1;
+let eye1, eye2, eyeClosed, base1, base2;
 let sprShip1, sprShipF;
 
 let slider, oldVolume, newVolume;
@@ -171,7 +171,8 @@ function setup(){
 	eye1 = sprites2.get(366,278,150,98);
 	eye2 = sprites2.get(535,278,150,98);
 	eyeClosed = sprites2.get(535,367,150,98);
-	base1 = sprites2.get(26,742,317,144);
+	base1 = sprites2.get(26,742,317,146);
+	base2 = sprites2.get(335,742,317,146);
 	sprShip1 = sprites2.get(50,450,102,123);
 	sprShipF = sprites2.get(200,450,102,123);
 	
