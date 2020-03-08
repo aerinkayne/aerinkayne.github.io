@@ -7,7 +7,7 @@ class Enemy{
 		this.P = createVector(x,y);
 		this.P.y = this.P.y+this.spawnInP.y;
 		this.V = createVector(0.5,0);  //updated later
-		this.scaleMod = random(0.8, 1.45);  //vary sizes somewhat
+		this.scaleMod = random(0.6, 1);  //vary sizes somewhat
 		this.w = 50;//overwrite
 		this.h = 50;
 		this.drawTimer = 0;
@@ -15,7 +15,7 @@ class Enemy{
 		this.backImg = 0;
 		this.takesDamage = true;
 		this.points = 10;  //placeholder
-		this.animationOffset = random(0,1.6);
+		this.animationOffset = random(PI);
 		this.shots = [];
 		this.drop = 0;
 		this.firingDelay = 0;
@@ -124,22 +124,25 @@ class Enemy{
 			this.P.y = -2*this.h;
 		}
 	}
-	
-	//called in Game.managescenes, through loop of bads.length
+	updatePosition(){  
+		this.P.x += this.V.x*this.scaleMod;
+		this.P.y += this.V.y*this.scaleMod;
+	}
+	//update is called in Game.managescenes, through loop of bads.length.  todo: fix this disaster.
 	update(ship){  
 		if (this.shots.length > 0 ){
 			this.updateShots(ship);
 		}
 		
 		this.checkDirectCollision(ship);
-		if (this.checkIfAttackable){this.checkIfAttackable();}
+		if (this.checkIfAttackable){this.checkIfAttackable();} //call method if it exists
 		
 		//if enemy is alive and state is inGame
 		if (this.health > 0 && invGame.gameState==="inGame"){
 			this.spawnIn();
 			this.movementBounds();
 			this.updateVelocity();
-			this.P.add(this.V);
+			this.updatePosition();
 			
 			//limit attack rate
 			if (this.firingDelay <= this.attackCooldown){
@@ -180,8 +183,8 @@ class Enemy{
 class RedShip extends Enemy{
 	constructor(x, y){
 		super(x, y);
-		this.w = this.scaleMod*55;
-		this.h = this.scaleMod*45;
+		this.w = this.scaleMod*65;
+		this.h = this.scaleMod*55;
 		this.imageSprites = [sprBadR1,sprBadR2];
 		this.cycleTime = 40;
 		this.drawTimer = random(0,this.cycleTime);
@@ -195,8 +198,8 @@ class RedShip extends Enemy{
 class BlueShip extends Enemy{
 	constructor(x, y){
 		super(x, y);
-		this.w = this.scaleMod*35;
-		this.h = this.scaleMod*35;
+		this.w = this.scaleMod*45;
+		this.h = this.scaleMod*45;
 		this.imageSprites = [sprBadB1,sprBadB2];
 		this.cycleTime = 30;
 		this.drawTimer = random(0,this.cycleTime);
@@ -215,8 +218,8 @@ class BlueShip extends Enemy{
 class CrimsonShip extends Enemy{
 	constructor(x, y){
 		super(x, y);
-		this.w = this.scaleMod*50;
-		this.h = this.scaleMod*45;
+		this.w = this.scaleMod*55;
+		this.h = this.scaleMod*50;
 		this.imageSprites = [sprCrim1, sprCrim2, sprCrim3, sprCrim2];
 		this.cycleTime = 90;
 		this.drawTimer = random(0,this.cycleTime);
@@ -256,8 +259,8 @@ class CrimsonShip extends Enemy{
 class GreenShip extends Enemy{
 	constructor(x, y){
 		super(x, y);
-		this.w = this.scaleMod*45;
-		this.h = this.scaleMod*40;
+		this.w = this.scaleMod*55;
+		this.h = this.scaleMod*45;
 		this.imageSprites = [sprBadG1,sprBadG2];
 		this.cycleTime = 20;
 		this.drawTimer = random(0,this.cycleTime);
@@ -272,7 +275,7 @@ class GreenShip extends Enemy{
 class OrangeShip extends Enemy{
 	constructor(x, y){
 		super(x, y);
-		this.w = this.scaleMod*32;
+		this.w = this.scaleMod*35;
 		this.h = this.scaleMod*65;
 		this.imageSprites = [sprBadBr1,sprBadBr2];
 		this.cycleTime = 40;
@@ -293,6 +296,7 @@ class Eye extends Enemy{
 		super(x, y);
 		this.w = 70;
 		this.h = 40;
+		this.scaleMod = 1;
 		this.column = column;
 		this.boundXL = x;
 		this.boundXR = levelW - 50 - this.column * 70;  //column width in game array
