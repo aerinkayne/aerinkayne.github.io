@@ -206,11 +206,11 @@ class Game{
 					else if(s==="2"){bads.push(new BlueShip(50 + w*col, h*row, w, h));}
 					else if(s==="3"){bads.push(new GreenShip(50 + w*col, h*row, w, h));}
 					else if(s==="4"){bads.push(new OrangeShip(50 + w*col, h*row, w, h));}
-					else if(s==="5"){bads.push(new Eye(50 + w*col, 50+h*row, w, h, w*(numCols-col-1)));}  
+					else if(s==="5"){bads.push(new Eye(50 + w*col, 50+h*row, w, h, w*(numCols-col)));}  
 					else if(s==="6"){bads.push(new CrimsonShip(50+ w*col, h*row, w, h));}
 					else if(s==="7"){
 						//unshifted so that it's drawn last (loop is backwards). 
-						bads.unshift(new EnmBase(50  + w*col, h*row, w, h, w*(numCols-col-1)));}
+						bads.unshift(new EnmBase(50  + w*col, h*row, w, h, w*(numCols-col)));}
 					else {console.log("unexpected char in game waveMap: " + s);}
 					}
 		}

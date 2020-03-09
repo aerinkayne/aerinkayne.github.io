@@ -6,8 +6,8 @@ class Enemy{
 		this.spawnInV = createVector(0, 0.2);
 		this.V = createVector(0.5,0);  //updated later
 		this.scaleMod = random(0.6, 1);  //vary sizes somewhat
-		this.w = 50;//overwrite
-		this.h = 50;
+		this.w = 0;//overwrite
+		this.h = 0;
 		this.gridW = gridW;
 		this.gridH = gridH;
 		//correct position for differences between image size and map's grid size
@@ -298,8 +298,8 @@ class Eye extends Enemy{
 		this.w = 65;
 		this.h = 40;
 		this.scaleMod = 1;
-		this.boundXL = x + this.w/2;
-		this.boundXR = levelW - num - this.w/2;  
+		this.boundXL = x + (gridW-this.w)/2;
+		this.boundXR = levelW - num - (gridW - this.w)/2;  
 		this.imageSprites = [eye2, eye1, eye1, eye2, eyeClosed, eyeClosed, eyeClosed, eyeClosed];
 		this.cycleTime = 1000;
 		this.drawTimer = random(0,this.cycleTime);
@@ -312,7 +312,7 @@ class Eye extends Enemy{
 	}
 	
 	movementBounds(){
-		if (this.P.x + this.w/2 < this.boundXL || this.P.x + this.w/2 > this.boundXR){
+		if (this.P.x < this.boundXL || this.P.x > this.boundXR){
 			this.V.x *= -1;
 		}
 	}
