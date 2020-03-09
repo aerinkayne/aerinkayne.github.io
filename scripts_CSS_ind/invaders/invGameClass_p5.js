@@ -4,13 +4,13 @@ class Game{
 		this.levelH = 350;
 		this.badDistW = 70;
 		this.badDistH = 50;
-		this.waveTimer = 5000;  //milliseconds
+		this.waveTimer = 25000;  //milliseconds
 		this.dateRefMillisecs = 0; //update in start
 		this.timePaused = 0;
 		this.timeUnpaused = 0;
 		this.currentTime = 0;
 		this.gameState = "gameStart"; 
-		this.currentWave = 10;
+		this.currentWave = 0;
 		this.numBadsOld = 0;
 		this.numBadsNew = 0;
 		this.spawned = [false, false, false, false, false, false];
