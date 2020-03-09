@@ -1,18 +1,22 @@
 //TODO move collide into here.  add shield bar
 
 class Enemy{
-	constructor(x, y){  //ship type
+	constructor(x, y, gridW, gridH){  
 		this.spawnInP = createVector(0,-height/2);
 		this.spawnInV = createVector(0, 0.2);
-		this.P = createVector(x,y);
-		this.P.y = this.P.y+this.spawnInP.y;
 		this.V = createVector(0.5,0);  //updated later
 		this.scaleMod = random(0.6, 1);  //vary sizes somewhat
 		this.w = 50;//overwrite
 		this.h = 50;
+		this.gridW = gridW;
+		this.gridH = gridH;
+		//correct position for differences between image size and map's grid size
+		this.P = createVector(x, y);
+		this.P.x += (this.gridW-this.w)/2;  //center location on map cells
+		this.P.y += (this.gridH-this.h)/2;
+		this.P.y += this.spawnInP.y;
 		this.drawTimer = 0;
 		this.cycleTime = 50;
-		this.backImg = 0;
 		this.takesDamage = true;
 		this.points = 10;  //placeholder
 		this.animationOffset = random(PI);
@@ -37,10 +41,7 @@ class Enemy{
 			let i = floor(this.drawTimer/segTime);
 			push();
 			translate(this.P.x, this.P.y);
-			if(this.backImg){  //placeholder.  put an actual img here.
-				fill(50,60,80);
-				rect(-this.w/8,-this.h/8,5/4*this.w,5/4*this.h,3);
-			}
+			//image mode is CENTER
 			image(this.imageSprites[i], this.w/2, this.h/2, this.w, this.h);
 			pop();
 			this.updateDrawTimer();
@@ -181,8 +182,8 @@ class Enemy{
 }
 
 class RedShip extends Enemy{
-	constructor(x, y){
-		super(x, y);
+	constructor(x, y, gridW, gridH){
+		super(x, y, gridW, gridH);
 		this.w = this.scaleMod*65;
 		this.h = this.scaleMod*55;
 		this.imageSprites = [sprBadR1,sprBadR2];
@@ -196,8 +197,8 @@ class RedShip extends Enemy{
 	}	
 }
 class BlueShip extends Enemy{
-	constructor(x, y){
-		super(x, y);
+	constructor(x, y, gridW, gridH){
+		super(x, y, gridW, gridH);
 		this.w = this.scaleMod*45;
 		this.h = this.scaleMod*45;
 		this.imageSprites = [sprBadB1,sprBadB2];
@@ -216,8 +217,8 @@ class BlueShip extends Enemy{
 	}
 }
 class CrimsonShip extends Enemy{
-	constructor(x, y){
-		super(x, y);
+	constructor(x, y, gridW, gridH){
+		super(x, y, gridW, gridH);
 		this.w = this.scaleMod*55;
 		this.h = this.scaleMod*50;
 		this.imageSprites = [sprCrim1, sprCrim2, sprCrim3, sprCrim2];
@@ -257,8 +258,8 @@ class CrimsonShip extends Enemy{
 	}
 }
 class GreenShip extends Enemy{
-	constructor(x, y){
-		super(x, y);
+	constructor(x, y, gridW, gridH){
+		super(x, y, gridW, gridH);
 		this.w = this.scaleMod*55;
 		this.h = this.scaleMod*45;
 		this.imageSprites = [sprBadG1,sprBadG2];
@@ -273,8 +274,8 @@ class GreenShip extends Enemy{
 	}
 }
 class OrangeShip extends Enemy{
-	constructor(x, y){
-		super(x, y);
+	constructor(x, y, gridW, gridH){
+		super(x, y, gridW, gridH);
 		this.w = this.scaleMod*35;
 		this.h = this.scaleMod*65;
 		this.imageSprites = [sprBadBr1,sprBadBr2];
@@ -292,28 +293,26 @@ class OrangeShip extends Enemy{
 	}
 }
 class Eye extends Enemy{
-	constructor(x, y, column){
-		super(x, y);
-		this.w = 70;
+	constructor(x, y, gridW, gridH, num){ //(numcols in array - current col index - 1)*gridW
+		super(x, y, gridW, gridH, num);
+		this.w = 65;
 		this.h = 40;
 		this.scaleMod = 1;
-		this.column = column;
-		this.boundXL = x;
-		this.boundXR = levelW - 50 - this.column * 70;  //column width in game array
+		this.boundXL = x + this.w/2;
+		this.boundXR = levelW - num - this.w/2;  
 		this.imageSprites = [eye2, eye1, eye1, eye2, eyeClosed, eyeClosed, eyeClosed, eyeClosed];
-		this.backImg = 1;
 		this.cycleTime = 1000;
 		this.drawTimer = random(0,this.cycleTime);
 		this.gunType = homingMissile;
 		this.V = createVector(0.25,0);
-		this.health = 1500;
-		this.attackCooldown = 90; 
+		this.health = 1200;
+		this.attackCooldown = 150; 
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
 	}
 	
 	movementBounds(){
-		if (this.P.x < this.boundXL || this.P.x > this.boundXR){
+		if (this.P.x + this.w/2 < this.boundXL || this.P.x + this.w/2 > this.boundXR){
 			this.V.x *= -1;
 		}
 	}
@@ -323,22 +322,21 @@ class Eye extends Enemy{
 }
 
 class EnmBase extends Eye{
-	constructor(x,y, column){
-		super(x,y, column);
-		this.w = 110;
+	constructor(x, y, gridW, gridH, num){
+		super(x, y, gridW, gridH, num);
+		this.w = 100;
 		this.h = 90;
-		this.backImg = 0;
-		this.boundXR = levelW - 50 - this.column * 70 - 20;  //20 comes from (110-70)/2.  I'm so sorry :(
-		this.attackCooldown = 1000; 
-		this.imageSprites = [base1];
+		this.drawTimer = 0;
+		this.cycleTime = 400;
+		this.attackCooldown = 400; 
+		this.imageSprites = [base1, base2];
 		this.takesDamage = false;
 	}
-	checkIfAttackable(){
-		return false;
-	}
-	shoot(){										//normal spawnin is at -height/2
-		let P = createVector(this.P.x + this.w/4, this.P.y + height/2 + 3/5*this.h); 
-		bads.unshift(new OrangeShip(P.x, P.y, 32, 70));  
-		this.att.play();
+	shoot(){	
+		if(this.drawTimer < this.cycleTime/2){								//normal spawn is at -height/2
+			let P = createVector(this.P.x + this.w/4, this.P.y + height/2 + 3/5*this.h); 
+			bads.unshift(new OrangeShip(P.x, P.y, this.gridW, this.gridH));  
+			this.att.play();
+		}	
 	}
 }

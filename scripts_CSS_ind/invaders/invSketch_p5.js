@@ -172,7 +172,7 @@ function setup(){
 	eye2 = sprites2.get(535,278,150,98);
 	eyeClosed = sprites2.get(535,367,150,98);
 	base1 = sprites2.get(26,742,317,146);
-	base2 = sprites2.get(335,742,317,146);
+	base2 = sprites2.get(361,742,317,146);
 	sprShip1 = sprites2.get(50,450,102,123);
 	sprShipF = sprites2.get(200,450,102,123);
 	

@@ -29,7 +29,7 @@ class Ship{
 	this.powerLevel = 0;  //zero based
 	this.powerLevelMAX = 2;
 	this.gunz = [btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun];
-	this.healthMAX = 800;  
+	this.healthMAX = 2000;  
 	this.health = this.healthMAX;  
 	this.score = 0;
 	this.dmgDelay = 30;
