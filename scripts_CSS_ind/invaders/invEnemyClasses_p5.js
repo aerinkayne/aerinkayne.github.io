@@ -4,17 +4,16 @@ class Enemy{
 	constructor(x, y, gridW, gridH){  
 		this.spawnInP = createVector(0,-height/2);
 		this.spawnInV = createVector(0, 0.2);
+		this.indentMeX = width/10;
 		this.V = createVector(0.5,0);  //updated later
 		this.scaleMod = random(0.6, 1);  //vary sizes somewhat
-		this.w = 0;//overwrite
-		this.h = 0;
+		this.w = this.scaleMod*70; //overwrite sizes 
+		this.h = this.scaleMod*70;
 		this.gridW = gridW;
 		this.gridH = gridH;
-		//correct position for differences between image size and map's grid size
-		this.P = createVector(x, y);
-		this.P.x += (this.gridW-this.w)/2;  //center location on map cells
-		this.P.y += (this.gridH-this.h)/2;
-		this.P.y += this.spawnInP.y;
+		this.diff = 0;
+		this.P = createVector(this.indentMeX + x, y);
+		this.P.y += this.spawnInP.y; 
 		this.drawTimer = 0;
 		this.cycleTime = 50;
 		this.takesDamage = true;
@@ -27,6 +26,7 @@ class Enemy{
 		this.shotDirection = 1;  //-1 for player ship, 1 for enemy ships
 		this.powerLevel = 0;
 		this.shotRoll = 0.3; //used for chance of attacking once attackcooldown is up
+		this.positionCorrected = false;
 	}
 	spawnIn(){
 		if (this.spawnInP.y < 0){
@@ -34,7 +34,17 @@ class Enemy{
 			this.P.add(this.spawnInV);
 		}
 	}
-	draw() {
+	correctXPosition(){
+		/*correct position for differences between map's grid size 
+		and the obj size so that obj is centered on the grid.
+		Also update boundaries for objects that use them.*/
+		this.P.x += (this.gridW - this.w)/2; 
+		this.boundXL += floor(this.gridW-this.w)/2;
+		this.boundXR += floor(this.gridW-this.w)/2;
+		this.diff = this.gridW - this.w;
+		this.positionCorrected = true;	
+	}
+	draw(){
 		if (this.health>0){
 			let len = this.imageSprites.length;
 			let segTime = this.cycleTime/len;
@@ -125,7 +135,10 @@ class Enemy{
 			this.P.y = -2*this.h;
 		}
 	}
-	updatePosition(){  
+	updatePosition(){ 
+		if (this.gridW && !this.positionCorrected && this.w !== this.gridW){
+			this.correctXPosition();
+		}
 		this.P.x += this.V.x*this.scaleMod;
 		this.P.y += this.V.y*this.scaleMod;
 	}
@@ -295,18 +308,18 @@ class OrangeShip extends Enemy{
 class Eye extends Enemy{
 	constructor(x, y, gridW, gridH, num){ //(numcols in array - current col index - 1)*gridW
 		super(x, y, gridW, gridH, num);
-		this.w = 65;
+		this.w = 70;
 		this.h = 40;
 		this.scaleMod = 1;
-		this.boundXL = x + (gridW-this.w)/2;
-		this.boundXR = levelW - num - (gridW - this.w)/2;  
 		this.imageSprites = [eye2, eye1, eye1, eye2, eyeClosed, eyeClosed, eyeClosed, eyeClosed];
 		this.cycleTime = 1000;
 		this.drawTimer = random(0,this.cycleTime);
 		this.gunType = homingMissile;
 		this.V = createVector(0.25,0);
 		this.health = 1200;
-		this.attackCooldown = 150; 
+		this.attackCooldown = 200; 
+		this.boundXL = floor(x); 
+		this.boundXR = floor(levelW - num);  
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
 	}
@@ -333,9 +346,10 @@ class EnmBase extends Eye{
 		this.takesDamage = false;
 	}
 	shoot(){	
-		if(this.drawTimer < this.cycleTime/2){								//normal spawn is at -height/2
-			let P = createVector(this.P.x + this.w/4, this.P.y + height/2 + 3/5*this.h); 
-			bads.unshift(new OrangeShip(P.x, P.y, this.gridW, this.gridH));  
+		if(this.drawTimer < this.cycleTime/2){		  //normal spawn is at -height/2
+			let P = createVector(this.P.x + this.w/4 - this.indentMeX, this.P.y + height/2 + 4/5*this.h);
+			//passing in 0,0 for grid values so that initial position will not be corrected for these ships 
+			bads.unshift(new OrangeShip(P.x, P.y, 0, 0));  
 			this.att.play();
 		}	
 	}

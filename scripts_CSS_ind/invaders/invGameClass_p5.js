@@ -2,15 +2,15 @@ class Game{
 	constructor(){
 		this.levelW = 850;
 		this.levelH = 350;
-		this.badDistW = 70;
-		this.badDistH = 50;
-		this.waveTimer = 25000;  //milliseconds
+		this.gridW = 70;
+		this.gridH = 50;
+		this.waveTimer = 5000;  //milliseconds
 		this.dateRefMillisecs = 0; //update in start
 		this.timePaused = 0;
 		this.timeUnpaused = 0;
 		this.currentTime = 0;
 		this.gameState = "gameStart"; 
-		this.currentWave = 0;
+		this.currentWave = 10;
 		this.numBadsOld = 0;
 		this.numBadsNew = 0;
 		this.spawned = [false, false, false, false, false, false];
@@ -194,23 +194,23 @@ class Game{
 
 	}
 	spawnBads(wave){
-		let w = this.badDistW; 
-		let h = this.badDistH;
+		let gw = this.gridW; 
+		let gh = this.gridH;
 		let numRows = this.waveMap[wave].length;
 		let numCols = this.waveMap[wave][0].length;
 		for(let row=0; row < numRows; row++){  //0-2
 			for(let col=0; col < numCols; col++){  //0-5
 				let s=this.waveMap[wave][row][col];  //character in game.waveMap array
 					if(s==="0"){continue;}
-					else if(s==="1"){bads.push(new RedShip(50 + w*col, h*row, w, h));}  
-					else if(s==="2"){bads.push(new BlueShip(50 + w*col, h*row, w, h));}
-					else if(s==="3"){bads.push(new GreenShip(50 + w*col, h*row, w, h));}
-					else if(s==="4"){bads.push(new OrangeShip(50 + w*col, h*row, w, h));}
-					else if(s==="5"){bads.push(new Eye(50 + w*col, 50+h*row, w, h, w*(numCols-col)));}  
-					else if(s==="6"){bads.push(new CrimsonShip(50+ w*col, h*row, w, h));}
+					else if(s==="1"){bads.push(new RedShip(gw*col, gh*row, gw, gh));}  
+					else if(s==="2"){bads.push(new BlueShip(gw*col, gh*row, gw, gh));}
+					else if(s==="3"){bads.push(new GreenShip(gw*col, gh*row, gw, gh));}
+					else if(s==="4"){bads.push(new OrangeShip(gw*col, gh*row, gw, gh));}
+					else if(s==="5"){bads.push(new Eye(gw*col, 50+gh*row, gw, gh, gw*(numCols-col)));}  
+					else if(s==="6"){bads.push(new CrimsonShip(gw*col, gh*row, gw, gh));}
 					else if(s==="7"){
 						//unshifted so that it's drawn last (loop is backwards). 
-						bads.unshift(new EnmBase(50  + w*col, h*row, w, h, w*(numCols-col)));}
+						bads.unshift(new EnmBase(gw*col, gh*row, gw, gh, gw*(numCols-col)));}
 					else {console.log("unexpected char in game waveMap: " + s);}
 					}
 		}
