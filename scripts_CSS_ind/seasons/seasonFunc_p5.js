@@ -156,7 +156,7 @@ class Player {
 		}
 		
 		//update x position
-		this.P.x += this.V.x;
+		this.P.x += floor(this.V.x);
 		//check x collision 
 		this.checkMapCollision(arr,this.V.x, 0); 
 		//update y position
