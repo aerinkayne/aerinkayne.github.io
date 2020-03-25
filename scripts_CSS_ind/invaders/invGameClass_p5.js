@@ -103,7 +103,7 @@ class Game{
 			for (let i = bads.length-1; i >=0 ; i--){
 				bads[i].drawShots(ship); 
 				if (!this.paused){bads[i].update(ship);}
-				if(onScreen(bads[i], ship)){
+				if(collide(bads[i], gameScreen)){  
 					bads[i].draw();
 				}
 				//do not remove enemy from array until its possible shots are also removed.
@@ -140,8 +140,8 @@ class Game{
 		else if (this.gameState === "gameOver"){
 			invGame = new Game();
 			invShip = new Ship(width/2-35,height-35, 35,35);
-			bg_stars = new StarField(invShip); 
-			sortArrByProp(bg_stars.stars, "w");
+			gameScreen = new GameScreen(invShip); 
+			sortArrByProp(gameScreen.stars, "w");
 			this.gameState = "gameStart";
 		}
 	}

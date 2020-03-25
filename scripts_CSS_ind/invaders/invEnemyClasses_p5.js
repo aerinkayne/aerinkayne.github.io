@@ -88,10 +88,10 @@ class Enemy{
 		return;
 	}
 	drawShots(ship){
-		this.shots.forEach(shot => {	
-			if(onScreen(shot,ship)){ 
+		this.shots.forEach(shot => {
+			if (collide(shot, gameScreen)){
 				shot.draw(this);
-			}
+			}	
 		});
 	}
 	updateShots(ship){

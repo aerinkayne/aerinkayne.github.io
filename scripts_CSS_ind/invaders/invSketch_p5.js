@@ -1,5 +1,5 @@
 let levelW, levelH, bordL, bordR;  //define after game created
-let bg_stars; 
+let gameScreen; 
 let invGame;
 let btnStart, btnPause, btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun;
 let invShip;
@@ -186,8 +186,8 @@ function setup(){
 	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
 
 	invShip = new Ship(width/2-35,height-35, 35,35);
-	bg_stars = new StarField(invShip); 
-	sortArrByProp(bg_stars.stars, "w");
+	gameScreen = new GameScreen(invShip); 
+	sortArrByProp(gameScreen.stars, "w");
 }	
 
 //movements = {39:bool,37:bool,38:bool,40:bool}
@@ -224,5 +224,5 @@ function draw(){
 	if(newVolume!==oldVolume){
 		changeVolume();
 	}
-	invGame.manageScenes(invShip, bg_stars);
+	invGame.manageScenes(invShip, gameScreen);
 }

@@ -10,7 +10,7 @@ click to move test
 */
 
 
-//anon functions: sort, collision, camera, onscreen check
+//anon functions: sort, collision, camera
 
 //bubble sorts an array by the given key's value
 let sortArrByProp = function(arr, str){
@@ -27,7 +27,7 @@ let sortArrByProp = function(arr, str){
 }
 
 //rect collision.  
-let collide = function(obj1,obj2){ 
+let collide = function(obj1, obj2){ 
     return  obj1.P.x < obj2.P.x + obj2.w && obj1.P.x + obj1.w > obj2.P.x &&
             obj1.P.y < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y;
 }
@@ -36,7 +36,9 @@ let gameCamera = function(ship) {
 		translate(-ship.T.x, -ship.T.y);
 	}
 
-let onScreen = function(obj, player){ 
+
+/*
+let onScr-en = function(obj, player){ 
 		let playerCenterX = player.P.x + player.w/2;
 		return ( 
 			//no Y translation so just check between 0-height
@@ -44,7 +46,7 @@ let onScreen = function(obj, player){
 			(abs(playerCenterX-(obj.P.x + obj.w/2)) - obj.w/2 < width/2 + max(0,bordL-playerCenterX) + max(0, playerCenterX-bordR))		
 		);	
 	}
-	
+*/
 
 
 
@@ -96,8 +98,8 @@ class StartBtn extends Button{
 		btnSpreadGun = new GunBtn(9.4/10*width,9.45/10*height,width/18,height/19,3, sprCrim1, spreader);
 
 		invShip = new Ship(width/2-35,height-35, 35,35);
-		bg_stars = new StarField(invShip); 
-		sortArrByProp(bg_stars.stars, "w");
+		gameScreen = new GameScreen(invShip); 
+		sortArrByProp(gameScreen.stars, "w");
 		
 		invGame.startGame();
 		invGame.gameState = "inGame";
@@ -159,8 +161,7 @@ class GunBtn extends Button{
 	}
 }
 
-//make this a gameScreen class
-class StarField{
+class GameScreen{
 	constructor(ship){
 		this.P = createVector(ship.T.x, ship.T.y);
 		this.w = width;
@@ -193,10 +194,6 @@ class StarField{
 	updatePosition(ship){
 		this.P.x = ship.T.x;
 		this.P.y = ship.T.y;
-	}
-	isWithinField(obj){  //replace onScreen?
-		return  obj.P.x + obj.w/2 > this.P.x && obj.P.x - obj.w/2 < this.P.x + this.w &&
-				obj.P.y + obj.h/2 > this.P.y && obj.P.y - obj.h/2 < this.P.y + this.h; 
 	}
 	checkBounds(obj){
 		if (obj.P.x + obj.w/2 < this.P.x){
