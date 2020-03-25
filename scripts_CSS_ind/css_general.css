@@ -12,16 +12,18 @@ html {
 }
 
 body {
-	background-image: linear-gradient(to bottom right, #d4d0d4, #b3b0d8);
+	background-image: linear-gradient(to bottom right, #b8b8c0, #ccd);
 	font-family: 'Dosis', sans-serif;
 	background-repeat: no-repeat;
     background-attachment: fixed;
 	--navTextColor: #bbb;
+	--navHighliteColor: #8fe;
 	--navHoverColor: #000;
-	--navMidBGColor: #111;
+	--navMidBGColor: #000;
 	--navBGColor: #333;
 	--sectionTextColor: #000;
 	--maxWidth: 1024px;
+	--maskColor: #d8d8e0;
 }
 
 canvas {
@@ -39,17 +41,17 @@ canvas {
 #fishtank {
 	width: 400px;
 }
+
+
 section { 
 	display: flex;
+	justify-content: space-around;
 	margin: 3% auto;
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
-}
-.darken {
-	background-color: rgba(0,0,0,0.3);
-}
-.lighten {
-	background-color: rgba(255,255,255,0.3);
+	min-width: 550px;
+	border-radius: 3px;
+	overflow: hidden;
 }
 
 .columns {
@@ -90,21 +92,20 @@ nav {
 	position: relative;
 	margin: 0px auto;
 	width: 90%;
+	min-width: 550px;
 	max-width: var(--maxWidth, 1024px);
 	background-color: var(--navMidBGColor, #111);
 	height: 100%;
 }
-.navIcon {
+.navLogoDiv {
 	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	color: #888;
-	padding: 0px 8px;
-	letter-spacing: 2px;
+	left: 1%;
+	height: 100%;
 }
-.navIcon span {
-	color: #fff;
-	font-weight: bold;
+.navLogoDiv span {
+	color: var(--navHighliteColor);
+	font-size: 30px;
+	height: 100%;
 }
 
 nav a {
@@ -212,16 +213,16 @@ nav a {
 	width: 25px;
 	height: 2px;
 	margin: 5px 10px;
-	background-color: #999;
+	background-color: var(--navHighliteColor);
 	transition: all 0.5s;
 }
-.burgX .top{  
+.burgX .topB {  
 	transform: rotate(-45deg) translate(-5px,5px);
 }
-.burgX .mid {
+.burgX .midB {
 	opacity: 0;
 }
-.burgX .btm {
+.burgX .btmB {
 	transform: rotate(45deg) translate(-5px,-5px);
 }
 
