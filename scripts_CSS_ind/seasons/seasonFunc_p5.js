@@ -1,6 +1,6 @@
-// issues: mover collision of top of player from bottom needs fix 
-// concat map tiles and fix loop.  rework spike objects so that direction 
-// can be changed and collision still works.  fix camera/effect interactions
+// todo
+// simplify tile and obj array, screen class updates
+// 
 // notes: EffectsHandler and Game classes are in their own files.
 
 // new buttons 092519
