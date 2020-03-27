@@ -1,0 +1,430 @@
+
+.maskContainer {  /* default 3X2.  change width% and bottom padding% to modify */
+	position: relative;
+	width: 33%;  
+	height: 0;
+	padding-bottom: 22%;   /* makes height a % of _container's_ width */
+	overflow: hidden;
+}
+.masked {  /* the image element being masked  */
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.mask { /* general properties for overlay mask div */
+	position: absolute;  
+	background-color: var(--maskColor);  /* defined in general.css, body selector */
+}
+.mask2 { 
+	background-color: var(--mask2Color); /* defined in general.css, body selector */
+}
+.mask2 .mask {
+	background-color: var(--mask2Color);
+}
+ 
+.maskL { /* common masks */
+	left: -1%;
+	height: 100%;
+	width: 4%;
+}
+.maskR {
+	left: 97%;
+	height: 100%;
+	width: 4%;
+}
+.maskT {
+	top: -1%;
+	height: 4%;
+	width: 100%;
+}
+
+.maskB {
+	bottom: -1%;
+	height: 4%;
+	width: 100%;
+}
+.maskMidV {
+	left: 48.5%;
+	width: 3%;
+	height: 100%;
+}
+.mask25V {
+	left: 23.5%;
+	width: 3%;
+	height: 100%;
+}
+.mask25VW {
+	left: 20%;
+	width: 5%;
+	height: 100%;
+}
+.mask33V {
+	left: 31.5%;
+	width: 3%;
+	height: 100%;
+}
+.mask33VW {
+	left: 31%;
+	width: 5%;
+	height: 100%;
+}
+.mask67V {
+	left: 65.5%;
+	width: 3%;
+	height: 100%;
+}
+.mask67VW {
+	left: 64%;
+	width: 5%;
+	height: 100%;
+}
+.mask75V {
+	left: 73.5%;
+	width: 3%;
+	height: 100%;
+}
+.mask75VW {
+	left: 75%;
+	width: 5%;
+	height: 100%;
+}
+.maskMidH {
+	top: 48.5%;
+	height: 3%;
+	width: 100%;
+}
+.mask25H {
+	top: 23.5%;
+	height: 3%;
+	width: 100%;
+}
+.mask33H {
+	top: 31.5%;
+	height: 3%;
+	width: 100%;
+}
+.mask75H {
+	top: 73.5%;
+	height: 3%;
+	width: 100%;
+}
+
+
+.bord { /* general properties for overlay border div */
+	position: absolute;
+	background-color: transparent;
+	outline: 1px solid #e0e8eF;
+	outline-style: outset;
+	box-shadow: 0px 0px 4px 2px #334; 
+}
+
+/* ~~~~~~~~~~~styles for specific arrangements~~~~~~~~~~~ */
+
+/* round */
+.justRound {
+	width: 20%;
+	height: 0;
+	padding-bottom: 20%;  
+}
+.justRound img {
+	width: 90%;
+	height: 90%;
+	left: 5%;
+	top: 5%;
+	border-radius: 50%;
+}
+.justRound .bord1 {
+	outline: none;
+	border: 1px solid #c0c0cF;
+	border-right: 1px solid #b0b0bF;
+	border-bottom: 1px solid #b0b0bF;
+	border-radius: 50%;
+	width: 90%;
+	height: 90%;
+	left: 5%;
+	top: 5%;
+}
+
+
+/*tri down */
+.triangleDown {
+	width: 22%;
+	padding-bottom: 19%;  /*0.866Xwidth*/
+	overflow: visible;
+}
+.triangleDown img {
+	border-bottom-right-radius: 50% 100%;
+	border-bottom-left-radius: 50% 100%;
+}
+.triangleDown .mask5 {
+	transform: rotate(-30deg);
+	top: 0;
+	left: 1%;
+	width: 26%;
+	height: 115.5%;  /*  100 / 0.866  */
+	border-bottom-left-radius: 50% 100%;
+}
+.triangleDown .mask6 {
+	transform: rotate(30deg);
+	top: 0;
+	right: 1%;
+	width: 26%;
+	height: 115.5%;
+	border-bottom-right-radius: 50% 100%;
+}
+.triangleDown .bord1 {
+	outline: none;
+	border-right: 1px solid #202038;
+	transform: rotate(30deg);
+	top: -7%;
+	right: 25%;
+	width: 0;
+	height: 114%; 
+}
+.triangleDown .bord2 {
+	outline: none;
+	border-left: 1px solid #e0e0eb;
+	transform: rotate(-30deg);
+	top: -7%;
+	left: 24.5%;
+	width: 0;
+	height: 114%; 
+}
+.triangleDown .bord3 {
+	outline: none;
+	border-top: 1px solid #e0e0eb;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 0; 
+}
+/* tiangle up */
+.triangleUp {
+	width: 22%;
+	padding-bottom: 19%;  /*0.866Xwidth*/
+	overflow: visible;
+}
+.triangleUp img {
+	border-top-right-radius: 50% 100%;
+	border-top-left-radius: 50% 100%;
+}
+.triangleUp .mask5 {
+	transform: rotate(30deg);
+	bottom: 0;
+	left: 1%;
+	width: 26%;
+	height: 115.5%;  /*  100 / 0.866  */
+	border-top-left-radius: 50% 100%;
+}
+.triangleUp .mask6 {
+	transform: rotate(-30deg);
+	bottom: 0;
+	right: 1%;
+	width: 26%;
+	height: 115.5%;
+	border-top-right-radius: 50% 100%;
+}
+.triangleUp .bord1 {
+	outline: none;
+	border-right: 1px solid #202038;
+	transform: rotate(-30deg);
+	top: -8%;
+	right: 25%;
+	width: 0;
+	height: 115%; 
+}
+.triangleUp .bord2 {
+	outline: none;
+	border-left: 1px solid #e0e0eb;
+	transform: rotate(30deg);
+	top: -8%;
+	left: 24.5%;
+	width: 0;
+	height: 115%; 
+}
+.triangleUp .bord3 {
+	outline: none;
+	border-bottom: 1px solid #202038;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 0; 
+}
+
+/* stagger */
+.stagger .mask8 {
+	left: 0%;
+	top: 0;
+	height: 30%;
+	width: 50%;
+}
+.stagger .mask9 {
+	left: 0;
+	bottom: 0;
+	height: 50%;
+	width: 33%;
+}
+.stagger .mask10 {
+	left: 49%;
+	bottom: 0;
+	width: 51%;
+	height: 30%;
+}
+.stagger .mask11 {
+	left: 66%;
+	top: 0;
+	width: 33%;
+	height: 50%;
+}
+
+.stagger .bord1 {
+	left: 3%;
+	top: 30%;
+	width: 28.5%;
+	height: 20%;
+}
+.stagger .bord2 {
+	left: 34.5%;
+	top: 30%;
+	width: 14%;
+	height: 67%;
+}
+.stagger .bord3 {
+	left: 51.5%;
+	top: 3%;
+	width: 14%;
+	height: 67%;
+}
+.stagger .bord4 {
+	left: 68.5%;
+	top: 50%;
+	width: 28.5%;
+	height: 20%;
+}
+
+
+
+/*skewed*/
+.clipTest {
+	clip-path: polygon(18% 1%, 106% 1%, 82% 99%, -6% 99%);
+}
+.skewed {
+	transform: skew(-20deg);
+}
+.skewed img{
+	transform: skew(20deg); /*do not want actual img skewed*/
+	left: -5%;
+	width: 110%;
+}
+
+.skewed .mask5 {
+	left: 26%;
+	height: 100%;
+	width: 5%;
+}
+.skewed .mask6 {
+	left: 69%;
+	height: 100%;
+	width: 5%;
+}
+
+.skewed .mask7 {
+	left: 0;
+	top: 0;
+	width: 29%;
+	height: 15%;
+}
+.skewed .mask8 {
+	left: 0;
+	bottom: 0;
+	height: 30%;
+	width: 29%;
+}
+.skewed .mask9 {
+	left: 70%;
+	top: 0;
+	width: 29%;
+	height: 30%;
+}
+
+.skewed .mask10 {
+	left: 70%;
+	bottom: 0;
+	width: 29%;
+	height: 15%;
+}
+
+.skewed .bord1 {
+	left: 3%;
+	top: 15%;
+	width: 23%;
+	height: 55%;
+}
+.skewed .bord2 {
+	left: 31%;
+	top: 3%;
+	width: 38%;
+	height: 94%;
+}
+.skewed .bord3 {
+	left: 74%;
+	top: 30%;
+	width: 23%;
+	height: 55%;
+}
+
+/*vert3panel*/
+.vert3panel .bord1 {
+	left: 3%;
+	top: 3%;
+	width: 28%;
+	height: 94%;
+}
+.vert3panel .bord2 {
+	left: 36%;
+	top: 3%;
+	width: 28%;
+	height: 94%;
+} 
+.vert3panel .bord3 {
+	left: 69%;
+	top: 3%;
+	width: 28%;
+	height: 94%;
+}
+
+
+/*vert3panelWide*/
+
+.vert3panelWide .mask5 {
+	left: 20%;
+	height: 100%;
+	width: 5%;
+}
+.vert3panelWide .mask6 {
+	left: 75%;
+	height: 100%;
+	width: 5%;
+}
+
+
+
+.vert3panelWide .bord1 {
+	left: 3%;
+	top: 3%;
+	width: 17%;
+	height: 94%;
+}
+.vert3panelWide .bord2 {
+	left: 25%;
+	top: 3%;
+	width: 50%;
+	height: 94%;
+}
+.vert3panelWide .bord3 {
+	left: 80%;
+	top: 3%;
+	width: 17%;
+	height: 94%;
+}

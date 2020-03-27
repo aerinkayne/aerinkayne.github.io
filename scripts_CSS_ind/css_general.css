@@ -29,7 +29,7 @@ body {
 }
 #pageContent {
 	overflow: auto;
-	padding-bottom: 50px;
+	padding-bottom: 40px;
 }
 
 canvas {
@@ -67,18 +67,19 @@ div.center {
 }
 
 section { 
-	background-color: var(--maskColor);
 	display: flex;
 	justify-content: space-around;
-	margin: 4% auto;
-	padding: 3%;
+	margin: 3% auto;
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
 	min-width: 550px;
-	border-radius: 3px;
-	overflow: hidden;
 }
-
+.maskSection {
+	background-color: var(--maskColor);
+	padding: 3%;
+	overflow: hidden;
+	border-radius: 3px;
+}
 
 .columns {
 	justify-content: space-between;
@@ -260,15 +261,12 @@ nav a {
 
 footer {
 	position: relative;
-	height: 50px;
+	height: 40px;
 	background-color: var(--navBGColor);
 	font-size: 14px;
 	letter-spacing: 1.4px;
-	margin-top: -50px;
+	margin-top: -40px;
 }  /* contains div w class mid, which is pos relative */
-footer img {
-	vertical-align: middle;
-}
 footer ul { /* inside mid */
 	position: absolute;
 	display: flex;
@@ -278,8 +276,8 @@ footer ul { /* inside mid */
 	top:50%;
 	transform: translateX(-50%) translateY(-50%);
 	border-radius: 10px;
-	border-left: 6px solid rgba(215,215,255,0.4);
-	border-right: 6px solid rgba(215,215,255,0.4);
+	border-left: 6px solid rgba(225,225,255,0.3);
+	border-right: 6px solid rgba(225,225,255,0.3);
 	list-style-type: none;
 	text-align: center;
 }
@@ -288,7 +286,7 @@ footer ul { /* inside mid */
 	width: 34%;
 }
 #footerLinks li:not(.last){
-	border-right: 2px solid rgba(215,215,255,0.3);
+	border-right: 2px solid rgba(225,225,255,0.3);
 }
 
 #footerLinks a, 
