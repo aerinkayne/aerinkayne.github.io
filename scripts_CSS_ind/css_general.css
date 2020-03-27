@@ -12,7 +12,7 @@ html, body {
 body {
 	background-image: linear-gradient(to bottom right, #d0d0d8, #bbc);
 	background-attachment: fixed;
-	font-family: 'Macondo Swash Caps', cursive, sans-serif;
+	font-family: 'Mansalva', sans-serif;
 	overflow-x: hidden;
 	--navTextColor: #c0c0c8;
 	--navHighliteColor: #8fe;
@@ -201,20 +201,19 @@ nav a {
 	position: absolute;
 	background-color: transparent;
 	top: 100%;
-	left:0;
 	width: 100%;
 	z-index: 10;
 	border-radius: 6px;
 }
 #navLinks .dropdownContent li {
 	margin: auto;
-	padding: 2px 8px 6px 8px;
 	background-color: var(--sectionTextColor);
 	border: 1px solid #000;
 	z-index: 10;
 	border-radius: 6px;
 }
 #navLinks .dropdownContent a {
+	margin-left: 2%;
 	font-size: 14px;
 	color: #000;
 }
@@ -246,7 +245,7 @@ nav a {
 	height: 2px;
 	margin: 5px 10px;
 	background-color: var(--navHighliteColor);
-	transition: all 0.4s;
+	transition: all 0.25s;
 }
 .burgX .topB{  
 	transform: rotate(-45deg) translate(-5px,5px);
@@ -267,17 +266,20 @@ footer {
 	letter-spacing: 1.4px;
 	margin-top: -40px;
 }  /* contains div w class mid, which is pos relative */
+footer img {
+	vertical-align: middle;
+}
 footer ul { /* inside mid */
 	position: absolute;
 	display: flex;
 	justify-content: space-around;
 	width: 80%;
 	left: 50%;
-	top:50%;
+	top: 50%;
 	transform: translateX(-50%) translateY(-50%);
 	border-radius: 10px;
-	border-left: 6px solid rgba(225,225,255,0.3);
-	border-right: 6px solid rgba(225,225,255,0.3);
+	border-left: 6px solid rgba(215,215,255,0.4);
+	border-right: 6px solid rgba(215,215,255,0.4);
 	list-style-type: none;
 	text-align: center;
 }
@@ -286,7 +288,7 @@ footer ul { /* inside mid */
 	width: 34%;
 }
 #footerLinks li:not(.last){
-	border-right: 2px solid rgba(225,225,255,0.3);
+	border-right: 2px solid rgba(215,215,255,0.3);
 }
 
 #footerLinks a, 
