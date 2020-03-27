@@ -26,62 +26,67 @@ Modifications by Aerin-Kayne
 	</head>
 
 	<body>
+	<div id="pageContainer">
+		<div id="pageContent">
+			<nav>
+				<div class="mid"> <!-- used to center nav content -->
+					<div class="navLogoDiv"><span>&#x270E;</span></div>
+					<ul id="navLinks">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
+						<li><a href="">About</a></li>
+						<li class="dropdown" id="dropBtn1">Javascript Projects
+							<ul class="dropdownContent" id="drop1Content">
+								<li><a href="fishtank.html">Canvas Art</a></li>
+								<li><a href="seasons_p5.html">Seasons Spin Off</a></li>
+								<li><a href="invaders.html">Space Invaders</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div id="burger">
+						<div class="topB"></div>
+						<div class="midB"></div>
+						<div class="btmB"></div>
+					</div>
+				</div> <!-- middle -->	
+			</nav>
+			
 
-		<nav>
-			<div class="mid"> <!-- used to center nav content -->
-				<div class="navLogoDiv"><span>&#x270E;</span></div>
-				<ul id="navLinks">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
-					<li><a href="">About</a></li>
-					<li class="dropdown" id="dropBtn1">Javascript Projects
-						<ul class="dropdownContent" id="drop1Content">
-							<li><a href="fishtank.html">Canvas Art</a></li>
-							<li><a href="seasons_p5.html">Seasons Spin Off</a></li>
-							<li><a href="invaders.html">Space Invaders</a></li>
-						</ul>
-					</li>
-				</ul>
-				<div id="burger">
-					<div class="topB"></div>
-					<div class="midB"></div>
-					<div class="btmB"></div>
-				</div>
-			</div> <!-- middle -->	
-		</nav>
-		
-
-		<div class="center">
-			<p>A project based on a Spin Off of 
-			<a href="https://www.khanacademy.org/computer-programming/seasons-the-game/5900023699079168" target="_blank">'Seasons'</a>, 
-			posted to Khan Academy by Ryan Kee
-			</p>
-		</div>
-		
-		<div class="center">
-			<div id="cParent"></div>
-		</div>
-		
-		<div class="center">
-		<p><em>Music is from Freesound.org:</em></p>
-		<p>
-		"Find Nothing", by Ellary, "Tri-Tachyon" <a href="https://soundcloud.com/tri-tachyon/albums" target="_blank">Tri-Tachyon, soundcloud.com</a></br>
-		"Expressions of the Mind" by <a href = "https://freesound.org/people/ShadyDave/sounds/325647/" target="_blank">ShadyDave</a></br>
-		"Water Game Theme" by <a href="https://freesound.org/people/Mrthenoronha/sounds/370293/" target="_blank">Mrthenoronha</a></br>
-		"Sci-Fi Survival Dreamscape" by <a href="https://freesound.org/people/onderwish/sounds/468407/" target="_blank">onderwish</a></br>
-		</p>
-		</div>
-		
-		<!--  causing scrolling problems.  fixing
-		<footer>
-			<div class="mid">
-				<ul id="footerLinks">
-					<li><a href="">deviantArt</a></li>
-					<li><a href="">ArtStation</a></li>
-					<li class="last"><a href="">github</a></li>
-				</ul>
+			<div class="center">
+				<p>A project based on a Spin Off of 
+				<a href="https://www.khanacademy.org/computer-programming/seasons-the-game/5900023699079168" target="_blank">'Seasons'</a>, 
+				posted to Khan Academy by Ryan Kee
+				</p>
 			</div>
-		</footer>	-->
+			
+			<div class="center">
+				<div id="cParent"></div>
+			</div>
+			
+			<div class="center">
+			<p><em>Music is from Freesound.org:</em></p>
+			<p>
+			"Find Nothing", by Ellary, "Tri-Tachyon" <a href="https://soundcloud.com/tri-tachyon/albums" target="_blank">Tri-Tachyon, soundcloud.com</a></br>
+			"Expressions of the Mind" by <a href = "https://freesound.org/people/ShadyDave/sounds/325647/" target="_blank">ShadyDave</a></br>
+			"Water Game Theme" by <a href="https://freesound.org/people/Mrthenoronha/sounds/370293/" target="_blank">Mrthenoronha</a></br>
+			"Sci-Fi Survival Dreamscape" by <a href="https://freesound.org/people/onderwish/sounds/468407/" target="_blank">onderwish</a></br>
+			</p>
+			</div>
+		
+		</div>	<!-- content -->
+	</div> <!-- container -->
+	
+	<footer>
+		<div class="mid">
+			<ul id="footerLinks">				
+				<li><a href="https://simpleicons.org/"><img height="24" width="24" src="svg/simpleicons.svg"></a></li>
+				<li><a href="https://www.pexels.com/"><img height="24" width="24" src="svg/pexels.svg"></a></li>
+				<li><a href="https://www.deviantart.com/aerin-kayne"><img height="24" width="24" src="svg/deviantart.svg"></a></li>
+				<li><a href="https://www.artstation.com/aerin-kayne"><img height="24" width="24" src="svg/artstation.svg"></a></li>
+				<li class="last"><a href="https://github.com/aerinkayne"><img height="24" width="24" src="svg/github.svg"></a></li>
+			</ul>
+		</div>
+	</footer>
 
 		<script src="scripts_CSS_ind/myScript.js"></script> 
 		<script src="scripts_CSS_ind/seasons/gameClass_p5.js"></script>
