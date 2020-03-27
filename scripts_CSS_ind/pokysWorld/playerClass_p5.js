@@ -5,10 +5,10 @@ class Player{
 	this.V = createVector(0,0);
 	this.w = 30;
 	this.h = 35;
-	this.acceleration = 0.5;
-	this.friction = 1;
-	this.gravity = .75;
-	this.maxSpeed = 3.5;
+	this.acceleration = 0.5; //check tile modifications
+	this.friction = 1;	     //check tile modifications
+	this.gravity = .5;      //check tile modifications
+	this.maxSpeed = 3.5;     //check tile modifications
 	this.MAXFALLSPEED = 12;
 	this.maxHealth = 100;
 	this.health = this.maxHealth;
@@ -18,7 +18,7 @@ class Player{
 	this.canClimb = false;
 	this.canSwim = false;
 	this.movements = {81:false, 69:false, 87: false, 32:false}; //q e w space
-	this.jumpForce = 13;
+	this.jumpForce = 10;
 	this.sprites = [pokyRunR1];
 	this.damageDelay = 30; //for damage and health regen
 	this.damageTimer = this.damageDelay;

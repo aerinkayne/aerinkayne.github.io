@@ -73,8 +73,8 @@ class MapTile {
 		this.sprites = [];
 		this.cycleTime = 250;
 		this.drawTimer = 0;
-		this.frictionVal = 1;   //default vals 
-		this.jumpVal = 13; 
+		this.frictionVal = 1;   //same as intial values of character class 
+		this.jumpVal = 11; 
 		this.accelerationVal = 0.5;
 		this.maxSpeedVal = 3.5;
 	}
@@ -175,7 +175,7 @@ class IceMover extends MovingTile{
 class CloudMover extends MovingTile{
 	constructor(x,y,w,h,vx,vy){
 	super(x,y,w,h,vx,vy);
-	this.jumpVal = 18;
+	this.jumpVal = 15;
 	this.img = sprMoveCloud;
 	}
 }
@@ -191,7 +191,7 @@ class CloudTile extends MapTile{
 	constructor(x,y,w,h, arrSprites){
 	super(x,y,w,h);
 	this.sprites = arrSprites;
-	this.jumpVal = 18;
+	this.jumpVal = 15;
 	}
 }
 class IceTile extends MapTile{
@@ -207,7 +207,6 @@ class ClimbTile extends MapTile{
 	constructor(x,y,w,h, img){
 	super(x,y,w,h);
 	this.img = img;
-	this.jumpVal = 10;
 	}
 	collideEffect(obj){
 		obj.canClimb = true;
@@ -219,7 +218,7 @@ class WaterTile extends MapTile{
 		super(x,y,w,h);
 		this.hasSurface = hasSurface;
 		this.fatigue = 1;
-		this.jumpVal = 10;
+		this.jumpVal = 8;
 		this.color = [60,95,205, 140];
 		this.surfaceColor = [160,200,255, 255];
 	}
