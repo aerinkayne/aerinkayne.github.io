@@ -1,5 +1,3 @@
-/* LINK THIS FILE FIRST */
-
 * {
 	margin: 0;
 	padding: 0;
@@ -7,51 +5,80 @@
 	box-sizing: border-box;	
 }
 
-html {
+html, body {
 	height: 100%;
 }
 
 body {
-	background-image: linear-gradient(to bottom right, #b8b8c0, #ccd);
-	font-family: 'Dosis', sans-serif;
-	background-repeat: no-repeat;
-    background-attachment: fixed;
-	--navTextColor: #bbb;
+	background-image: linear-gradient(to bottom right, #d0d0d8, #bbc);
+	background-attachment: fixed;
+	font-family: 'Macondo Swash Caps', cursive, sans-serif;
+	overflow-x: hidden;
+	--navTextColor: #c0c0c8;
 	--navHighliteColor: #8fe;
+	--navBGColor: #343438;
 	--navMidBGColor: #000;
-	--navBGColor: #333;
-	--sectionTextColor: #000;
+	--sectionTextColor: #e8e8f0;
 	--maxWidth: 1024px;
-	--maskColor: #d8d8e0;
+	--maskColor: #808088; 
+	--mask2Color: #d8d8e0; /*for color scheme testing*/
+}
+/* thank you to mmtuts */
+#pageContainer {
+	min-height: 100%;
+}
+#pageContent {
+	overflow: auto;
+	padding-bottom: 50px;
 }
 
 canvas {
-	display: block;
-	margin-top: 10px;
-	border: 1px solid black;
+	margin: 1%;
+	border: 2px solid #e0e8f0;
+	border-bottom: 2px solid #a0a8c8;
+	border-right: 2px solid #a0a8c8;
+	border-radius: 3px;
 }
 #cParent {
-	position: relative;
-	z-index: 1;
-	font-size: 16px;
-	height: 450px;
-	width: 600px;
+	height: 500px;
+	width: 500px;
 }
 #fishtank {
 	width: 400px;
 }
 
 
-section { 
-	display: flex;
-	justify-content: space-around;
-	margin: 3% auto;
+p {	
+	font-family: 'dosis', sans-serif;
+	padding: 1%;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+div.center {
+	margin: 2% auto;
+	padding: 0;
+	background-color: transparent;
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
 	min-width: 550px;
 	border-radius: 3px;
 	overflow: hidden;
 }
+
+section { 
+	background-color: var(--maskColor);
+	display: flex;
+	justify-content: space-around;
+	margin: 4% auto;
+	padding: 3%;
+	width: 90%;
+	max-width: var(--maxWidth, 1024px);
+	min-width: 550px;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
 
 .columns {
 	justify-content: space-between;
@@ -62,19 +89,26 @@ section {
 .flex3 {	
 	width: 31%;
 	padding: 1%;
-	background-color: #e8e8f8;
-	color: var(--sectionTextColor, #000020);
+	background-color: var(--sectionTextColor);
+	color: #002;
 	border-radius: 5px;
 }
 
-h1, h2, h3, h4, h5 {
-	display: block;
+
+h1, h2, h3, h4 {
+	font-family: 'Kalam', cursive;
+	letter-spacing: 2px;
+	margin: auto;
 	margin-top: 3%;
-	font-weight: bold;
+	padding: 1%;
+	text-align: center;
+	text-transform: uppercase;
+	text-shadow: 0px 0px 4px #112;
 	color: var(--sectionTextColor);
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
 }
+
 .centerFit {
 	width: fit-content;  /* IEedge I hate you */
 	text-align: center;
@@ -83,7 +117,7 @@ h1, h2, h3, h4, h5 {
 }
 
 nav {
-	background-color: var(--navBGColor, #333);
+	background-color: var(--navBGColor);
 	height: 50px;
 	z-index: 1;
 }
@@ -93,7 +127,7 @@ nav {
 	width: 90%;
 	min-width: 550px;
 	max-width: var(--maxWidth, 1024px);
-	background-color: var(--navMidBGColor, #111);
+	background-color: var(--navMidBGColor);
 	height: 100%;
 }
 .navLogoDiv {
@@ -118,39 +152,36 @@ nav a {
 	transition: opacity 1s;
 	position: absolute;
 	top: 50%;
+	right: 5%;
 	transform: translateY(-50%);
-	right: 60px;
 }
 #navLinks a,
 #navLinks a:visited {
 	color: var(--navTextColor);
 }
+
 /*showNav class is toggled with event listener on #burger div*/
 #navLinks.showNav {
 	visibility: visible;
 	opacity: 1;
 }
-
 #navLinks li {
 	list-style: none;
 	font-size: 16px;
 	color: var(--navTextColor);
-	margin: 0px 10px;
+	margin: 0px 20px;
 	padding: 5px;
 	border-radius: 6px;
 }
 #navLinks li:hover {
-	color: #000;
+	color: var(--navHighliteColor);
 }
 #navLinks li:hover a {
-	color: #000;
+	color: var(--navHighliteColor);
 }
-#navLinks > li:hover,
-#navLinks > li:focus, 
-#navLinks > li:active {
-	background-color: rgb(0,200,200);
-	color: #000;
-}
+
+
+
 
 .dropdown  {
 	position: relative;
@@ -177,16 +208,14 @@ nav a {
 #navLinks .dropdownContent li {
 	margin: auto;
 	padding: 2px 8px 6px 8px;
-	background-color: #f0f0ff;
-	border: 1px solid #808098;
+	background-color: var(--sectionTextColor);
+	border: 1px solid #000;
 	z-index: 10;
 	border-radius: 6px;
-	box-shadow: 1px 1px 4px 4px rgba(0,0,15,0.2);
 }
 #navLinks .dropdownContent a {
 	font-size: 14px;
 	color: #000;
-	margin: auto;
 }
 #navLinks .dropdownContent a:link {
 	color: rgb(0,0,0);
@@ -195,11 +224,14 @@ nav a {
 	color: rgb(0,0,0);
 }
 #navLinks .dropdownContent a:hover {
-	color: rgb(0,200,200);
+	color: rgb(0,180,170);
 }
 #navLinks .dropdownContent a:active {
-	color: rgb(0,200,200);
+	color: rgb(0,180,170);
 }
+
+
+
 
 #burger{
 	position: absolute;
@@ -213,9 +245,9 @@ nav a {
 	height: 2px;
 	margin: 5px 10px;
 	background-color: var(--navHighliteColor);
-	transition: all 0.5s;
+	transition: all 0.4s;
 }
-.burgX .topB {  
+.burgX .topB{  
 	transform: rotate(-45deg) translate(-5px,5px);
 }
 .burgX .midB {
@@ -225,45 +257,47 @@ nav a {
 	transform: rotate(45deg) translate(-5px,-5px);
 }
 
+
 footer {
 	position: relative;
 	height: 50px;
-	background-color: rgba(0,0,0,0.5);
+	background-color: var(--navBGColor);
 	font-size: 14px;
-	color: #ddd;
+	letter-spacing: 1.4px;
+	margin-top: -50px;
+}  /* contains div w class mid, which is pos relative */
+footer img {
+	vertical-align: middle;
 }
-ul#footerLinks {
+footer ul { /* inside mid */
 	position: absolute;
-	margin: auto;
-	padding-top: 6px;
-	width: 90%;
-	max-width: 1024px;
-	height: 60%;
+	display: flex;
+	justify-content: space-around;
+	width: 80%;
 	left: 50%;
-	top: 50%;
+	top:50%;
 	transform: translateX(-50%) translateY(-50%);
 	border-radius: 10px;
-	border-left: 6px solid rgba(0,0,0,0.5);
-	border-right: 6px solid rgba(0,0,0,0.5);
+	border-left: 6px solid rgba(215,215,255,0.4);
+	border-right: 6px solid rgba(215,215,255,0.4);
 	list-style-type: none;
 	text-align: center;
 }
 #footerLinks li{
 	display: inline;
+	width: 34%;
 }
 #footerLinks li:not(.last){
-	padding-right: 10%;
-	margin-right: 10%;
-	border-right: 2px solid rgba(0,0,0,0.5);
+	border-right: 2px solid rgba(215,215,255,0.3);
 }
 
 #footerLinks a, 
 #footerLinks a:visited {
-	color: #ddd;
+	color: #779;
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
 	.columns {
 		flex-direction: column;
 	}
