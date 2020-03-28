@@ -33,12 +33,17 @@ function setup(){
 }  
 
 
-function mouseClicked(){
-  if (mouseY > height/8 && mouseY < height*5/6 && fishAdded < maxNumNew){
-    fishAdded++;
-    arrNewFish.push(new Fish(mouseX, mouseY));
-  }
-}
+ 
+function touchEnded(){
+	if (mouseY > height/8 && mouseY < height*5/6 && fishAdded < maxNumNew){
+		fishAdded++;
+		arrNewFish.push(new Fish(mouseX, mouseY));
+		
+		return false;  //prevents default behavior
+	}
+} 
+
+
 
 function draw(){
 	fill(215,245,255);

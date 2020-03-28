@@ -35,8 +35,8 @@ body {
 canvas {
 	margin: 1%;
 	border: 2px solid #e0e8f0;
-	border-bottom: 2px solid #a0a8c8;
-	border-right: 2px solid #a0a8c8;
+	border-bottom: 2px solid #8898b8;
+	border-right: 2px solid #8898b8;
 	border-radius: 3px;
 }
 #cParent {
