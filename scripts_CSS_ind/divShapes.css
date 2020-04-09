@@ -133,18 +133,12 @@
 	left: 5%;
 	top: 5%;
 	border-radius: 50%;
-}
-.justRound .bord1 {
-	outline: none;
 	border: 1px solid #c0c0cF;
 	border-right: 1px solid #b0b0bF;
 	border-bottom: 1px solid #b0b0bF;
-	border-radius: 50%;
-	width: 90%;
-	height: 90%;
-	left: 5%;
-	top: 5%;
+	box-shadow: 0px 0px 4px 2px #334; 
 }
+
 
 
 /*tri down */
@@ -158,6 +152,7 @@
 	border-bottom-left-radius: 50% 100%;
 }
 .triangleDown .mask5 {
+	/*transform-origin:*/
 	transform: rotate(-30deg);
 	top: 0;
 	left: 1%;

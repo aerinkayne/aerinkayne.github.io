@@ -14,7 +14,7 @@ body {
 	background-attachment: fixed;
 	font-family: 'Mansalva', sans-serif;
 	overflow-x: hidden;
-	--navTextColor: #c0c0c8;
+	--navTextColor: #c0c0cb;
 	--navHighliteColor: #8fe;
 	--navBGColor: #343438;
 	--navMidBGColor: #000;
@@ -61,7 +61,7 @@ div.center {
 	background-color: transparent;
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
-	min-width: 550px;
+	min-width: 400px;
 	border-radius: 3px;
 	overflow: hidden;
 }
@@ -72,7 +72,7 @@ section {
 	margin: 3% auto;
 	width: 90%;
 	max-width: var(--maxWidth, 1024px);
-	min-width: 550px;
+	min-width: 400px;
 }
 .maskSection {
 	background-color: var(--maskColor);
@@ -126,7 +126,7 @@ nav {
 	position: relative;
 	margin: 0px auto;
 	width: 90%;
-	min-width: 550px;
+	min-width: 400px;
 	max-width: var(--maxWidth, 1024px);
 	background-color: var(--navMidBGColor);
 	height: 100%;
@@ -168,9 +168,9 @@ nav a {
 }
 #navLinks li {
 	list-style: none;
-	font-size: 16px;
-	color: var(--navTextColor);
-	margin: 0px 20px;
+	font-size: 18px;
+	color: var(--navTextColor); 
+	margin: 0px 15px;
 	padding: 5px;
 	border-radius: 6px;
 }
@@ -265,7 +265,7 @@ footer {
 	font-size: 14px;
 	letter-spacing: 1.4px;
 	margin-top: -40px;
-}  /* contains div w class mid, which is pos relative */
+}  /* contains div w/ class 'mid', which is pos relative */
 footer img {
 	vertical-align: middle;
 }
