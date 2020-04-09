@@ -92,7 +92,7 @@ class Ship{
 		noStroke();
 		fill(225,225,255);
 		textAlign(LEFT);
-		text("HP", width-15*width/50, height-4*height/40);
+		text(`HP ${this.health}`, width-15*width/50, height-4*height/40);
 		fill(0,0,0);
 		stroke(100,175,255);
 		rect(width-15*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
@@ -107,7 +107,7 @@ class Ship{
 		noStroke();
 		fill(225,225,255);
 		textAlign(LEFT);
-		text("shields", width-9*width/50, height-4*height/40);
+		text(`shields ${this.shield.absorb}`, width-9*width/50, height-4*height/40);
 		fill(0,0,0);
 		stroke(100,175,255);
 		rect(width-9*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
