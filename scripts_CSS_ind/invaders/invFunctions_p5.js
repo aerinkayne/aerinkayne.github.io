@@ -1,18 +1,4 @@
-/*
-new changes.  
-gun selection inventory added.  
-game resets at gameover and guns reset at restart.
-added translation vector to ship to simplify camera and future image management.
-managed pause better.
-changed powerup drops so that they are always assigned to the full range of newest enemy ships
-and fixed a condition where shields could overwrite gun powerups.
-click to move test
-*/
-
-
-//anon functions: sort, collision, camera
-
-//bubble sorts an array by the given key's value
+//bubble sort of an array by a key's value
 let sortArrByProp = function(arr, str){
     let holder;
     for (let i = 0; i < arr.length; i++){
@@ -25,32 +11,19 @@ let sortArrByProp = function(arr, str){
         }
     }
 }
-
-//rect collision.  
+//rectangle collision.  
 let collide = function(obj1, obj2){ 
     return  obj1.P.x < obj2.P.x + obj2.w && obj1.P.x + obj1.w > obj2.P.x &&
             obj1.P.y < obj2.P.y + obj2.h && obj1.P.y + obj1.h > obj2.P.y;
 }
-
+//camera
 let gameCamera = function(ship) {
 		translate(-ship.T.x, -ship.T.y);
 	}
 
 
-/*
-let onScr-en = function(obj, player){ 
-		let playerCenterX = player.P.x + player.w/2;
-		return ( 
-			//no Y translation so just check between 0-height
-			obj.P.y + obj.h > 0 && obj.P.y < height && 
-			(abs(playerCenterX-(obj.P.x + obj.w/2)) - obj.w/2 < width/2 + max(0,bordL-playerCenterX) + max(0, playerCenterX-bordR))		
-		);	
-	}
-*/
 
-
-
-//classes:  button, stars, Weapon, Powerup
+//classes:  Buttons, GameScreen, Weapon, Powerup, Shield
 class Button{
 	constructor(x,y,w,h,r,txt){
 	this.P = createVector(x,y);
@@ -169,7 +142,7 @@ class GameScreen{
 		this.numStars = 70;
 		this.stars = [];  //for array of objects 
 		this.planets = []; //soon (TM)
-		//meth setup
+		//meth setup - todo: move to method
 
 		for (let i = 0; i < this.numStars; i++){ //how many from param
 			this.stars.push(new Object());
