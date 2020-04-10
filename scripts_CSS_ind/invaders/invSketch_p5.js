@@ -1,25 +1,20 @@
-let levelW, levelH, bordL, bordR;  //define after game created
-let gameScreen; 
-let invGame;
+//import { startLaser,  redLaser, blueLaser, greenPulse, orangeLaser, homingMissile, spreader } from './gunExports.js';
+//SOME DAY! 
+
+let invGame, gameScreen, invShip;
+let levelW, levelH, bordL, bordR;  //level borders - define after game created
+//buttons
 let btnStart, btnPause, btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun;
-let invShip;
+//arrays for enemies and powerups, sprites
 let bads = [];
 let pups = [];
-
-let sprites2, starBG, imgStarBG;;
-let sprBadR1, sprBadR2;
-let sprBadG1, sprBadG2;
-let sprBadB1, sprBadB2;
-let sprBadBr1, sprBadBr2;
-let sprCrim1, sprCrim2, sprCrim3;
-let eye1, eye2, eyeClosed, base1, base2;
-let sprShip1, sprShipF;
-
+let sprites2, starBG, imgStarBG;
+let sprBadR1, sprBadR2, sprBadG1, sprBadG2, sprBadB1, sprBadB2, sprBadBr1, sprBadBr2;
+let sprCrim1, sprCrim2, sprCrim3, eye1, eye2, eyeClosed, base1, base2, sprShip1, sprShipF;
+//sound related
 let slider, oldVolume, newVolume;
 let sPup,sPhaser,sPhaserB,sPhaserG,sPhaserY,sShipDestr,sEnmSpawn,sEnmAtt,sEnmAtt2,sEnmCrimAtt,sEnmDmg,sEnmDestr,sEnmD2;
 let soundEffects = [];
-
-let startLaser, redLaser, blueLaser, greenPulse, orangeLaser, homingMissile, spreader;
 
 
 function preload(){
@@ -27,124 +22,37 @@ function preload(){
 	sprites2 = loadImage("scripts_CSS_ind/invaders/assets/sprites/invSprites2.png");
 	starBG = loadImage("scripts_CSS_ind/invaders/assets/sprites/pexels-photo-176851InstaWalli.jpeg");
 	
-	soundEffects = [
-		sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav"), 
-		sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3"), 
-		sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3"), 
-		sPhaserG = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/159230__noirenex__deepscan.mp3"), 
-		sPhaserY = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3"),
-		sEnmDmg = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/117740__donalfonso__kurzschluss.wav"),
-		sEnmD2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/205753__scorpion67890__surge-leech-1.wav"),
-		sEnmSpawn = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/ambientIntro.wav"),
-		sEnmAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/163095__fantozzi__ftz-gc-118-phaserattack1.wav"),
-		sEnmCrimAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/146732__leszek-szary__creature.wav"),
-		sEnmAtt2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/61818__tim-kahn__hard-kick.wav"),
-		sEnmDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/350976__cabled-mess__boom-c-01.wav"),
-		sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav")
-	];
-
-	//gun configs.  todo callback onload, list configs outside of preload 
-	startLaser = {
-	name: "startLaser",
-	w: 6,
-	h: 10,
-	speed: 10,
-	weaponColor: [0,150,175],
-	pushNumber: 1,
-	hits: 1,  
-	rechargeTime: 16,
-	damage: 15,
-	targeted: false,
-	trackTime: 0,
-	weaponSound: sPhaser
-	};
-	redLaser = {
-		name: "redLaser",
-		w: 4,
-		h: 12,
-		speed: 7.5,
-		weaponColor: [200,0,0],
-		pushNumber: 1,
-		hits: 1,
-		rechargeTime: 8,
-		damage: 15,
-		targeted: false,
-		trackTime: 0,
-		weaponSound: sPhaser
-	};
-	blueLaser = {
-		name: "blueLaser",
-		w: 9,
-		h: 20,
-		speed: 6,
-		weaponColor: [100,50,220],
-		pushNumber: 1,
-		hits: 2,
-		rechargeTime: 35,
-		damage: 30,
-		targeted: false,
-		trackTime: 0,
-		weaponSound: sPhaserB
-	};
-	greenPulse = {
-		name: "greenPulse",
-		w: 16,
-		h: 9,
-		speed: 5,
-		weaponColor: [0,175,155],
-		pushNumber: 1,
-		hits: 2,
-		rechargeTime: 25,
-		damage: 35,
-		targeted: true, 
-		trackTime: 5,
-		weaponSound: sPhaserG
-	};
-	orangeLaser = {
-		name: "orangeLaser",
-		w: 5,
-		h: 55,
-		speed: 4,
-		weaponColor: [200,150,0],
-		pushNumber: 1,
-		hits: 3,
-		rechargeTime: 45,
-		damage: 75,
-		targeted: false,
-		trackTime: 0,
-		weaponSound: sPhaserY
-	};
-	homingMissile = {
-		name: "homingMissile",
-		w: 9,
-		h: 9,
-		speed: 2,
-		weaponColor: [230,0,100],
-		pushNumber: 1,
-		hits: 1,
-		rechargeTime: 40,
-		damage: 70,
-		targeted: true,
-		trackTime: 250,
-		weaponSound: sEnmAtt
-	};
-	spreader = {
-		name: "spreader",
-		w: 7,
-		h: 5,
-		speed: 5,
-		weaponColor: [200,0,100],
-		pushNumber: 4,
-		hits: 1,
-		spreadAngle: 20,
-		rechargeTime: 30,
-		damage: 15,
-		targeted: false,
-		trackTime: 0,
-		weaponSound: sEnmAtt
-	};
+	//testing
+	let p1 = new Promise((resolve, reject) => {  
+		soundEffects = [
+			sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav"), 				//00
+			sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3"), 								//01
+			sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3"),				//02 
+			sPhaserG = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/159230__noirenex__deepscan.mp3"), 				//03
+			sPhaserY = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/82745__sikoses__stm1-some-bass.mp3"),			//04
+			sEnmDmg = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/117740__donalfonso__kurzschluss.wav"),			//05
+			sEnmD2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/205753__scorpion67890__surge-leech-1.wav"),		//06
+			sEnmSpawn = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/ambientIntro.wav"),								//07
+			sEnmAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/163095__fantozzi__ftz-gc-118-phaserattack1.wav"),	//08
+			sEnmCrimAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/146732__leszek-szary__creature.wav"),			//09
+			sEnmAtt2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/61818__tim-kahn__hard-kick.wav"),				//10
+			sEnmDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/350976__cabled-mess__boom-c-01.wav"),				//11
+			sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav")		//12
+		];
+		resolve(soundEffects);
+	});
+	p1.then((soundEffects) => {
+		startLaser.weaponSound = soundEffects[1];
+		redLaser.weaponSound = soundEffects[1];
+		blueLaser.weaponSound = soundEffects[2];
+		greenPulse.weaponSound = soundEffects[3];
+		orangeLaser.weaponSound = soundEffects[4];
+		homingMissile.weaponSound = soundEffects[8];
+		spreader.weaponSound = soundEffects[9];
+	});
 }
 	
+
 function setup(){
 	let c = createCanvas(450,350);
 	c.parent('cParent');
@@ -202,11 +110,11 @@ function keyReleased(){
 	}
 }
 
-//* 
+//*  ehh
 function touchEnded(){
 	if (window.windowWidth <= 600){
 	invShip.touchMove();
-	return false;  //prevents default behavior
+	return false;  
 	}
 } 
 //*/

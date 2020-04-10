@@ -81,7 +81,7 @@ class Game{
 			]
 		];
 	}
- 
+	//run from main invGame.manageScenes(invShip, invGameScreen)
 	manageScenes(ship, gameScreen){
 		if (this.gameState === "gameStart"){
 			gameScreen.backgroundImg();
@@ -145,6 +145,8 @@ class Game{
 			this.gameState = "gameStart";
 		}
 	}
+
+
 	startGame(){
 		this.dateRefMillisecs = new Date().getTime();
 	}
@@ -189,9 +191,6 @@ class Game{
 					this.setPup(item);
 					}
 		}
-	}
-	trackRightBounds(){
-
 	}
 	spawnBads(wave){
 		let gw = this.gridW; 

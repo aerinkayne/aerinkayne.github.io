@@ -361,6 +361,7 @@ class Gun {
 		this.spreadAngle = config.spreadAngle;
 		this.weaponSound = config.weaponSound;
 	}
+
 }
 
 class Shield {
