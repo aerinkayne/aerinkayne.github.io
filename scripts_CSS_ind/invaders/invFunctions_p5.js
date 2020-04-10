@@ -142,6 +142,7 @@ class GameScreen{
 		this.numStars = 70;
 		this.stars = [];  //for array of objects 
 		this.planets = []; //soon (TM)
+		this.backgroundImage = undefined; //define in setup callback
 		//meth setup - todo: move to method
 
 		for (let i = 0; i < this.numStars; i++){ //how many from param
