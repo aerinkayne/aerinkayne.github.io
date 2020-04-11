@@ -127,7 +127,7 @@ class Game{
 		}
 
 	renderArr(arrToRender){ 
-		for(var i=0; i<arrToRender.length; i++){
+		for(let i=0; i<arrToRender.length; i++){
 			if (onScreen(arrToRender[i], this.player, this.levelW, this.levelH)){
 				arrToRender[i].draw(this.player); //some objects need player info 
 			}
@@ -139,7 +139,7 @@ class Game{
 	}
 	manageScenes(){ //call on mouseclick.  buttons are currently global objects. 
 		if (this.gameState === "levelSelect"){
-			for (var i = 0; i < btnLevels.length; i++){
+			for (let i = 0; i < btnLevels.length; i++){
 				if (btnLevels[i].isOver(mouseX,mouseY)){
 					btnLevels[i].selected = true;
 					btnLevels[i].boarderC = 255;
@@ -200,10 +200,10 @@ class Game{
 		}
 	}
 	levelKey(){   
-		var S = this.ts;  //map tile size											
-		for(var col=0; col<this.levels[this.currentLevel].length; col++){ //#strings in lv map. ie tilesY
-			for(var row=0; row<this.levels[this.currentLevel][col].length/3; row++){ //length string/3. ie tilesX
-				var s = this.levels[this.currentLevel][col][3*row] + this.levels[this.currentLevel][col][3*row+1];  //2char string in game.levels 
+		let S = this.ts;  //map tile size											
+		for(let col=0; col<this.levels[this.currentLevel].length; col++){ //#strings in lv map. ie tilesY
+			for(let row=0; row<this.levels[this.currentLevel][col].length/3; row++){ //length string/3. ie tilesX
+				let s = this.levels[this.currentLevel][col][3*row] + this.levels[this.currentLevel][col][3*row+1];  //2char string in game.levels 
 				
 				if(s==="00"){
 					this.player.P.x = row*S;
@@ -327,7 +327,7 @@ class Game{
 			this.camera();
 			
 			//draw and update objects of map 
-			for (var i=0; i<this.mapTiles.length; i++){
+			for (let i=0; i<this.mapTiles.length; i++){
 				this.renderArr(this.mapTiles[i]); 
 			}
 			//player is updated here rather than above
@@ -383,7 +383,7 @@ class Game{
 			
 		//add player to decoImages array and sort by z_Index property to change draw order
 		decoImages.push(this.player); 
-		sortArrByProperty(decoImages, "z_Index");
+		decoImages = decoImages.sort((img1, img2) => (img1.z_Index > img2.z_Index ? 1 : -1)); 
 			
 		//all map tiles. TODO concat and change double loops for iteration and splicing?
 		this.mapTiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals];
@@ -402,7 +402,7 @@ class Game{
 		this.bordB = this.levelH - height/2;
 	}
 	removeMap(arr){
-		for (var i = arr.length-1; i>=0; i--){
+		for (let i = arr.length-1; i>=0; i--){
 			arr[i].splice(0, arr[i].length); //splice is shallow
 		}
 		arr.splice(0, arr.length);		

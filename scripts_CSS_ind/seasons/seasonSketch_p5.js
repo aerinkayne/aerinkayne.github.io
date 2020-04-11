@@ -1,25 +1,25 @@
-var transparency;  
-var canvasOverlay;
-var keys=[]; //for movements
-var decoImages = [];
-var lava = [];
-var portkeys =[];
-var hearts = [];
-var spikes = [];
-var portals = [];
-var players = [];
-var blocks = [];
-var sprite1;
-var btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
-var btnLevels = [];
+let transparency;  
+let canvasOverlay;
+let keys=[]; //for movements
+let decoImages = [];
+let lava = [];
+let portkeys =[];
+let hearts = [];
+let spikes = [];
+let portals = [];
+let players = [];
+let blocks = [];
+let sprite1;
+let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
+let btnLevels = [];
 
-var soundJump;
-var soundKey;
-var soundHeart;
-var soundSpike;
-var sScapeW, sScapeSpr, sScapeSummer, sScapeF;
-var game;
-var hillColor;
+let soundJump;
+let soundKey;
+let soundHeart;
+let soundSpike;
+let sScapeW, sScapeSpr, sScapeSummer, sScapeF;
+let game;
+let hillColor;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
@@ -42,7 +42,7 @@ function preload(){
 
 
 function setup() {
-    var c = createCanvas(600, 400);
+    let c = createCanvas(600, 400);
 	c.parent('cParent');
 	frameRate(60);
 

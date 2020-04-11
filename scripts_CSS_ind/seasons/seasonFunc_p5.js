@@ -87,9 +87,9 @@ class SmlButton extends Button{
 }
 
 
-var onScreen = function(obj1, obj2, levelW, levelH){ 
-	var obj2CX = obj2.P.x + obj2.w/2;
-	var obj2CY = obj2.P.y + obj2.h/2;
+let onScreen = function(obj1, obj2, levelW, levelH){ 
+	let obj2CX = obj2.P.x + obj2.w/2;
+	let obj2CY = obj2.P.y + obj2.h/2;
 			//player center - obj1 center <   screen/2    +obj1 size/2  +dif if at L side      +dif if at Rside 
     return (
 			abs(obj2CX - (obj1.P.x + obj1.w/2)) < width/2 + obj1.w/2 + max(0, width/2 - obj2CX) + max(0, obj2CX-(levelW-width/2)) &&
@@ -97,19 +97,6 @@ var onScreen = function(obj1, obj2, levelW, levelH){
 			);   
 };
 
-//sorts an array by a property value, where str is the property name)
-function sortArrByProperty(arr, str){
-    var holder;
-        for (var i = 0; i < arr.length; i++){
-            for (var j = i+1; j < arr.length; j++) {
-                if (arr[j][str] < arr[i][str]){ 
-                    holder = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = holder;
-                    }
-            }
-        }
-}
 
 class Player {
 	constructor (x,y,w,h){
@@ -184,7 +171,7 @@ class Player {
 	
 	//collision with map tiles that affect position.  check x and y separately in player.update.
 	checkMapCollision(arr, Vx, Vy){  
-		for(var i=0; i<arr.length; i++){
+		for(let i=0; i<arr.length; i++){
 			//don't bother checking collision for blocks that are more than a few tiles away
 			if(abs(arr[i].P.dist(this.P)) < 2*arr[i].w && arr[i].collide(this)){ 
 				arr[i].collideEffect(this, Vx, Vy);
@@ -231,11 +218,11 @@ class Player {
 		textAlign(LEFT,CENTER);
 		text("Health ", width/50,height/35);
 		
-		for(var i = 0; i< this.MAXHEALTH; i++){
+		for(let i = 0; i< this.MAXHEALTH; i++){
 			rect(width/50+i*21, height/17, 20, 10, 4);
 		}
 		fill(200, 50, 75);
-		for(var i=0; i<this.health; i++){
+		for(let i=0; i<this.health; i++){
 			rect(width/50+i*21, height/17, 20, 10, 4);
 		}
 		//change to inventory slots with images 
@@ -384,7 +371,7 @@ class SpikeU extends Block{
 	}
 	collide(obj) {
 		//rect(this.P.x, this.P.y+this.jab, this.w, this.h-this.jab); //to check height and dist from player when called
-		var subX;
+		let subX;
 		//checks if y range of player is between tip (P.y+variable y amount) and spike's base
         if (this.P.y + this.jab < obj.P.y + obj.h && this.P.y + this.h > obj.P.y){
 			//1/2 base * distance of player's base from spike's base / current spike height = amount to subtract from normal x range
@@ -443,7 +430,7 @@ class SpikeD extends SpikeU{
 	collide(obj) {
 		//fill(255,20,20,50);
 		//rect(this.P.x, this.P.y, this.w, this.h-this.jab); //to check height and dist from player when called
-		var subX;
+		let subX;
         if (this.P.y < obj.P.y + obj.h && this.P.y + this.h - this.jab > obj.P.y){
             subX =  this.w/2 * (obj.P.y - this.P.y) / (this.h - this.jab);
 			//fill(255,0,0);
@@ -514,8 +501,8 @@ class Lava{
 		fill(this.color);
 		beginShape();
 
-		var alt = 2.5;
-		for (var i=0; i<11; i++){
+		let alt = 2.5;
+		for (let i=0; i<11; i++){
 			vertex(i*this.w/10, alt*sin(radians(1.5*frameCount)));
 			alt*=-1;
 		}
@@ -638,7 +625,7 @@ class Hills {
 		curveVertex(0, this.levelH);
 		curveVertex(0, this.arrPV[0].y); 
 		
-			for (var i = 0; i < this.arrPV.length; i++){
+			for (let i = 0; i < this.arrPV.length; i++){
 				curveVertex(this.arrPV[i].x,  this.arrPV[i].y); 
 			}
 			
@@ -652,7 +639,7 @@ class Hills {
 			fill(30, 100, 150);
 			rect(this.arrPV[0].x, this.arrPV[0].y+66, this.levelW, this.levelH-this.arrPV[0].y);
 			fill(150, 190, 220, 60);  //was (color, 60), but alpha not working with argument color pass
-				for (var i = 1; i<6; i++){
+				for (let i = 1; i<6; i++){
 					rect(0, this.arrPV[0].y+66, this.levelW, height/(5+5*i*i));
 				}
 		}
@@ -683,8 +670,8 @@ class Glass extends Deco{
 		noStroke();
 		fill(100,150,200);
 		rect(0,0,this.w,this.h);
-		for (var r = 0; r < 2; r++){  //pane row position
-			for (var c = 0; c < 2; c++){  //pane col position
+		for (let r = 0; r < 2; r++){  //pane row position
+			for (let c = 0; c < 2; c++){  //pane col position
 				noStroke();
 				fill(0, 0, 30, 125);
 				rect(13/50*this.w+c*this.w/2, 13/50*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
@@ -706,7 +693,7 @@ class Water extends Deco{
 		super(x, y, w, h, img, z);
 	}	
 	draw(){
-		var waveH = this.w/12.5;
+		let waveH = this.w/12.5;
 		push();
 
 		translate(this.P.x, this.P.y);
