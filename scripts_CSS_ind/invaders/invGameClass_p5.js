@@ -141,7 +141,7 @@ class Game{
 			invGame = new Game();
 			invShip = new Ship(width/2-35,height-35, 35,35);
 			gameScreen = new GameScreen(invShip); 
-			sortArrByProp(gameScreen.stars, "w");
+			gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w > s2.w ? 1 : -1 ));
 			this.gameState = "gameStart";
 		}
 	}

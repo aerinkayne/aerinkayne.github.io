@@ -1,18 +1,3 @@
-
-
-//bubble sort of an array by a key's value
-let sortArrByProp = function(arr, str){
-    let holder;
-    for (let i = 0; i < arr.length; i++){
-        for (let j = i+1; j < arr.length; j++) {
-            if (arr[j][str] < arr[i][str]){ 
-                holder = arr[i];
-                arr[i] = arr[j];
-                arr[j] = holder;
-            }
-        }
-    }
-}
 //rectangle collision.  
 let collide = function(obj1, obj2){ 
     return  obj1.P.x < obj2.P.x + obj2.w && obj1.P.x + obj1.w > obj2.P.x &&
@@ -74,7 +59,7 @@ class StartBtn extends Button{
 
 		invShip = new Ship(width/2-35,height-35, 35,35);
 		gameScreen = new GameScreen(invShip); 
-		sortArrByProp(gameScreen.stars, "w");
+		gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w > s2.w ? 1 : -1 ));
 		
 		invGame.startGame();
 		invGame.gameState = "inGame";

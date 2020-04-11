@@ -92,7 +92,7 @@ function setup(){
 	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
 	invShip = new Ship(width/2-35,height-35, 35,35);
 	gameScreen = new GameScreen(invShip); 
-	sortArrByProp(gameScreen.stars, "w");
+	gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w > s2.w ? 1 : -1 ));
 }	
 
 //movements = {39:bool,37:bool,38:bool,40:bool}

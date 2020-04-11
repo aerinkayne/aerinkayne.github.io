@@ -14,7 +14,7 @@ class Ship{
 	this.onTouchTimer = 0;
 	this.onTouchMoveDirection = createVector(0,0);
 	this.onTouchShipP = createVector(0,0);
-	this.onTouchMouseP = createVector(0,0);
+	this.onTouchMouseP = createVector(0,0); 
 	
 	this.thruster = 0; 
 	this.gunType = new Gun(startLaser); //orangeLaser;
