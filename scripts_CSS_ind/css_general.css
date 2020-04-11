@@ -134,6 +134,7 @@ nav {
 	height: 100%; 
 }
 .navLogoDiv {
+ padding-left: 1%;
 	justify-self: flex-start;
 }
 .navLogoDiv span {
@@ -234,7 +235,7 @@ nav a {
 
 #burger{
 
-	right: 5px;
+	padding-right: 1%;
 	cursor: pointer;
 }
 #burger div {
