@@ -14,11 +14,11 @@ class EffectsHandler{
 		this.sScape = [sScapeW, sScapeSpr, sScapeSummer, sScapeF];
 	}
 	initHills(speed){  //creates point vectors for hill peak locations    
-		var incX = this.levelW/25;  //hill peak spacing
+		var incX = this.levelW/25;  //increment X; hill peak spacing
 		var speed = speed;  	
-		for (var j=0; j<3; j++){ //make #hills
-			var arrPV = [];  //array of point vectors for each of the hills
-			incX+=75*j;      //increase incX val for each loop of hills
+		for (var j=0; j<3; j++){ 	//make #hills
+			var arrPV = [];  		//for array of point vectors for each of the hills
+			incX+=75*j;      		//increase incX val for each loop of hills
 				
 			for (var i = 0; i*incX < this.levelW; i++){  
 				arrPV.push(createVector (i*incX, height/4+incX/1.5+random(-15-20*j, 15+20*j)));
@@ -49,7 +49,7 @@ class EffectsHandler{
 				rect(0,i*H,width,H);
 			}	
 	}
-	bgEffects(level){
+	screenEffects(level){
 		if (this.setup === false){
 			//make objects if not set up
 			this.initHills(0.15);
@@ -70,7 +70,7 @@ class EffectsHandler{
 				this.hillEnd = color(90,145,105);
 			}
 			else if (level === 2){
-				//will change to something else
+				//will change rain to something else.  
 				this.addObj(2, Raindrop);
 				this.hills[0].lake = true;
 				this.skyStart = color(150, 205, 255);

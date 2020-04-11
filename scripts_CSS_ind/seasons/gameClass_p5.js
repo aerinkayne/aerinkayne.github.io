@@ -323,7 +323,7 @@ class Game{
 	}
 	screenInGame(){
 		if (!this.paused){
-			this.effectsHandler.bgEffects(this.currentLevel); //background effects.  don't translate with camera
+			this.effectsHandler.screenEffects(this.currentLevel); //background effects.  don't translate with camera
 			this.camera();
 			
 			//draw and update objects of map 
