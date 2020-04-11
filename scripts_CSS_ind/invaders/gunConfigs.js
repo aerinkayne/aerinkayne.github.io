@@ -14,7 +14,7 @@ const startLaser = {
     damage: 15,
     targeted: false,
     trackTime: 0,
-    //weaponSound: sPhaser
+    //weaponSound: loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3", getData)
 };
 const redLaser = {
     name: "redLaser",
@@ -28,7 +28,7 @@ const redLaser = {
     damage: 15,
     targeted: false,
     trackTime: 0,
-    //weaponSound: sPhaser
+    //weaponSound: loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3", getData)
 };
 const blueLaser = {
     name: "blueLaser",

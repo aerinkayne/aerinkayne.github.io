@@ -43,13 +43,6 @@ function preload(){
 function setup(){
 	let c = createCanvas(450,350);
 	c.parent('cParent');
-
-	slider = createSlider(0, 0.1, 0.05, 0.01)
-	oldVolume = slider.value();
-	newVolume = slider.value();
-	slider.parent('volumeSliderContainer');
-	changeVolume();
-
 	frameRate(60);
 	imageMode(CENTER);
 
@@ -72,6 +65,7 @@ function setup(){
 	base2 = sprites2.get(361,742,317,146);
 	sprShip1 = sprites2.get(50,450,102,123);
 	sprShipF = sprites2.get(200,450,102,123); 
+	
 	//sounds for gun configs
 	startLaser.weaponSound = redLaser.weaponSound = sPhaser; 	//soundEffects[1];
 	blueLaser.weaponSound = sPhaserB; 							//soundEffects[2];
@@ -79,6 +73,13 @@ function setup(){
 	orangeLaser.weaponSound = sPhaserY;							//soundEffects[4];
 	homingMissile.weaponSound = sEnmAtt;						//soundEffects[8];
 	spreader.weaponSound = sEnmCrimAtt;							//soundEffects[9];
+
+	//slider for volume and intial volume adjustment
+	slider = createSlider(0, 0.1, 0.05, 0.01)
+	oldVolume = slider.value();
+	newVolume = slider.value();
+	slider.parent('volumeSliderContainer');
+	changeVolume();
 
 	//initial setup
 	invGame = new Game();
