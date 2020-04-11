@@ -3,17 +3,18 @@
 //weaponSound: property and value added in preload
 
 const startLaser = {
-name: "startLaser",
-w: 6,
-h: 10,
-speed: 10,
-weaponColor: [0,150,175],
-pushNumber: 1,
-hits: 1,  
-rechargeTime: 16,
-damage: 15,
-targeted: false,
-trackTime: 0,
+    name: "startLaser",
+    w: 6,
+    h: 10,
+    speed: 10,
+    weaponColor: [0,150,175],
+    pushNumber: 1,
+    hits: 1,  
+    rechargeTime: 16,
+    damage: 15,
+    targeted: false,
+    trackTime: 0,
+    //weaponSound: sPhaser
 };
 const redLaser = {
     name: "redLaser",
@@ -27,6 +28,7 @@ const redLaser = {
     damage: 15,
     targeted: false,
     trackTime: 0,
+    //weaponSound: sPhaser
 };
 const blueLaser = {
     name: "blueLaser",
@@ -40,6 +42,7 @@ const blueLaser = {
     damage: 30,
     targeted: false,
     trackTime: 0,
+    //weaponSound: sPhaserB
 };
 const greenPulse = {
     name: "greenPulse",
@@ -53,6 +56,7 @@ const greenPulse = {
     damage: 35,
     targeted: true, 
     trackTime: 10,
+    //weaponSound:sPhaserG
 };
 const orangeLaser = {
     name: "orangeLaser",
@@ -66,6 +70,7 @@ const orangeLaser = {
     damage: 75,
     targeted: false,
     trackTime: 0,
+    //weaponSound:sPhaserY
 };
 const homingMissile = {
     name: "homingMissile",
@@ -79,6 +84,7 @@ const homingMissile = {
     damage: 70,
     targeted: true,
     trackTime: 250,
+    //weaponSound: sEnmAtt
 };
 const spreader = {
     name: "spreader",
@@ -93,4 +99,5 @@ const spreader = {
     damage: 15,
     targeted: false,
     trackTime: 0,
+    //weaponSound: sEnmCrimAtt
 };

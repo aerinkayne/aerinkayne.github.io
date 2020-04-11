@@ -140,9 +140,7 @@ class GameScreen{
 		this.w = width;
 		this.h = height;
 		this.numStars = 70;
-		this.stars = [];  //for array of objects 
-		this.planets = []; //soon (TM)
-		this.backgroundImage = undefined; //define in setup callback
+		this.stars = [];  
 		//meth setup - todo: move to method
 
 		for (let i = 0; i < this.numStars; i++){ //how many from param
@@ -183,11 +181,11 @@ class GameScreen{
 			obj.P.y = this.P.y - obj.h/2;
 		}
 	}
-	backgroundImg(){
-		imgStarBG = starBG.get(this.P.x/3, 0, 1.5*width, 1.5*height);
+	backgroundImg(BG){
+		imgStarBG = BG.get(this.P.x/3, 0, 1.5*width, 1.5*height);
 		push();
 		translate(this.P.x, this.P.y);
-		image(imgStarBG, width/2, height/2, width, height);   //imagemode is center heehee
+		image(imgStarBG, width/2, height/2, width, height);   //imagemode is center
 		pop();
 	} 
 	drawStars(){

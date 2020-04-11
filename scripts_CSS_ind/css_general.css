@@ -23,13 +23,13 @@ body {
 	--maskColor: #808088; 
 	--mask2Color: #d8d8e0; /*for color scheme testing*/
 }
-/* thank you to mmtuts */
+
 #pageContainer {
 	min-height: 100%;
 }
 #pageContent {
 	overflow: auto;
-	padding-bottom: 40px;
+	padding-bottom: 50px;
 }
 
 canvas {
@@ -123,18 +123,18 @@ nav {
 	z-index: 1;
 }
 .mid {
-	position: relative;
+ display: flex;
+ justify-content: center;
+ align-items: center;
 	margin: 0px auto;
 	width: 90%;
 	min-width: 400px;
 	max-width: var(--maxWidth, 1024px);
 	background-color: var(--navMidBGColor);
-	height: 100%;
+	height: 100%; 
 }
 .navLogoDiv {
-	position: absolute;
-	left: 1%;
-	height: 100%;
+	justify-self: flex-start;
 }
 .navLogoDiv span {
 	color: var(--navHighliteColor);
@@ -146,15 +146,14 @@ nav a {
 	text-decoration: none;
 }
 #navLinks {
+ 
+ width: 100%;
 	display: flex;
+ justify-content: flex-end;
 	visibility: hidden;
 	opacity: 0;
 	transition-timing-function: ease-in;
 	transition: opacity 1s;
-	position: absolute;
-	top: 50%;
-	right: 5%;
-	transform: translateY(-50%);
 }
 #navLinks a,
 #navLinks a:visited {
@@ -234,9 +233,7 @@ nav a {
 
 
 #burger{
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
+
 	right: 5px;
 	cursor: pointer;
 }
@@ -259,24 +256,21 @@ nav a {
 
 
 footer {
-	position: relative;
-	height: 40px;
+	height: 50px;
 	background-color: var(--navBGColor);
 	font-size: 14px;
 	letter-spacing: 1.4px;
-	margin-top: -40px;
-}  /* contains div w/ class 'mid', which is pos relative */
+	margin-top: -50px;
+}  
 footer img {
-	vertical-align: middle;
+	vertical-align: middle; 
 }
 footer ul { /* inside mid */
-	position: absolute;
 	display: flex;
 	justify-content: space-around;
 	width: 80%;
-	left: 50%;
-	top: 50%;
-	transform: translateX(-50%) translateY(-50%);
+ align-self: center;
+ align-items: center;
 	border-radius: 10px;
 	border-left: 6px solid rgba(215,215,255,0.4);
 	border-right: 6px solid rgba(215,215,255,0.4);

@@ -23,7 +23,7 @@ function preload(){
 	sprites2 = loadImage("scripts_CSS_ind/invaders/assets/sprites/invSprites2.png");
 	starBG = loadImage("scripts_CSS_ind/invaders/assets/sprites/pexels-photo-176851InstaWalli.jpeg");
 
-	soundEffects = [
+	soundEffects = [  //array for changevolume meth
 		sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav"), 				//00
 		sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3"), 								//01
 		sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3"),				//02 
@@ -39,7 +39,6 @@ function preload(){
 		sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav")		//12
 	];
 }
-	
 
 function setup(){
 	let c = createCanvas(450,350);
@@ -50,7 +49,7 @@ function setup(){
 	newVolume = slider.value();
 	slider.parent('volumeSliderContainer');
 	changeVolume();
-	
+
 	frameRate(60);
 	imageMode(CENTER);
 
@@ -73,7 +72,7 @@ function setup(){
 	base2 = sprites2.get(361,742,317,146);
 	sprShip1 = sprites2.get(50,450,102,123);
 	sprShipF = sprites2.get(200,450,102,123); 
-	//sounds
+	//sounds for gun configs
 	startLaser.weaponSound = redLaser.weaponSound = sPhaser; 	//soundEffects[1];
 	blueLaser.weaponSound = sPhaserB; 							//soundEffects[2];
 	greenPulse.weaponSound = sPhaserG; 							//soundEffects[3];
@@ -81,9 +80,8 @@ function setup(){
 	homingMissile.weaponSound = sEnmAtt;						//soundEffects[8];
 	spreader.weaponSound = sEnmCrimAtt;							//soundEffects[9];
 
-	//move into game/main
+	//initial setup
 	invGame = new Game();
-
 	levelW = invGame.levelW;
 	levelH = invGame.levelH;
 	bordL = width/2;

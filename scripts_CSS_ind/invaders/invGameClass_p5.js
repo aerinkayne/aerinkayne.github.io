@@ -81,10 +81,10 @@ class Game{
 			]
 		];
 	}
-	//run from main invGame.manageScenes(invShip, invGameScreen)
+	//main loop
 	manageScenes(ship, gameScreen){
 		if (this.gameState === "gameStart"){
-			gameScreen.backgroundImg();
+			gameScreen.backgroundImg(starBG);
 			gameScreen.drawStars(); 
 			gameScreen.updateStars();
 			btnStart.draw([0,150,200]);
@@ -96,7 +96,7 @@ class Game{
 			}
 			gameCamera(ship);
 			gameScreen.updatePosition(ship);
-			gameScreen.backgroundImg();
+			gameScreen.backgroundImg(starBG);
 			gameScreen.drawStars(); 
 			gameScreen.updateStars(); 
 			
