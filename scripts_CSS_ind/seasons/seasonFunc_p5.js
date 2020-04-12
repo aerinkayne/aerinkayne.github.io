@@ -3,6 +3,59 @@
 // 
 // notes: EffectsHandler and Game classes are in their own files.
 
+
+class Button1{
+	constructor(config){
+	this.P = createVector(config.x,config.y);
+	this.w = config.w;
+	this.h = config.h;
+	this.r = config.r; 
+	this.img = config.img;
+	this.txt = config.txt;
+	this.txtSize = config.txtSize;
+	this.txtColor = config.txtColor;
+	this.btnColor = config.btnColor;
+	this.clickTimer = 0;
+	this.clickDelay = 20;
+	this.onClick = config.onClick;
+	}
+	checkClicks(){  //called in draw.  timer used to limit calls.  works ontouch
+		if (this.clickTimer < this.clickDelay) {this.clickTimer++;}
+		if (this.mouseIsOver(mouseX,mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
+			this.onClick();
+			this.clickTimer=0;
+		}
+	}
+	draw(){
+
+		if(this.img){
+			image(this.img, this.P.x, this.P.y, this.w, this.h);
+		}
+		else {
+			fill(this.btnColor);
+			rect(this.P.x, this.P.y, this.w, this.h, this.r);
+			textAlign(CENTER,CENTER);
+			textSize(this.txtSize);
+			fill(this.txtColor);
+			text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
+		}
+		this.checkClicks();
+	}
+	mouseIsOver(mouseX, mouseY){
+		return (mouseX > this.P.x && mouseX < this.P.x + this.w &&
+				mouseY > this.P.y && mouseY < this.P.y + this.h);
+	}
+}
+class LevelSelectButton extends Button1 {
+	constructor(config, number, img){
+	super(config);
+	this.accessLevel = number-1;
+	this.img = img;
+ 	this.txt = `This path leads to ${number}`;
+	}
+}
+
+
 // new buttons 092519
 class Button{
 	constructor(x,y,w,h,r,c,txt,LV){
@@ -597,8 +650,8 @@ class Leaf extends Snowflake{
 }
 
 class Hills {  
-	constructor(arrPV, levelW, levelH, player, speed){ //lvW,H,player from objecthandler per level
-		this.arrPV=arrPV;
+	constructor(arrPV, levelW, levelH, player, speed){ //lvW,H,player from gameScreen per level
+		this.arrPV = arrPV;
 		this.levelW = levelW;
 		this.levelH = levelH;
 		this.player = player;

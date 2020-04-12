@@ -1,5 +1,5 @@
 let pokyGame;
-let spriteSheet, mntBG0, mntBG1, mntBG2;
+let spriteSheet;
 let sprDirt1, sprDirt2, sprDirt3, sprDirt4, sprIceT1, sprIceT2, sprIce1, sprIce2, sprVine1; 
 let sprVineT, sprCloudL1, sprCloudR1, sprCloudM1, sprCloudL2, sprCloudR2, sprCloudM2;
 let sprMoveIce;
@@ -11,9 +11,9 @@ let pokyRunR1, pokyRunR2, pokyRunL1, pokyRunL2, pokyJumpR, pokyJumpL, pokyClimb1
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
 	spriteSheet = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/sprites1.png");
-	mntBG0 = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG0.png", asset=> {onImageLoad(asset, levelData[0].levelBackgroundImages[0])});
-	mntBG1 = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG1.png", asset=> {onImageLoad(asset, levelData[0].levelBackgroundImages[1])});
-	mntBG2 = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG2.png", asset=> {onImageLoad(asset, levelData[0].levelBackgroundImages[2])});
+	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG0.png", asset=> {levelData[0].levelBackgroundImages[0].img = asset});
+	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG1.png", asset=> {levelData[0].levelBackgroundImages[1].img = asset});
+	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG2.png", asset=> {levelData[0].levelBackgroundImages[2].img = asset});
 }
 
 function setup(){
@@ -71,10 +71,10 @@ function setup(){
 	
 	pokyGame = new Game();
 }	
-
+/*
 function onImageLoad(asset, configKey){
 	configKey.img = asset;
-}
+}*/
 
 function keyPressed(){
 	if (pokyGame.player.movements.hasOwnProperty(keyCode)){

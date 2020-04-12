@@ -24,17 +24,10 @@ class GameScreen {
 	}
 	
 	drawScreen(){
-		/* location and tracking check
-		strokeWeight(2); 
-		stroke(200,0,0); 
-		fill(200,0,0,this.opacity);  //*/
 		push();
 		translate(this.P.x, this.P.y);
 		fill(this.color);
 		rect(0,0,this.w, this.h);
-		/*
-		strokeWeight(1);
-		noStroke();//*/
 		pop();
 	}
 	sortArrFromIndexByProp(fromIndex, arr, str){

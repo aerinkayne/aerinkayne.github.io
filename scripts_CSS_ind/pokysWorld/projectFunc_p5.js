@@ -61,6 +61,7 @@ class LevelSelectButton extends Button{
 	constructor(config, number){
 	super(config);
 	this.accessLevel = number-1;
+ this.txt = `This path leads to ${number}`;
 	}
 }
 

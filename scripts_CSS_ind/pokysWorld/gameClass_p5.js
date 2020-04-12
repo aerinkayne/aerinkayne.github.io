@@ -142,9 +142,10 @@ class Game{
 				}
 			}
 		}
-		//   unshift|push     unshift|push           unshift|push
-		//    [backtiles]      [maptiles] player     [frontTiles]
-		//   concat all arrays to maptiles, allows 6 possible layers without sort.
+  //      1          2         3        4   plr        5          6 
+		//   unshift     push     unshift    push         unshift      push
+		//      [backtiles]          [maptiles] player        [frontTiles]
+		//              6 additional layers without sorting.
 		this.mapTiles.push(this.player);
 		this.mapTiles = this.backTiles.concat(this.mapTiles.concat(this.frontTiles));
 		while(this.frontTiles.length){this.frontTiles.pop();}
@@ -167,6 +168,7 @@ class Game{
 	drawTiles(){
 		this.onScreenTiles.forEach(tile =>{tile.draw();});
 	}
+ 
 	shadeSky(){
 		noStroke();
 		let rectColor;

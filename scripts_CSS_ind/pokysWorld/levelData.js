@@ -28,7 +28,7 @@ let levelData = [
 		"00 00 00 00 00 00 00 d1 d1 d1 d1 d1 d1 d1 d1 d1 0W 0W 0W 0W 0W 0W 0W 0W 0W 0W i1 i1 0W 0W i1 i1 i1 i1 i1 ",
 		"d1 0L 0L d1 d1 0L 0L d1 d1 d1 d1 d1 d1 d1 d1 d1 0w 0w 0w 0w 0w 0w 0w 0w 0w 0w i3 i3 0w 0w i3 i3 i3 i3 i3 "
 		],
-	//images assigned in preload callback.  img, translation rate (relative to player translation), initial P.y location of image.
+	//images assigned in preload callback.  properties refer to image, translation rate relative to player translation, and intitial P.y location of image.
 	levelBackgroundImages: [{img:undefined, rate:1/20, Y: 175},  
 							{img:undefined, rate:1/10,  Y: 0},
 							{img:undefined, rate:1/4,  Y: 230}],
@@ -36,7 +36,7 @@ let levelData = [
 	skyEnd: [200,100,35],
 	levelMusic: [0],
 	levelEffects: ["snow", "rain"],
-	//make sure array indices correlate.
+	//make sure array indices of numBGeffects and levelEffect correlate.
 	numBGEffects: [100, 20],
 	numFGEffects: [10, 5]
 	},
@@ -61,7 +61,7 @@ let levelData = [
 ]
 
 
-//*******button data**********
+//*******button configs **********
 //let btnStart, btnPause, btnLevelSelect1, btnLevelSelect2, btnLevelSelect3;
 
 let btnStart = {
@@ -74,7 +74,7 @@ let btnStart = {
 	txtSize: 16,
 	txtColor: [0,0,0],
 	btnColor: [0,200,200],
-	onClick: function(){
+	onClick: ()=> {
 		pokyGame.gameState = "inGame";
 	}
 }
@@ -88,7 +88,7 @@ let btnPause = {
 	txtSize: 10,
 	txtColor: [0,0,0],
 	btnColor: [0,200,150],
-	onClick: function(){
+	onClick: ()=> {
 		(!pokyGame.paused) ? this.txt = "➤" : this.txt = "❚❚";
 		(!pokyGame.paused) ? this.txtColor = [200,255,255] : this.txtColor = [0,0,0];
 		(!pokyGame.paused) ? pokyGame.paused = true : pokyGame.paused = false;
@@ -100,11 +100,12 @@ let btnGoToLevel = {
 	w: width/16,
 	h: height/25,
 	r: 2,
+ accessLevel: 1,
 	txt: "❚❚",
 	txtSize: 10,
 	txtColor: [0,0,0],
 	btnColor: [0,200,150],
-	onClick: function(){
+	onClick: ()=> {
 		if (this.accessLevel >=0 && this.accessLevel < pokyGame.numLevels){
 			pokyGame.level = this.accessLevel;
 			pokyGame.loadLevel(this.accessLevel);

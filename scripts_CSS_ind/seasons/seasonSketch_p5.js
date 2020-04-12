@@ -1,6 +1,6 @@
 let transparency;  
 let canvasOverlay;
-let keys=[]; //for movements
+let keys = []; //for movements
 let decoImages = [];
 let lava = [];
 let portkeys =[];
@@ -27,17 +27,12 @@ function preload(){
 	soundKey = loadSound("scripts_CSS_ind/seasons/assets/sounds/clink1.mp3");
 	soundHeart = loadSound("scripts_CSS_ind/seasons/assets/sounds/243701__ertfelda__correct.wav");
 	soundJump = loadSound("scripts_CSS_ind/seasons/assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
-	soundJump.setVolume(0.4);
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
-	
-	sScapeW = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
-	sScapeW.setVolume(0.4);
-	sScapeSpr = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
-	sScapeSpr.setVolume(0.4);
-	sScapeSummer = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
-	sScapeSummer.setVolume(0.4);
-	sScapeF = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
-	sScapeF.setVolume(0.4);
+
+	sScapeW = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3", asset=>{levelData[0].music = asset});
+	sScapeSpr = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3", asset=>{levelData[1].music = asset});
+	sScapeSummer = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav", asset=>{levelData[2].music = asset});
+	sScapeF = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3", asset=>{levelData[3].music = asset});
 }
 
 
@@ -49,8 +44,17 @@ function setup() {
 	transparency=0;  //overlay effects
 	canvasOverlay=color(255, 255, 255, transparency);
 	
-	//sprites
+	//volume adjustments
+	soundJump.setVolume(0.4);
+	soundSpike.setVolume(0.7);
+	sScapeW.setVolume(0.4);
+	sScapeSpr.setVolume(0.4);
+	sScapeSummer.setVolume(0.3);
+	sScapeF.setVolume(0.4);
+
+	//sprites for tiles and config images
 	imgStart = sprite1.get(150,179,30,20);
+
 	imgSS_Wint = sprite1.get(150,200,171,129);
 	imgSS_Spr = sprite1.get(329,200,171,129);
 	imgSS_Sum = sprite1.get(150,329,171,129);
@@ -92,6 +96,9 @@ function setup() {
 	
 	//buttons.  PX,PY, W, H, radius, color, label, level index (if any)
 	btnWint = new Button(width/10, 1.65*height/10, width/3.5, height/3.1, 3, color(220), "Winter",0); 
+	btnWint0 = new LevelSelectButton(btnWinter1, 1, imgSS_Wint);  //do not reference level by 0 indexing
+	
+
 	btnSpr = new Button(5*width/10, 1.65*height/10, width/3.5, height/3.1, 3, color(220), "Spring",1); 
 	btnSum = new Button(width/10, 5.95*height/10, width/3.5, height/3.1, 3, color(220), "Summer",2); 
 	btnFall = new Button(5*width/10, 5.95*height/10, width/3.5, height/3.1, 3, color(220), "Fall",3);
@@ -116,6 +123,7 @@ function setup() {
 
 function keyPressed(){keys[keyCode]=true;}   
 function keyReleased(){keys[keyCode]=false;}
+
 
 function mouseClicked(){
 	game.manageScenes();	

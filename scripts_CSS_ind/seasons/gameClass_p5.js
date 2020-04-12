@@ -4,126 +4,15 @@ class Game{
 		this.player = (new Player(0,0,0.7*this.ts,0.7*this.ts)); 
 		this.gameState = "levelSelect"; 
 		this.paused = false;
-		this.currentLevel=0;  //default if none selected
 		this.levelW;  //defined at lv load
 		this.levelH;
 		this.bordL = width/2; 
 		this.bordR; 
 		this.bordT = height/2; 
 		this.bordB;
-		this.levels=[
-			[   "                                                                                                                        ",
-				"0h                                       		                                                                         ",
-				"0C 0d                                                                                                                   ",
-				"                                                                                                                        ",
-				"         0c 0C 0C 0C 0C 0C 0d                                                                                           ",
-				"                                                                                                                        ",
-				"0C 0d                                                                                                                   ",  
-				"                                                            02                                                          ",
-				"               0m                                           01                                                          ",    
-				"            0^       0^                                     01                                                          ",     
-				"         02 02 02 02 02 02       02 02       02             01                                     0^    0^       07    ",    
-				"02                                              02       02 01                            02 02 02 02 02 02 02 02 02 02 ",    
-				"                                                01       0v 01                   02 02                                  ",    
-				"   02                                           01 02       01                                                          ",    
-				"         02 02                                  01       09 01             02                                           ",    
-				"                                                01 02 02 02 01 02 02 02 02 01                                           ",    
-				"                  02 02                                                             02 02                               ",    
-				"                                                                                                                        ",    
-				"         02 02 02                                                                            02 02                      ",    
-				"                                                                                                                        ",    
-				"02                                                                                                       02 02          ",    
-				"   02 02 02                                                                                     02 02                   ",    
-				"   0v                                                                                                                02 ",    
-				"00                02                                                    0m                02                            ",    
-				"            02          02             0m             02 02                               01                   02       ",    
-				"            01 0^                                     01 01                         02 02 01 0h    0^    0^             ",    
-				"02 02 0L 02 01 02 02 02 02 02 0L 0L 0L 0L 0L 0L 0L 0L 01 01 0L 0L 0L 0L 0L 0L 0L 0L 01 01 01 02 02 02 02 02 02 02 02 02 "    
-			],
-		
-			[ 	//03 rocks  04 rocks w grass   05 dirt   06 dirt w grass
-				"                                                   0F 0F 0F 0f 0F 0F 0f 0f       07    0f                                              ",  
-				"                                             04 04 04 04 04 04 04 04 04 04 04 04 04 04 04                                              ",  
-				"                     0c 0C 0C 0C 0d                                                                                                    ",
-				"0f 0f 0f                                                                                                                               ",
-				"04 04 04 04                                                                                                                            ",
-				"03 03 03 03 04                                                                                                                      0h ",
-				"                           0m                                                    0c 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C ",
-				"                                       0c 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0C 0d                                                    ",
-				"                                                                                                                                       ",
-				"                           0m                                                                                                          ",
-				"                                                                                                                                       ",
-				"               0m                                                                                                                      ",
-				"                                                                                                      0^    0^                         ",
-				"0C 0C 0d                               0^                0c 0d             0c 0d                   0c 0C 0C 0C 0d                      ",
-				"            0^       0^          0c 0C 0C 0C 0d                                        0c 0d                      0c 0d             0f ",
-				"         0c 0C 0C 0C 0C 0d                                                                                                          06 ",
-				"                                                                                                                     0F    0f          ",
-				"                                                                                 0^ 0f                            06 06 06 06          ",
-				"                                                                              06 06 06                                              0h ",
-				"                                                                        0^    05 05 05                                              06 ",
-				"                                                0F                   06 06 06 05 05 05                                           06 05 ",
-				"0F    0f 00 0f 0F                0^ 0f          06 06             0f 05 05 05 05                                           0F    05 05 ", 
-				"06 06 06 06 06 06 06          06 06 06                         06 06 05 05 05 05                      0m                   06 06 05 05 ", 
-				"05 05 05 05 05 05 05                                           05 05 05 09                                                 05 05 05 05 ", 
-				"05 05 05 05 05 05 05 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 05 05 05 06 06 06 06 06 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 05 05 05 05 "
-			],
-			
-			[	//03 10 rocks   04 11 rocks w grass
-				"                                                                                          ",  
-				"                                                                                       07 ",
-				"                                                                              0c 0C 0C 0C ",
-				"                                                         0c 0C 0C 0C 0d                   ",
-				"                                                                                          ",
-				"                              0c 0C 0C 0C 0C 0C 0d                                        ", 
-				"                                                                                          ",
-				"            0m                                                                            ",
-				"   0h                                                                                     ",
-				"04 04 04                                                                                  ",
-				"         11                                                                               ",
-				"                        0m                                                                ",
-				"                                 0F                         0e 0E 0e 0E 0e 0E 0e 0E 0e 0E ",
-				"                              04 04                         0e 0g 0e 0g 0e 0g 0e 0g 0e 0g ",
-				"                                             04             0e 0E 0e 0E 0e 0E 0e 0E 0e 0E ",
-				"                                             10 0w 0w 0w 0w 0B 0B 0B 0B 0B 0B 0B 0B 0B 0B ", 
-				"00                                        04 03 11 11 11 04 11 04 11 04 04 04 11 04 04 11 ",
-				"   0f       0F                   0^ 11                                        0v          ",
-				"04 04 11 11 11 04          04 11 11                                                    09 ",
-				"                        04                            0f 0^       0^                0f 11 ",
-				"                                                      04 04 11 11 04 11       11 04 04 10 ",
-				"                  11                                                                   03 ",
-				"                     04                0m                                              03 ",
-				"0h       0^ 0^          0f 0F                                                          10 ",
-				"04 11 11 04 04 11 11 11 04 11 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 0L 03 "
-			],
-
-			[   //12, 13 leaves.  05, 14 dirt
-				"                                                                        ",
-				"                                                                        ",
-				"                                                                     07 ",
-				"0h          0c 0C 0C 0C 0d       0c 0C 0d          0c 0C 0C 0C 0C 0C 0C ",
-				"13                                                                      ",
-				"                                                                        ",
-				"            0m                                                          ",
-				"0p                                                                      ",
-				"12          13          12                12       13 12                ",
-				"14                               0p    12    0^ 0^       13             ",
-				"05                            12 13 13 05 12 12 13 13 12 dF 12 13       ",
-				"14             12          12                                        12 ",
-				"dF       12                05    09                               12    ",
-				"05       05             12 05 12 12 12 13       12 0^ 12 13 0^          ",
-				"05    13 05             14    00                   12       12 13 13 12 ",
-				"14       14 0^    0^ 12 05          0p                                  ",
-				"05 12    05 12 13 12 05 14 12 13 13 12 12 12 13 13 12 12 12             ",
-				"         05                                                             ",
-				"      12                                        12    13    12          ",
-				"                  0^                         0^    0^    0^    0^    0p ",
-				"12 13 12 12 13 13 12 12 12 0L 0L 0L 12 12 13 13 12 12 13 12 12 12 13 12 "
-			],
-			[
-				"1"
-			]
-		];
+		this.currentLevel = 0;  //default if none selected
+		this.numLevels = 4;     //btn testing 041220
+		this.levelData = levelData;
 		}
 
 	renderArr(arrToRender){ 
@@ -137,7 +26,7 @@ class Game{
 			}       
 		}
 	}
-	manageScenes(){ //call on mouseclick.  buttons are currently global objects. 
+	manageScenes(){ //called on mouseclick.  buttons are currently global objects. 
 		if (this.gameState === "levelSelect"){
 			for (let i = 0; i < btnLevels.length; i++){
 				if (btnLevels[i].isOver(mouseX,mouseY)){
@@ -200,111 +89,126 @@ class Game{
 		}
 	}
 	levelKey(){   
-		let S = this.ts;  //map tile size											
-		for(let col=0; col<this.levels[this.currentLevel].length; col++){ //#strings in lv map. ie tilesY
-			for(let row=0; row<this.levels[this.currentLevel][col].length/3; row++){ //length string/3. ie tilesX
-				let s = this.levels[this.currentLevel][col][3*row] + this.levels[this.currentLevel][col][3*row+1];  //2char string in game.levels 
+		let S = this.ts;  	//map tile size	
+		let L = 2; 			//map code string length
+		let numR = this.levelData[this.currentLevel].levelMap.length;
+		let numC = this.levelData[this.currentLevel].levelMap[0].length/3;  //2char string for map, plus space for legibility
+		//set level dimensions
+		this.levelW = numC*S;
+		this.levelH = numR*S;
+		this.bordR = this.levelW - width/2;
+		this.bordB = this.levelH - height/2;
+
+		//set map object types and positions		
+		let s, x, y;
+
+		for(let row = 0; row < numR; row++){ 		//#strings in lv map. (tiles P.y)
+			for(let col = 0; col < numC; col++){ 	//length row's string (tiles P.x)
+												
+				s = this.levelData[this.currentLevel].levelMap[row].slice(col*3, col*3 + L); 
+				x = col*S;
+				y = row*S; 
 				
 				if(s==="00"){
-					this.player.P.x = row*S;
-					this.player.P.y = col*S;
+					this.player.P.x = x;
+					this.player.P.y = y;
 				}
-				//blocks array contains map tiles passed to player.update because they affect player position
+				//blocks array contains map tiles that affect player position
 				else if(s==="01"){  //ice
-					blocks.push(new Block(row*S,col*S,S,S,imgIce1)); 
+					blocks.push(new Block(x,y,S,S,imgIce1)); 
 				}
 				else if(s==="02"){  //ice w snow
-					blocks.push(new Block(row*S,col*S,S,S,imgS1)); 
+					blocks.push(new Block(x,y,S,S,imgS1)); 
 				}
 				else if(s==="03"){  //ROCKS
-					blocks.push(new Block(row*S,col*S,S,S,imgR3)); 
+					blocks.push(new Block(x,y,S,S,imgR3)); 
 				}
 				else if(s==="04"){  //rocks w grass
-					blocks.push(new Block(row*S,col*S,S,S,imgR1)); 
+					blocks.push(new Block(x,y,S,S,imgR1)); 
 				}
 				else if(s==="05"){  //DIRT 
-					blocks.push(new Block(row*S,col*S,S,S,imgD1)); 
+					blocks.push(new Block(x,y,S,S,imgD1)); 
 				}
 				else if(s==="06"){  //dirt w grass
-					blocks.push(new Block(row*S,col*S,S,S,imgG1)); 
+					blocks.push(new Block(x,y,S,S,imgG1)); 
 				}
 				else if(s==="10"){  //rocks2 
-					blocks.push(new Block(row*S,col*S,S,S,imgR4)); 
+					blocks.push(new Block(x,y,S,S,imgR4)); 
 				}
 				else if(s==="11"){  //rocks w grass2
-					blocks.push(new Block(row*S,col*S,S,S,imgR2)); 
+					blocks.push(new Block(x,y,S,S,imgR2)); 
 				}
 				else if(s==="12"){  //dirt w leaves1 
-					blocks.push(new Block(row*S,col*S,S,S,imgL1)); 
+					blocks.push(new Block(x,y,S,S,imgL1)); 
 				}
 				else if(s==="13"){  //dirt w leaves2
-					blocks.push(new Block(row*S,col*S,S,S,imgL2)); 
+					blocks.push(new Block(x,y,S,S,imgL2)); 
 				}
 				else if(s==="14"){  //dirt2
-					blocks.push(new Block(row*S,col*S,S,S,imgD2)); 
+					blocks.push(new Block(x,y,S,S,imgD2)); 
 				}
 				else if(s==="0m"){  //moving platform
-					blocks.push(new Mover(row*S,col*S,3/2*S,S/3,"mover")); //
+					blocks.push(new Mover(x,y,3/2*S,S/3,"mover")); //
 				}
 				else if (s==="0C"){  //cloud middle
-					blocks.push(new Block(row*S,col*S,S,S,imgClM));  
+					blocks.push(new Block(x,y,S,S,imgClM));  
 				}
 				else if (s==="0c"){  //cloud left side
-					blocks.push(new Block(row*S,col*S,S,S,imgClL));  
+					blocks.push(new Block(x,y,S,S,imgClL));  
 				}
 				else if (s==="0d"){  //cloud left side w/H flip
-					blocks.push(new Block(row*S,col*S,S,S,imgClR)); 
+					blocks.push(new Block(x,y,S,S,imgClR)); 
 				}
 				
 				//collidables do not affect position but are used for other updates (health, dmg, inventory)  
 				else if(s==="0^"){
-					spikes.push(new SpikeU(row*S+(S-S/1.75)/2.0, col*S-1.5*S, S/1.75, 2.5*S));
+					spikes.push(new SpikeU(x+(S-S/1.75)/2.0, y-1.5*S, S/1.75, 2.5*S));
 				}
 				else if(s==="0v"){
-					spikes.push(new SpikeD(row*S+(S-S/1.75)/2.0, col*S, S/1.75, 2.5*S));
+					spikes.push(new SpikeD(x+(S-S/1.75)/2.0, y, S/1.75, 2.5*S));
 				}
 				else if(s==="0L"){  
-					lava.push(new Lava(row*S,col*S+S/5,S,S-S/5, "l"));
+					lava.push(new Lava(x,y+S/5,S,S-S/5, "l"));
 				}
 				else if(s==="0h"){
-					hearts.push(new Heart(row*S+S/4,col*S+S/4,S/2,S/2, imgHeart));
+					hearts.push(new Heart(x+S/4,y+S/4,S/2,S/2, imgHeart));
 				}
 				else if(s==="07"){
-					portals.push(new Portal(row*S, col*S, S, S, imgPortal));
+					portals.push(new Portal(x, y, S, S, imgPortal));
 				}
 				else if(s==="09"){
-					portkeys.push(new Portkey (row*S, col*S, S, S, imgKey));
+					portkeys.push(new Portkey (x, y, S, S, imgKey));
 				}
 
-				//decorative images.  player is ind2
+				//decorative images.  
 				else if(s==="0f"){
-					decoImages.push(new Deco(row*S,col*S,S,S, imgFlower, 3));
+					decoImages.push(new Deco(x,y,S,S, imgFlower, 3));
 				}
 				else if(s==="0F"){
-					decoImages.push(new Deco(row*S,col*S,S,S, imgFlower2, 3));
+					decoImages.push(new Deco(x,y,S,S, imgFlower2, 3));
 				}
 				else if(s==="0p"){
-					decoImages.push(new Deco(row*S,col*S,S,S, imgPumpk, 3));
+					decoImages.push(new Deco(x,y,S,S, imgPumpk, 3));
 				}
 				else if(s==="dF"){  //dirt2 with fossil
-					blocks.push(new Block(row*S,col*S,S,S,imgD2)); 
-					decoImages.push(new Deco(row*S,col*S,S,S,imgFossil)); 
+					blocks.push(new Block(x,y,S,S,imgD2)); 
+					decoImages.push(new Deco(x,y,S,S,imgFossil)); 
 				}
 				else if(s==="0g"){
-					decoImages.push(new Glass(row*S,col*S,S,S, "glass", 1));
+					decoImages.push(new Glass(x,y,S,S, "glass", 1));
 				}
 				else if(s==="0w"){
-					decoImages.push(new Water(row*S,col*S,S,S, "water", 3));
+					decoImages.push(new Water(x,y,S,S, "water", 3));
 				}
 				else if(s==="0e"){
-					decoImages.push(new Deco(row*S,col*S,S,S, imgWood1, 0));
+					decoImages.push(new Deco(x,y,S,S, imgWood1, 0));
 				}
 				else if(s==="0E"){
-					decoImages.push(new Deco(row*S,col*S,S,S, imgWood2, 0));
+					decoImages.push(new Deco(x,y,S,S, imgWood2, 0));
 				}
 				else if(s==="0B"){
-					decoImages.push(new Deco(row*S,col*S,S,S, imgBrick, 0));
-					decoImages.push(new Water(row*S,col*S,S,S, "water", 3));
+					decoImages.push(new Deco(x,y,S,S, imgBrick, 0));
+					decoImages.push(new Water(x,y,S,S, "water", 3));
 				}
 			}
 		}
@@ -323,7 +227,7 @@ class Game{
 	}
 	screenInGame(){
 		if (!this.paused){
-			this.effectsHandler.screenEffects(this.currentLevel); //background effects.  don't translate with camera
+			this.effectsHandler.screenEffects(this.currentLevel); 
 			this.camera();
 			
 			//draw and update objects of map 
@@ -378,7 +282,6 @@ class Game{
 		this.currentLevel = n;
 	}
 	loadMap(){  //load map, then set state to inGame
-		this.getLevelVals();	//width, height of levels vary
 		this.levelKey();  		//get map tiles 
 			
 		//add player to decoImages array and sort by z_Index property to change draw order
@@ -394,13 +297,7 @@ class Game{
 			}	
 		this.gameState = "inGame"; 
 	}
-	getLevelVals(){
-		//recalc level width and height for each level since they aren't all the same.
-		this.levelW = this.levels[this.currentLevel][0].length/3*this.ts;
-		this.levelH = this.levels[this.currentLevel].length*this.ts;
-		this.bordR = this.levelW - width/2;
-		this.bordB = this.levelH - height/2;
-	}
+
 	removeMap(arr){
 		for (let i = arr.length-1; i>=0; i--){
 			arr[i].splice(0, arr[i].length); //splice is shallow
