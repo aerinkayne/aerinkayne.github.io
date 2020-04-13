@@ -97,6 +97,7 @@ class Player{
 		this.P.x= constrain(this.P.x, 0, game.levelW-this.w);
 		this.P.y= constrain(this.P.y, -height, game.levelH-this.h);
 	}
+ /*  //moved to game class
 	managePlayer(game){
 		if (!game.paused){
 			this.move();
@@ -106,7 +107,7 @@ class Player{
 			this.updateDamageTimer();
 			this.bound(game);
 		}
-	}
+	}*/
 	move(){
 		if (this.movements['81']){ //q
 			this.V.x -= this.acceleration;

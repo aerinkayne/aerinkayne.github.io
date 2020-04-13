@@ -1,19 +1,17 @@
 class EffectsHandler{ 
-	constructor(levelW, levelH, player){ 
-		this.levelW = levelW; 
-		this.levelH = levelH;
-		this.player = player;
+constructor(game){ //levelW, levelH, player){ 
+		this.levelW = game.levelW; 
+		this.levelH = game.levelH;
+		this.player = game.player;
+		this.currentLevel = game.currentLevel;
 		this.setup = false;
 		this.bgObj=[];
 		this.fgObj=[];
 		this.hills=[];
-		this.skyStart, this.skyEnd;
-		this.hillStart, this.hillMid, this.hillEnd;
 		this.transparency = 0; //check this
 		this.overlayC = color(255,255,255,this.transparency);  //check this
-		//this.sScape = [sScapeW, sScapeSpr, sScapeSummer, sScapeF];
 	}
-	initHills(speed){  //creates point vectors for hill peak locations    
+	initHills(speed){  				//creates point vectors for hill peak locations    
 		let incX = this.levelW/25;  //increment X; hill peak spacing 	
 		for (let j=0; j<3; j++){ 	//make #hills
 			let arrPV = [];  		//for array of point vectors for each of the hills
@@ -22,93 +20,74 @@ class EffectsHandler{
 			for (let i = 0; i*incX < this.levelW; i++){  
 				arrPV.push(createVector (i*incX, height/4+incX/1.5+random(-15-20*j, 15+20*j)));
 			}
-			this.hills.push(new Hills(arrPV, this.levelW, this.levelH, this.player, speed));
+			this.hills.push(new Hills(this, arrPV, speed));  //arrPV, this.levelW, this.levelH, this.player
 			speed*=2.25; //increase the speed (translate rate) for each loop of hills
 		}
 	}
-	addObj(number, obj){  
-		//background array.  Object names: Snowflake, Raindrop, Leaf
-		for (let i = 0; i < number; i++){
-			this.bgObj.push(new obj(this.player, this.levelW, this.levelH));
-		}
-		//forground array
-		for (let i = 0; i < number/10; i++){
-			this.fgObj.push(new obj(this.player, this.levelW, this.levelH));
-			//scale size and vel for each as it is added
-			this.fgObj[this.fgObj.length-1].SF=1.4;
-			this.fgObj[this.fgObj.length-1].V.mult(1.4);
-		}
-	}
-	shadeSky(skyStart, skyEnd){
+
+	shadeSky(game){
 		noStroke();
 		let H = 15;
+		let C1 = color(game.levelData[game.currentLevel].skyStart);
+		let C2 = color(game.levelData[game.currentLevel].skyEnd);
 			for (let i = 0; i*0.03 < 1; i++){
-				let shift = lerpColor(skyStart, skyEnd, i*0.03);
+				let shift = lerpColor(C1, C2, i*0.03);
 				fill(shift);
 				rect(0,i*H,width,H);
 			}	
 	}
-	screenEffects(level){
+
+	screenEffects(game){
+		//create objects if not set up
 		if (this.setup === false){
-			//make objects if not set up
 			this.initHills(0.15);
-			if (level === 0){
-				this.addObj(140, Snowflake);
-				this.skyStart = color(82,149,204);
-				this.skyEnd = color(250, 200, 255);
-				this.hillStart = color(60,85,130);
-				this.hillMid = color(102,147,192);
-				this.hillEnd = color(150,200,235);
-			}	
-			else if (level === 1){
-				this.addObj(120, Raindrop);
-				this.skyStart = color(70,110,120);
-				this.skyEnd = color(242,252,255);
-				this.hillStart = color(50,85,95,120);
-				this.hillMid = color(78,110,90);
-				this.hillEnd = color(90,145,105);
+			let numB = game.levelData[game.currentLevel].numBGeffects;
+			let numF = game.levelData[game.currentLevel].numFGeffects;
+			let effect = game.levelData[game.currentLevel].levelEffect;
+			let obj;
+				if (effect === "snow")		{obj = Snowflake;}
+				else if (effect === "rain") {obj = Raindrop;}
+				else if (effect === "leaf") {obj = Leaf;}
+
+			while (numB > 0){
+				this.bgObj.push(new obj(this.player, this.levelW, this.levelH));
+				numB--;
 			}
-			else if (level === 2){
-				//will change rain to something else.  
-				this.addObj(2, Raindrop);
-				this.hills[0].lake = true;
-				this.skyStart = color(150, 205, 255);
-				this.skyEnd = color(255, 237, 244);
-				this.hillStart = color(150, 190, 220);
-				this.hillMid = color(105,170,135);
-				this.hillEnd = color(130, 200, 130);
-			}
-			else if (level === 3){
-				this.addObj(30, Leaf);
-				this.skyStart = color(45, 50, 90);
-				this.skyEnd = color(255, 180, 200);
-				this.hillStart = color(55, 35, 25);
-				this.hillMid = color(90,55,20);
-				this.hillEnd = color(140, 80, 30); 
-			}
+			while (numF > 0){
+				this.fgObj.push(new obj(this.player, this.levelW, this.levelH));
+				numF--;
+			} 
 			this.setup = true;
-		}	
-		//sky
-		this.shadeSky(this.skyStart, this.skyEnd);  
-		//hills
-		for(let i = 0; i < this.hills.length; i++){
-			if(i===0){hillColor = this.hillStart;}
-			if(i===1){hillColor = this.hillMid;}
-			if(i===2){hillColor = this.hillEnd;}
-			this.hills[i].draw(hillColor);
 		}
+		
+		//draw sky
+		this.shadeSky(game);  
+
+		//draw hills
+		this.hills.forEach((hill, i)=> {
+			let lake = false;
+			if (i===0){lake = true;}
+			let hillColor = game.levelData[game.currentLevel].hillColors[i];
+			hill.draw(hillColor, lake);
+		});
+
 		//bgobjects
 		for(let i=0; i< this.bgObj.length; i++){
 			this.bgObj[i].update();
 			this.bgObj[i].antiCam();
 			this.bgObj[i].draw();
 		}
-	}	
-	fgEffects(level){  
+	}
+	
+
+	fgEffects(){  
 		for(let i=0; i< this.fgObj.length; i++){
 			this.fgObj[i].update();
 			this.fgObj[i].antiCam();
 			this.fgObj[i].draw();
 		}
 	}
+
+
+
 }

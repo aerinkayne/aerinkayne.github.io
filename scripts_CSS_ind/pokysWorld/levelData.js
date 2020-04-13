@@ -31,9 +31,9 @@ let levelData = [
 	//images assigned in preload.  properties refer to image, translation rate relative to player translation, and intitial P.y location of image.
 	levelBackgroundImages: [{img:undefined, rate:1/20, Y: 175},  
 							{img:undefined, rate:1/10,  Y: 0},
-							{img:undefined, rate:1/4,  Y: 230}],
-	skyStart: [50,160,220],
-	skyEnd: [220,75,40],
+							{img:undefined, rate:1/4,  Y: 230}], 
+	skyStart: [90,160,255],
+	skyEnd: [250,95,40],
 	levelMusic: undefined,  //assign in preload
 	levelEffects: ["snow", "rain"],
 	//make sure array indices of numBGeffects and levelEffect correlate.

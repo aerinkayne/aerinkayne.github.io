@@ -35,14 +35,14 @@ class GameScreen {
 		let H = 4/5*height/40;
 		let num = height/H;
 		for (let i = 0; i<num; i++){
-			rectColor = lerpColor(color(game.levelData.skyStart),color(game.levelData.skyEnd),i/num);
+			rectColor = lerpColor(color(game.levelData[game.level].skyStart),color(game.levelData[game.level].skyEnd),i/num);
 			fill(rectColor);
 			rect(0,i*H,width,H);
 		}
 	}
 
 	drawBackgrounds(game){
-		game.levelData.levelBackgroundImages.forEach(config => {
+		game.levelData[game.level].levelBackgroundImages.forEach(config => {
 			//x coord, y coord, width, total height onscreen
 			let bg = config.img.get(config.rate*game.player.T.x, 0, width, ceil(min(height-config.Y+config.rate*game.player.T.y, config.img.height)));
 			image(bg, 0, config.Y-config.rate*game.player.T.y, bg.width, bg.height);
@@ -59,9 +59,9 @@ class GameScreen {
 		let tempArrB = [];
 		let tempArrF = [];
 		let obj;
-		game.levelData.levelEffects.forEach((effect, index) => {  
-			let numB = game.levelData.numBGEffects[index];
-			let numF = game.levelData.numFGEffects[index];
+		game.levelData[game.level].levelEffects.forEach((effect, index) => {  
+			let numB = game.levelData[game.level].numBGEffects[index];
+			let numF = game.levelData[game.level].numFGEffects[index];
 			
 			if (effect ==="snow"){obj = Snowflake;}
 			else if (effect ==="rain"){obj = Raindrop;}

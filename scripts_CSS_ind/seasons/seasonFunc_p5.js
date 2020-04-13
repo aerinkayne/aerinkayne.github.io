@@ -90,9 +90,11 @@ let onScreen = function(obj1, obj2, levelW, levelH){
 };
 
 
+
 class Player {
 	constructor (x,y,w,h){
 		this.P = createVector(x,y);
+		this.T = createVector(0,0); //holds translation vals
 		this.w = w;
 		this.h = h;
 		this.V = createVector(0,0);
@@ -105,10 +107,18 @@ class Player {
 		this.keyInputs=[39,37,38]; //RIGHT,LEFT,UP.  40 DOWN
 		this.color = (50, 50, 50);
 		this.health = 3;
-		this.gotKey = false;
+		this.hasKey = false;
+		this.toNextLevel = false;
 		this.delay = 41; //for damaging collisions
 		this.z_Index = 2;
 	}
+	
+	updateTranslation(game){
+		this.T.x = (this.P.x + this.w/2 >= game.levelW - width/2) ? 
+			game.levelW-width : round(max(0, this.P.x + this.w/2 - width/2));
+		this.T.y = (this.P.y + this.h/2 >= game.levelH - height/2)? 
+			game.levelH-height : round(this.P.y + this.h/2 - height/2);  //no upper bound
+	} 
 
 	update(arr){  //arr used to check collision with tiles that affect position
 		// key inputs
@@ -146,7 +156,7 @@ class Player {
 		this.checkMapCollision(arr,0,this.V.y);  
 		
 		//decelerate.  TODO vary dec with different surfaces
-		if( !keys[this.keyInputs[0]] && !keys[this.keyInputs[1]]){
+		if(!keys[this.keyInputs[0]] && !keys[this.keyInputs[1]]){
 			if(this.V.x > 0){
 				this.V.x -= this.moveSpeed;
 			}
@@ -154,7 +164,7 @@ class Player {
 				this.V.x += this.moveSpeed;
 			}
 		}
-	
+		//this.updateTranslation(game);
 		//dmg delay timer
 		if (this.delay < 41){
 			this.delay++;
@@ -170,7 +180,7 @@ class Player {
 			}	
 		}
 	}
-	//checkOtherCollision(arr){}  //arr collidables
+	
 	draw() {  
 		noStroke();
 		fill(this.color);
@@ -222,7 +232,7 @@ class Player {
 		textSize(height/25);
 		text("Got Key?: ", 0.78*width,height/35);
 
-		if(this.gotKey){
+		if(this.hasKey){
 			text("Yes!",0.91*width,height/35);
 		} else {
 				text("NO", 0.91*width, height/35); 
@@ -233,9 +243,12 @@ class Player {
 	}
 }
 
+
+
+
 class Block {  
 	constructor(x,y,w,h,img){  
-		this.P = createVector(x,y);
+		this.P = createVector(x,y); 
 		this.w=w;
 		this.h=h;
 		this.img=img;
@@ -252,7 +265,7 @@ class Block {
 			obj.P.y = this.P.y - obj.h;  
 		}
 		if(Vy < 0){
-			obj.V.y = 0;
+			obj.V.y = 0; 
 			obj.P.y = this.P.y+this.h;
 		}
 		if(Vx < 0){
@@ -322,13 +335,13 @@ class Portal extends Block{
 	}
 	//replace this with collideEffect and check collision in player update
 	update(player){
-		if(this.collide(player) && player.gotKey){
+		if(this.collide(player) && player.hasKey){
 			canvasOverlay=color(255, 255, 255, transparency);
 			transparency+=10;
 			if(transparency>255){
-				this.collected=true;
+				player.toNextLevel = true;
 			} 
-		}else if(this.collide(player) && !player.gotKey){ 
+		}else if(this.collide(player) && !player.hasKey){ 
 			fill(0, 0, 0);
 			textSize(15);
 			textAlign(CENTER,CENTER);
@@ -342,15 +355,15 @@ class Portkey extends Block{
 		this.collected=false;
 	}
 	draw(player) {
-		if(!player.gotKey){
+		if(!player.hasKey){
 			image(this.img, this.P.x, this.P.y, this.w, this.h);
 		}
 	}
 	update(player){
-		if(!player.gotKey && this.collide(player)){
+		if(!player.hasKey && this.collide(player)){
 			soundKey.play();
 			this.collected=true;
-			player.gotKey=true;
+			player.hasKey=true;
 		}
 	}
 }
@@ -389,7 +402,7 @@ class SpikeU extends Block{
 		stroke(255, 255, 255,200);
 		strokeWeight(1);
 		line(0, this.h,  	this.w/2, this.jab);
-		line(this.w/2,this.h, 	this.w/2, this.jab);
+		line(this.w/2,this.h, 	this.w/2, this.jab); 
 		strokeWeight(1);
 		noStroke();
 		pop();
@@ -589,15 +602,15 @@ class Leaf extends Snowflake{
 }
 
 class Hills {  
-	constructor(arrPV, levelW, levelH, player, speed){ //lvW,H,player from gameScreen per level
+	constructor(gameScreen, arrPV, speed){ //lvW,H,player,level from gameScreen
 		this.arrPV = arrPV;
-		this.levelW = levelW;
-		this.levelH = levelH;
-		this.player = player;
+		this.levelW = gameScreen.levelW;
+		this.levelH = gameScreen.levelH;
+		this.player = gameScreen.player;
+		this.currentLevel = gameScreen.currentLevel;
 		this.speed = speed;
-		this.lake = false;
 	}
-	draw(color) {
+	draw(color, lakeBool) {  //currently called from screenEffects 
 		push();
 		//parallax effect 
 		if (this.player.P.x + this.player.w/2 > width/2 &&
@@ -627,7 +640,7 @@ class Hills {
 		endShape(CLOSE); 
 		
 		//draw a lake effect if it has been set to true.
-		if (this.lake){
+		if (levelData[this.currentLevel].hasLake && lakeBool){
 			fill(30, 100, 150);
 			rect(this.arrPV[0].x, this.arrPV[0].y+66, this.levelW, this.levelH-this.arrPV[0].y);
 			fill(150, 190, 220, 60);  //was (color, 60), but alpha not working with argument color pass

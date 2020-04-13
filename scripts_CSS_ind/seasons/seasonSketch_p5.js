@@ -1,14 +1,8 @@
 let transparency;  
 let canvasOverlay;
 let keys = []; //for movements
-let decoImages = [];
-let lava = [];
-let portkeys =[];
-let hearts = [];
-let spikes = [];
-let portals = [];
-let players = [];
 let blocks = [];
+
 let sprite1;
 let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
 let btnLevels = [];
@@ -18,7 +12,6 @@ let soundKey;
 let soundHeart;
 let soundSpike;
 let game;
-let hillColor;
 
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
@@ -28,10 +21,14 @@ function preload(){
 	soundJump = loadSound("scripts_CSS_ind/seasons/assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
 
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3", asset=>{levelData[0].music = asset});
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3", asset=>{levelData[1].music = asset});
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav", asset=>{levelData[2].music = asset});
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3", asset=>{levelData[3].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3", 
+		asset=>{levelData[0].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3", 
+		asset=>{levelData[1].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav", 
+		asset=>{levelData[2].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3", 
+		asset=>{levelData[3].music = asset});
 }
 
 

@@ -1,31 +1,24 @@
 class Game{ 
 	constructor() {  
-		this.ts = 40;  //tile size
-		this.player = (new Player(0,0,0.7*this.ts,0.7*this.ts)); 
-		this.gameState = "levelSelect"; 
-		this.paused = false;
+		this.ts = 40;  //tile size 
+		this.player = new Player(0,0,0.7*this.ts,0.7*this.ts);
 		this.levelW;  //defined at lv load
 		this.levelH;
 		this.bordL = width/2; 
 		this.bordR; 
 		this.bordT = height/2; 
 		this.bordB;
-		this.currentLevel = 0;  //default if none selected
-		this.numLevels = 4;     //btn testing 041220
-		this.levelData = levelData;
-		}
+		this.mapTiles = [];
+		this.onScreenTiles = [];
+		this.collisionTiles = [];
+		this.movingTiles = [];
 
-	renderArr(arrToRender){ 
-		for(let i=0; i<arrToRender.length; i++){
-			if (onScreen(arrToRender[i], this.player, this.levelW, this.levelH)){
-				arrToRender[i].draw(this.player); //some objects need player info 
-			}
-			//call update() if object has that method, but don't update the player here.  
-			if (arrToRender[i] !== this.player && typeof arrToRender[i].update === "function" ){
-				arrToRender[i].update(this.player);
-			}       
+		this.currentLevel = 0;  //default if none selected
+		this.numLevels = 4;     
+		this.levelData = levelData;
+		this.paused = false;
+		this.gameState = "levelSelect"; 
 		}
-	}
 
 	camera(){   
 		//horizontal constrain
@@ -47,12 +40,12 @@ class Game{
 		else if(playCY >= this.bordB){   
 			translate(0, -(this.levelH-height));  
 		}
-		//check if player has fallen.  convenient here because it needs lvH.  move later maybe.
+		//check if player has fallen.  convenient here because it needs lvH.  move later .
 		if(this.player.P.y > this.levelH + height){
 			this.player.health=0;
 		}
 	}
-	levelKey(){   
+	setupMap(){   
 		let S = this.ts;  	//map tile size	
 		let L = 2; 			//map code string length
 		let numR = this.levelData[this.currentLevel].levelMap.length;
@@ -65,6 +58,13 @@ class Game{
 
 		//set map object types and positions		
 		let s, x, y;
+		let decoImages = [];
+		let lava = [];
+		let portkeys =[];
+		let hearts = [];
+		let spikes = [];
+		let portals = [];
+		
 
 		for(let row = 0; row < numR; row++){ 		//#strings in lv map. (tiles P.y)
 			for(let col = 0; col < numC; col++){ 	//length row's string (tiles P.x)
@@ -176,8 +176,19 @@ class Game{
 				}
 			}
 		}
+		//add player to decoImages array and sort by z_Index property to change draw order
+		decoImages.push(this.player); 
+		decoImages = decoImages.sort((img1, img2) => (img1.z_Index > img2.z_Index ? 1 : -1)); 
+			
+		//sort additional tiles and concat to maptiles
+		let tiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals]; 
+	
+		tiles.forEach(set=>{
+			this.mapTiles = this.mapTiles.concat(set);
+		});
+
 	}
-	//screens 
+	//methods for screen managment 
 	screenLvSelect(){
 		background(125,135,150);
 		textSize(height/21);
@@ -191,13 +202,19 @@ class Game{
 	}
 	screenInGame(){
 		if (!this.paused){
-			this.effectsHandler.screenEffects(this.currentLevel); 
+			this.effectsHandler.screenEffects(this); 
 			this.camera();
 			
-			//draw and update objects of map 
-			for (let i=0; i<this.mapTiles.length; i++){
-				this.renderArr(this.mapTiles[i]); 
-			}
+			//draw and update objects of map.  Player is not updated here. 
+			this.mapTiles.forEach(item=>{
+				if (onScreen(item, this.player,this.levelW, this.levelH)){
+					item.draw(this.player);
+				}
+				if (item !== this.player && typeof item.update === "function"){
+					item.update(this.player);
+				}
+			});
+
 			//player is updated here rather than above
 			this.player.update(blocks);
 
@@ -205,24 +222,23 @@ class Game{
 				this.gameState="gameOver";
 			}
 
-			//incr level if portal.collected. always 1 portal per lv.
-			if(portals[0].collected){
+
+			if(this.player.toNextLevel){
 				transparency=0;
 				canvasOverlay=color(255, 255, 255, transparency);
-				
 				this.levelData[this.currentLevel].music.stop();
-				this.removeMap(this.mapTiles);
-					
 				this.currentLevel++; 
 				this.loadMap(); 
-				this.player.gotKey=false;
+				this.player.hasKey=false;
+				this.player.toNextLevel=false;
+				
 			} 
 	
 			if(this.currentLevel===4){ //todo: not like this.
 				this.gameState="win";
 			}
 		
-			//HUD, foreground and overlay effects
+			//foreground and overlay effects
 			resetMatrix();
 			this.player.stats(); //health, info
 			this.effectsHandler.fgEffects(this.currentLevel); //forground effects
@@ -246,32 +262,25 @@ class Game{
 	setLevel(n){
 		this.currentLevel = n;
 	}
-	loadMap(){  //load map, then set state to inGame
-		this.levelKey();  		//get map tiles 
+	loadMap(){
+		//remove existing tile objects if there are any
+		this.removeArray(this.mapTiles);
+		this.removeArray(blocks);   
+		this.setupMap();  
 			
-		//add player to decoImages array and sort by z_Index property to change draw order
-		decoImages.push(this.player); 
-		decoImages = decoImages.sort((img1, img2) => (img1.z_Index > img2.z_Index ? 1 : -1)); 
-			
-		//all map tiles. TODO concat and change double loops for iteration and splicing?
-		this.mapTiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals];
-		//use level W, H and player info for effects
-		this.effectsHandler = new EffectsHandler(this.levelW, this.levelH, this.player);
+		this.effectsHandler = new EffectsHandler(this); //for this.levelW, this.levelH, this.player);
+
 			if (this.currentLevel < this.numLevels) {  
 				this.levelData[this.currentLevel].music.loop();
 			}	
 		this.gameState = "inGame"; 
 	}
 
-	removeMap(arr){
-		for (let i = arr.length-1; i>=0; i--){
-			arr[i].splice(0, arr[i].length); //splice is shallow
-		}
-		arr.splice(0, arr.length);		
+	removeArray(arr){
+		while(arr.length){arr.pop();}
 	}
 	
-	clickToContinue(){
-		this.removeMap(this.mapTiles);  
+	clickToContinue(){  
 		this.player.health = 3;
 		this.loadMap(); //reload map for current level
 		this.gameState = "inGame";  //restore state to inGame

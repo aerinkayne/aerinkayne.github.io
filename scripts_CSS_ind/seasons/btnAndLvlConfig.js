@@ -34,12 +34,14 @@ const levelData = [
             "            01 0^                                     01 01                         02 02 01 0h    0^    0^             ",    
             "02 02 0L 02 01 02 02 02 02 02 0L 0L 0L 0L 0L 0L 0L 0L 01 01 0L 0L 0L 0L 0L 0L 0L 0L 01 01 01 02 02 02 02 02 02 02 02 02 "  
         ],
-        skyStart: [82,149,204],
-        skyEnd: [250, 200, 255],
-        music: undefined,   //assign in sketch preload
-        levelEffect: "snow",
-        numBGeffects: 140,
-        numFGeffects: 15  
+        skyStart: [82,149,204],  //done
+        skyEnd: [250, 200, 255], //done
+        hillColors: [[60,85,130],[102,147,192],[150,200,235]],  //order is background, middle, foreground.  done
+        hasLake: false,
+        music: undefined,   //assigned in sketch preload.  done
+        levelEffect: "snow",   //todo
+        numBGeffects: 140,     //todo
+        numFGeffects: 15       //todo
     },
 
 
@@ -77,7 +79,9 @@ const levelData = [
         ],
         skyStart: [70,110,120],
         skyEnd: [242,252,255],
-        music: undefined,   //assign in sketch preload
+        hillColors: [[50,85,95,120],[78,110,90],[90,145,105]],
+        hasLake: false,
+        music: undefined,   //assigned in sketch preload
         levelEffect: "rain",
         numBGeffects: 120,
         numFGeffects: 15
@@ -118,7 +122,9 @@ const levelData = [
         ],
         skyStart: [150, 205, 255],
         skyEnd: [255, 237, 244],
-        music: undefined,   //assign in sketch preload
+        hillColors: [[150, 190, 220],[105,170,135],[130, 200, 130]],
+        hasLake: true,
+        music: undefined,   //assigned in sketch preload
         levelEffect: "rain",
         numBGeffects: 1,
         numFGeffects: 1
@@ -155,7 +161,9 @@ const levelData = [
         ],
         skyStart: [45, 50, 90],
         skyEnd: [255, 180, 200],
-        music: undefined,   //assign in sketch preload
+        hillColors: [[55, 35, 25],[90,55,20],[140, 80, 30]],
+        hasLake: false,
+        music: undefined,   //assigned in sketch preload
         levelEffect: "leaf",
         numBGeffects: 30,
         numFGeffects: 5
@@ -233,7 +241,6 @@ const restart1 = {
 	txt: "Restart",    
     btnColor: [255,75,110], 
     onClick: function(){
-        game.removeMap(game.mapTiles); 
         transparency=0;
         canvasOverlay=color(255, 255, 255,transparency);
         game = new Game();

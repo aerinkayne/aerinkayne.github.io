@@ -1,22 +1,4 @@
 
-let addObjectsToArr = function(number, arr, obj){
-	while(number>0){
-	arr.push(new obj);
-	number--;
-	}
-}
-let sortArrByProp = function(arr, str){
-    let holder;
-    for (let i = 0; i < arr.length; i++){
-        for (let j = i+1; j < arr.length; j++) {
-            if (arr[j][str] < arr[i][str]){ 
-                holder = arr[i];
-                arr[i] = arr[j];
-                arr[j] = holder;
-            }
-        }
-    }
-}
 let getDistance = function(obj1, obj2){ //returns dist between center of two objects where P is top left corner as vector
 	return sqrt(sq(obj1.P.x + obj1.w/2 -(obj2.P.x + obj2.w/2)) + 
 				sq(obj1.P.y + obj1.h/2 -(obj2.P.y + obj2.h/2))); 

@@ -8,11 +8,12 @@ class Game{
 	this.onScreenTiles = [];
 	this.collisionTiles = [];
 	this.movingTiles = [];
-	this.level = 0;
-	this.levelData = levelData[this.level];
+ this.level = 0;
 	this.numLevels = 2; //update later
-	this.setup = false;
-	this.gameState = "start";
+ this.levelData = levelData;
+ this.paused = false;
+ this.setup = false;
+ this.gameState = "start";
 	this.btnStart = new Button(btnStart);
 	this.btnPause = new Button(btnPause);
 	}
@@ -27,6 +28,16 @@ class Game{
 	gameCamera(){
 		translate(-this.player.T.x, -this.player.T.y);
 	}
+ managePlayer(){
+		if (!this.paused){
+			this.player.move();
+			this.player.manageSprites();
+			this.player.updatePosition(this);
+			this.player.updateTranslation(this);
+			this.player.updateDamageTimer();
+			this.player.bound(this);
+		}
+	}
 	manageScenes(){
 		if (this.gameState==="start"){
 			background(150);
@@ -40,7 +51,7 @@ class Game{
 
 			this.gameCamera();
 			this.gameScreen.updatePosition(); //needs to be after cam to track properly
-			this.player.managePlayer(this);
+			this.managePlayer(this);
 			if(!this.gameScreen.setup){ 	  //needs to follow player updates 
 				this.gameScreen.populateArrays(this);
 			}
@@ -62,11 +73,10 @@ class Game{
 	}
 	loadLevelMap(){
 		if(this.mapTiles.length){this.removeMap();}
-		this.levelData = levelData[this.level];
 		let S = this.tileSize;
 		let L = this.mapCodeLength;
-		let numRows = this.levelData.levelMap.length;
-		let numCols = this.levelData.levelMap[0].length;
+		let numRows = this.levelData[this.level].levelMap.length;
+		let numCols = this.levelData[this.level].levelMap[0].length;
 		this.levelW = S*numCols/L;
 		this.levelH = S*numRows;
 		let t, x, y;
@@ -75,7 +85,7 @@ class Game{
 		
 		for (let i = 0; i < numRows; i++){
 			for (let j = 0; j < numCols; j++){
-				t = this.levelData.levelMap[i].slice(L*j, L*(j+1));
+				t = this.levelData[this.level].levelMap[i].slice(L*j, L*(j+1));
 				x = j*S;
 				y = i*S;
 
