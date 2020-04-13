@@ -1,142 +1,81 @@
 // todo
 // simplify tile and obj array, screen class updates
-// 
-// notes: EffectsHandler and Game classes are in their own files.
 
 
-class Button1{
+class Button {
 	constructor(config){
-	this.P = createVector(config.x,config.y);
-	this.w = config.w;
-	this.h = config.h;
-	this.r = config.r; 
-	this.img = config.img;
-	this.txt = config.txt;
-	this.txtSize = config.txtSize;
-	this.txtColor = config.txtColor;
-	this.btnColor = config.btnColor;
+	this.P = createVector(floor(config.x),floor(config.y)); 
+	this.w = floor(config.w);
+	this.h = floor(config.h);
+	this.r = config.r || 0; 				
+	this.txt = config.txt || 0;
+	this.txtSize = config.txtSize || config.h/2.5;
+	this.txtColor = config.txtColor || [0,0,0];
+	this.btnColor = config.btnColor || [0,0,0];
+	this.borderColor = config.borderColor || [0,0,0];
+	this.strokeW = config.strokeW || 0.5;
+	this.overlayAlpha = 0;
+	this.selected = false;
 	this.clickTimer = 0;
-	this.clickDelay = 20;
-	this.onClick = config.onClick;
+	this.clickDelay = 20;		
+	this.onClick = config.onClick || 0;
+	this.onHover = config.onHover || 0;
+	this.offHover = config.offHover || 0;
 	}
 	checkClicks(){  //called in draw.  timer used to limit calls.  works ontouch
 		if (this.clickTimer < this.clickDelay) {this.clickTimer++;}
-		if (this.mouseIsOver(mouseX,mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
+		if (this.mouseIsOver(mouseX, mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
 			this.onClick();
 			this.clickTimer=0;
 		}
 	}
-	draw(){
-
-		if(this.img){
-			image(this.img, this.P.x, this.P.y, this.w, this.h);
+	checkHover(){
+		if (this.mouseIsOver(mouseX, mouseY)){
+			this.onHover();
 		}
 		else {
+			this.offHover();
+		}
+	}
+	draw(){
+		if(this.img){
+			fill(this.btnColor);
+			noStroke();
+			rect(this.P.x - 2, this.P.y - 2, this.w + 4, this.h + 4, this.r);
+			image(this.img, this.P.x, this.P.y, this.w, this.h);
+			fill(0,0,0,this.overlayAlpha);
+			rect(this.P.x, this.P.y, this.w, this.h);
+		}
+		else {
+			strokeWeight(this.strokeW);
+			stroke(this.borderColor);
 			fill(this.btnColor);
 			rect(this.P.x, this.P.y, this.w, this.h, this.r);
+			strokeWeight(1);
+			noStroke();
 			textAlign(CENTER,CENTER);
 			textSize(this.txtSize);
 			fill(this.txtColor);
 			text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
 		}
 		this.checkClicks();
+		if (this.onHover){
+			this.checkHover();
+		}
 	}
 	mouseIsOver(mouseX, mouseY){
 		return (mouseX > this.P.x && mouseX < this.P.x + this.w &&
 				mouseY > this.P.y && mouseY < this.P.y + this.h);
 	}
 }
-class LevelSelectButton extends Button1 {
-	constructor(config, number, img){
-	super(config);
-	this.accessLevel = number-1;
-	this.img = img;
- 	this.txt = `This path leads to ${number}`;
-	}
-}
-
-
-// new buttons 092519
-class Button{
-	constructor(x,y,w,h,r,c,txt,LV){
-	this.P = createVector(x,y);
-	this.w = w;
-	this.h = h;
-	this.r = r;  
-	this.c = c;
-	this.txt = txt;
-	this.LV=LV;
-	this.img = undefined;
-	this.tSize = this.h/8;
-	this.boarderW = 3;
-	this.boarderC = 0;
-	this.overlay = 100;
-	this.selected = false;
-	}
-	isOver(mouseX, mouseY){
-		return (mouseX > this.P.x && mouseX < this.P.x + this.w &&
-				mouseY > this.P.y && mouseY < this.P.y + this.h);
-	}
-	draw(){
-		stroke(this.boarderC);
-		strokeWeight(this.boarderW);
-		
-		fill(this.c); //for boarders
-		rect(this.P.x, this.P.y, this.w, this.h, this.r);
-		
-		if(this.img !== undefined){
-			image(this.img, this.P.x, this.P.y, this.w, this.h);
-		}
-		
-		strokeWeight(1);
-		noStroke(); 
-		if (!this.isOver(mouseX,mouseY) && !this.selected){
-			fill(40,40,40,this.overlay);
-		}	
-		else {
-			fill(0,0,0,0);
-		}
-		rect(this.P.x, this.P.y, this.w, this.h, this.r);
-		textAlign(LEFT,CENTER);
-		textSize(this.tSize);
-		fill(255);
-		text(this.txt,this.P.x+this.tSize/2, this.P.y+this.h-this.tSize/1.5);
-	}
-}
-
-class SmlButton extends Button{  
-	constructor(x,y,w,h,r,c,txt){
-		super(x,y,w,h,r,c,txt);
-		this.tSize = this.h/2.5;
-		this.overlay = 70;
-		this.boarderW=0.5;
-	}
-	draw(){
-		stroke(this.boarderC);
-		strokeWeight(this.boarderW);
-		
-		fill(this.c); //for boarders
-		rect(this.P.x, this.P.y, this.w, this.h, this.r);
-		
-		if(this.img !== undefined){
-			image(this.img, this.P.x, this.P.y, this.w, this.h);
-		}
-		
-		strokeWeight(1); //reset strokeweight
-		noStroke(); 
-		if (!this.isOver(mouseX,mouseY) && !this.selected){
-			fill(40,40,40,this.overlay);
-		}	
-		else {
-			fill(0,0,0,0);
-		}
-		rect(this.P.x, this.P.y, this.w, this.h, this.r);
-		
-		textSize(this.tSize);
-		fill(0,0,0,225);
-		textAlign(CENTER,CENTER);
-		text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
-	}
+class LevelSelectButton extends Button {
+	constructor(config, x, y, season, lvIndex, img){
+		super(config);
+		this.P = createVector(floor(x), floor(y));
+		this.season = season;
+		this.accessLevel = lvIndex;
+		this.img = img;
+	}	
 }
 
 
@@ -381,7 +320,7 @@ class Portal extends Block{
 		super(x,y,w,h,img);
 		this.collected=false;
 	}
-	//replace this shit with collideEffect and check collision in player update
+	//replace this with collideEffect and check collision in player update
 	update(player){
 		if(this.collide(player) && player.gotKey){
 			canvasOverlay=color(255, 255, 255, transparency);
@@ -423,7 +362,7 @@ class SpikeU extends Block{
 		this.hurt;
 	}
 	collide(obj) {
-		//rect(this.P.x, this.P.y+this.jab, this.w, this.h-this.jab); //to check height and dist from player when called
+		//rect(this.P.x, this.P.y+this.jab, this.w, this.h-this.jab); //uncomment to check height and dist from player when called
 		let subX;
 		//checks if y range of player is between tip (P.y+variable y amount) and spike's base
         if (this.P.y + this.jab < obj.P.y + obj.h && this.P.y + this.h > obj.P.y){

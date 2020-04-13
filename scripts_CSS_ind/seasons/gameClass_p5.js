@@ -26,43 +26,7 @@ class Game{
 			}       
 		}
 	}
-	manageScenes(){ //called on mouseclick.  buttons are currently global objects. 
-		if (this.gameState === "levelSelect"){
-			for (let i = 0; i < btnLevels.length; i++){
-				if (btnLevels[i].isOver(mouseX,mouseY)){
-					btnLevels[i].selected = true;
-					btnLevels[i].boarderC = 255;
-					this.setLevel(btnLevels[i].LV); 
-				}
-				else {
-					btnLevels[i].boarderC = 0;
-					btnLevels[i].selected = false;
-				}
-			}
-		}
-		//load chosen lv map
-		if (this.gameState === "levelSelect" && btnStart.isOver(mouseX,mouseY)){
-			this.gameState = "gameStart";
-		}
-		//toggle pause
-		if (this.gameState === "inGame" && btnPause.isOver(mouseX,mouseY) && !this.paused){
-			this.paused = true;
-		}
-		else if (this.gameState === "inGame" && btnPause.isOver(mouseX,mouseY) && this.paused){
-			this.paused = false;
-		}
 
-		//continue and restart options 
-		if (this.gameState === "gameOver" && btnContinue.isOver(mouseX,mouseY)){
-			this.clickToContinue();
-		}
-		if (this.gameState === "gameOver" && btnRestart.isOver(mouseX,mouseY)){
-			this.removeMap(this.mapTiles); 
-			transparency=0;
-			canvasOverlay=color(255, 255, 255,transparency);
-			game = new Game();
-		}
-	}
 	camera(){   
 		//horizontal constrain
 		this.player.P.x = constrain(this.player.P.x, 0, this.levelW-this.player.w);  
@@ -215,15 +179,15 @@ class Game{
 	}
 	//screens 
 	screenLvSelect(){
-		background(200,210,225);
+		background(125,135,150);
 		textSize(height/21);
-		fill(0);
+		fill(220,240,240);
+		textAlign(LEFT,CENTER);
 		text("Select a level and press the start button to begin.",width/10,height/12);
-		btnWint.draw();
-		btnSpr.draw();
-		btnSum.draw();
-		btnFall.draw();
-		btnStart.draw();
+		btnLevels.forEach(btn=> {
+			btn.draw();
+			});
+		btnStart.draw();	
 	}
 	screenInGame(){
 		if (!this.paused){
@@ -245,7 +209,8 @@ class Game{
 			if(portals[0].collected){
 				transparency=0;
 				canvasOverlay=color(255, 255, 255, transparency);
-				this.effectsHandler.sScape[this.currentLevel].stop();
+				
+				this.levelData[this.currentLevel].music.stop();
 				this.removeMap(this.mapTiles);
 					
 				this.currentLevel++; 
@@ -260,11 +225,11 @@ class Game{
 			//HUD, foreground and overlay effects
 			resetMatrix();
 			this.player.stats(); //health, info
-			btnPause.draw();
 			this.effectsHandler.fgEffects(this.currentLevel); //forground effects
 			fill(canvasOverlay);
 			rect(0,0,width,height);
 		}
+		btnPause.draw();
 	}
 	screenGameOver(){
 		noStroke();
@@ -292,8 +257,8 @@ class Game{
 		this.mapTiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals];
 		//use level W, H and player info for effects
 		this.effectsHandler = new EffectsHandler(this.levelW, this.levelH, this.player);
-			if (this.currentLevel < this.effectsHandler.sScape.length){ 
-				this.effectsHandler.sScape[this.currentLevel].loop(); 
+			if (this.currentLevel < this.numLevels) {  
+				this.levelData[this.currentLevel].music.loop();
 			}	
 		this.gameState = "inGame"; 
 	}

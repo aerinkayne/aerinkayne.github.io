@@ -17,7 +17,6 @@ let soundJump;
 let soundKey;
 let soundHeart;
 let soundSpike;
-let sScapeW, sScapeSpr, sScapeSummer, sScapeF;
 let game;
 let hillColor;
 
@@ -29,10 +28,10 @@ function preload(){
 	soundJump = loadSound("scripts_CSS_ind/seasons/assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
 
-	sScapeW = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3", asset=>{levelData[0].music = asset});
-	sScapeSpr = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3", asset=>{levelData[1].music = asset});
-	sScapeSummer = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav", asset=>{levelData[2].music = asset});
-	sScapeF = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3", asset=>{levelData[3].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3", asset=>{levelData[0].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3", asset=>{levelData[1].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav", asset=>{levelData[2].music = asset});
+	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3", asset=>{levelData[3].music = asset});
 }
 
 
@@ -47,19 +46,16 @@ function setup() {
 	//volume adjustments
 	soundJump.setVolume(0.4);
 	soundSpike.setVolume(0.7);
-	sScapeW.setVolume(0.4);
-	sScapeSpr.setVolume(0.4);
-	sScapeSummer.setVolume(0.3);
-	sScapeF.setVolume(0.4);
+	levelData[0].music.setVolume(0.4);
+	levelData[1].music.setVolume(0.4);
+	levelData[2].music.setVolume(0.3);
+	levelData[3].music.setVolume(0.4);
 
 	//sprites for tiles and config images
-	imgStart = sprite1.get(150,179,30,20);
-
 	imgSS_Wint = sprite1.get(150,200,171,129);
 	imgSS_Spr = sprite1.get(329,200,171,129);
 	imgSS_Sum = sprite1.get(150,329,171,129);
 	imgSS_Fall = sprite1.get(329,329,171,129);
-	
 	
 	imgG1 = sprite1.get(0,0,50,50);
 	imgG2 = sprite1.get(50,0,50,50); 
@@ -91,43 +87,27 @@ function setup() {
 	imgFossil = sprite1.get(200, 100, 50, 50); 
 	imgPumpk = sprite1.get(150, 100, 50, 50); 
 	
-	//game
+	//game instance
 	game=new Game();  
 	
-	//buttons.  PX,PY, W, H, radius, color, label, level index (if any)
-	btnWint = new Button(width/10, 1.65*height/10, width/3.5, height/3.1, 3, color(220), "Winter",0); 
-	btnWint0 = new LevelSelectButton(btnWinter1, 1, imgSS_Wint);  //do not reference level by 0 indexing
-	
-
-	btnSpr = new Button(5*width/10, 1.65*height/10, width/3.5, height/3.1, 3, color(220), "Spring",1); 
-	btnSum = new Button(width/10, 5.95*height/10, width/3.5, height/3.1, 3, color(220), "Summer",2); 
-	btnFall = new Button(5*width/10, 5.95*height/10, width/3.5, height/3.1, 3, color(220), "Fall",3);
-	btnWint.img = imgSS_Wint;
-	btnSpr.img = imgSS_Spr;
-	btnSum.img = imgSS_Sum;
-	btnFall.img = imgSS_Fall;
+	//buttons
+	btnStart = new Button(btnStart1);
+	btnWint = new LevelSelectButton(btnLevelSelect, width/10, 1.65*height/10, "Winter", 0, imgSS_Wint);
+	btnSpr = new LevelSelectButton(btnLevelSelect, 5*width/10, 1.65*height/10, "Spring", 1, imgSS_Spr);
+	btnSum = new LevelSelectButton(btnLevelSelect, width/10, 5.95*height/10, "Summer", 2, imgSS_Sum);
+	btnFall = new LevelSelectButton(btnLevelSelect, 5*width/10, 5.95*height/10, "Fall", 3, imgSS_Fall);
 	btnLevels = [btnWint, btnSpr, btnSum, btnFall];
-	
-	btnStart = new Button(8.62*width/10, 8.5*height/10, width/15, height/15, 4, color(0,200,100));
-	btnStart.tSize = btnStart.h/2; 
-	btnStart.img = imgStart;
-	
-	btnPause = new SmlButton(1.75*width/10, 0.1*height/10, width/20, height/25, 2, color(175,235,180,200), "Pause");
-	btnPause.tSize = btnPause.h/2;
-	
-	btnContinue = new SmlButton(width/2-3*width/20, height/2, width/10, height/16, 8, color(75,200,255), "Continue");
-	btnRestart = new SmlButton(width/2+width/20, height/2, width/10, height/16, 0, color(255,75,110), "Restart");
+
+	btnPause = new Button(pause1);
+	btnContinue = new Button(continue1);
+	btnRestart = new Button(restart1);
 }
 
-  
 
 function keyPressed(){keys[keyCode]=true;}   
 function keyReleased(){keys[keyCode]=false;}
 
 
-function mouseClicked(){
-	game.manageScenes();	
-}  
 
 //sketch main
 function draw() {
@@ -143,7 +123,7 @@ function draw() {
         game.screenInGame(); 
     }
     if(game.gameState === "gameOver"){ 
-		game.effectsHandler.sScape[game.currentLevel].stop();
+		game.levelData[game.currentLevel].music.stop();
 		game.screenGameOver();
     }
 	

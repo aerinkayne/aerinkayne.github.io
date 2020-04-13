@@ -174,32 +174,101 @@ const levelData = [
 //************************ buttons **************************/
 
 const btnStart1 = {
-	x: scrWidth/2 - scrWidth/8,
-	y: scrHeight/2 - scrHeight/20,
-	w: scrWidth/4,
-	h: scrHeight/10,
+	x: 8.62*scrWidth/10, 
+	y: 8.5*scrHeight/10,
+	w: scrWidth/15,
+    h: scrHeight/15,
     r: 3,
 	txt: "➤",
 	txtSize: 16,
 	txtColor: [200,255,255],
-	btnColor: [0,50,50],
+    btnColor: [0,75,50],
+    borderColor: [0, 0, 0],
 	onClick: ()=> {
 		game.gameState = "gameStart";
-	}
+    },
+    onHover: function() {
+        this.borderColor = color(255,255,255);
+        this.txtColor = [225,255,255];
+    },
+    offHover: function() {
+        this.borderColor = [0, 0, 0];
+        this.txtColor = [180,255,255];
+    }
 }
 
-const btnWinter1 = {
-	x: scrWidth/2 - scrWidth/8,
-	y: scrHeight/2 - scrHeight/20,
-	w: scrWidth/4,
-	h: scrHeight/10,
-    r: 3,
-    img: undefined,  //assigned in preload if used.
-	onClick: ()=> {
-        
-        if (this.accessLevel >=0 && this.accessLevel < game.numLevels){
-            game.setLevel(this.accessLevel); 
-        }
+const pause1 = { 
+    x: 1.75*scrWidth/10,               
+	y: scrHeight/100,              
+	w: scrWidth/18, 
+    h: scrHeight/25,
+    r: 2,               
+    txt: "❚❚",
+    txtSize: 12,    
+    btnColor: [50,175,150],
+    txtColor: [200,255,255], 
+    onClick: function(){
+        (!game.paused) ? game.paused = true : game.paused = false;
+        (!game.paused) ? this.txt = "❚❚" : this.txt =  "➤";
     }
-	
 }
+const continue1 = {
+	x: scrWidth/2-3*scrWidth/20,               
+	y: scrHeight/2,              
+	w: scrWidth/8, 
+    h: scrHeight/15,
+    r: 8,               
+	txt: "continue",    
+    btnColor: [75,200,255], 
+    onClick: function(){
+         game.clickToContinue();
+    }
+}
+const restart1 = {
+	x: scrWidth/2 + scrWidth/20,               
+	y: scrHeight/2,               
+	w: scrWidth/8,
+    h: scrHeight/15,
+    r: 1,               
+	txt: "Restart",    
+    btnColor: [255,75,110], 
+    onClick: function(){
+        game.removeMap(game.mapTiles); 
+        transparency=0;
+        canvasOverlay=color(255, 255, 255,transparency);
+        game = new Game();
+   }
+}
+
+const btnLevelSelect = {
+	x: 0,
+	y: 0,
+	w: scrWidth/3.5,
+    h: scrHeight/3.1,
+    r: 2,
+    txtSize: 18,
+	onClick: function() {
+        game.setLevel(this.accessLevel);
+        btnLevels.forEach(btn=> {
+            btn.btnColor = [0,0,0];
+            btn.selected = false;
+        });
+        this.selected = true;
+        this.btnColor = [255,255,255];
+    },
+    onHover: function() {
+        this.overlayAlpha = 0;
+        textAlign(CENTER,CENTER);
+        textSize(this.txtSize);
+        fill(this.txtColor);
+        text(
+`Selecting this will
+ take you to ${this.season}`,this.P.x+this.w/2, this.P.y+this.h/2);
+    },
+    offHover: function() {
+        if (!this.selected){
+            this.overlayAlpha = 100;
+        } 
+    }
+}
+

@@ -11,7 +11,7 @@ class EffectsHandler{
 		this.hillStart, this.hillMid, this.hillEnd;
 		this.transparency = 0; //check this
 		this.overlayC = color(255,255,255,this.transparency);  //check this
-		this.sScape = [sScapeW, sScapeSpr, sScapeSummer, sScapeF];
+		//this.sScape = [sScapeW, sScapeSpr, sScapeSummer, sScapeF];
 	}
 	initHills(speed){  //creates point vectors for hill peak locations    
 		let incX = this.levelW/25;  //increment X; hill peak spacing 	
