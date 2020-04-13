@@ -5,9 +5,7 @@ class GameScreen {
 	this.w = width;
 	this.h = height;
 	this.backgroundObjects = [];
-	this.onScreenBGO = [];
 	this.foregroundObjects = [];
-	this.onScreenFGO = [];
 	this.opacity = 0;  
 	this.color = [255,255,255, this.opacity];
 	this.setup = false;
@@ -26,45 +24,38 @@ class GameScreen {
 	drawScreen(){
 		push();
 		translate(this.P.x, this.P.y);
-		fill(this.color);
+		fill(this.color[0], this.color[1], this.color[2], this.opacity);
 		rect(0,0,this.w, this.h);
 		pop();
 	}
-	sortArrFromIndexByProp(fromIndex, arr, str){
-		let holder;
-		for (let i = fromIndex; i < arr.length; i++){
-			for (let j = i+1; j < arr.length; j++) {
-				if (arr[j][str] < arr[i][str]){ 
-					holder = arr[i];
-					arr[i] = arr[j];
-					arr[j] = holder;
-				}
+
+	populateArrays(game){  
+		let tempArrB = [];
+		let tempArrF = [];
+		let obj;
+		game.levelData.levelEffects.forEach((effect, index) => {  
+			let numB = game.levelData.numBGEffects[index];
+			let numF = game.levelData.numFGEffects[index];
+			
+			if (effect ==="snow"){obj = Snowflake;}
+			else if (effect ==="rain"){obj = Raindrop;}
+
+			while(numB > 0){
+				tempArrB.push(new obj(random(this.P.x,(this.P.x+this.w)), random(this.P.y,(this.P.y+this.h)), 0.5, 1));
+				numB--;
 			}
-		}
-	}
-	addObjectsToArr(number, arr, obj, scaleMin, scaleMax){
-		let startIndex = arr.length;
-		while(number>0){
-		arr.push(new obj(random(this.P.x,(this.P.x+this.w)), random(this.P.y,(this.P.y+this.h)), scaleMin, scaleMax));
-		number--;
-		}
-		this.sortArrFromIndexByProp(startIndex, arr, "w");
-	}
-	populateArrays(game){  //todo: need to pass number of and scale range 
-		if (game.levelData.levelEffects.includes("snow")){
-			let i = game.levelData.levelEffects.indexOf("snow");
-			//console.log(i, game.levelData.howManyEffects[i]);
-			this.addObjectsToArr(game.levelData.numBGEffects[i], this.backgroundObjects, Snowflake, 0.5, 1);
-			this.addObjectsToArr(game.levelData.numFGEffects[i], this.foregroundObjects, Snowflake, 1, 1);
-		}
-		if (game.levelData.levelEffects.includes("rain")){
-			let i = game.levelData.levelEffects.indexOf("rain");
-			//console.log(i, game.levelData.howManyEffects[i]);
-			this.addObjectsToArr(game.levelData.numBGEffects[i], this.backgroundObjects, Raindrop, 0.5, 1);
-			this.addObjectsToArr(game.levelData.numFGEffects[i], this.foregroundObjects, Raindrop, 1, 1);
-		}
+			while(numF > 0){
+				tempArrF.push(new obj(random(this.P.x,(this.P.x+this.w)), random(this.P.y,(this.P.y+this.h)), 1, 1));
+				numF--;
+			}
+		}); 
+
+		tempArrB.sort((a, b) => (a.w > b.w ? 1 : -1));
+		this.backgroundObjects = this.backgroundObjects.concat(tempArrB);
+		this.foregroundObjects = this.foregroundObjects.concat(tempArrF);
 		this.setup = true;
 	}
+
 	drawBGObjects(game){
 		this.backgroundObjects.forEach(obj => {
 			obj.draw();
@@ -91,12 +82,12 @@ class Snowflake{
 	constructor(x,y, scaleMin, scaleMax){
 	this.P = createVector(x,y);
 	this.scale = random(scaleMin, scaleMax);
-	this.V = createVector(random(-0.5,0.5), 1.2*this.scale);
-	this.w = 5*this.scale;  //max size
-	this.h = 5*this.scale;
-	this.opacity = 255*this.scale;
+	this.V = createVector(random(-1,1), 2*this.scale);
+	this.w = ceil(5*this.scale);  //max size
+	this.h = ceil(5*this.scale);
+	this.opacity = 130 + 255*this.scale/2;
 	}
-	updatePosition(gameScreen){
+	updatePosition(){
 		this.P.add(this.V);
 	}
 	draw(){
@@ -125,8 +116,8 @@ class Raindrop extends Snowflake{
 	constructor(x,y, scaleMin, scaleMax){
 		super(x,y, scaleMin, scaleMax);
 		this.V = createVector(1.5*this.scale, 10*this.scale);
-		this.w = 2*this.V.x;
-		this.h = 2*this.V.y;
+		this.w = ceil(2*this.V.x);
+		this.h = ceil(2*this.V.y);
 		this.opacity = 120*this.scale;
 	}
 	draw(){

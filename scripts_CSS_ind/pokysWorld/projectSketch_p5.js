@@ -11,9 +11,12 @@ let pokyRunR1, pokyRunR2, pokyRunL1, pokyRunL2, pokyJumpR, pokyJumpL, pokyClimb1
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
 	spriteSheet = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/sprites1.png");
-	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG0.png", asset=> {levelData[0].levelBackgroundImages[0].img = asset});
-	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG1.png", asset=> {levelData[0].levelBackgroundImages[1].img = asset});
-	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG2.png", asset=> {levelData[0].levelBackgroundImages[2].img = asset});
+	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG0.png", 
+		asset=> {levelData[0].levelBackgroundImages[0].img = asset});
+	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG1.png", 
+		asset=> {levelData[0].levelBackgroundImages[1].img = asset});
+	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG2.png", 
+		asset=> {levelData[0].levelBackgroundImages[2].img = asset});
 }
 
 function setup(){
@@ -22,7 +25,7 @@ function setup(){
 	frameRate(60);
 	
 	//sprites
-	sprGrass1 = spriteSheet.get(0,0,50,15);
+	sprGrass1 = spriteSheet.get(0,0,50,15); 
 	sprGrass2 = spriteSheet.get(50,0,50,15);
 	sprGrass3 = spriteSheet.get(100,0,50,15);
 	sprDirt1 = spriteSheet.get(0,50,50,50);
@@ -71,10 +74,7 @@ function setup(){
 	
 	pokyGame = new Game();
 }	
-/*
-function onImageLoad(asset, configKey){
-	configKey.img = asset;
-}*/
+
 
 function keyPressed(){
 	if (pokyGame.player.movements.hasOwnProperty(keyCode)){

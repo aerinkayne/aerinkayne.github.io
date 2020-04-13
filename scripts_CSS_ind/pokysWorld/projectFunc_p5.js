@@ -57,6 +57,7 @@ class Button{
 				mouseY > this.P.y && mouseY < this.P.y + this.h);
 	}
 }
+
 class LevelSelectButton extends Button{
 	constructor(config, number){
 	super(config);
