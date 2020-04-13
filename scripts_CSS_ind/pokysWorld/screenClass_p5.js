@@ -8,7 +8,7 @@ class GameScreen {
 	this.foregroundObjects = [];
 	this.opacity = 0;  
 	this.color = [255,255,255, this.opacity];
-	this.setup = false;
+	this.setup = false; 
 	}
 
 	isOnScreen(obj){
@@ -28,6 +28,32 @@ class GameScreen {
 		rect(0,0,this.w, this.h);
 		pop();
 	}
+
+	shadeSky(game){
+		noStroke();
+		let rectColor;
+		let H = 4/5*height/40;
+		let num = height/H;
+		for (let i = 0; i<num; i++){
+			rectColor = lerpColor(color(game.levelData.skyStart),color(game.levelData.skyEnd),i/num);
+			fill(rectColor);
+			rect(0,i*H,width,H);
+		}
+	}
+
+	drawBackgrounds(game){
+		game.levelData.levelBackgroundImages.forEach(config => {
+			//x coord, y coord, width, total height onscreen
+			let bg = config.img.get(config.rate*game.player.T.x, 0, width, ceil(min(height-config.Y+config.rate*game.player.T.y, config.img.height)));
+			image(bg, 0, config.Y-config.rate*game.player.T.y, bg.width, bg.height);
+			/*noFill();  //uncomment to check get values and img draw locations
+			strokeWeight(2);
+			stroke(255);
+			rect(0, config.Y-config.rate*this.player.T.y, bg.width, bg.height);
+			strokeWeight(1);
+			noStroke();//*/
+		});
+	} 
 
 	populateArrays(game){  
 		let tempArrB = [];

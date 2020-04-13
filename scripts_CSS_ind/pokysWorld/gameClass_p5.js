@@ -5,8 +5,6 @@ class Game{
 	this.mapCodeLength = 3;
 	this.tileSize = 40;
 	this.mapTiles = [];
-	this.frontTiles = [];
-	this.backTiles = [];
 	this.onScreenTiles = [];
 	this.collisionTiles = [];
 	this.movingTiles = [];
@@ -36,20 +34,25 @@ class Game{
 		}
 		if (this.gameState==="inGame"){
 			if(!this.setup){this.loadLevelMap(this.level);}	
-			this.shadeSky();
-			this.drawBackgrounds();
+
+			this.gameScreen.shadeSky(this);
+			this.gameScreen.drawBackgrounds(this);
+
 			this.gameCamera();
-			this.gameScreen.updatePosition(); //needs to be immediately after cam to track properly
+			this.gameScreen.updatePosition(); //needs to be after cam to track properly
 			this.player.managePlayer(this);
-			if(!this.gameScreen.setup){ //needs to follow player updates since screen position is relative to player
+			if(!this.gameScreen.setup){ 	  //needs to follow player updates 
 				this.gameScreen.populateArrays(this);
 			}
 			this.gameScreen.drawBGObjects(this);
 			this.filterTiles();
 			this.updateMovingTiles();
 			this.drawTiles();
-			this.gameScreen.drawScreen();  //for possible effects using opacity changes
 			this.gameScreen.drawFGObjects(this);
+			
+			if (this.gameScreen.opacity){
+				this.gameScreen.drawScreen();  //for effects using opacity changes
+			}
 			
 			resetMatrix();
 			this.player.healthBar();
@@ -67,6 +70,8 @@ class Game{
 		this.levelW = S*numCols/L;
 		this.levelH = S*numRows;
 		let t, x, y;
+		let frontTiles = [];
+		let backTiles = [];
 		
 		for (let i = 0; i < numRows; i++){
 			for (let j = 0; j < numCols; j++){
@@ -104,10 +109,10 @@ class Game{
 					this.mapTiles.push(new IceTile(x,y,S,S, sprIce2));
 				}
 				else if(t==="0L "){
-					this.backTiles.push(new LavaTile(x,y+S/4,S,3/4*S));
+					backTiles.push(new LavaTile(x,y+S/4,S,3/4*S));
 				}
 				else if(t==="0H "){
-					this.frontTiles.push(new HealthSpringTile(x,y+S/4,S,3/4*S));
+					frontTiles.push(new HealthSpringTile(x,y+S/4,S,3/4*S));
 				}
 				else if(t==="0m "){
 					let M = new IceMover(x, y+S, 4/3*S, S/2, 0.5,0);
@@ -120,10 +125,10 @@ class Game{
 					this.movingTiles.push(M);
 				}
 				else if(t==="0w "){
-					this.frontTiles.push(new WaterTile(x,y,S,S,false));
+					frontTiles.push(new WaterTile(x,y,S,S,false));
 				}
 				else if(t==="0W "){
-					this.frontTiles.push(new WaterTile(x,y+S/4,S,3/4*S, true));
+					frontTiles.push(new WaterTile(x,y+S/4,S,3/4*S, true));
 				}
 				else if(t==="V0 "){
 					this.mapTiles.unshift(new ClimbTile(x,y,S,S, sprVine1));
@@ -135,21 +140,19 @@ class Game{
 					this.mapTiles.push(new Heart(x+S/4,y+S/4,S/2,S/2));
 				}
 				else if(t==="g1 "){
-					this.frontTiles.push(new GrassTile(x,y+3/4*S,S,S/4));
+					frontTiles.push(new GrassTile(x,y+3/4*S,S,S/4));
 				}
 				else if(t==="cl "){
-					this.frontTiles.push(new CloverTile(x,y+S/2,S,S/2));
+					frontTiles.push(new CloverTile(x,y+S/2,S,S/2));
 				}
 			}
 		}
-  //      1          2         3        4   plr        5          6 
-		//   unshift     push     unshift    push         unshift      push
-		//      [backtiles]          [maptiles] player        [frontTiles]
+  		//      1          2           3         4    plr       5            6 
+		//   unshift      push      unshift     push          unshift       push
+		//        [backtiles]           [maptiles] player        [frontTiles]
 		//              6 additional layers without sorting.
 		this.mapTiles.push(this.player);
-		this.mapTiles = this.backTiles.concat(this.mapTiles.concat(this.frontTiles));
-		while(this.frontTiles.length){this.frontTiles.pop();}
-		while(this.backTiles.length){this.backTiles.pop();}
+		this.mapTiles = backTiles.concat(this.mapTiles.concat(frontTiles));
 		this.setup = true;
 	}
 	filterTiles(){
@@ -168,30 +171,7 @@ class Game{
 	drawTiles(){
 		this.onScreenTiles.forEach(tile =>{tile.draw();});
 	}
- 
-	shadeSky(){
-		noStroke();
-		let rectColor;
-		let H = 4/5*height/40;
-		let num = height/H;
-		for (let i = 0; i<num; i++){
-			rectColor = lerpColor(color(this.levelData.skyStart),color(this.levelData.skyEnd),i/num);
-			fill(rectColor);
-			rect(0,i*H,width,H);
-		}
-	}
-	drawBackgrounds(){
-		this.levelData.levelBackgroundImages.forEach(config => {
-			let bg = config.img.get(config.rate*this.player.T.x, 0, width, ceil(min(height-config.Y+config.rate*this.player.T.y, config.img.height)));
-			image(bg, 0, config.Y-config.rate*this.player.T.y, bg.width, bg.height);
-			/*noFill();  //checks get values and img draw locations
-			strokeWeight(2);
-			stroke(255);
-			rect(0, config.Y-config.rate*this.player.T.y, bg.width, bg.height);
-			strokeWeight(1);
-			noStroke();//*/
-		});
-	} 
+	
 	mapCollision(XorY){
 		switch(XorY){
 			case "X":

@@ -1,4 +1,4 @@
-let width = 500; let height = 400;
+let scrW = 500; let scrH = 400;
 
 let levelData = [
 
@@ -28,13 +28,13 @@ let levelData = [
 		"00 00 00 00 00 00 00 d1 d1 d1 d1 d1 d1 d1 d1 d1 0W 0W 0W 0W 0W 0W 0W 0W 0W 0W i1 i1 0W 0W i1 i1 i1 i1 i1 ",
 		"d1 0L 0L d1 d1 0L 0L d1 d1 d1 d1 d1 d1 d1 d1 d1 0w 0w 0w 0w 0w 0w 0w 0w 0w 0w i3 i3 0w 0w i3 i3 i3 i3 i3 "
 		],
-	//images assigned in preload callback.  properties refer to image, translation rate relative to player translation, and intitial P.y location of image.
+	//images assigned in preload.  properties refer to image, translation rate relative to player translation, and intitial P.y location of image.
 	levelBackgroundImages: [{img:undefined, rate:1/20, Y: 175},  
 							{img:undefined, rate:1/10,  Y: 0},
 							{img:undefined, rate:1/4,  Y: 230}],
-	skyStart: [125,175,230],
-	skyEnd: [200,100,35],
-	levelMusic: [0],
+	skyStart: [50,160,220],
+	skyEnd: [220,75,40],
+	levelMusic: undefined,  //assign in preload
 	levelEffects: ["snow", "rain"],
 	//make sure array indices of numBGeffects and levelEffect correlate.
 	numBGEffects: [100, 20],
@@ -65,10 +65,10 @@ let levelData = [
 //let btnStart, btnPause, btnLevelSelect1, btnLevelSelect2, btnLevelSelect3;
 
 let btnStart = {
-	x: width/2 - width/8,
-	y: height/2 - height/20,
-	w: width/4,
-	h: height/10,
+	x: scrW/2 - scrW/8,
+	y: scrH/2 - scrH/20,
+	w: scrW/4,
+	h: scrH/10,
 	r: 3,
 	txt: "Click to Start",
 	txtSize: 16,
@@ -79,10 +79,10 @@ let btnStart = {
 	}
 }
 let btnPause = {
-	x: width/50,
-	y: height-height/18,
-	w: width/16,
-	h: height/25,
+	x: scrW/50,
+	y: scrH-scrH/18,
+	w: scrW/16,
+	h: scrH/25,
 	r: 2,
 	txt: "❚❚",
 	txtSize: 10,
@@ -95,10 +95,10 @@ let btnPause = {
 	}
 }
 let btnGoToLevel = {
-	x: width/50,
-	y: height-height/18,
-	w: width/16,
-	h: height/25,
+	x: scrW/50,
+	y: scrH-scrH/18,
+	w: scrW/16,
+	h: scrH/25,
 	r: 2,
  accessLevel: 1,
 	txt: "❚❚",
