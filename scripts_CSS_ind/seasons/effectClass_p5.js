@@ -1,16 +1,30 @@
-class EffectsHandler{ 
+class GameScreen{ 
 constructor(game){ //levelW, levelH, player){ 
 		this.levelW = game.levelW; 
 		this.levelH = game.levelH;
 		this.player = game.player;
+		this.P = createVector(this.player.T.x, this.player.T.y);
 		this.currentLevel = game.currentLevel;
-		this.setup = false;
+		this.w = width;
+		this.h = height;
 		this.bgObj=[];
 		this.fgObj=[];
 		this.hills=[];
-		this.transparency = 0; //check this
-		this.overlayC = color(255,255,255,this.transparency);  //check this
+		this.opacity = 5; 		//TODO finish setup
+		this.color = [90,0,0];  //TODO finish setup
+		this.setup = false;
 	}
+
+	isOnScreen(obj){  //for maptile and other obj onscreen check
+		return  obj.P.x < this.P.x + this.w && obj.P.x + obj.w > this.P.x &&
+				obj.P.y < this.P.y + this.h && obj.P.y + obj.h > this.P.y;
+	}
+
+	updatePosition(){
+		this.P.x = this.player.T.x; 
+		this.P.y = this.player.T.y;		
+	}
+
 	initHills(speed){  				//creates point vectors for hill peak locations    
 		let incX = this.levelW/25;  //increment X; hill peak spacing 	
 		for (let j=0; j<3; j++){ 	//make #hills
@@ -18,9 +32,9 @@ constructor(game){ //levelW, levelH, player){
 			incX+=75*j;      		//increase incX val for each loop of hills
 				
 			for (let i = 0; i*incX < this.levelW; i++){  
-				arrPV.push(createVector (i*incX, height/4+incX/1.5+random(-15-20*j, 15+20*j)));
+				arrPV.push(createVector (i*incX, height/4 + incX/1.5 + random(-15-20*j, 15+20*j)));
 			}
-			this.hills.push(new Hills(this, arrPV, speed));  //arrPV, this.levelW, this.levelH, this.player
+			this.hills.push(new Hills(this, arrPV, speed));  //this for levelW, levelH, player
 			speed*=2.25; //increase the speed (translate rate) for each loop of hills
 		}
 	}
@@ -37,57 +51,49 @@ constructor(game){ //levelW, levelH, player){
 			}	
 	}
 
-	screenEffects(game){
+	effectSetup(game){
 		//create objects if not set up
-		if (this.setup === false){
-			this.initHills(0.15);
-			let numB = game.levelData[game.currentLevel].numBGeffects;
-			let numF = game.levelData[game.currentLevel].numFGeffects;
-			let effect = game.levelData[game.currentLevel].levelEffect;
-			let obj;
-				if (effect === "snow")		{obj = Snowflake;}
-				else if (effect === "rain") {obj = Raindrop;}
-				else if (effect === "leaf") {obj = Leaf;}
+		this.initHills(0.15);
+		let numB = game.levelData[game.currentLevel].numBGeffects;
+		let numF = game.levelData[game.currentLevel].numFGeffects;
+		let effect = game.levelData[game.currentLevel].levelEffect;
+		let obj;
+			if (effect === "snow")		{obj = Snowflake;}
+			else if (effect === "rain") {obj = Raindrop;}
+			else if (effect === "leaf") {obj = Leaf;}
 
-			while (numB > 0){
-				this.bgObj.push(new obj(this.player, this.levelW, this.levelH));
-				numB--;
-			}
-			while (numF > 0){
-				this.fgObj.push(new obj(this.player, this.levelW, this.levelH));
-				numF--;
-			} 
-			this.setup = true;
+		while (numB > 0){
+			this.bgObj.push(new obj(this.P.x + random(this.w), this.P.y + random(this.h), 0.4, 1));
+			numB--;
 		}
+		while (numF > 0){
+			this.fgObj.push(new obj(this.P.x + random(this.w), this.P.y + random(this.h), 1, 1));
+			numF--;
+		} 
+		this.setup = true;
+	}
 		
-		//draw sky
-		this.shadeSky(game);  
-
-		//draw hills
+	drawHills(game){
 		this.hills.forEach((hill, i)=> {
 			let lake = false;
-			if (i===0){lake = true;}
+			if (i===0){lake = true;}  //draws a lake in front of first hill if true in levelData
 			let hillColor = game.levelData[game.currentLevel].hillColors[i];
 			hill.draw(hillColor, lake);
 		});
-
-		//bgobjects
-		for(let i=0; i< this.bgObj.length; i++){
-			this.bgObj[i].update();
-			this.bgObj[i].antiCam();
-			this.bgObj[i].draw();
-		}
-	}
-	
-
-	fgEffects(){  
-		for(let i=0; i< this.fgObj.length; i++){
-			this.fgObj[i].update();
-			this.fgObj[i].antiCam();
-			this.fgObj[i].draw();
-		}
 	}
 
+	drawArrObjects(arr){
+		arr.forEach(obj=>{
+			obj.update(this);
+			obj.draw();
+		});
+	}
 
-
+	drawScreen(){  //only called if this.opacity is not 0.
+		push();
+		translate(this.P.x, this.P.y);
+		fill(this.color[0], this.color[1], this.color[2], this.opacity);
+		rect(0,0,this.w, this.h);
+		pop();
+	}
 }

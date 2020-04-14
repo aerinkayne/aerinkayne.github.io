@@ -48,18 +48,18 @@ class Game{
 
 			this.gameScreen.shadeSky(this);
 			this.gameScreen.drawBackgrounds(this);
-
 			this.gameCamera();
 			this.gameScreen.updatePosition(); //needs to be after cam to track properly
+   
 			this.managePlayer(this);
-			if(!this.gameScreen.setup){ 	  //needs to follow player updates 
+			if(!this.gameScreen.setup){ 	     //needs to follow player updates 
 				this.gameScreen.populateArrays(this);
 			}
-			this.gameScreen.drawBGObjects(this);
+			this.gameScreen.drawArrObjects(this, this.gameScreen.backgroundObjects);
 			this.filterTiles();
 			this.updateMovingTiles();
 			this.drawTiles();
-			this.gameScreen.drawFGObjects(this);
+			this.gameScreen.drawArrObjects(this, this.gameScreen.foregroundObjects);
 			
 			if (this.gameScreen.opacity){
 				this.gameScreen.drawScreen();  //for effects using opacity changes

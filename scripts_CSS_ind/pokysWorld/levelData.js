@@ -1,6 +1,6 @@
-let scrW = 500; let scrH = 400;
+const scrW = 500; const scrH = 400;
 
-let levelData = [
+const levelData = [
 
 	{//0
 	levelMap: [
@@ -32,18 +32,18 @@ let levelData = [
 	levelBackgroundImages: [{img:undefined, rate:1/20, Y: 175},  
 							{img:undefined, rate:1/10,  Y: 0},
 							{img:undefined, rate:1/4,  Y: 230}], 
-	skyStart: [90,160,255],
+	skyStart: [120,170,255],
 	skyEnd: [250,95,40],
 	levelMusic: undefined,  //assign in preload
-	levelEffects: ["snow", "rain"],
+	levelEffects: ["snow"], //"rain"],
 	//make sure array indices of numBGeffects and levelEffect correlate.
-	numBGEffects: [100, 20],
-	numFGEffects: [10, 5]
+	numBGEffects: [125], // 20],
+	numFGEffects: [15]   //, 5]
 	},
 	
 	//************************************************************************************************************
 
-	{//1
+	{ //1
 	levelMap: [
 		"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ",
 		"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ",
@@ -54,9 +54,15 @@ let levelData = [
 		"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ",
 		"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
 		],
-	levelBackgroundImages: [],
-	levelMusic: [],
-	levelEffect: 'snow'
+	levelBackgroundImages: [{img:undefined, rate:1/20, Y: 175},  
+							{img:undefined, rate:1/10,  Y: 0},
+							{img:undefined, rate:1/4,  Y: 230}], 
+	skyStart: [120,170,255],
+	skyEnd: [250,95,40],
+	levelMusic: undefined,  //assign in preload
+	levelEffects: ["snow"], 
+	numBGEffects: [125], 
+	numFGEffects: [15]   
 	}
 ]
 

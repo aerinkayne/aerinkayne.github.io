@@ -36,7 +36,7 @@ const levelData = [
         ],
         skyStart: [82,149,204],  //done
         skyEnd: [250, 200, 255], //done
-        hillColors: [[60,85,130],[102,147,192],[150,200,235]],  //order is background, middle, foreground.  done
+        hillColors: [[60,85,130,210],[102,147,192],[150,200,235]],  //order is background, middle, foreground.  done
         hasLake: false,
         music: undefined,   //assigned in sketch preload.  done
         levelEffect: "snow",   //todo
@@ -254,6 +254,7 @@ const btnLevelSelect = {
     h: scrHeight/3.1,
     r: 2,
     txtSize: 18,
+    txtColor: [255,255,255],
 	onClick: function() {
         game.setLevel(this.accessLevel);
         btnLevels.forEach(btn=> {

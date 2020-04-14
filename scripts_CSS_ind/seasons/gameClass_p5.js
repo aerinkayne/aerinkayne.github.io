@@ -21,25 +21,12 @@ class Game{
 		}
 
 	camera(){   
+		
 		//horizontal constrain
 		this.player.P.x = constrain(this.player.P.x, 0, this.levelW-this.player.w);  
 		//camera
-		let playCX = this.player.P.x + this.player.w/2;
-		let playCY = this.player.P.y + this.player.h/2;
-		//Xtranslate
-		if(playCX > this.bordL && playCX < this.bordR){    
-			translate(-(playCX-this.bordL), 0);  
-		}						   
-		else if(playCX >= this.bordR){   
-			translate(-(this.levelW-width), 0);  
-		}
-		//Ytranslate. no top limit
-		if (playCY < this.bordB){
-		    translate(0, -(playCY-this.bordT)); 
-		}
-		else if(playCY >= this.bordB){   
-			translate(0, -(this.levelH-height));  
-		}
+		translate(-this.player.T.x, -this.player.T.y);
+
 		//check if player has fallen.  convenient here because it needs lvH.  move later .
 		if(this.player.P.y > this.levelH + height){
 			this.player.health=0;
@@ -49,7 +36,8 @@ class Game{
 		let S = this.ts;  	//map tile size	
 		let L = 2; 			//map code string length
 		let numR = this.levelData[this.currentLevel].levelMap.length;
-		let numC = this.levelData[this.currentLevel].levelMap[0].length/3;  //2char string for map, plus space for legibility
+		//divide by 3 (2char string for map, plus space for legibility)
+		let numC = this.levelData[this.currentLevel].levelMap[0].length/3;  
 		//set level dimensions
 		this.levelW = numC*S;
 		this.levelH = numR*S;
@@ -64,7 +52,6 @@ class Game{
 		let hearts = [];
 		let spikes = [];
 		let portals = [];
-		
 
 		for(let row = 0; row < numR; row++){ 		//#strings in lv map. (tiles P.y)
 			for(let col = 0; col < numC; col++){ 	//length row's string (tiles P.x)
@@ -76,6 +63,7 @@ class Game{
 				if(s==="00"){
 					this.player.P.x = x;
 					this.player.P.y = y;
+					this.player.updateTranslation(this);
 				}
 				//blocks array contains map tiles that affect player position
 				else if(s==="01"){  //ice
@@ -192,7 +180,7 @@ class Game{
 	screenLvSelect(){
 		background(125,135,150);
 		textSize(height/21);
-		fill(220,240,240);
+		fill(230,255,255);
 		textAlign(LEFT,CENTER);
 		text("Select a level and press the start button to begin.",width/10,height/12);
 		btnLevels.forEach(btn=> {
@@ -201,14 +189,21 @@ class Game{
 		btnStart.draw();	
 	}
 	screenInGame(){
+		if (!this.gameScreen.setup){
+			this.gameScreen.effectSetup(this);  //TODO - might need to move this block
+		}
+
 		if (!this.paused){
-			this.effectsHandler.screenEffects(this); 
-			this.camera();
 			
-			//draw and update objects of map.  Player is not updated here. 
+			this.gameScreen.shadeSky(this);
+			this.gameScreen.drawHills(this);
+			this.camera();
+			this.gameScreen.updatePosition();
+			this.gameScreen.drawArrObjects(this.gameScreen.bgObj);
+			//draw and update maptiles.  Player is drawn but not updated here. 
 			this.mapTiles.forEach(item=>{
-				if (onScreen(item, this.player,this.levelW, this.levelH)){
-					item.draw(this.player);
+				if (this.gameScreen.isOnScreen(item)) {
+					item.draw();
 				}
 				if (item !== this.player && typeof item.update === "function"){
 					item.update(this.player);
@@ -216,22 +211,29 @@ class Game{
 			});
 
 			//player is updated here rather than above
-			this.player.update(blocks);
+			this.player.update(blocks, this);
+
+			
+			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
+
+			if (this.gameScreen.opacity){
+				this.gameScreen.drawScreen();
+			}
+
+
 
 			if(this.player.health<=0){
 				this.gameState="gameOver";
 			}
 
-
 			if(this.player.toNextLevel){
-				transparency=0;
+				transparency = 0;
 				canvasOverlay=color(255, 255, 255, transparency);
 				this.levelData[this.currentLevel].music.stop();
 				this.currentLevel++; 
 				this.loadMap(); 
 				this.player.hasKey=false;
 				this.player.toNextLevel=false;
-				
 			} 
 	
 			if(this.currentLevel===4){ //todo: not like this.
@@ -241,9 +243,8 @@ class Game{
 			//foreground and overlay effects
 			resetMatrix();
 			this.player.stats(); //health, info
-			this.effectsHandler.fgEffects(this.currentLevel); //forground effects
 			fill(canvasOverlay);
-			rect(0,0,width,height);
+			rect(0,0,width,height);  //not this
 		}
 		btnPause.draw();
 	}
@@ -268,7 +269,7 @@ class Game{
 		this.removeArray(blocks);   
 		this.setupMap();  
 			
-		this.effectsHandler = new EffectsHandler(this); //for this.levelW, this.levelH, this.player);
+		this.gameScreen = new GameScreen(this); //need levelW, this.levelH, this.player);
 
 			if (this.currentLevel < this.numLevels) {  
 				this.levelData[this.currentLevel].music.loop();

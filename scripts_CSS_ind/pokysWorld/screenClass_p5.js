@@ -6,8 +6,8 @@ class GameScreen {
 	this.h = height;
 	this.backgroundObjects = [];
 	this.foregroundObjects = [];
-	this.opacity = 0;  
-	this.color = [255,255,255, this.opacity];
+	this.opacity = 0; 
+ this.color = [0,0,0]; 
 	this.setup = false; 
 	}
 
@@ -21,7 +21,7 @@ class GameScreen {
 		this.P.y = this.player.T.y;		
 	}
 	
-	drawScreen(){
+	drawScreen(){  //only called if this.opacity is not 0.
 		push();
 		translate(this.P.x, this.P.y);
 		fill(this.color[0], this.color[1], this.color[2], this.opacity);
@@ -30,12 +30,14 @@ class GameScreen {
 	}
 
 	shadeSky(game){
-		noStroke();
 		let rectColor;
-		let H = 4/5*height/40;
+		let H = height/40;
 		let num = height/H;
-		for (let i = 0; i<num; i++){
-			rectColor = lerpColor(color(game.levelData[game.level].skyStart),color(game.levelData[game.level].skyEnd),i/num);
+  let C1 = color(game.levelData[game.level].skyStart);
+  let C2 = color(game.levelData[game.level].skyEnd);
+  noStroke();
+		for (let i = 0; i < num; i++){
+			rectColor = lerpColor(C1, C2, i/num);
 			fill(rectColor);
 			rect(0,i*H,width,H);
 		}
@@ -67,11 +69,11 @@ class GameScreen {
 			else if (effect ==="rain"){obj = Raindrop;}
 
 			while(numB > 0){
-				tempArrB.push(new obj(random(this.P.x,(this.P.x+this.w)), random(this.P.y,(this.P.y+this.h)), 0.5, 1));
+				tempArrB.push(new obj(this.P.x + random(this.w), this.P.y + random(this.h), 0.5, 1));
 				numB--;
 			}
 			while(numF > 0){
-				tempArrF.push(new obj(random(this.P.x,(this.P.x+this.w)), random(this.P.y,(this.P.y+this.h)), 1, 1));
+				tempArrF.push(new obj(this.P.x + random(this.w), this.P.y + random(this.h), 1, 1));
 				numF--;
 			}
 		}); 
@@ -82,17 +84,8 @@ class GameScreen {
 		this.setup = true;
 	}
 
-	drawBGObjects(game){
-		this.backgroundObjects.forEach(obj => {
-			obj.draw();
-			if(!game.paused){
-				obj.updatePosition(this);
-				obj.checkBounds(this);
-			}
-		});
-	}
-	drawFGObjects(game){
-		this.foregroundObjects.forEach(obj => {
+	drawArrObjects(game, arr){
+		arr.forEach(obj => {  
 			obj.draw();
 			if(!game.paused){
 				obj.updatePosition(this);
@@ -111,7 +104,7 @@ class Snowflake{
 	this.V = createVector(random(-1,1), 2*this.scale);
 	this.w = ceil(5*this.scale);  //max size
 	this.h = ceil(5*this.scale);
-	this.opacity = 130 + 255*this.scale/2;
+	this.opacity = 130 + 250*this.scale/2;
 	}
 	updatePosition(){
 		this.P.add(this.V);
@@ -120,21 +113,21 @@ class Snowflake{
 		fill(255,255,255,this.opacity);
 		push();
 		translate(this.P.x, this.P.y);
-		ellipse(0,0,random(this.w-3, this.w), random(this.h-3, this.h));
+		ellipse(0,0,this.w/2+random(this.w/2), this.h/2+random(this.h/2));
 		pop();
 	}
-	checkBounds(gameScreen){
-		if (this.P.x + this.w/2 < gameScreen.P.x){
-			this.P.x = gameScreen.P.x + gameScreen.w + this.w/2;
+	checkBounds(gameScreen){  //used w instead of w/2 (for ellipse P relative to w) to simplify inher.
+  if (this.P.x + this.w < gameScreen.P.x){
+			this.P.x = gameScreen.P.x + gameScreen.w + this.w;
 		}
-		if (this.P.x - this.w/2 > gameScreen.P.x + gameScreen.w){
-			this.P.x = gameScreen.P.x - this.w/2;
+		if (this.P.x - this.w > gameScreen.P.x + gameScreen.w){
+			this.P.x = gameScreen.P.x - this.w;
 		}
-		if (this.P.y + this.h/2 < gameScreen.P.y){
-			this.P.y = gameScreen.P.y + gameScreen.h + this.h/2;
+		if (this.P.y + this.h < gameScreen.P.y){
+			this.P.y = gameScreen.P.y + gameScreen.h + this.h;
 		}
-		if (this.P.y - this.h/2 > gameScreen.P.y + gameScreen.h){
-			this.P.y = gameScreen.P.y - this.h/2;
+		if (this.P.y - this.h > gameScreen.P.y + gameScreen.h){
+			this.P.y = gameScreen.P.y - this.h;
 		}
 	}
 }
@@ -153,19 +146,5 @@ class Raindrop extends Snowflake{
 		translate(this.P.x, this.P.y);
 		line(0,0, this.w, this.h);
 		pop();
-	}
-	checkBounds(gameScreen){
-		if (this.P.x + this.w < gameScreen.P.x){
-			this.P.x = gameScreen.P.x + gameScreen.w + this.w;
-		}
-		if (this.P.x - this.w > gameScreen.P.x + gameScreen.w){
-			this.P.x = gameScreen.P.x - this.w;
-		}
-		if (this.P.y + this.h < gameScreen.P.y){
-			this.P.y = gameScreen.P.y + gameScreen.h + this.h;
-		}
-		if (this.P.y - this.h > gameScreen.P.y + gameScreen.h){
-			this.P.y = gameScreen.P.y - this.h;
-		}
 	}
 }

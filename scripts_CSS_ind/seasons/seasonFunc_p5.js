@@ -79,15 +79,6 @@ class LevelSelectButton extends Button {
 }
 
 
-let onScreen = function(obj1, obj2, levelW, levelH){ 
-	let obj2CX = obj2.P.x + obj2.w/2;
-	let obj2CY = obj2.P.y + obj2.h/2;
-			//player center - obj1 center <   screen/2    +obj1 size/2  +dif if at L side      +dif if at Rside 
-    return (
-			abs(obj2CX - (obj1.P.x + obj1.w/2)) < width/2 + obj1.w/2 + max(0, width/2 - obj2CX) + max(0, obj2CX-(levelW-width/2)) &&
-			abs(obj2CY - (obj1.P.y + obj1.h/2)) < height/2 + obj1.h/2 + max(0, height/2 - obj2CY) + max(0, obj2CY-(levelH-height/2))
-			);   
-};
 
 
 
@@ -120,7 +111,7 @@ class Player {
 			game.levelH-height : round(this.P.y + this.h/2 - height/2);  //no upper bound
 	} 
 
-	update(arr){  //arr used to check collision with tiles that affect position
+	update(arr, game){  //arr used to check collision with tiles that affect position
 		// key inputs
 		if(keys[this.keyInputs[0]]){  //39
 			this.V.x += this.moveSpeed;
@@ -164,7 +155,7 @@ class Player {
 				this.V.x += this.moveSpeed;
 			}
 		}
-		//this.updateTranslation(game);
+		this.updateTranslation(game);
 		//dmg delay timer
 		if (this.delay < 41){
 			this.delay++;
@@ -354,8 +345,8 @@ class Portkey extends Block{
 		super(x,y,w,h,img);
 		this.collected=false;
 	}
-	draw(player) {
-		if(!player.hasKey){
+	draw() {
+		if(!this.collected){
 			image(this.img, this.P.x, this.P.y, this.w, this.h);
 		}
 	}
@@ -503,6 +494,7 @@ class Lava{
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);
+		noStroke();
 		fill(this.color);
 		beginShape();
 
@@ -522,81 +514,71 @@ class Lava{
 
 //background/foreground objects.  
 class Snowflake{
-	constructor(player, lvW, lvH){
-		this.lvW = lvW;
-		this.lvH = lvH;
-		this.player = player;
-		this.P = createVector(random(width),random(height));
-		this.V = createVector(random(-1,1),2.0);
-		this.SF = random(0.3,1.5);
-		this.w = this.h = 15;  //just for bounds check
-		this.V.mult(this.SF);
+	constructor(x,y, min, max){
+		this.P = createVector(x,y);
+		this.scale = random(min, max);  
+		this.V = createVector(this.scale*random(-1,1), this.scale*2);
+		this.w = this.h = ceil(5*this.scale);  //for bounds check
+		this.opacity = 75 + 360*this.scale/2;
+		
 	}
-	update(){
-		if(this.P.y <  -this.h){ 
-			this.P.y = height + this.h;         
+	update(gameScreen){  
+		if (this.P.x + this.w < gameScreen.P.x){
+			this.P.x = gameScreen.P.x + gameScreen.w + this.w;
 		}
-		if(this.P.y > height + this.h){ 
-			this.P.y = -this.h;         
+		if (this.P.x - this.w > gameScreen.P.x + gameScreen.w){
+			this.P.x = gameScreen.P.x - this.w;
 		}
-		if(this.P.x > width + this.w){ 
-			this.P.x = -this.w;
+		if (this.P.y + this.h < gameScreen.P.y){
+			this.P.y = gameScreen.P.y + gameScreen.h + this.h;
 		}
-		if(this.P.x < -this.w){
-			this.P.x = width + this.w;
+		if (this.P.y - this.h > gameScreen.P.y + gameScreen.h){
+			this.P.y = gameScreen.P.y - this.h;
 		}
 		this.P.add(this.V);
-	}
-	antiCam(){
-		//So background objects don't move with char.
-		if (this.player.P.x + this.player.w/2 > width/2 &&
-			this.player.P.x + this.player.w/2 < this.lvW-width/2){ 
-			this.P.x-=this.player.V.x;  
-		}
-		if (this.player.P.y + this.player.h/2 < this.lvH-height/2) {
-			this.P.y-=this.player.V.y;
-		}
+
 	}
 	draw() {
-		fill(255, 255, 255, 50+150*this.SF);
-		ellipse(this.P.x, this.P.y, this.SF*random(2.5,4.5), this.SF*random(2.5,4.5));
+		noStroke();
+		fill(255, 255, 255, this.opacity);
+		push();
+		translate(this.P.x, this.P.y);
+		ellipse(0,0,this.w/2+random(this.w/2), this.h/2+random(this.h/2));
+		pop();
 	}
 }
 class Raindrop extends Snowflake{
-	constructor(player, lvW, lvH){
-		super(player, lvW, lvH);
+	constructor(x,y, min, max){
+		super(x,y, min, max);
 		this.V = createVector(4,10);
-		this.SF = random(0.3,1.5);
 	}
 	draw() {
-		stroke(186, 219, 255, 30+55*this.SF);
+		stroke(186, 219, 255, this.opacity);
 		push();
 		translate(this.P.x, this.P.y);
 		line(0,0,this.V.x,this.V.y);
 		pop();
 	}
 }
+
 class Leaf extends Snowflake{
-	constructor(player, lvW, lvH){
-		super(player, lvW, lvH);
+	constructor(x,y){
+		super(x,y);
 		this.V = createVector(random(-1,1), random(0.5, 1));
-		this.SF = random(0.65,1.10);
-		this.w = random(5, 10);
-		this.h = random(5, 10);
+		this.w = random(3.5, 11); 
+		this.h = random(3.5, 11);
 		this.angle = 0;
 		this.spinSpeed = random(1,5);
-		this.R = random(150,230);
-		this.G = random(50, 200);
-		this.B = random(25, 50);
+		this.color = [random(150,230), random(50, 200), random(25, 50)];
 	}
 	draw() {
 		this.angle += this.spinSpeed; //updating spin here
 		noStroke();
-		fill(this.R, this.G, this.B);
+		fill(this.color);
 		push();
 		translate(this.P.x,this.P.y);
 		rotate(radians(this.angle));
-		ellipse(0,0,this.SF*this.w,this.SF*this.h);
+		ellipse(0,0, this.w, this.h);
 		pop();
 	}
 }
@@ -613,16 +595,9 @@ class Hills {
 	draw(color, lakeBool) {  //currently called from screenEffects 
 		push();
 		//parallax effect 
-		if (this.player.P.x + this.player.w/2 > width/2 &&
-			this.player.P.x + this.player.w/2 < this.levelW-width/2){ 
-				translate(this.speed*(width/2-this.player.w/2-this.player.P.x),   0);
-		}
-		if (this.player.P.x + this.player.w/2 >= this.levelW-width/2) {
-				translate(this.speed*(-this.levelW+width),   0);
-		}        
-		if (this.player.P.y + this.player.h/2 < this.levelH-height/2){
-				translate(0,   this.speed*(this.levelH-height/2-this.player.h/2-this.player.P.y));
-		}
+		translate(-this.speed*this.player.T.x, 0);
+		//subtract height because T is h/2 less than P, and only increments until h/2 before levelH
+		translate(0, this.speed*(this.levelH-height-this.player.T.y));
 		
 		fill(color);
 		beginShape();
@@ -639,11 +614,11 @@ class Hills {
 		curveVertex(this.levelW, this.levelH);
 		endShape(CLOSE); 
 		
-		//draw a lake effect if it has been set to true.
+		//draw a lake effect if it has been set to true.  TODO needs rework.
 		if (levelData[this.currentLevel].hasLake && lakeBool){
 			fill(30, 100, 150);
 			rect(this.arrPV[0].x, this.arrPV[0].y+66, this.levelW, this.levelH-this.arrPV[0].y);
-			fill(150, 190, 220, 60);  //was (color, 60), but alpha not working with argument color pass
+			fill(150, 190, 220, 60);  
 				for (let i = 1; i<6; i++){
 					rect(0, this.arrPV[0].y+66, this.levelW, height/(5+5*i*i));
 				}
@@ -652,7 +627,7 @@ class Hills {
 	}
 }
 
-//decorative images with draw method or sprite but no updates
+//decorative objs with draw method or sprite and z index for additional effects
 class Deco{
 	constructor(x, y, w, h, img, z){
 		this.P = createVector(x,y);
@@ -669,14 +644,14 @@ class Glass extends Deco{
 	constructor(x, y, w, h, img, z){
 		super(x, y, w, h, img, z);
 	}	
-	draw(){
+	draw(){  //TODO sprite me!
 		push();
 		translate(this.P.x, this.P.y);
 		noStroke();
 		fill(100,150,200);
 		rect(0,0,this.w,this.h);
-		for (let r = 0; r < 2; r++){  //pane row position
-			for (let c = 0; c < 2; c++){  //pane col position
+		for (let r = 0; r < 2; r++){  		//pane row position
+			for (let c = 0; c < 2; c++){    //pane col position
 				noStroke();
 				fill(0, 0, 30, 125);
 				rect(13/50*this.w+c*this.w/2, 13/50*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
@@ -696,33 +671,28 @@ class Glass extends Deco{
 class Water extends Deco{
 	constructor(x, y, w, h, img, z){
 		super(x, y, w, h, img, z);
+		this.color = [76, 117, 222,150];
+		this.surfaceColor = [230, 245, 255];
 	}	
 	draw(){
-		let waveH = this.w/12.5;
 		push();
-
 		translate(this.P.x, this.P.y);
-		fill(76, 117, 222,150);
-		rect(0,0,this.w,this.h);
-		fill(230, 245, 255);
-		beginShape(); 
+		noStroke();
+		fill(this.color);
+		let waveH = this.w/15;
+		rect(0,waveH*sin(radians(frameCount)), this.w, this.h-waveH*sin(radians(frameCount)));
 		
-		curveVertex(0,0);
-		curveVertex(0,0);
-		curveVertex(this.w/2, waveH*sin(radians(frameCount))); 
-		
-		curveVertex(this.w,0);
-		waveH = -waveH;
-			
-		curveVertex(this.w,0);
-		curveVertex(this.w/2, waveH*sin(radians(frameCount))); 
-		
-		curveVertex(0,0);
-		curveVertex(0,0);
-		this.waveH = -waveH;
-		
-		endShape();
+		fill(this.surfaceColor);
+		beginShape();
+		curveVertex(0, 1.5*waveH*sin(radians(frameCount))+waveH*sin(radians(frameCount)));
+		for (let i=0; i <=4; i++){
+			curveVertex(i*this.w/4, 1.5*waveH*sin(radians(frameCount)) + waveH*sin(radians(frameCount) + i*PI/2));
+		}
+		for (let i=4; i>0; i--){
+			curveVertex(i*this.w/4, 1.5*waveH*sin(radians(frameCount)) - waveH*sin(radians(frameCount) + i*PI/2));
+		}
+		curveVertex(0, 1.5*waveH*sin(radians(frameCount))-waveH*sin(radians(frameCount)));
+		endShape(CLOSE);
 		pop();
-		strokeWeight(1);
 	}
 }	
