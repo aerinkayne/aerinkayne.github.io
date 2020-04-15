@@ -35,7 +35,7 @@ const levelData = [
 	skyStart: [120,170,255],
 	skyEnd: [250,95,40],
 	levelMusic: undefined,  //assign in preload
-	levelEffects: ["snow"], //"rain"],
+	levelEffects: ["rain"], //"rain"],
 	//make sure array indices of numBGeffects and levelEffect correlate.
 	numBGEffects: [125], // 20],
 	numFGEffects: [15]   //, 5]

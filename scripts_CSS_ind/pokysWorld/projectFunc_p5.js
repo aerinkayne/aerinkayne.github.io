@@ -221,12 +221,12 @@ class WaterTile extends MapTile{
 		
 	}	
 	draw() {
+		fill(this.color);
 		push();
 		translate(this.P.x, this.P.y);
 		if(this.hasSurface){
 			let alt = 2;
-   noStroke();
-   fill(this.color);
+   			noStroke();
 			rect(0,alt*sin(radians(frameCount)), this.w, this.h-alt*sin(radians(frameCount)));
 			fill(this.surfaceColor);
 			beginShape();

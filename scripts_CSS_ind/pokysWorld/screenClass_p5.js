@@ -7,8 +7,7 @@ class GameScreen {
 	this.backgroundObjects = [];
 	this.foregroundObjects = [];
 	this.opacity = 0; 
- this.color = [0,0,0]; 
-	this.setup = false; 
+ 	this.color = [0,0,0]; 
 	}
 
 	isOnScreen(obj){
@@ -21,7 +20,7 @@ class GameScreen {
 		this.P.y = this.player.T.y;		
 	}
 	
-	drawScreen(){  //only called if this.opacity is not 0.
+	drawScreen(){  
 		push();
 		translate(this.P.x, this.P.y);
 		fill(this.color[0], this.color[1], this.color[2], this.opacity);
@@ -33,9 +32,9 @@ class GameScreen {
 		let rectColor;
 		let H = height/40;
 		let num = height/H;
-  let C1 = color(game.levelData[game.level].skyStart);
-  let C2 = color(game.levelData[game.level].skyEnd);
-  noStroke();
+  		let C1 = color(game.levelData[game.currentLevel].skyStart);
+  		let C2 = color(game.levelData[game.currentLevel].skyEnd);
+  		noStroke();
 		for (let i = 0; i < num; i++){
 			rectColor = lerpColor(C1, C2, i/num);
 			fill(rectColor);
@@ -44,7 +43,7 @@ class GameScreen {
 	}
 
 	drawBackgrounds(game){
-		game.levelData[game.level].levelBackgroundImages.forEach(config => {
+		game.levelData[game.currentLevel].levelBackgroundImages.forEach(config => {
 			//x coord, y coord, width, total height onscreen
 			let bg = config.img.get(config.rate*game.player.T.x, 0, width, ceil(min(height-config.Y+config.rate*game.player.T.y, config.img.height)));
 			image(bg, 0, config.Y-config.rate*game.player.T.y, bg.width, bg.height);
@@ -57,13 +56,14 @@ class GameScreen {
 		});
 	} 
 
+	//call at game setup and new level load.
 	populateArrays(game){  
 		let tempArrB = [];
 		let tempArrF = [];
 		let obj;
-		game.levelData[game.level].levelEffects.forEach((effect, index) => {  
-			let numB = game.levelData[game.level].numBGEffects[index];
-			let numF = game.levelData[game.level].numFGEffects[index];
+		game.levelData[game.currentLevel].levelEffects.forEach((effect, index) => {  
+			let numB = game.levelData[game.currentLevel].numBGEffects[index];
+			let numF = game.levelData[game.currentLevel].numFGEffects[index];
 			
 			if (effect ==="snow"){obj = Snowflake;}
 			else if (effect ==="rain"){obj = Raindrop;}
@@ -81,7 +81,6 @@ class GameScreen {
 		tempArrB.sort((a, b) => (a.w > b.w ? 1 : -1));
 		this.backgroundObjects = this.backgroundObjects.concat(tempArrB);
 		this.foregroundObjects = this.foregroundObjects.concat(tempArrF);
-		this.setup = true;
 	}
 
 	drawArrObjects(game, arr){
@@ -110,14 +109,15 @@ class Snowflake{
 		this.P.add(this.V);
 	}
 	draw(){
+		noStroke();
 		fill(255,255,255,this.opacity);
 		push();
 		translate(this.P.x, this.P.y);
 		ellipse(0,0,this.w/2+random(this.w/2), this.h/2+random(this.h/2));
 		pop();
 	}
-	checkBounds(gameScreen){  //used w instead of w/2 (for ellipse P relative to w) to simplify inher.
-  if (this.P.x + this.w < gameScreen.P.x){
+	checkBounds(gameScreen){  //used w instead of w/2 to simplify.
+  		if (this.P.x + this.w < gameScreen.P.x){
 			this.P.x = gameScreen.P.x + gameScreen.w + this.w;
 		}
 		if (this.P.x - this.w > gameScreen.P.x + gameScreen.w){

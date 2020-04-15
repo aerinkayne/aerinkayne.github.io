@@ -7,7 +7,7 @@ class Player{
 	this.h = 35;
 	this.acceleration = 0.5; //check tile modifications
 	this.friction = 1;	     //check tile modifications
-	this.gravity = .5;      //check tile modifications
+	this.gravity = .5;       //check tile modifications
 	this.maxSpeed = 3.5;     //check tile modifications
 	this.MAXFALLSPEED = 12;
 	this.maxHealth = 100;
@@ -64,7 +64,7 @@ class Player{
 		pop();
 	}
 	manageSprites(){
-		//todo  w/87 for up, decrease speed while swimming.
+		//todo  w/87 for up, decrease speed while swimming.  simplify
 		(this.canSwim) ? this.setSize(35,35) : this.setSize(30,35);
 		
 		if(this.V.x > 0 && this.canJump){
@@ -97,8 +97,8 @@ class Player{
 		this.P.x= constrain(this.P.x, 0, game.levelW-this.w);
 		this.P.y= constrain(this.P.y, -height, game.levelH-this.h);
 	}
- /*  //moved to game class
-	managePlayer(game){
+ 
+	manageUpdates(game){
 		if (!game.paused){
 			this.move();
 			this.manageSprites();
@@ -107,7 +107,8 @@ class Player{
 			this.updateDamageTimer();
 			this.bound(game);
 		}
-	}*/
+	}
+	
 	move(){
 		if (this.movements['81']){ //q
 			this.V.x -= this.acceleration;
@@ -164,7 +165,7 @@ class Player{
 		rect(width/50, 2.2*height/40, map(this.mana, 0, this.maxMana, 0, width/8), height/50, 2);
 		pop();
 	}
-	addFriction(){           //q                       e
+	addFriction(){           //q                      e
 		if (!this.movements['81'] && !this.movements['69']){
 			if(this.V.x < 0){
 				this.V.x += this.friction;

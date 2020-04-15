@@ -196,7 +196,6 @@ const btnStart1 = {
 		game.gameState = "gameStart";
     },
     onHover: function() {
-        this.borderColor = color(255,255,255);
         this.txtColor = [225,255,255];
     },
     offHover: function() {

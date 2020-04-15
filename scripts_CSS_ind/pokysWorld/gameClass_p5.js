@@ -8,12 +8,12 @@ class Game{
 	this.onScreenTiles = [];
 	this.collisionTiles = [];
 	this.movingTiles = [];
- this.level = 0;
+ 	this.currentLevel = 0;
 	this.numLevels = 2; //update later
- this.levelData = levelData;
- this.paused = false;
- this.setup = false;
- this.gameState = "start";
+ 	this.levelData = levelData;
+	this.paused = false;
+	this.setup = false;
+	this.gameState = "start";
 	this.btnStart = new Button(btnStart);
 	this.btnPause = new Button(btnPause);
 	}
@@ -28,41 +28,35 @@ class Game{
 	gameCamera(){
 		translate(-this.player.T.x, -this.player.T.y);
 	}
- managePlayer(){
-		if (!this.paused){
-			this.player.move();
-			this.player.manageSprites();
-			this.player.updatePosition(this);
-			this.player.updateTranslation(this);
-			this.player.updateDamageTimer();
-			this.player.bound(this);
-		}
-	}
+
 	manageScenes(){
 		if (this.gameState==="start"){
 			background(150);
 			this.btnStart.draw();
 		}
 		if (this.gameState==="inGame"){
-			if(!this.setup){this.loadLevelMap(this.level);}	
+			if(!this.setup){
+				this.loadLevelMap(this.currentLevel);
+				this.gameScreen.populateArrays(this);
+			}	
 
 			this.gameScreen.shadeSky(this);
 			this.gameScreen.drawBackgrounds(this);
 			this.gameCamera();
 			this.gameScreen.updatePosition(); //needs to be after cam to track properly
    
-			this.managePlayer(this);
-			if(!this.gameScreen.setup){ 	     //needs to follow player updates 
-				this.gameScreen.populateArrays(this);
-			}
+			this.player.manageUpdates(this);
+
+
 			this.gameScreen.drawArrObjects(this, this.gameScreen.backgroundObjects);
 			this.filterTiles();
 			this.updateMovingTiles();
 			this.drawTiles();
 			this.gameScreen.drawArrObjects(this, this.gameScreen.foregroundObjects);
 			
+			//for effects using screen opacity changes
 			if (this.gameScreen.opacity){
-				this.gameScreen.drawScreen();  //for effects using opacity changes
+				this.gameScreen.drawScreen(); 
 			}
 			
 			resetMatrix();
@@ -75,8 +69,8 @@ class Game{
 		if(this.mapTiles.length){this.removeMap();}
 		let S = this.tileSize;
 		let L = this.mapCodeLength;
-		let numRows = this.levelData[this.level].levelMap.length;
-		let numCols = this.levelData[this.level].levelMap[0].length;
+		let numRows = this.levelData[this.currentLevel].levelMap.length;
+		let numCols = this.levelData[this.currentLevel].levelMap[0].length;
 		this.levelW = S*numCols/L;
 		this.levelH = S*numRows;
 		let t, x, y;
@@ -85,14 +79,15 @@ class Game{
 		
 		for (let i = 0; i < numRows; i++){
 			for (let j = 0; j < numCols; j++){
-				t = this.levelData[this.level].levelMap[i].slice(L*j, L*(j+1));
+				t = this.levelData[this.currentLevel].levelMap[i].slice(L*j, L*(j+1));
 				x = j*S;
 				y = i*S;
 
 				if(t==="00 "){continue;}
 				else if(t==="01 "){
 					this.player.P = createVector(x,y);
-					this.player.updateTranslation(this);
+					this.player.updateTranslation(this); 
+					this.gameScreen.updatePosition();
 				}
 				else if(t==="d1 "){
 					this.mapTiles.push(new DirtTile(x,y,S,S, sprDirt1));
@@ -147,7 +142,7 @@ class Game{
 					this.mapTiles.unshift(new ClimbTile(x,y,S,S, sprVineT));
 				}	
 				else if(t==="0h "){
-					this.mapTiles.push(new Heart(x+S/4,y+S/4,S/2,S/2));
+					this.mapTiles.push(new Heart(x+S/3,y+S/3,S/3,S/3));
 				}
 				else if(t==="g1 "){
 					frontTiles.push(new GrassTile(x,y+3/4*S,S,S/4));
@@ -173,6 +168,7 @@ class Game{
 			return getDistance(tile, this.player) < 2*this.tileSize;
 		});
 	}
+	//update even if offscreen
 	updateMovingTiles(){
 		if(!this.paused){
 			this.movingTiles.forEach(tile => {tile.updatePosition();});
@@ -186,14 +182,15 @@ class Game{
 		switch(XorY){
 			case "X":
 				this.collisionTiles.forEach(tile => {
-					//stroke(200,0,0);
-					//strokeWeight(2); //visualizing distance call check
-					//line(tile.P.x+tile.w/2, tile.P.y+tile.h/2, this.player.P.x+this.player.w/2, this.player.P.y+this.player.h/2);
+					  /*/  //uncomment to visualize distance call check
+					  stroke(200,0,0);
+					  strokeWeight(2);    
+					  line(tile.P.x+tile.w/2, tile.P.y+tile.h/2, 
+						   this.player.P.x+this.player.w/2, this.player.P.y+this.player.h/2); //*/
 					if(tile!==this.player && tile.collide(this.player)){
 						tile.collideEffect(this.player, this.player.V.x, 0);
 					}
-				});
-				//strokeWeight(1); noStroke(); 
+				}); 
 				break;
 			case "Y":	
 				this.collisionTiles.forEach(tile => {
