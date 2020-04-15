@@ -1,30 +1,25 @@
 class Game{ 
 	constructor() {  
 		this.ts = 40;  //tile size 
-		this.player = new Player(0,0,0.7*this.ts,0.7*this.ts);
+		this.player;  // new Player(0,0,0.7*this.ts,0.7*this.ts  moved to setup
+		this.playerSpawnP; // moved to setup
+		//TODO get gamescreen to class
 		this.levelW;  //defined at lv load
 		this.levelH;
-		this.bordL = width/2; 
-		this.bordR; 
-		this.bordT = height/2; 
-		this.bordB;
 		this.mapTiles = [];
 		this.onScreenTiles = [];
 		this.collisionTiles = [];
 		this.movingTiles = [];
 
 		this.currentLevel = 0;  //default if none selected
-		this.numLevels = 4;     
+		this.numLevels = 4;  
+		//this.btnLevels = [];   
 		this.levelData = levelData;
 		this.paused = false;
 		this.gameState = "levelSelect"; 
 		}
 
-	camera(){   
-		
-		//horizontal constrain
-		this.player.P.x = constrain(this.player.P.x, 0, this.levelW-this.player.w);  
-		//camera
+	camera(){     
 		translate(-this.player.T.x, -this.player.T.y);
 
 		//check if player has fallen.  convenient here because it needs lvH.  move later .
@@ -41,8 +36,6 @@ class Game{
 		//set level dimensions
 		this.levelW = numC*S;
 		this.levelH = numR*S;
-		this.bordR = this.levelW - width/2;
-		this.bordB = this.levelH - height/2;
 
 		//set map object types and positions		
 		let s, x, y;
@@ -61,9 +54,11 @@ class Game{
 				y = row*S; 
 				
 				if(s==="00"){
-					this.player.P.x = x;
-					this.player.P.y = y;
+					this.player = new Player(x, y, 0.7*S, 0.7*S);
+					this.playerSpawnP = createVector(x,y);
 					this.player.updateTranslation(this);
+					this.gameScreen = new GameScreen(this); //need levelW, this.levelH, this.player);
+					
 				}
 				//blocks array contains map tiles that affect player position
 				else if(s==="01"){  //ice
@@ -183,6 +178,7 @@ class Game{
 		fill(230,255,255);
 		textAlign(LEFT,CENTER);
 		text("Select a level and press the start button to begin.",width/10,height/12);
+		//TODO: get into class
 		btnLevels.forEach(btn=> {
 			btn.draw();
 			});
@@ -266,14 +262,15 @@ class Game{
 	loadMap(){
 		//remove existing tile objects if there are any
 		this.removeArray(this.mapTiles);
-		this.removeArray(blocks);   
+		this.removeArray(blocks);  
+
 		this.setupMap();  
 			
-		this.gameScreen = new GameScreen(this); //need levelW, this.levelH, this.player);
-
-			if (this.currentLevel < this.numLevels) {  
-				this.levelData[this.currentLevel].music.loop();
-			}	
+		
+		//TODO get another loop for end
+		if (this.currentLevel < this.numLevels) {  
+			this.levelData[this.currentLevel].music.loop();
+		}	
 		this.gameState = "inGame"; 
 	}
 
@@ -283,9 +280,12 @@ class Game{
 	
 	clickToContinue(){  
 		this.player.health = 3;
-		this.loadMap(); //reload map for current level
-		this.gameState = "inGame";  //restore state to inGame
-		
+		this.player.P.x = this.playerSpawnP.x;
+		this.player.P.y = this.playerSpawnP.y;
+		this.player.updateTranslation(this);
+		this.gameScreen = new GameScreen(this);
+		this.gameState = "inGame";  
+		this.levelData[this.currentLevel].music.loop();
 		transparency=0;
 		canvasOverlay=color(255, 255, 255,transparency);
 	}

@@ -1,7 +1,6 @@
-let transparency;  
+let transparency;  //TODO move to screen prop
 let canvasOverlay;
-let keys = []; //for movements
-let blocks = [];
+let blocks = [];   //TODO move to maptiles (work out calling)
 
 let sprite1;
 let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
@@ -101,8 +100,17 @@ function setup() {
 }
 
 
-function keyPressed(){keys[keyCode]=true;}   
-function keyReleased(){keys[keyCode]=false;}
+  
+function keyPressed(){
+	if (game.player.movements.hasOwnProperty(keyCode)){
+		game.player.movements[keyCode] = true;  
+	}
+}
+function keyReleased(){
+	if (game.player.movements.hasOwnProperty(keyCode)){
+		game.player.movements[keyCode] = false;  
+	}
+}
 
 
 

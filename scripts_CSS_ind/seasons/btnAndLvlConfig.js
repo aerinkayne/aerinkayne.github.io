@@ -189,7 +189,7 @@ const btnStart1 = {
     r: 3,
 	txt: "➤",
 	txtSize: 16,
-	txtColor: [200,255,255],
+	txtColor: [170,255,255],
     btnColor: [0,75,50],
     borderColor: [0, 0, 0],
 	onClick: ()=> {
@@ -200,7 +200,7 @@ const btnStart1 = {
     },
     offHover: function() {
         this.borderColor = [0, 0, 0];
-        this.txtColor = [180,255,255];
+        this.txtColor = [170,255,255];
     }
 }
 
@@ -215,8 +215,16 @@ const pause1 = {
     btnColor: [50,175,150],
     txtColor: [200,255,255], 
     onClick: function(){
-        (!game.paused) ? game.paused = true : game.paused = false;
-        (!game.paused) ? this.txt = "❚❚" : this.txt =  "➤";
+        if (!this.paused) {
+            game.paused = true;
+            this.paused = true;
+            this.txt =  "➤";
+        }
+        else {
+            game.paused = false;
+            this.txt = "❚❚";
+            this.paused = false;
+        }
     }
 }
 const continue1 = {

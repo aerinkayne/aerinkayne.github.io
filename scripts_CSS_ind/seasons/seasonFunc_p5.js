@@ -13,11 +13,12 @@ class Button {
 	this.txtColor = config.txtColor || [0,0,0];
 	this.btnColor = config.btnColor || [0,0,0];
 	this.borderColor = config.borderColor || [0,0,0];
-	this.strokeW = config.strokeW || 0.5;
+	this.strokeW = config.strokeW || 0.75;
 	this.overlayAlpha = 0;
 	this.selected = false;
 	this.clickTimer = 0;
-	this.clickDelay = 20;		
+	this.clickDelay = 20;	
+	this.paused = false;	
 	this.onClick = config.onClick || 0;
 	this.onHover = config.onHover || 0;
 	this.offHover = config.offHover || 0;
@@ -38,6 +39,7 @@ class Button {
 		}
 	}
 	draw(){
+		
 		if(this.img){
 			fill(this.btnColor);
 			noStroke();
@@ -58,6 +60,7 @@ class Button {
 			fill(this.txtColor);
 			text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
 		}
+		
 		this.checkClicks();
 		if (this.onHover){
 			this.checkHover();
@@ -85,7 +88,7 @@ class LevelSelectButton extends Button {
 class Player {
 	constructor (x,y,w,h){
 		this.P = createVector(x,y);
-		this.T = createVector(0,0); //holds translation vals
+		this.T = createVector(0,0); //holds translation vals.  update in setup
 		this.w = w;
 		this.h = h;
 		this.V = createVector(0,0);
@@ -94,8 +97,9 @@ class Player {
 		this.MAXHEALTH = 6;
 		this.falling = false;
 		this.gravity = createVector(0,0.4);
-		//this.move = [false,false,false,false];  //R,L,U,D
-		this.keyInputs=[39,37,38]; //RIGHT,LEFT,UP.  40 DOWN
+		this.movements = {81:false, 69:false, 32:false}; //q e space
+		//[39,37,38,40]; //RIGHT,LEFT,UP,DOWN
+		 
 		this.color = (50, 50, 50);
 		this.health = 3;
 		this.hasKey = false;
@@ -111,15 +115,17 @@ class Player {
 			game.levelH-height : round(this.P.y + this.h/2 - height/2);  //no upper bound
 	} 
 
-	update(arr, game){  //arr used to check collision with tiles that affect position
-		// key inputs
-		if(keys[this.keyInputs[0]]){  //39
+	update(arr, game){  
+		//horizontal constrain
+		this.P.x = constrain(this.P.x, 0, game.levelW-this.w);
+		//move
+		if(this.movements['69']){  //69 e
 			this.V.x += this.moveSpeed;
 		}
-		if(keys[this.keyInputs[1]]){  //37
+		if(this.movements['81']){  //81 q
 			this.V.x -= this.moveSpeed;
 		}
-		if(keys[this.keyInputs[2]] && !this.falling){ //38 jump
+		if(this.movements['32'] && !this.falling){ //38 jump
 			this.V.y = -this.h/3.11;  
 			this.falling=true;
 			soundJump.play();
@@ -147,7 +153,7 @@ class Player {
 		this.checkMapCollision(arr,0,this.V.y);  
 		
 		//decelerate.  TODO vary dec with different surfaces
-		if(!keys[this.keyInputs[0]] && !keys[this.keyInputs[1]]){
+		if(!this.movements['69'] && !this.movements['81']){
 			if(this.V.x > 0){
 				this.V.x -= this.moveSpeed;
 			}
@@ -190,11 +196,11 @@ class Player {
 		ellipse(this.w/1.4,this.h/3,  this.w/4,this.w/4.2);
 		}
 		fill(0, 0, 0);
-		if (keys[this.keyInputs[0]]){ //(this.move[0]){//(keys[this.keyInputs[0]]){
+		if (this.movements['69']){ 
 			 ellipse(this.w/2.80,this.h/3,  this.w/14,this.w/14);
 			 ellipse(this.w/1.25,this.h/3,  this.w/14,this.w/14);
 		}
-		else if (keys[this.keyInputs[1]]){ //(this.move[1]){//(keys[this.keyInputs[1]]){
+		else if (this.movements['81']){ 
 			 ellipse(this.w/4.80,this.h/3,  this.w/14,this.w/14);
 			 ellipse(this.w/1.55,this.h/3,  this.w/14,this.w/14);
 		}
@@ -292,7 +298,7 @@ class Mover extends Block{
 			obj.falling=false;
 			obj.P.y = this.P.y - obj.h;  
 		}
-		if (!keys[obj.keyInputs[0]] && !keys[obj.keyInputs[1]]){
+		if (!obj.movements['81'] && !obj.movements['69']){
 				obj.V.x = this.V.x*(1+obj.moveSpeed);  //accounts for deceleration
 		}
 	}
@@ -519,7 +525,7 @@ class Snowflake{
 		this.scale = random(min, max);  
 		this.V = createVector(this.scale*random(-1,1), this.scale*2);
 		this.w = this.h = ceil(5*this.scale);  //for bounds check
-		this.opacity = 75 + 360*this.scale/2;
+		this.opacity = 75 + 180*this.scale;
 		
 	}
 	update(gameScreen){  
@@ -551,6 +557,7 @@ class Raindrop extends Snowflake{
 	constructor(x,y, min, max){
 		super(x,y, min, max);
 		this.V = createVector(4,10);
+		this.opacity = 75 + 100*this.scale;
 	}
 	draw() {
 		stroke(186, 219, 255, this.opacity);
