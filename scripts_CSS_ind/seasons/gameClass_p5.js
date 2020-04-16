@@ -37,14 +37,11 @@ class Game{
 		this.levelW = numC*S;
 		this.levelH = numR*S;
 
-		//set map object types and positions		
+		//set map object types and positions.  todo: get blocks out of global		
 		let s, x, y;
 		let decoImages = [];
-		let lava = [];
-		let portkeys =[];
-		let hearts = [];
-		let spikes = [];
-		let portals = [];
+		let backTiles = [];
+		let frontTiles = [];
 
 		for(let row = 0; row < numR; row++){ 		//#strings in lv map. (tiles P.y)
 			for(let col = 0; col < numC; col++){ 	//length row's string (tiles P.x)
@@ -113,22 +110,22 @@ class Game{
 				
 				//collidables do not affect position but are used for other updates (health, dmg, inventory)  
 				else if(s==="0^"){
-					spikes.push(new SpikeU(x+(S-S/1.75)/2.0, y-1.5*S, S/1.75, 2.5*S));
+					backTiles.push(new SpikeU(x+(S-S/1.75)/2.0, y-1.5*S, S/1.75, 2.5*S));
 				}
 				else if(s==="0v"){
-					spikes.push(new SpikeD(x+(S-S/1.75)/2.0, y, S/1.75, 2.5*S));
+					backTiles.push(new SpikeD(x+(S-S/1.75)/2.0, y, S/1.75, 2.5*S));
 				}
 				else if(s==="0L"){  
-					lava.push(new Lava(x,y+S/5,S,S-S/5, "l"));
+					backTiles.push(new Lava(x,y+S/5,S,S-S/5, "l"));
 				}
 				else if(s==="0h"){
-					hearts.push(new Heart(x+S/4,y+S/4,S/2,S/2, imgHeart));
+					frontTiles.push(new Heart(x+S/4,y+S/4,S/2,S/2, imgHeart));
 				}
 				else if(s==="07"){
-					portals.push(new Portal(x, y, S, S, imgPortal));
+					frontTiles.push(new Portal(x, y, S, S, imgPortal));
 				}
 				else if(s==="09"){
-					portkeys.push(new Portkey (x, y, S, S, imgKey));
+					frontTiles.push(new Portkey (x, y, S, S, imgKey));
 				}
 
 				//decorative images.  
@@ -168,11 +165,7 @@ class Game{
 		decoImages = decoImages.sort((img1, img2) => (img1.z_Index > img2.z_Index ? 1 : -1)); 
 			
 		//sort additional tiles and concat to maptiles
-		let tiles = [lava, spikes, blocks, decoImages, portkeys, hearts, portals]; 
-	
-		tiles.forEach(set=>{
-			this.mapTiles = this.mapTiles.concat(set);
-		});
+		this.mapTiles = [...backTiles, ...blocks, ...decoImages, ...frontTiles]; 
 
 	}
 	//methods for screen managment 
@@ -212,15 +205,12 @@ class Game{
 
 			//player is updated here rather than above
 			this.player.update(blocks, this);
-
 			
 			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
 
 			if (this.gameScreen.opacity){
 				this.gameScreen.drawScreen();
 			}
-
-
 
 			if(this.player.health<=0){
 				this.gameState="gameOver";
@@ -236,7 +226,7 @@ class Game{
 				this.player.toNextLevel=false;
 			} 
 	
-			if(this.currentLevel===4){ //todo: not like this.
+			if(this.currentLevel===4){ //todo: credit, music.
 				this.gameState="win";
 			}
 		
@@ -244,7 +234,7 @@ class Game{
 			resetMatrix();
 			this.player.stats(); //health, info
 			fill(canvasOverlay);
-			rect(0,0,width,height);  //not this
+			rect(0,0,width,height);  //todo: call screen
 		}
 		btnPause.draw();
 	}
