@@ -1,14 +1,14 @@
 class Game{ 
 	constructor() {  
-		this.ts = 40;  //tile size 
-		this.player;  // new Player(0,0,0.7*this.ts,0.7*this.ts  moved to setup
-		this.playerSpawnP; // moved to setup
-		//TODO get gamescreen to class
-		this.levelW;  //defined at lv load
+		this.ts = 40; 		//tile size 
+		this.player;  		//created in map setup
+		this.playerSpawnP;  //defined in map setup
+		this.gameScreen;	//created in map setup
+		this.levelW;  		//defined in map setup
 		this.levelH;
 		this.mapTiles = [];
 		this.onScreenTiles = [];
-		this.collisionTiles = [];
+		this.collisionTiles = []; 
 		this.movingTiles = [];
 
 		this.currentLevel = 0;  //default if none selected
@@ -54,7 +54,11 @@ class Game{
 				y = row*S; 
 				
 				if(s==="00"){
+					if (!this.player){
 					this.player = new Player(x, y, 0.7*S, 0.7*S);
+					} else{
+						this.player.P = createVector(x,y);
+					}
 					this.playerSpawnP = createVector(x,y);
 					this.player.updateTranslation(this);
 					this.gameScreen = new GameScreen(this); //need levelW, this.levelH, this.player);

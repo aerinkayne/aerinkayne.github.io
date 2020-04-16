@@ -104,7 +104,8 @@ class Player {
 		this.health = 3;
 		this.hasKey = false;
 		this.toNextLevel = false;
-		this.delay = 41; //for damaging collisions
+		this.damageDelay = 40; //limits calls for damaging collisions
+		this.damageDelayTimer = this.damageDelay + 1;
 		this.z_Index = 2;
 	}
 	
@@ -118,7 +119,7 @@ class Player {
 	update(arr, game){  
 		//horizontal constrain
 		this.P.x = constrain(this.P.x, 0, game.levelW-this.w);
-		//move
+		//manage movement input
 		if(this.movements['69']){  //69 e
 			this.V.x += this.moveSpeed;
 		}
@@ -130,7 +131,7 @@ class Player {
 			this.falling=true;
 			soundJump.play();
 		}
-		// limit horizontal speed
+		//limit horizontal speed
 		if (this.V.x < -this.MAXSPEED){  
 			this.V.x = -this.MAXSPEED;
 		}
@@ -144,15 +145,15 @@ class Player {
 		//update x position
 		this.P.x += floor(this.V.x);
 		//check x collision 
-		this.checkMapCollision(arr,this.V.x, 0); 
+		this.checkMapCollision(arr, this.V.x, 0); 
 		//update y position
 		this.falling=true;
 		this.V.add(this.gravity);
 		this.P.y += this.V.y;
 		//check y collision
-		this.checkMapCollision(arr,0,this.V.y);  
+		this.checkMapCollision(arr, 0, this.V.y);  
 		
-		//decelerate.  TODO vary dec with different surfaces
+		//decelerate.  TODO vary friction with different surfaces
 		if(!this.movements['69'] && !this.movements['81']){
 			if(this.V.x > 0){
 				this.V.x -= this.moveSpeed;
@@ -163,8 +164,8 @@ class Player {
 		}
 		this.updateTranslation(game);
 		//dmg delay timer
-		if (this.delay < 41){
-			this.delay++;
+		if (this.damageDelayTimer <= this.damageDelay){
+			this.damageDelayTimer ++;
 		}	
 	}
 	
@@ -405,13 +406,14 @@ class SpikeU extends Block{
 		pop();
 	}
 	update(player){
-		if(abs(player.P.dist(this.P)) < 5/4*this.h && this.collide(player) && player.delay >40){ 
+		if(abs(player.P.dist(this.P)) < 5/4*this.h && this.collide(player) && player.damageDelayTimer > 40){ 
 			this.hurt=true;
 			transparency=150;  
 			player.health--;
-			player.delay = 0;
+			player.damageDelayTimer = 0;
 			soundSpike.play();
 		}
+		//todo: add to screen class
 		if(this.hurt){
 			canvasOverlay=color(255, 0, 0,transparency);
 			transparency-=15;
@@ -591,12 +593,12 @@ class Leaf extends Snowflake{
 }
 
 class Hills {  
-	constructor(gameScreen, arrPV, speed){ //lvW,H,player,level from gameScreen
+	constructor(game, arrPV, speed){ //lvW,H,player,level from gameScreen
 		this.arrPV = arrPV;
-		this.levelW = gameScreen.levelW;
-		this.levelH = gameScreen.levelH;
-		this.player = gameScreen.player;
-		this.currentLevel = gameScreen.currentLevel;
+		this.levelW = game.levelW;
+		this.levelH = game.levelH;
+		this.player = game.player;
+		this.currentLevel = game.currentLevel;
 		this.speed = speed;
 	}
 	draw(color, lakeBool) {  //currently called from screenEffects 
