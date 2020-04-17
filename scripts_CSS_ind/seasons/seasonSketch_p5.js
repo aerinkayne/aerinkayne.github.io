@@ -1,6 +1,5 @@
 let transparency;  //TODO move to screen prop
 let canvasOverlay;
-let blocks = [];   //TODO move to maptiles (work out calling)
 
 let sprite1;
 let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
@@ -84,7 +83,7 @@ function setup() {
 	imgPumpk = sprite1.get(150, 100, 50, 50); 
 	
 	//game instance
-	game=new Game();  
+	game = new Game();  
 	
 	//buttons
 	btnStart = new Button(btnStart1);

@@ -1,6 +1,6 @@
 class Game{ 
 	constructor() {  
-		this.ts = 40; 		//tile size 
+		this.tileSize = 40; 		//tile size 
 		this.player;  		//created in map setup
 		this.playerSpawnP;  //defined in map setup
 		this.gameScreen;	//created in map setup
@@ -9,8 +9,6 @@ class Game{
 		this.mapTiles = [];
 		this.onScreenTiles = [];
 		this.collisionTiles = []; 
-		this.movingTiles = [];
-
 		this.currentLevel = 0;  //default if none selected
 		this.numLevels = 4;  
 		//this.btnLevels = [];   
@@ -21,14 +19,9 @@ class Game{
 
 	camera(){     
 		translate(-this.player.T.x, -this.player.T.y);
-
-		//check if player has fallen.  convenient here because it needs lvH.  move later .
-		if(this.player.P.y > this.levelH + height){
-			this.player.health=0;
-		}
 	}
 	setupMap(){   
-		let S = this.ts;  	//map tile size	
+		let S = this.tileSize;  	
 		let L = 2; 			//map code string length
 		let numR = this.levelData[this.currentLevel].levelMap.length;
 		//divide by 3 (2char string for map, plus space for legibility)
@@ -37,8 +30,9 @@ class Game{
 		this.levelW = numC*S;
 		this.levelH = numR*S;
 
-		//set map object types and positions.  todo: get blocks out of global		
+		//set map object types and positions.		
 		let s, x, y;
+		let blocks = [];
 		let decoImages = [];
 		let backTiles = [];
 		let frontTiles = [];
@@ -52,12 +46,13 @@ class Game{
 				
 				if(s==="00"){
 					if (!this.player){
-					this.player = new Player(x, y, 0.7*S, 0.7*S);
+					this.player = new Player(x, y, 0.7*S, 0.7*S, this);
 					} else{
 						this.player.P = createVector(x,y);
 					}
 					this.playerSpawnP = createVector(x,y);
-					this.player.updateTranslation(this);
+					this.player.updateCenterPosition();
+					this.player.updateTranslation();
 					this.gameScreen = new GameScreen(this); //need levelW, this.levelH, this.player);
 					
 				}
@@ -168,6 +163,22 @@ class Game{
 		this.mapTiles = [...backTiles, ...blocks, ...decoImages, ...frontTiles]; 
 
 	}
+	//updates tiles that need offscreen update, filters all other tiles to onscreen tiles, 
+	//draws onscreen tiles, filters onscreen tiles to collision tiles.  TODO: tidy.
+	filterAndDraw(){
+		let distMax = 2 * this.tileSize;
+		this.onScreenTiles = this.mapTiles.filter(tile => {
+			if (tile.updateEvenOffscreen){  //updates moving platforms
+				tile.updateEvenOffscreen();
+				}
+			return this.gameScreen.isOnScreen(tile);
+		});
+		this.collisionTiles = this.onScreenTiles.filter(tile => {
+			tile.draw();
+			return tile !== this.player && tile.collide &&
+				   dist(this.player.C.x, this.player.C.y, tile.C.x, tile.C.y) < distMax;
+		});
+	}
 	//methods for screen managment 
 	screenLvSelect(){
 		background(125,135,150);
@@ -187,24 +198,16 @@ class Game{
 		}
 
 		if (!this.paused){
-			
 			this.gameScreen.shadeSky(this);
 			this.gameScreen.drawHills(this);
 			this.camera();
 			this.gameScreen.updatePosition();
 			this.gameScreen.drawArrObjects(this.gameScreen.bgObj);
-			//draw and update maptiles.  Player is drawn but not updated here. 
-			this.mapTiles.forEach(item=>{
-				if (this.gameScreen.isOnScreen(item)) {
-					item.draw();
-				}
-				if (item !== this.player && typeof item.update === "function"){
-					item.update(this.player);
-				}
-			});
+			this.filterAndDraw();
 
-			//player is updated here rather than above
-			this.player.update(blocks, this);
+			
+			//player updates and collision checks are here.
+			this.player.manageUpdates(this.collisionTiles);  
 			
 			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
 
@@ -256,7 +259,6 @@ class Game{
 	loadMap(){
 		//remove existing tile objects if there are any
 		this.removeArray(this.mapTiles);
-		this.removeArray(blocks);  
 
 		this.setupMap();  
 			
@@ -276,7 +278,8 @@ class Game{
 		this.player.health = 3;
 		this.player.P.x = this.playerSpawnP.x;
 		this.player.P.y = this.playerSpawnP.y;
-		this.player.updateTranslation(this);
+		this.player.updateCenterPosition();
+		this.player.updateTranslation();
 		this.gameScreen = new GameScreen(this);
 		this.gameState = "inGame";  
 		this.levelData[this.currentLevel].music.loop();

@@ -86,9 +86,11 @@ class LevelSelectButton extends Button {
 
 
 class Player {
-	constructor (x,y,w,h){
+	constructor (x,y,w,h, game){
 		this.P = createVector(x,y);
-		this.T = createVector(0,0); //holds translation vals.  update in setup
+		this.C = createVector(x+w/2, y+h/2);  //vector of center.
+		this.T = createVector(0,0); 		  //vector of translation coords.
+		this.game = game;
 		this.w = w;
 		this.h = h;
 		this.V = createVector(0,0);
@@ -98,27 +100,31 @@ class Player {
 		this.falling = false;
 		this.gravity = createVector(0,0.4);
 		this.movements = {81:false, 69:false, 32:false}; //q e space
-		//[39,37,38,40]; //RIGHT,LEFT,UP,DOWN
-		 
 		this.color = (50, 50, 50);
 		this.health = 3;
 		this.hasKey = false;
 		this.toNextLevel = false;
-		this.damageDelay = 40; //limits calls for damaging collisions
+		this.damageDelay = 40; //used to limit calls for damaging collisions
 		this.damageDelayTimer = this.damageDelay + 1;
 		this.z_Index = 2;
 	}
-	
-	updateTranslation(game){
-		this.T.x = (this.P.x + this.w/2 >= game.levelW - width/2) ? 
-			game.levelW-width : round(max(0, this.P.x + this.w/2 - width/2));
-		this.T.y = (this.P.y + this.h/2 >= game.levelH - height/2)? 
-			game.levelH-height : round(this.P.y + this.h/2 - height/2);  //no upper bound
+	updateTranslation(){
+		this.T.x = (this.C.x >= this.game.levelW - width/2) ? 
+			this.game.levelW-width : round(max(0, this.C.x - width/2));
+		this.T.y = (this.C.y >= this.game.levelH - height/2)? 
+			this.game.levelH-height : round(this.C.y - height/2);  //no upper bound
 	} 
-
-	update(arr, game){  
+	updateCenterPosition(){
+		this.C.x = this.P.x + this.w/2;
+		this.C.y = this.P.y + this.h/2;
+	}
+	manageUpdates(arr){  
 		//horizontal constrain
-		this.P.x = constrain(this.P.x, 0, game.levelW-this.w);
+		this.P.x = constrain(this.P.x, 0, this.game.levelW-this.w);
+		//check if player has fallen.  
+		if(this.P.y > this.game.levelH + height){
+			this.health = 0;
+		}
 		//manage movement input
 		if(this.movements['69']){  //69 e
 			this.V.x += this.moveSpeed;
@@ -162,18 +168,19 @@ class Player {
 				this.V.x += this.moveSpeed;
 			}
 		}
-		this.updateTranslation(game);
+		this.updateCenterPosition();
+		this.updateTranslation();
 		//dmg delay timer
 		if (this.damageDelayTimer <= this.damageDelay){
 			this.damageDelayTimer ++;
 		}	
 	}
 	
-	//collision with map tiles that affect position.  check x and y separately in player.update.
+	//collisionTiles, check x and y separately after respective position updates
 	checkMapCollision(arr, Vx, Vy){  
 		for(let i=0; i<arr.length; i++){
 			//don't bother checking collision for blocks that are more than a few tiles away
-			if(abs(arr[i].P.dist(this.P)) < 2*arr[i].w && arr[i].collide(this)){ 
+			if(arr[i].collide(this)){   
 				arr[i].collideEffect(this, Vx, Vy);
 			}	
 		}
@@ -247,6 +254,7 @@ class Player {
 class Block {  
 	constructor(x,y,w,h,img){  
 		this.P = createVector(x,y); 
+		this.C = createVector(x + w/2, y + h/2);
 		this.w=w;
 		this.h=h;
 		this.img=img;
@@ -293,14 +301,14 @@ class Mover extends Block{
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
                 this.P.y < obj.P.y + obj.h && this.P.y + this.h/2 > obj.P.y + 3/4*obj.h; //btm/4 player vs top/2 of mover
 	}
-	collideEffect(obj, Vx, Vy){ //moving platforms are checked along with other map tiles 
-		if(Vy > 0){
+	collideEffect(obj){ //moving platforms are checked along with other map tiles 
+		if(obj.V.y > 0){
 			obj.V.y = 0;
-			obj.falling=false;
+			obj.falling = false;
 			obj.P.y = this.P.y - obj.h;  
 		}
 		if (!obj.movements['81'] && !obj.movements['69']){
-				obj.V.x = this.V.x*(1+obj.moveSpeed);  //accounts for deceleration
+				obj.P.add(this.V);  
 		}
 	}
 	draw(){
@@ -317,29 +325,29 @@ class Mover extends Block{
 		rect(this.P.x, this.P.y, this.w, this.h/4, 4);
 		pop();
 		}
-	update(player){ 
-		if (this.disp > 4*player.w || this.disp < -4*player.w){
+	updateEvenOffscreen(){ 
+		if (this.disp > 2*this.w || this.disp < -2*this.w){
 			this.V.x *= -1;
-			this.P.x -= 2*this.V.x; //fixes turn around jitter
 		}
 		this.disp += this.V.x;
 		this.P.add(this.V); 
+		this.C.x = this.P.x + this.w/2;
+		this.C.y = this.P.y + this.h/2;
 	}
 }
 class Portal extends Block{
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
-		this.collected=false;
+		this.collected = false;
 	}
-	//replace this with collideEffect and check collision in player update
-	update(player){
-		if(this.collide(player) && player.hasKey){
+	collideEffect(obj){
+		if(obj.hasKey){
 			canvasOverlay=color(255, 255, 255, transparency);
 			transparency+=10;
 			if(transparency>255){
-				player.toNextLevel = true;
+				obj.toNextLevel = true;
 			} 
-		}else if(this.collide(player) && !player.hasKey){ 
+		}else if(!obj.hasKey){ 
 			fill(0, 0, 0);
 			textSize(15);
 			textAlign(CENTER,CENTER);
@@ -350,18 +358,18 @@ class Portal extends Block{
 class Portkey extends Block{
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
-		this.collected=false;
+		this.collected = false;
 	}
 	draw() {
 		if(!this.collected){
 			image(this.img, this.P.x, this.P.y, this.w, this.h);
 		}
 	}
-	update(player){
-		if(!player.hasKey && this.collide(player)){
+	collideEffect(obj){
+		if(!obj.hasKey){
 			soundKey.play();
 			this.collected=true;
-			player.hasKey=true;
+			obj.hasKey=true;
 		}
 	}
 }
@@ -404,16 +412,19 @@ class SpikeU extends Block{
 		strokeWeight(1);
 		noStroke();
 		pop();
+		this.overlayEffect();
 	}
-	update(player){
-		if(abs(player.P.dist(this.P)) < 5/4*this.h && this.collide(player) && player.damageDelayTimer > 40){ 
+	collideEffect(obj){
+		if(obj.damageDelayTimer > 40){ 
 			this.hurt=true;
 			transparency=150;  
-			player.health--;
-			player.damageDelayTimer = 0;
+			obj.health--;
+			obj.damageDelayTimer = 0;
 			soundSpike.play();
 		}
-		//todo: add to screen class
+	}
+	overlayEffect(){
+		//todo: use screen class
 		if(this.hurt){
 			canvasOverlay=color(255, 0, 0,transparency);
 			transparency-=15;
@@ -464,6 +475,7 @@ class SpikeD extends SpikeU{
 		strokeWeight(1);
 		noStroke();
 		pop();
+		this.overlayEffect();
 	}
 }	
 class Heart extends Block{
@@ -478,10 +490,10 @@ class Heart extends Block{
 			pop();
 		}
 	}
-	update(player){
-		if(!this.collected && player.health < player.MAXHEALTH && this.collide(player) ){
+	collideEffect(obj){
+		if(!this.collected && obj.health < obj.MAXHEALTH){
 			soundHeart.play();
-			player.health++;
+			obj.health++;
 			this.collected = true;	
 		}
 	}
@@ -490,6 +502,7 @@ class Heart extends Block{
 class Lava{
 	constructor(x,y,w,h, colorChar){
 		this.P = createVector (x,y);
+		this.C = createVector (x + w/2, y + h/2);
 		this.w = w;
 		this.h = h;
 		if (colorChar === "l"){

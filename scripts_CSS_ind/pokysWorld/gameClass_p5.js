@@ -163,9 +163,9 @@ class Game{
 	filterTiles(){
 		this.onScreenTiles = this.mapTiles.filter(tile =>{
 			return this.gameScreen.isOnScreen(tile);
-		});
+		});  
 		this.collisionTiles = this.onScreenTiles.filter(tile =>{
-			return getDistance(tile, this.player) < 2*this.tileSize;
+			return getDistance(tile, this.player) < 2*this.tileSize && tile !== this.player;
 		});
 	}
 	//update even if offscreen
@@ -187,14 +187,14 @@ class Game{
 					  strokeWeight(2);    
 					  line(tile.P.x+tile.w/2, tile.P.y+tile.h/2, 
 						   this.player.P.x+this.player.w/2, this.player.P.y+this.player.h/2); //*/
-					if(tile!==this.player && tile.collide(this.player)){
+					if(tile.collide(this.player)){ 
 						tile.collideEffect(this.player, this.player.V.x, 0);
 					}
 				}); 
 				break;
 			case "Y":	
 				this.collisionTiles.forEach(tile => {
-					if(tile!==this.player && tile.collide(this.player)){
+					if(tile.collide(this.player)){ 
 						tile.collideEffect(this.player, 0, this.player.V.y);
 					}
 				});

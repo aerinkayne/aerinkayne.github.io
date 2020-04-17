@@ -70,7 +70,7 @@ class MapTile {
 	}
 	collide(obj){
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
-                this.P.y < obj.P.y + obj.h && this.P.y + this.h > obj.P.y;
+          this.P.y < obj.P.y + obj.h && this.P.y + this.h > obj.P.y;
 	}
 	collideEffect(obj, Vx, Vy){ 
 		if(Vy > 0){
@@ -127,7 +127,7 @@ class MovingTile extends MapTile{
 	}
 	collide(obj){
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
-                this.P.y < obj.P.y + obj.h && this.P.y + this.h/4 > obj.P.y+obj.h/4;
+          this.P.y < obj.P.y + obj.h && this.P.y + this.h/4 > obj.P.y+obj.h/4;
 	}
 	collideEffect(obj){ 
 		if(obj.V.y > 0){
