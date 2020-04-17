@@ -146,5 +146,6 @@ class Raindrop extends Snowflake{
 		translate(this.P.x, this.P.y);
 		line(0,0, this.w, this.h);
 		pop();
+  noStroke();
 	}
 }

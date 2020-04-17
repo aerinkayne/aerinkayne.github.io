@@ -152,12 +152,12 @@ class Game{
 				}
 			}
 		}
-  		//      1          2           3         4    plr       5            6 
+  //      1           2          3         4    plr       5            6 
 		//   unshift      push      unshift     push          unshift       push
 		//        [backtiles]           [maptiles] player        [frontTiles]
 		//              6 additional layers without sorting.
 		this.mapTiles.push(this.player);
-		this.mapTiles = backTiles.concat(this.mapTiles.concat(frontTiles));
+		this.mapTiles = [...backTiles, ...this.mapTiles, ...frontTiles]; 
 		this.setup = true;
 	}
 	filterTiles(){

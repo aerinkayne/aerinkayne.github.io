@@ -221,12 +221,12 @@ class WaterTile extends MapTile{
 		
 	}	
 	draw() {
+  noStroke();
 		fill(this.color);
 		push();
 		translate(this.P.x, this.P.y);
 		if(this.hasSurface){
 			let alt = 2;
-   			noStroke();
 			rect(0,alt*sin(radians(frameCount)), this.w, this.h-alt*sin(radians(frameCount)));
 			fill(this.surfaceColor);
 			beginShape();
@@ -280,7 +280,6 @@ class LavaTile extends MapTile{
 		this.alt*=-1;
 		endShape();
 		pop();
-		noStroke();
 	}
 }
 class HealthSpringTile extends LavaTile{
