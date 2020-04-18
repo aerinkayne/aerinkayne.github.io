@@ -368,7 +368,7 @@ class Portal extends Block{
 		}
 	}
 }
-class Portkey extends Block{
+class Portkey extends Block{ 
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
 		this.collected = false;
@@ -390,15 +390,15 @@ class Portkey extends Block{
 class SpikeU extends Block{
 	constructor(x,y,w,h){
 		super(x,y,w,h);
-		this.jab;
+		this.tip;  
 	}
 	collide(obj) {
-		//rect(this.P.x, this.P.y+this.jab, this.w, this.h-this.jab); //uncomment to check height and dist from player when called
+		//rect(this.P.x, this.P.y + this.tip, this.w, this.h - this.tip); //uncomment to check height and dist from player when called
 		let subX;
 		//checks if y range of player is between tip (P.y+variable y amount) and spike's base
-        if (this.P.y + this.jab < obj.P.y + obj.h && this.P.y + this.h > obj.P.y){
+        if (this.P.y + this.tip < obj.P.y + obj.h && this.P.y + this.h > obj.P.y){
 			//1/2 base * distance of player's base from spike's base / current spike height = amount to subtract from normal x range
-            subX =  this.w/2 * ( (this.P.y + this.h)-(obj.P.y + obj.h) ) / (this.h - this.jab);
+            subX =  this.w/2 * ( (this.P.y + this.h)-(obj.P.y + obj.h) ) / (this.h - this.tip);
 			//rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //check range 
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
@@ -406,23 +406,19 @@ class SpikeU extends Block{
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);
-		noStroke();
-		this.jab = 1.8/3*this.h*abs(sin(radians(1/2*frameCount*2%100))); 
-		
+		//			                  //cycles from 0-90 
+		this.tip = 0.6*this.h*sin(radians(frameCount%91)); 
+		stroke(255, 255, 255);
+		strokeWeight(1);
 		fill(210, 230, 255);
 		triangle(0, 		this.h,
 				 this.w,  	this.h,
-				 this.w/2,	this.jab);
-		fill(20, 100, 170,200);
+				 this.w/2,	this.tip);
+		noStroke();
+		fill(20, 100, 170, 175);
 		triangle(this.w/2,	this.h,
 				 this.w-this.w/15,this.h,
-				 this.w/2,	this.jab + this.h/30);
-		stroke(255, 255, 255,200);
-		strokeWeight(1);
-		line(0, this.h,  	this.w/2, this.jab);
-		line(this.w/2,this.h, 	this.w/2, this.jab); 
-		strokeWeight(1);
-		noStroke();
+				 this.w/2,	this.tip + this.h/30); 
 		pop();
 	}
 	collideEffect(obj){
@@ -438,15 +434,13 @@ class SpikeU extends Block{
 class SpikeD extends SpikeU{
 	constructor(x,y,w,h){
 		super(x,y,w,h);
-		this.jab;
-		this.hurt;
 	}
 	collide(obj) {
 		//fill(255,20,20,50);
-		//rect(this.P.x, this.P.y, this.w, this.h-this.jab); //to check height and dist from player when called
+		//rect(this.P.x, this.P.y, this.w, this.h-this.tip); //to check height and dist from player when called
 		let subX;
-        if (this.P.y < obj.P.y + obj.h && this.P.y + this.h - this.jab > obj.P.y){
-            subX =  this.w/2 * (obj.P.y - this.P.y) / (this.h - this.jab);
+        if (this.P.y < obj.P.y + obj.h && this.P.y + this.h - this.tip > obj.P.y){
+            subX =  this.w/2 * (obj.P.y - this.P.y) / (this.h - this.tip);
 			//fill(255,0,0);
 			//rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //check range 
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
@@ -455,24 +449,18 @@ class SpikeD extends SpikeU{
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);
-		
-		noStroke();
-		this.jab = 1.8/3*this.h*abs(sin(radians(1/2*frameCount*2%100))); 
-		
+		this.tip = 0.6*this.h*sin(radians(frameCount%91)); 
+		stroke(255, 255, 255);
+		strokeWeight(1);
 		fill(210, 230, 255);
 		triangle(0,         0,
 				 this.w,  	0,
-				 this.w/2,	this.h-this.jab);
+				 this.w/2,	this.h-this.tip);
 		fill(20, 100, 170, 200);
+		noStroke();
 		triangle(this.w/2,	0,
 				 this.w - this.w/15,0,
-				 this.w/2,	this.h-this.jab - this.h/30);
-		stroke(255, 255, 255, 200);
-		strokeWeight(1);
-		line(0, 0, 		 this.w/2, this.h-this.jab);
-		line(this.w/2, 0, this.w/2, this.h-this.jab);
-		strokeWeight(1);
-		noStroke();
+				 this.w/2,	this.h-this.tip - this.h/30);
 		pop();
 	}
 }	
@@ -569,11 +557,11 @@ class Snowflake{
 class Raindrop extends Snowflake{
 	constructor(x,y, min, max){
 		super(x,y, min, max);
-		this.V = createVector(4,10);
+		this.V = createVector(4*this.scale,12*this.scale);
 		this.opacity = 75 + 100*this.scale;
 	}
 	draw() {
-		stroke(186, 219, 255, this.opacity);
+		stroke(175, 215, 255, this.opacity);
 		push();
 		translate(this.P.x, this.P.y);
 		line(0,0,this.V.x,this.V.y);

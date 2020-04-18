@@ -138,7 +138,7 @@ class Game{
 					decoImages.push(new Deco(x,y,S,S,imgFossil)); 
 				}
 				else if(s==="0g"){
-					decoImages.push(new Glass(x,y,S,S, "glass", 1));
+					decoImages.push(new Glass(x,y, S, S, "glass", 1));
 				}
 				else if(s==="0w"){
 					decoImages.push(new Water(x,y,S,S, "water", 3));

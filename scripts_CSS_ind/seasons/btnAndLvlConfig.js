@@ -83,8 +83,8 @@ const levelData = [
         hasLake: false,
         music: undefined,   //assigned in sketch preload
         levelEffect: "rain",
-        numBGeffects: 120,
-        numFGeffects: 15
+        numBGeffects: 140,
+        numFGeffects: 25
     },
 
 
@@ -209,7 +209,7 @@ const pause1 = {
     h: scrHeight/25,
     r: 2,               
     txt: "❚❚",
-    txtSize: 12,    
+    txtSize: 10,    
     btnColor: [50,175,150],
     txtColor: [200,255,255], 
     onClick: function(){

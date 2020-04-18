@@ -87,10 +87,8 @@ constructor(game){ //levelW, levelH, player){
 	}
 
 	drawScreen(){  //only called if this.opacity is not 0.
-		push();
-		//translate(this.P.x, this.P.y); called after matrix reset so no translation
+		//called after matrix reset, so no translation used.
 		fill(this.color[0], this.color[1], this.color[2], this.opacity);
 		rect(0,0,this.w, this.h);
-		pop();
 	}
 }

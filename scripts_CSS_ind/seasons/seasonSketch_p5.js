@@ -53,6 +53,7 @@ function setup() {
 	imgWood1 = sprite1.get(300, 0, 50, 50);
 	imgWood2 = sprite1.get(350, 0, 50, 50);
 	imgBrick = sprite1.get(400, 0, 50, 50);
+	imgWind = sprite1.get(450, 0, 50, 50);
 	imgHeart = sprite1.get(100,50,50,50);
 	imgR1 = sprite1.get(0, 200, 50, 50);
 	imgR2 = sprite1.get(50, 200, 50, 50);
