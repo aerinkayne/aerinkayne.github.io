@@ -97,6 +97,7 @@ class Player {
 		this.moveSpeed = 0.25;
 		this.MAXSPEED = 4;
 		this.MAXHEALTH = 6;
+		this.hurt = false;
 		this.falling = false;
 		this.gravity = createVector(0,0.4);
 		this.movements = {81:false, 69:false, 32:false}; //q e space
@@ -122,9 +123,9 @@ class Player {
 		//horizontal constrain
 		this.P.x = constrain(this.P.x, 0, this.game.levelW-this.w);
 		//check if player has fallen.  
-		if(this.P.y > this.game.levelH + height){
-			this.health = 0;
-		}
+		if(this.P.y > this.game.levelH + height){this.health = 0;}
+		//check health
+		if(this.health<=0){this.game.gameState="gameOver";}
 		//manage movement input
 		if(this.movements['69']){  //69 e
 			this.V.x += this.moveSpeed;
@@ -137,7 +138,7 @@ class Player {
 			this.falling=true;
 			soundJump.play();
 		}
-		//limit horizontal speed
+		//limit horizontal and falling speed
 		if (this.V.x < -this.MAXSPEED){  
 			this.V.x = -this.MAXSPEED;
 		}
@@ -173,7 +174,8 @@ class Player {
 		//dmg delay timer
 		if (this.damageDelayTimer <= this.damageDelay){
 			this.damageDelayTimer ++;
-		}	
+		}
+		this.overlayEffect();  //screen effects if damaged, and during level transitions.	
 	}
 	
 	//collisionTiles, check x and y separately after respective position updates
@@ -185,7 +187,18 @@ class Player {
 			}	
 		}
 	}
-	
+	overlayEffect(){
+		//todo: use screen class
+		if(this.hurt){
+			this.game.gameScreen.color = [255, 0, 0];
+			this.game.gameScreen.opacity -= 10;
+			if(this.game.gameScreen.opacity < 0){
+				this.game.gameScreen.opacity = 0;
+				this.game.gameScreen.color = [255, 255, 255];
+				this.hurt = false;
+			}
+		}
+	}
 	draw() {  
 		noStroke();
 		fill(this.color);
@@ -342,9 +355,9 @@ class Portal extends Block{
 	}
 	collideEffect(obj){
 		if(obj.hasKey){
-			canvasOverlay=color(255, 255, 255, transparency);
-			transparency+=10;
-			if(transparency>255){
+			obj.game.gameScreen.color = [255, 255, 255];
+			obj.game.gameScreen.opacity += 5;
+			if(obj.game.gameScreen.opacity > 255){
 				obj.toNextLevel = true;
 			} 
 		}else if(!obj.hasKey){ 
@@ -378,7 +391,6 @@ class SpikeU extends Block{
 	constructor(x,y,w,h){
 		super(x,y,w,h);
 		this.jab;
-		this.hurt;
 	}
 	collide(obj) {
 		//rect(this.P.x, this.P.y+this.jab, this.w, this.h-this.jab); //uncomment to check height and dist from player when called
@@ -412,27 +424,14 @@ class SpikeU extends Block{
 		strokeWeight(1);
 		noStroke();
 		pop();
-		this.overlayEffect();
 	}
 	collideEffect(obj){
 		if(obj.damageDelayTimer > 40){ 
-			this.hurt=true;
-			transparency=150;  
+			obj.hurt=true;
+			obj.game.gameScreen.opacity = 150;  
 			obj.health--;
 			obj.damageDelayTimer = 0;
 			soundSpike.play();
-		}
-	}
-	overlayEffect(){
-		//todo: use screen class
-		if(this.hurt){
-			canvasOverlay=color(255, 0, 0,transparency);
-			transparency-=15;
-			if(transparency<0){
-				transparency=0;
-				canvasOverlay=color(255, 255, 255,transparency);
-				this.hurt=false;
-			}
 		}
 	}
 }
@@ -475,7 +474,6 @@ class SpikeD extends SpikeU{
 		strokeWeight(1);
 		noStroke();
 		pop();
-		this.overlayEffect();
 	}
 }	
 class Heart extends Block{
@@ -659,7 +657,7 @@ class Deco{
 		this.z_Index = z;
 	}
 	draw(){
-		image(this.img, this.P.x, this.P.y, this.w+1, this.h);
+		image(this.img, this.P.x, this.P.y, this.w, this.h);
 	}
 }	
 class Glass extends Deco{

@@ -1,5 +1,5 @@
-const scrWidth = 600;
-const scrHeight = 400;
+let scrWidth = 550;
+let scrHeight = 375;
 
 const levelData = [
     
@@ -34,14 +34,14 @@ const levelData = [
             "            01 0^                                     01 01                         02 02 01 0h    0^    0^             ",    
             "02 02 0L 02 01 02 02 02 02 02 0L 0L 0L 0L 0L 0L 0L 0L 01 01 0L 0L 0L 0L 0L 0L 0L 0L 01 01 01 02 02 02 02 02 02 02 02 02 "  
         ],
-        skyStart: [82,149,204],  //done
-        skyEnd: [250, 200, 255], //done
-        hillColors: [[60,85,130,210],[102,147,192],[150,200,235]],  //order is background, middle, foreground.  done
+        skyStart: [82,149,204],  
+        skyEnd: [250, 200, 255], 
+        hillColors: [[60,85,130,210],[102,147,192],[150,200,235]],  //order is background, middle, foreground.  
         hasLake: false,
-        music: undefined,   //assigned in sketch preload.  done
-        levelEffect: "snow",   //todo
-        numBGeffects: 140,     //todo
-        numFGeffects: 15       //todo
+        music: undefined,   //assigned in sketch preload.  
+        levelEffect: "snow",   
+        numBGeffects: 140,     
+        numFGeffects: 25       
     },
 
 
@@ -112,7 +112,7 @@ const levelData = [
             "                                             10 0w 0w 0w 0w 0B 0B 0B 0B 0B 0B 0B 0B 0B 0B ", 
             "00                                        04 03 11 11 11 04 11 04 11 04 04 04 11 04 04 11 ",
             "   0f       0F                   0^ 11                                        0v          ",
-            "04 04 11 11 11 04          04 11 11                                                    09 ",
+            "04 04 11 11 11 04          04 11 11                                                    09 ",        
             "                        04                            0f 0^       0^                0f 11 ",
             "                                                      04 04 11 11 04 11       11 04 04 10 ",
             "                  11                                                                   03 ",
@@ -189,18 +189,16 @@ const btnStart1 = {
     r: 3,
 	txt: "➤",
 	txtSize: 16,
-	txtColor: [170,255,255],
-    btnColor: [0,75,50],
-    borderColor: [0, 0, 0],
+	txtColor: [65,200,185],
+    btnColor: [0,70,55],
 	onClick: ()=> {
 		game.gameState = "gameStart";
     },
     onHover: function() {
-        this.txtColor = [225,255,255];
+        this.txtColor = [150,255,255];
     },
     offHover: function() {
-        this.borderColor = [0, 0, 0];
-        this.txtColor = [170,255,255];
+        this.txtColor = [65,200,185];
     }
 }
 
@@ -248,8 +246,6 @@ const restart1 = {
 	txt: "Restart",    
     btnColor: [255,75,110], 
     onClick: function(){
-        transparency=0;
-        canvasOverlay=color(255, 255, 255,transparency);
         game = new Game();
    }
 }
@@ -260,7 +256,7 @@ const btnLevelSelect = {
 	w: scrWidth/3.5,
     h: scrHeight/3.1,
     r: 2,
-    txtSize: 18,
+    txtSize: 16,
     txtColor: [255,255,255],
 	onClick: function() {
         game.setLevel(this.accessLevel);

@@ -1,6 +1,3 @@
-let transparency;  //TODO move to screen prop
-let canvasOverlay;
-
 let sprite1;
 let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
 let btnLevels = [];
@@ -8,35 +5,28 @@ let btnLevels = [];
 let soundJump;
 let soundKey;
 let soundHeart;
-let soundSpike;
+let soundSpike; 
 let game;
 
 function preload(){
-	//load spritesheets and sounds (sounds with user names are from Freesound.org)
+	//load spritesheets and sounds (sounds with user names are from Freesound.org)  todo: callback track files loaded for loadbar
 	sprite1 = loadImage("scripts_CSS_ind/seasons/assets/sprites/spritesheet1.png");
 	soundKey = loadSound("scripts_CSS_ind/seasons/assets/sounds/clink1.mp3");
-	soundHeart = loadSound("scripts_CSS_ind/seasons/assets/sounds/243701__ertfelda__correct.wav");
+	soundHeart = loadSound("scripts_CSS_ind/seasons/assets/sounds/243701__ertfelda__correct.wav"); 
 	soundJump = loadSound("scripts_CSS_ind/seasons/assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
 
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3", 
-		asset=>{levelData[0].music = asset});
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3", 
-		asset=>{levelData[1].music = asset});
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav", 
-		asset=>{levelData[2].music = asset});
-	loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3", 
-		asset=>{levelData[3].music = asset});
+	levelData[0].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
+	levelData[1].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
+	levelData[2].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
+	levelData[3].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
 }
 
 
 function setup() {
-    let c = createCanvas(600, 400);
+	let c = createCanvas(550, 375);  
 	c.parent('cParent');
 	frameRate(60);
-
-	transparency=0;  //overlay effects
-	canvasOverlay=color(255, 255, 255, transparency);
 	
 	//volume adjustments
 	soundJump.setVolume(0.4);
@@ -63,7 +53,6 @@ function setup() {
 	imgWood1 = sprite1.get(300, 0, 50, 50);
 	imgWood2 = sprite1.get(350, 0, 50, 50);
 	imgBrick = sprite1.get(400, 0, 50, 50);
-
 	imgHeart = sprite1.get(100,50,50,50);
 	imgR1 = sprite1.get(0, 200, 50, 50);
 	imgR2 = sprite1.get(50, 200, 50, 50);
@@ -81,7 +70,7 @@ function setup() {
 	imgFlower2 = sprite1.get(150, 50, 50, 50); 
 	imgFossil = sprite1.get(200, 100, 50, 50); 
 	imgPumpk = sprite1.get(150, 100, 50, 50); 
-	
+
 	//game instance
 	game = new Game();  
 	
@@ -101,13 +90,20 @@ function setup() {
 
   
 function keyPressed(){
-	if (game.player.movements.hasOwnProperty(keyCode)){
-		game.player.movements[keyCode] = true;  
+	try {
+		if (game.player.movements.hasOwnProperty(keyCode)){
+			game.player.movements[keyCode] = true;  
+		}
+	}	catch(e) {
+		console.log("Are you already mashing keys?  We are still loading stuff!");
 	}
 }
 function keyReleased(){
-	if (game.player.movements.hasOwnProperty(keyCode)){
-		game.player.movements[keyCode] = false;  
+	try {
+		if (game.player.movements.hasOwnProperty(keyCode)){
+			game.player.movements[keyCode] = false;  
+		}
+	}	catch(e) {
 	}
 }
 
@@ -115,12 +111,11 @@ function keyReleased(){
 
 //sketch main
 function draw() {
-	
-	
+	//make game method sceneManagement
 	if (game.gameState === "levelSelect"){
 		game.screenLvSelect();
 	}
-	if(game.gameState === "gameStart"){ 
+	if(game.gameState === "gameStart"){ //todo merge these if not needed (have setup bool)
 		game.loadMap(); //only load map once here
 		} 
     if(game.gameState === "inGame"){ 
@@ -132,7 +127,7 @@ function draw() {
     }
 	
 	
-    if(game.gameState === "win"){ 
+    if(game.gameState === "win"){ //todo make an end scene 
         fill(0, 200, 0,1);
         noStroke();
         rect(0,0,width,height);

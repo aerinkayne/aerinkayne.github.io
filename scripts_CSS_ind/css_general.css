@@ -40,8 +40,8 @@ canvas {
 	border-radius: 3px;
 }
 #cParent {
-	height: 500px;
-	width: 500px;
+	height: 450px;
+	width: 800px;
 }
 #fishtank {
 	width: 400px;
@@ -279,7 +279,6 @@ footer ul { /* inside mid */
 	text-align: center;
 }
 #footerLinks li{
-	display: inline;
 	width: 34%;
 }
 #footerLinks li:not(.last){

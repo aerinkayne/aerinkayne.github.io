@@ -163,7 +163,7 @@ class Game{
 		this.mapTiles = [...backTiles, ...blocks, ...decoImages, ...frontTiles]; 
 
 	}
-	//updates tiles that need offscreen update, filters all other tiles to onscreen tiles, 
+	//updates tiles that need to be updated even offscreen, filters all other tiles to onscreen tiles, 
 	//draws onscreen tiles, filters onscreen tiles to collision tiles.  TODO: tidy.
 	filterAndDraw(){
 		let distMax = 2 * this.tileSize;
@@ -190,7 +190,7 @@ class Game{
 		btnLevels.forEach(btn=> {
 			btn.draw();
 			});
-		btnStart.draw();	
+		btnStart.draw();
 	}
 	screenInGame(){
 		if (!this.gameScreen.setup){
@@ -211,17 +211,9 @@ class Game{
 			
 			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
 
-			if (this.gameScreen.opacity){
-				this.gameScreen.drawScreen();
-			}
-
-			if(this.player.health<=0){
-				this.gameState="gameOver";
-			}
-
 			if(this.player.toNextLevel){
-				transparency = 0;
-				canvasOverlay=color(255, 255, 255, transparency);
+				this.gameScreen.opacity = 0;
+				this.gameScreen.color = [255, 255, 255];
 				this.levelData[this.currentLevel].music.stop();
 				this.currentLevel++; 
 				this.loadMap(); 
@@ -236,8 +228,10 @@ class Game{
 			//foreground and overlay effects
 			resetMatrix();
 			this.player.stats(); //health, info
-			fill(canvasOverlay);
-			rect(0,0,width,height);  //todo: call screen
+			if (this.gameScreen.opacity){
+				this.gameScreen.drawScreen();
+			}
+			
 		}
 		btnPause.draw();
 	}
@@ -283,8 +277,8 @@ class Game{
 		this.gameScreen = new GameScreen(this);
 		this.gameState = "inGame";  
 		this.levelData[this.currentLevel].music.loop();
-		transparency=0;
-		canvasOverlay=color(255, 255, 255,transparency);
+		this.gameScreen.opacity = 0;
+		this.gameScreen.color = [255, 255, 255];
 	}
 	
 

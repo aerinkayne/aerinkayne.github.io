@@ -7,8 +7,8 @@ constructor(game){ //levelW, levelH, player){
 		this.bgObj=[];
 		this.fgObj=[];
 		this.hills=[];
-		this.opacity = 5; 		//TODO finish setup
-		this.color = [90,0,0];  //TODO finish setup
+		this.opacity = 0; 		 //TODO finish setup
+		this.color = [200,0,0];  //TODO finish setup
 		this.setup = false;
 	}
 
@@ -88,7 +88,7 @@ constructor(game){ //levelW, levelH, player){
 
 	drawScreen(){  //only called if this.opacity is not 0.
 		push();
-		translate(this.P.x, this.P.y);
+		//translate(this.P.x, this.P.y); called after matrix reset so no translation
 		fill(this.color[0], this.color[1], this.color[2], this.opacity);
 		rect(0,0,this.w, this.h);
 		pop();
