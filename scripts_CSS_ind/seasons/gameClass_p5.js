@@ -144,10 +144,10 @@ class Game{
 					decoImages.push(new Deco(x,y,S,S,imgFossil)); 
 				}
 				else if(s==="0g"){
-					decoImages.push(new Glass(x,y, S, S, "glass", 1));
+					decoImages.push(new Glass(x,y, S, S, imgWind, [50,150,200]));
 				}
 				else if(s==="0w"){
-					decoImages.push(new Water(x,y,S,S, "water", 3));
+					decoImages.push(new Water(x,y,S,S));
 				}
 				else if(s==="0e"){
 					decoImages.push(new Deco(x,y,S,S, imgWood1, 0));

@@ -394,6 +394,7 @@ class SpikeU extends Block{
 		this.tipMin = 0.4*h; 
 		this.tipAmpl = 0.6*h; 
 		this.tip;
+		this.color = [180, 200, 240];
 	}
 	collide(obj) {
 		/*/ range check
@@ -416,7 +417,7 @@ class SpikeU extends Block{
 		this.tip =  this.h - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
-		fill(180, 230, 240);
+		fill(this.color);
 		triangle(0, 		this.h,
 				 this.w,  	this.h,
 				 this.w/2,	this.tip);
@@ -454,7 +455,7 @@ class SpikeD extends SpikeU{
 		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
-		fill(180, 230, 240);
+		fill(this.color);
 		triangle(0,         0,
 				 this.w,  	0,
 				 this.w/2,	this.tip);
@@ -487,7 +488,7 @@ class SpikeL extends SpikeU{  //seems ok
 		this.tip =  this.w - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
-		fill(180, 230, 240);
+		fill(this.color);
 		triangle(this.w, 		0,
 				 this.w,  	this.h,
 				 this.tip, this.h/2);
@@ -519,7 +520,7 @@ class SpikeR extends SpikeU{
 		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
-		fill(180, 230, 240);
+		fill(this.color);
 		triangle(0,         0,
 				 0,  	this.h,
 				 this.tip, this.h/2);
@@ -718,36 +719,26 @@ class Deco{
 	}
 }	
 class Glass extends Deco{
-	constructor(x, y, w, h, img, z){
-		super(x, y, w, h, img, z);
+	constructor(x, y, w, h, img, overlayColor){
+		super(x, y, w, h, img);
+		this.z_Index = 1;
+		this.overlayColor = overlayColor;
 	}	
-	draw(){  //TODO sprite me!
+	draw(){  
 		push();
 		translate(this.P.x, this.P.y);
-		noStroke();
-		fill(100,150,200);
-		rect(0,0,this.w,this.h);
-		for (let r = 0; r < 2; r++){  		//pane row position
-			for (let c = 0; c < 2; c++){    //pane col position
-				noStroke();
-				fill(0, 0, 30, 125);
-				rect(13/50*this.w+c*this.w/2, 13/50*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
-				fill(245, 245, 255, 200);
-				rect(1/25*this.w+c*this.w/2, 1/25*this.h+r*this.h/2, 1/5*this.w, 1/5*this.h);
-				stroke(204, 238, 255);
-					line(this.w/2*c, 0,  this.w/2*c, this.h);
-			}
-			line(0, this.w/2*r,  this.w, this.w/2*r);
-		}
-		line(this.w, 0,  this.w, this.h);
-		line(0, this.h,  this.w, this.h);
-		noStroke();
+		image(this.img, 0, 0, this.w, this.h);
+		blendMode(OVERLAY);
+		fill(this.overlayColor);
+		rect(0,0,this.w, this.h);
 		pop();
+		blendMode(BLEND);
 	}
 }
 class Water extends Deco{
-	constructor(x, y, w, h, img, z){
-		super(x, y, w, h, img, z);
+	constructor(x, y, w, h){
+		super(x, y, w, h);
+		this.z_Index = 3;
 		this.color = [76, 117, 222,150];
 		this.surfaceColor = [230, 245, 255];
 	}	
