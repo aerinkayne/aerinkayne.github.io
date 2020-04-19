@@ -112,29 +112,6 @@ function keyReleased(){
 
 //sketch main
 function draw() {
-	//make game method sceneManagement
-	if (game.gameState === "levelSelect"){
-		game.screenLvSelect();
-	}
-	if(game.gameState === "gameStart"){ //todo merge these if not needed (have setup bool)
-		game.loadMap(); //only load map once here
-		} 
-    if(game.gameState === "inGame"){ 
-        game.screenInGame(); 
-    }
-    if(game.gameState === "gameOver"){ 
-		game.levelData[game.currentLevel].music.stop();
-		game.screenGameOver();
-    }
+	game.manageScenes();
 	
-	
-    if(game.gameState === "win"){ //todo make an end scene 
-        fill(0, 200, 0,1);
-        noStroke();
-        rect(0,0,width,height);
-        fill(0, 0, 0);
-        textAlign(CENTER,CENTER);
-        textSize(50);
-        text("You Win!",width/2,height/2);
-    }
 }

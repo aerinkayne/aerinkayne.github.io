@@ -192,7 +192,7 @@ const btnStart1 = {
 	txtColor: [65,200,185],
     btnColor: [0,70,55],
 	onClick: ()=> {
-		game.gameState = "gameStart";
+		game.gameState = "inGame";
     },
     onHover: function() {
         this.txtColor = [150,255,255];

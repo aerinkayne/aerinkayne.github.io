@@ -1,10 +1,10 @@
 class Game{ 
 	constructor() {  
 		this.tileSize = 40; 		//tile size 
-		this.player;  		//created in map setup
-		this.playerSpawnP;  //defined in map setup
-		this.gameScreen;	//created in map setup
-		this.levelW;  		//defined in map setup
+		this.player;  		//created in setupMap
+		this.playerSpawnP;  //defined in setupMap
+		this.gameScreen;	//created in setupMap
+		this.levelW;  		//defined in setupMap
 		this.levelH;
 		this.mapTiles = [];
 		this.onScreenTiles = [];
@@ -22,15 +22,14 @@ class Game{
 	}
 	setupMap(){   
 		let S = this.tileSize;  	
-		let L = 2; 			//map code string length
+		let L = 2; 			//length of map string coding tiles
 		let numR = this.levelData[this.currentLevel].levelMap.length;
-		//divide by 3 (2char string for map, plus space for legibility)
-		let numC = this.levelData[this.currentLevel].levelMap[0].length/3;  
-		//set level dimensions
+		let numC = this.levelData[this.currentLevel].levelMap[0].length/3;  //divide by 3 (2 for map string, 1 for space)
+		//update level dimensions
 		this.levelW = numC*S;
 		this.levelH = numR*S;
 
-		//set map object types and positions.		
+		//map object types and positions.		
 		let s, x, y;
 		let blocks = [];
 		let decoImages = [];
@@ -53,7 +52,7 @@ class Game{
 					this.playerSpawnP = createVector(x,y);
 					this.player.updateCenterPosition();
 					this.player.updateTranslation();
-					this.gameScreen = new GameScreen(this); //need levelW, this.levelH, this.player);
+					this.gameScreen = new GameScreen(this); 
 					
 				}
 				//blocks array contains map tiles that affect player position
@@ -93,17 +92,17 @@ class Game{
 				else if(s==="0m"){  //moving platform
 					blocks.push(new Mover(x,y,3/2*S,S/3)); //
 				}
-				else if (s==="0C"){  //cloud middle
+				else if (s==="0C"){  
 					blocks.push(new Block(x,y,S,S,imgClM));  
 				}
-				else if (s==="0c"){  //cloud left side
+				else if (s==="0c"){  
 					blocks.push(new Block(x,y,S,S,imgClL));  
 				}
-				else if (s==="0d"){  //cloud left side w/H flip
+				else if (s==="0d"){  
 					blocks.push(new Block(x,y,S,S,imgClR)); 
 				}
 				
-				//collidables do not affect position but are used for other updates (health, dmg, inventory)  
+				//spikes, lave, keys, doors 
 				else if(s==="0^"){
 					backTiles.push(new SpikeU(x + S/5, y - 1.5*S, 3/5*S, 2.5*S));
 				}
@@ -117,7 +116,7 @@ class Game{
 					backTiles.push(new SpikeR(x, y + S/5, 2.5*S, 3/5*S));
 				}
 				else if(s==="0L"){  
-					backTiles.push(new Lava(x,y+S/5,S,S-S/5, "l"));
+					backTiles.push(new Lava(x,y+S/5,S,S-S/5, [180,0,0]));
 				}
 				else if(s==="0h"){
 					frontTiles.push(new Heart(x+S/4,y+S/4,S/2,S/2, imgHeart));
@@ -185,24 +184,43 @@ class Game{
 				   dist(this.player.C.x, this.player.C.y, tile.C.x, tile.C.y) < distMax;
 		});
 	}
+	manageScenes(){
+		if (this.gameState === "levelSelect"){
+			this.sceneLvSelect();
+		}
+		else if(this.gameState === "inGame"){ 
+			if (!this.mapTiles.length){this.loadMap();}
+			//new gamescreen is created in each map load.
+			this.sceneInGame(); 
+		}
+		else if(this.gameState === "gameOver"){ 
+			this.levelData[this.currentLevel].music.stop();
+			this.sceneGameOver();
+		}
+		else if(this.gameState === "win"){ //todo make an end scene 
+			fill(0, 200, 0,1);
+			noStroke();
+			rect(0,0,width,height);
+			fill(0, 0, 0);
+			textAlign(CENTER,CENTER);
+			textSize(50);
+			text("You Win!",width/2,height/2);
+		}
+	}
 	//methods for screen managment 
-	screenLvSelect(){
+	sceneLvSelect(){
 		background(125,135,150);
 		textSize(height/21);
 		fill(230,255,255);
 		textAlign(LEFT,CENTER);
 		text("Select a level and press the start button to begin.",width/10,height/12);
-		//TODO: get into class
+		//TODO: get into game or screen class
 		btnLevels.forEach(btn=> {
 			btn.draw();
 			});
 		btnStart.draw();
 	}
-	screenInGame(){
-		if (!this.gameScreen.setup){
-			this.gameScreen.effectSetup(this);  //TODO - might need to move this block
-		}
-
+	sceneInGame(){
 		if (!this.paused){
 			this.gameScreen.shadeSky(this);
 			this.gameScreen.drawHills(this);
@@ -210,9 +228,8 @@ class Game{
 			this.gameScreen.updatePosition();
 			this.gameScreen.drawArrObjects(this.gameScreen.bgObj);
 			this.filterAndDraw();
-
 			
-			//player updates and collision checks are here.
+			//player updates and collision checks.
 			this.player.manageUpdates(this.collisionTiles);  
 			
 			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
@@ -237,11 +254,14 @@ class Game{
 			if (this.gameScreen.opacity){
 				this.gameScreen.drawScreen();
 			}
-			
 		}
 		btnPause.draw();
 	}
-	screenGameOver(){
+
+	sceneGameOver(){
+		if (this.gameScreen.opacity){
+			this.gameScreen.drawScreen();
+		}
 		noStroke();
 		fill(200, 0, 0,1);
 		rect(0,0,width,height);
@@ -259,11 +279,9 @@ class Game{
 	loadMap(){
 		//remove existing tile objects if there are any
 		this.removeArray(this.mapTiles);
-
-		this.setupMap();  
-			
+		this.setupMap();  	
 		
-		//TODO get another loop for end
+		//TODO get another music loop for end
 		if (this.currentLevel < this.numLevels) {  
 			this.levelData[this.currentLevel].music.loop();
 		}	

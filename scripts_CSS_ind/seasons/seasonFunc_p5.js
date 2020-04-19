@@ -39,7 +39,7 @@ class Button {
 		}
 	}
 	draw(){
-		
+	
 		if(this.img){
 			fill(this.btnColor);
 			noStroke();
@@ -126,7 +126,11 @@ class Player {
 		//check if player has fallen.  
 		if(this.P.y > this.game.levelH + height){this.health = 0;}
 		//check health
-		if(this.health<=0){this.game.gameState="gameOver";}
+		if(this.health <= 0 ){
+			this.game.gameScreen.color = [0,0,0];
+			this.game.gameScreen.opacity = 255;
+			this.game.gameState="gameOver";
+		}
 		//manage movement input
 		if(this.movements['69']){  //69 e
 			this.V.x += this.moveSpeed;
@@ -188,9 +192,8 @@ class Player {
 			}	
 		}
 	}
-	overlayEffect(){
-		//todo: use screen class
-		if(this.hurt){
+	overlayEffect(){  //during damage
+		if(this.hurt && this.health > 0){
 			this.game.gameScreen.color = [255, 0, 0];
 			this.game.gameScreen.opacity -= 10;
 			if(this.game.gameScreen.opacity < 0){
@@ -240,11 +243,11 @@ class Player {
 		text("Health ", width/50,height/35);
 		
 		for(let i = 0; i< this.MAXHEALTH; i++){
-			rect(width/50+i*21, height/17, 20, 10, 4);
+			rect(width/50+i*21, height/17, 20, 10, 3);
 		}
 		fill(200, 50, 75);
 		for(let i=0; i<this.health; i++){
-			rect(width/50+i*21, height/17, 20, 10, 4);
+			rect(width/50+i*21, height/17, 20, 10, 3);
 		}
 		//change to inventory slots with images 
 		fill(255, 255, 255);
@@ -357,7 +360,7 @@ class Portal extends Block{
 	collideEffect(obj){
 		if(obj.hasKey){
 			obj.game.gameScreen.color = [255, 255, 255];
-			obj.game.gameScreen.opacity += 5;
+			obj.game.gameScreen.opacity += 1.5;
 			if(obj.game.gameScreen.opacity > 255){
 				obj.toNextLevel = true;
 			} 
@@ -556,17 +559,12 @@ class Heart extends Block{
 }
 
 class Lava{
-	constructor(x,y,w,h, colorChar){
+	constructor(x,y,w,h, arrColor){
 		this.P = createVector (x,y);
 		this.C = createVector (x + w/2, y + h/2);
 		this.w = w;
 		this.h = h;
-		if (colorChar === "l"){
-			this.color= color(180, 0, 0);
-		}
-		if (colorChar === "p"){
-			this.color= color(0, 120, 0);
-		}
+		this.color = arrColor;
 	}
 	draw() {
 		push();
