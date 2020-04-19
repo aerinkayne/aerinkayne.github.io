@@ -105,10 +105,10 @@ class Game{
 				
 				//collidables do not affect position but are used for other updates (health, dmg, inventory)  
 				else if(s==="0^"){
-					backTiles.push(new SpikeU(x+(S-S/1.75)/2.0, y-1.5*S, S/1.75, 2.5*S));
+					backTiles.push(new SpikeU(x + S/5, y - 1.5*S, 3/5*S, 2.5*S));
 				}
 				else if(s==="0v"){
-					backTiles.push(new SpikeD(x+(S-S/1.75)/2.0, y, S/1.75, 2.5*S));
+					backTiles.push(new SpikeD(x + S/5, y, 3/5*S, 2.5*S));
 				}
 				else if(s==="0L"){  
 					backTiles.push(new Lava(x,y+S/5,S,S-S/5, "l"));

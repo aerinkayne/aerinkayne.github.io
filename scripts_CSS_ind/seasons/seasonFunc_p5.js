@@ -93,6 +93,7 @@ class Player {
 		this.game = game;
 		this.w = w;
 		this.h = h;
+		this.z_Index = 2;
 		this.V = createVector(0,0);
 		this.moveSpeed = 0.25;
 		this.MAXSPEED = 4;
@@ -390,24 +391,29 @@ class Portkey extends Block{
 class SpikeU extends Block{
 	constructor(x,y,w,h){
 		super(x,y,w,h);
-		this.tip;  
+		this.tipMin = 0.4*h; 
+		this.tipAmpl = 0.6*h; 
+		this.tip;
 	}
 	collide(obj) {
-		//rect(this.P.x, this.P.y + this.tip, this.w, this.h - this.tip); //uncomment to check height and dist from player when called
+		/*/ range check
+		fill(0,0,0,100);           
+		rect(this.P.x, this.P.y + this.tip, this.w, this.h - this.tip); //*/
 		let subX;
-		//checks if y range of player is between tip (P.y+variable y amount) and spike's base
-        if (this.P.y + this.tip < obj.P.y + obj.h && this.P.y + this.h > obj.P.y){
-			//1/2 base * distance of player's base from spike's base / current spike height = amount to subtract from normal x range
-            subX =  this.w/2 * ( (this.P.y + this.h)-(obj.P.y + obj.h) ) / (this.h - this.tip);
-			//rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //check range 
+		//checks if player is between the spike's tip and its base
+        if (this.P.y + this.tip < obj.P.y + obj.h && this.P.y + this.h > obj.P.y) {
+			//1/2 spike base * (spike base - player base)/current spike height = amount to subtract from normal x range
+			subX =  this.w/2 * ( (this.P.y + this.h)-(obj.P.y + obj.h) ) / (this.h - this.tip);
+			/*/  range check
+			fill(255,0,0,100);
+			rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //*/
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
     }
 	draw() {
 		push();
-		translate(this.P.x, this.P.y);
-		//			                  //cycles from 0-90 
-		this.tip = 0.6*this.h*sin(radians(frameCount%91)); 
+		translate(this.P.x, this.P.y);		                 
+		this.tip =  this.h - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
 		fill(210, 230, 255);
@@ -436,31 +442,33 @@ class SpikeD extends SpikeU{
 		super(x,y,w,h);
 	}
 	collide(obj) {
-		//fill(255,20,20,50);
-		//rect(this.P.x, this.P.y, this.w, this.h-this.tip); //to check height and dist from player when called
+		/*/  range check
+		fill(0,0,0,100);
+		rect(this.P.x, this.P.y, this.w, this.tip); //*/
 		let subX;
-        if (this.P.y < obj.P.y + obj.h && this.P.y + this.h - this.tip > obj.P.y){
-            subX =  this.w/2 * (obj.P.y - this.P.y) / (this.h - this.tip);
-			//fill(255,0,0);
-			//rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //check range 
+        if (obj.P.y < this.P.y + this.tip && obj.P.y + obj.h > this.P.y) {
+			subX =  this.w/2 * (obj.P.y - this.P.y) / this.tip;
+			/*/  range check
+			fill(255,0,0,100);
+			rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //*/
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
     }
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);
-		this.tip = 0.6*this.h*sin(radians(frameCount%91)); 
+		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
 		fill(210, 230, 255);
 		triangle(0,         0,
 				 this.w,  	0,
-				 this.w/2,	this.h-this.tip);
-		fill(20, 100, 170, 200);
+				 this.w/2,	this.tip);
+		fill(20, 100, 170, 175);
 		noStroke();
 		triangle(this.w/2,	0,
 				 this.w - this.w/15,0,
-				 this.w/2,	this.h-this.tip - this.h/30);
+				 this.w/2,	this.tip - this.h/30);
 		pop();
 	}
 }	
