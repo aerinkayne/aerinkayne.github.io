@@ -400,10 +400,10 @@ class SpikeU extends Block{
 		fill(0,0,0,100);           
 		rect(this.P.x, this.P.y + this.tip, this.w, this.h - this.tip); //*/
 		let subX;
-		//checks if player is between the spike's tip and its base
+		//first checks if player is between the spike's tip and its base
         if (this.P.y + this.tip < obj.P.y + obj.h && this.P.y + this.h > obj.P.y) {
 			//1/2 spike base * (spike base - player base)/current spike height = amount to subtract from normal x range
-			subX =  this.w/2 * ( (this.P.y + this.h)-(obj.P.y + obj.h) ) / (this.h - this.tip);
+			subX =  this.w/2 * ((this.P.y + this.h)-(obj.P.y + obj.h)) / (this.h - this.tip);
 			/*/  range check
 			fill(255,0,0,100);
 			rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //*/
@@ -416,7 +416,7 @@ class SpikeU extends Block{
 		this.tip =  this.h - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
-		fill(210, 230, 255);
+		fill(180, 230, 240);
 		triangle(0, 		this.h,
 				 this.w,  	this.h,
 				 this.w/2,	this.tip);
@@ -442,15 +442,9 @@ class SpikeD extends SpikeU{
 		super(x,y,w,h);
 	}
 	collide(obj) {
-		/*/  range check
-		fill(0,0,0,100);
-		rect(this.P.x, this.P.y, this.w, this.tip); //*/
 		let subX;
         if (obj.P.y < this.P.y + this.tip && obj.P.y + obj.h > this.P.y) {
 			subX =  this.w/2 * (obj.P.y - this.P.y) / this.tip;
-			/*/  range check
-			fill(255,0,0,100);
-			rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //*/
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
     }
@@ -460,7 +454,7 @@ class SpikeD extends SpikeU{
 		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
-		fill(210, 230, 255);
+		fill(180, 230, 240);
 		triangle(0,         0,
 				 this.w,  	0,
 				 this.w/2,	this.tip);
@@ -472,6 +466,73 @@ class SpikeD extends SpikeU{
 		pop();
 	}
 }	
+
+class SpikeL extends SpikeU{  //seems ok
+	constructor(x,y,w,h){
+		super(x,y,w,h);
+		this.tipMin = 0.4*w; 
+		this.tipAmpl = 0.6*w; 
+		this.tip;
+	}
+	collide(obj) {
+		let subY;
+        if (obj.P.x + obj.w > this.P.x + this.tip && obj.P.x < this.P.x + this.w) {
+			subY =  this.h/2 * ((this.P.x + this.w)-(obj.P.x + obj.w)) / (this.w - this.tip);
+            return  obj.P.y + obj.h > this.P.y + subY && obj.P.y < this.P.y + this.h - subY ;
+        }
+    }
+	draw() {
+		push();
+		translate(this.P.x, this.P.y);		                 
+		this.tip =  this.w - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
+		stroke(255, 255, 255);
+		strokeWeight(1);
+		fill(180, 230, 240);
+		triangle(this.w, 		0,
+				 this.w,  	this.h,
+				 this.tip, this.h/2);
+		noStroke();
+		fill(20, 100, 170, 175);
+		triangle(this.w, this.h/2,
+				 this.w, this.h-this.h/15,
+				 this.tip + this.w/30, this.h/2); 
+		pop();
+	}
+}
+class SpikeR extends SpikeU{
+	constructor(x,y,w,h){
+		super(x,y,w,h);
+		this.tipMin = 0.4*w; 
+		this.tipAmpl = 0.6*w; 
+		this.tip;
+	}
+	collide(obj) {
+		let subY;
+        if (obj.P.x + obj.w > this.P.x && obj.P.x < this.P.x + this.tip) {
+			subY =  this.h/2 * (obj.P.x - this.P.x) / this.tip;
+            return  obj.P.y + obj.h > this.P.y + subY && obj.P.y < this.P.y + this.h - subY;
+        }
+    }
+	draw() {
+		push();
+		translate(this.P.x, this.P.y);
+		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
+		stroke(255, 255, 255);
+		strokeWeight(1);
+		fill(180, 230, 240);
+		triangle(0,         0,
+				 0,  	this.h,
+				 this.tip, this.h/2);
+		fill(20, 100, 170, 175);
+		noStroke();
+		triangle(0, this.h/2,
+				 0, this.h - this.h/15,
+				 this.tip - this.h/30, this.h/2);
+		pop();
+	}
+}
+
+
 class Heart extends Block{
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);

@@ -110,6 +110,12 @@ class Game{
 				else if(s==="0v"){
 					backTiles.push(new SpikeD(x + S/5, y, 3/5*S, 2.5*S));
 				}
+				else if(s==="0<"){
+					backTiles.push(new SpikeL(x - 1.5*S, y + S/5, 2.5*S, 3/5*S));
+				}
+				else if(s==="0>"){
+					backTiles.push(new SpikeR(x, y + S/5, 2.5*S, 3/5*S));
+				}
 				else if(s==="0L"){  
 					backTiles.push(new Lava(x,y+S/5,S,S-S/5, "l"));
 				}
