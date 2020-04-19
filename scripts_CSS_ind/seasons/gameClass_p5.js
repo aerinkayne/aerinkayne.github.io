@@ -91,7 +91,7 @@ class Game{
 					blocks.push(new Block(x,y,S,S,imgD2)); 
 				}
 				else if(s==="0m"){  //moving platform
-					blocks.push(new Mover(x,y,3/2*S,S/3,"mover")); //
+					blocks.push(new Mover(x,y,3/2*S,S/3)); //
 				}
 				else if (s==="0C"){  //cloud middle
 					blocks.push(new Block(x,y,S,S,imgClM));  
@@ -141,7 +141,7 @@ class Game{
 				}
 				else if(s==="dF"){  //dirt2 with fossil
 					blocks.push(new Block(x,y,S,S,imgD2)); 
-					decoImages.push(new Deco(x,y,S,S,imgFossil)); 
+					decoImages.push(new Deco(x,y,S,S,imgFossil, 0)); 
 				}
 				else if(s==="0g"){
 					decoImages.push(new Glass(x,y, S, S, imgWind, [50,150,200]));
@@ -157,7 +157,7 @@ class Game{
 				}
 				else if(s==="0B"){
 					decoImages.push(new Deco(x,y,S,S, imgBrick, 0));
-					decoImages.push(new Water(x,y,S,S, "water", 3));
+					decoImages.push(new Water(x,y,S,S));
 				}
 			}
 		}

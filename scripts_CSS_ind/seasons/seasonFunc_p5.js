@@ -304,10 +304,9 @@ class Block {
 	}  
 }
 class Mover extends Block{  
-	constructor(x,y,w,h,img){
-		super(x,y,w,h,img);
+	constructor(x,y,w,h){
+		super(x,y,w,h);
 		this.V = createVector(1,0);
-		this.img = img;  //needed for now for char position updates
 		this.disp = floor(random(-75,75));  //so they don't all start at same P.x
 		this.P.x += this.disp;
 	}
@@ -349,6 +348,7 @@ class Mover extends Block{
 		this.C.y = this.P.y + this.h/2;
 	}
 }
+
 class Portal extends Block{
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
