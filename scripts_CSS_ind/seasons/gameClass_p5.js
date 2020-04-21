@@ -42,8 +42,10 @@ class Game{
 				s = this.levelData[this.currentLevel].levelMap[row].slice(col*3, col*3 + L); 
 				x = col*S;
 				y = row*S; 
-				
-				if(s==="00"){
+
+				if (s==="  "){continue;}
+
+				else if(s==="00"){
 					if (!this.player){
 					this.player = new Player(x, y, 0.7*S, 0.7*S, this);
 					} else{
@@ -90,7 +92,7 @@ class Game{
 					blocks.push(new Block(x,y,S,S,imgD2)); 
 				}
 				else if(s==="0m"){  //moving platform
-					blocks.push(new Mover(x,y,3/2*S,S/3)); //
+					blocks.push(new Mover(x,y,3/2*S,S/3)); 
 				}
 				else if (s==="0C"){  
 					blocks.push(new Block(x,y,S,S,imgClM));  
@@ -104,16 +106,16 @@ class Game{
 				
 				//spikes, lave, keys, doors 
 				else if(s==="0^"){
-					backTiles.push(new SpikeU(x + S/5, y - 1.5*S, 3/5*S, 2.5*S));
+					backTiles.push(new SpikeU(x + S/4, y - 1.25*S, S/2, 2.25*S));
 				}
 				else if(s==="0v"){
-					backTiles.push(new SpikeD(x + S/5, y, 3/5*S, 2.5*S));
+					backTiles.push(new SpikeD(x + S/4, y, S/2, 2.25*S));
 				}
 				else if(s==="0<"){
-					backTiles.push(new SpikeL(x - 1.5*S, y + S/5, 2.5*S, 3/5*S));
+					backTiles.push(new SpikeL(x - 1.25*S, y + S/4, 2.25*S, S/2));
 				}
 				else if(s==="0>"){
-					backTiles.push(new SpikeR(x, y + S/5, 2.5*S, 3/5*S));
+					backTiles.push(new SpikeR(x, y + S/4, 2.25*S, S/2));
 				}
 				else if(s==="0L"){  
 					backTiles.push(new Lava(x,y+S/5,S,S-S/5, [180,0,0]));
@@ -143,10 +145,10 @@ class Game{
 					decoImages.push(new Deco(x,y,S,S,imgFossil, 0)); 
 				}
 				else if(s==="0g"){
-					decoImages.push(new Glass(x,y, S, S, imgWind, [50,150,200]));
+					decoImages.push(new Deco(x,y, S, S, imgWind, 1));
 				}
 				else if(s==="0w"){
-					decoImages.push(new Water(x,y,S,S));
+					decoImages.push(new Water(x, y+S/5, S, S-S/5));
 				}
 				else if(s==="0e"){
 					decoImages.push(new Deco(x,y,S,S, imgWood1, 0));
@@ -154,9 +156,12 @@ class Game{
 				else if(s==="0E"){
 					decoImages.push(new Deco(x,y,S,S, imgWood2, 0));
 				}
+				else if(s==="0b"){
+					decoImages.push(new Deco(x,y,S,S, imgBrick, 0));
+				}
 				else if(s==="0B"){
 					decoImages.push(new Deco(x,y,S,S, imgBrick, 0));
-					decoImages.push(new Water(x,y,S,S));
+					decoImages.push(new Water(x, y+S/5, S, S-S/5));
 				}
 			}
 		}
@@ -174,7 +179,7 @@ class Game{
 		let distMax = 2 * this.tileSize;
 		this.onScreenTiles = this.mapTiles.filter(tile => {
 			if (tile.updateEvenOffscreen){  //updates moving platforms
-				tile.updateEvenOffscreen();
+				tile.updateEvenOffscreen(this.player);
 				}
 			return this.gameScreen.isOnScreen(tile);
 		});

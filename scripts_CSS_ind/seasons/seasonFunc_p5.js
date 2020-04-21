@@ -17,17 +17,21 @@ class Button {
 	this.overlayAlpha = 0;
 	this.selected = false;
 	this.clickTimer = 0;
-	this.clickDelay = 20;	
+	this.clickDelay = 20;	//frames 
 	this.paused = false;	
 	this.onClick = config.onClick || 0;
 	this.onHover = config.onHover || 0;
 	this.offHover = config.offHover || 0;
 	}
-	checkClicks(){  //called in draw.  timer used to limit calls.  works ontouch
-		if (this.clickTimer < this.clickDelay) {this.clickTimer++;}
-		if (this.mouseIsOver(mouseX, mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
-			this.onClick();
+	updateTimer(){
+		if (this.clickTimer < this.clickDelay){
+			this.clickTimer++;
+		}
+	}
+	checkClicks(){  //called in draw.  frame timer used to limit calls.  works ontouch.
+		if (this.mouseIsOver(mouseX, mouseY) && mouseIsPressed){
 			this.clickTimer=0;
+			this.onClick();
 		}
 	}
 	checkHover(){
@@ -39,29 +43,33 @@ class Button {
 		}
 	}
 	draw(){
-	
-		if(this.img){
-			fill(this.btnColor);
-			noStroke();
-			rect(this.P.x - 2, this.P.y - 2, this.w + 4, this.h + 4, this.r);
-			image(this.img, this.P.x, this.P.y, this.w, this.h);
-			fill(0,0,0,this.overlayAlpha);
-			rect(this.P.x, this.P.y, this.w, this.h);
+		if(!this.paused){
+			if(this.img){
+				fill(this.btnColor);
+				noStroke();
+				rect(this.P.x - 2, this.P.y - 2, this.w + 4, this.h + 4, this.r);
+				image(this.img, this.P.x, this.P.y, this.w, this.h);
+				fill(0,0,0,this.overlayAlpha);
+				rect(this.P.x, this.P.y, this.w, this.h);
+			}
+			else {
+				strokeWeight(this.strokeW);
+				stroke(this.borderColor);
+				fill(this.btnColor);
+				rect(this.P.x, this.P.y, this.w, this.h, this.r);
+				strokeWeight(1);
+				noStroke();
+				textAlign(CENTER,CENTER);
+				textSize(this.txtSize);
+				fill(this.txtColor);
+				text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
+			}
 		}
-		else {
-			strokeWeight(this.strokeW);
-			stroke(this.borderColor);
-			fill(this.btnColor);
-			rect(this.P.x, this.P.y, this.w, this.h, this.r);
-			strokeWeight(1);
-			noStroke();
-			textAlign(CENTER,CENTER);
-			textSize(this.txtSize);
-			fill(this.txtColor);
-			text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
+		this.updateTimer();
+
+		if (this.clickTimer === this.clickDelay){
+			this.checkClicks();
 		}
-		
-		this.checkClicks();
 		if (this.onHover){
 			this.checkHover();
 		}
@@ -317,6 +325,10 @@ class Mover extends Block{
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
                 this.P.y < obj.P.y + obj.h && this.P.y + this.h/2 > obj.P.y + 3/4*obj.h; //btm/4 player vs top/2 of mover
 	}
+	playerIsOn(obj){
+		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
+				obj.P.y === this.P.y - obj.h;
+	}
 	collideEffect(obj){ //moving platforms are checked along with other map tiles 
 		if(obj.V.y > 0){
 			obj.V.y = 0;
@@ -341,9 +353,12 @@ class Mover extends Block{
 		rect(this.P.x, this.P.y, this.w, this.h/4, 4);
 		pop();
 		}
-	updateEvenOffscreen(){ 
+	updateEvenOffscreen(obj){ 
 		if (this.disp > 2*this.w || this.disp < -2*this.w){
 			this.V.x *= -1;
+			if(this.playerIsOn(obj)){
+				obj.P.add(this.V);
+			}
 		}
 		this.disp += this.V.x;
 		this.P.add(this.V); 
@@ -394,9 +409,10 @@ class Portkey extends Block{
 class SpikeU extends Block{
 	constructor(x,y,w,h){
 		super(x,y,w,h);
-		this.tipMin = 0.4*h; 
-		this.tipAmpl = 0.6*h; 
+		this.tipMin = 0.3*h; 
+		this.tipAmpl = 0.7*h; 
 		this.tip;
+		this.timer = 0;
 		this.color = [180, 200, 240];
 	}
 	collide(obj) {
@@ -407,17 +423,23 @@ class SpikeU extends Block{
 		//first checks if player is between the spike's tip and its base
         if (this.P.y + this.tip < obj.P.y + obj.h && this.P.y + this.h > obj.P.y) {
 			//1/2 spike base * (spike base - player base)/current spike height = amount to subtract from normal x range
-			subX =  this.w/2 * ((this.P.y + this.h)-(obj.P.y + obj.h)) / (this.h - this.tip);
+			subX =  this.w/2 * max((this.P.y + this.h)-(obj.P.y + obj.h), 0) / (this.h - this.tip);
 			/*/  range check
 			fill(255,0,0,100);
 			rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //*/
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
-    }
+	}
+	updateTimer(){
+		this.timer++;
+		if (this.timer > 170){
+			this.timer = 0;
+		}
+	}
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);		                 
-		this.tip =  this.h - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
+		this.tip =  this.h - this.tipMin - this.tipAmpl*cos(radians(min(90, this.timer))); 
 		stroke(255, 255, 255);
 		strokeWeight(1);
 		fill(this.color);
@@ -430,6 +452,7 @@ class SpikeU extends Block{
 				 this.w-this.w/15,this.h,
 				 this.w/2,	this.tip + this.h/30); 
 		pop();
+		this.updateTimer();
 	}
 	collideEffect(obj){
 		if(obj.damageDelayTimer > 40){ 
@@ -448,14 +471,14 @@ class SpikeD extends SpikeU{
 	collide(obj) {
 		let subX;
         if (obj.P.y < this.P.y + this.tip && obj.P.y + obj.h > this.P.y) {
-			subX =  this.w/2 * (obj.P.y - this.P.y) / this.tip;
+			subX =  this.w/2 * max((obj.P.y - this.P.y),0) / this.tip;
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
     }
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);
-		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
+		this.tip =  this.tipMin + this.tipAmpl*cos(radians(min(90, this.timer))); 
 		stroke(255, 255, 255);
 		strokeWeight(1);
 		fill(this.color);
@@ -466,29 +489,30 @@ class SpikeD extends SpikeU{
 		noStroke();
 		triangle(this.w/2,	0,
 				 this.w - this.w/15,0,
-				 this.w/2,	this.tip - this.h/30);
+				 this.w/2,	this.tip - this.h/30); 
 		pop();
+		this.updateTimer();
 	}
 }	
 
 class SpikeL extends SpikeU{  //seems ok
 	constructor(x,y,w,h){
 		super(x,y,w,h);
-		this.tipMin = 0.4*w; 
-		this.tipAmpl = 0.6*w; 
+		this.tipMin = 0.3*w; 
+		this.tipAmpl = 0.7*w; 
 		this.tip;
 	}
 	collide(obj) {
 		let subY;
         if (obj.P.x + obj.w > this.P.x + this.tip && obj.P.x < this.P.x + this.w) {
-			subY =  this.h/2 * ((this.P.x + this.w)-(obj.P.x + obj.w)) / (this.w - this.tip);
+			subY =  this.h/2 * (max(this.P.x + this.w)-(obj.P.x + obj.w), 0) / (this.w - this.tip);
             return  obj.P.y + obj.h > this.P.y + subY && obj.P.y < this.P.y + this.h - subY ;
         }
     }
 	draw() {
 		push();
 		translate(this.P.x, this.P.y);		                 
-		this.tip =  this.w - this.tipMin - this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
+		this.tip =  this.w - this.tipMin - this.tipAmpl*cos(radians(min(90, this.timer))); //range 0-90 
 		stroke(255, 255, 255);
 		strokeWeight(1);
 		fill(this.color);
@@ -501,26 +525,27 @@ class SpikeL extends SpikeU{  //seems ok
 				 this.w, this.h-this.h/15,
 				 this.tip + this.w/30, this.h/2); 
 		pop();
+		this.updateTimer();
 	}
 }
-class SpikeR extends SpikeU{
+class SpikeR extends SpikeU{  //check this
 	constructor(x,y,w,h){
 		super(x,y,w,h);
-		this.tipMin = 0.4*w; 
-		this.tipAmpl = 0.6*w; 
+		this.tipMin = 0.3*w; 
+		this.tipAmpl = 0.7*w; 
 		this.tip;
 	}
 	collide(obj) {
 		let subY;
         if (obj.P.x + obj.w > this.P.x && obj.P.x < this.P.x + this.tip) {
-			subY =  this.h/2 * (obj.P.x - this.P.x) / this.tip;
+			subY =  this.h/2 * max((obj.P.x - this.P.x), 0) / this.tip;
             return  obj.P.y + obj.h > this.P.y + subY && obj.P.y < this.P.y + this.h - subY;
         }
-    }
+	}
 	draw() {
 		push();
-		translate(this.P.x, this.P.y);
-		this.tip =  this.tipMin + this.tipAmpl*cos(radians(frameCount%91)); //range 0-90 
+		translate(this.P.x, this.P.y);   
+		this.tip =  this.tipMin + this.tipAmpl*cos(radians(min(90, this.timer))); 
 		stroke(255, 255, 255);
 		strokeWeight(1);
 		fill(this.color);
@@ -533,6 +558,7 @@ class SpikeR extends SpikeU{
 				 0, this.h - this.h/15,
 				 this.tip - this.h/30, this.h/2);
 		pop();
+		this.updateTimer();
 	}
 }
 
@@ -716,23 +742,7 @@ class Deco{
 		image(this.img, this.P.x, this.P.y, this.w, this.h);
 	}
 }	
-class Glass extends Deco{
-	constructor(x, y, w, h, img, overlayColor){
-		super(x, y, w, h, img);
-		this.z_Index = 1;
-		this.overlayColor = overlayColor;
-	}	
-	draw(){  
-		push();
-		translate(this.P.x, this.P.y);
-		image(this.img, 0, 0, this.w, this.h);
-		blendMode(OVERLAY);
-		fill(this.overlayColor);
-		rect(0,0,this.w, this.h);
-		pop();
-		blendMode(BLEND);
-	}
-}
+
 class Water extends Deco{
 	constructor(x, y, w, h){
 		super(x, y, w, h);

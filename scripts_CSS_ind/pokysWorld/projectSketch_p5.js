@@ -11,12 +11,9 @@ let pokyRunR1, pokyRunR2, pokyRunL1, pokyRunL2, pokyJumpR, pokyJumpL, pokyClimb1
 function preload(){
 	//load spritesheets and sounds (sounds with user names are from Freesound.org)
 	spriteSheet = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/sprites1.png");
-	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG0.png", 
-		asset=> {levelData[0].levelBackgroundImages[0].img = asset});
-	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG1.png", 
-		asset=> {levelData[0].levelBackgroundImages[1].img = asset});
-	loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG2.png", 
-		asset=> {levelData[0].levelBackgroundImages[2].img = asset});
+	levelData[0].levelBackgroundImages[0].img = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG0.png");
+	levelData[0].levelBackgroundImages[1].img = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG1.png"); 
+	levelData[0].levelBackgroundImages[2].img = loadImage("scripts_CSS_ind/pokysWorld/assets/sprites/BG2.png"); 
 }
 
 function setup(){

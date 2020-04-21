@@ -131,6 +131,7 @@ class Snowflake{
 		}
 	}
 }
+
 class Raindrop extends Snowflake{
 	constructor(x,y, scaleMin, scaleMax){
 		super(x,y, scaleMin, scaleMax);
@@ -148,4 +149,16 @@ class Raindrop extends Snowflake{
 		pop();
   noStroke();
 	}
+}
+
+class Bird extends Snowflake(){
+ 	constructor(x,y, scaleMin, scaleMax){
+		super(x,y, scaleMin, scaleMax);
+ }
+ draw(){
+  push();
+  stroke(0,0,0, this.opacity);
+  point(0,0);
+  pop();
+ }
 }
