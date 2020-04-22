@@ -8,7 +8,9 @@ class Game{
 		this.levelH;
 		this.mapTiles = [];
 		this.onScreenTiles = [];
-		this.collisionTiles = []; 
+		this.enemyMobs = []; 
+		this.onScreenMobs = [];
+		this.platforms = [];
 		this.currentLevel = 0;  //default if none selected
 		this.numLevels = 4;  
 		//this.btnLevels = [];   
@@ -92,7 +94,9 @@ class Game{
 					blocks.push(new Block(x,y,S,S,imgD2)); 
 				}
 				else if(s==="0m"){  //moving platform
-					blocks.push(new Mover(x,y,3/2*S,S/3)); 
+					let M = new Mover(x,y,3/2*S,S/3);
+					blocks.push(M);
+					this.platforms.push(M); 
 				}
 				else if (s==="0C"){  
 					blocks.push(new Block(x,y,S,S,imgClM));  
@@ -163,30 +167,36 @@ class Game{
 					decoImages.push(new Deco(x,y,S,S, imgBrick, 0));
 					decoImages.push(new Water(x, y+S/5, S, S-S/5));
 				}
+				else if (s==="En"){
+					this.enemyMobs.push(new Enemy(x+S/4, y+S/4, S/2, S/2));
+				}
 			}
 		}
 		//add player to decoImages array and sort by z_Index property to change draw order
 		decoImages.push(this.player); 
 		decoImages = decoImages.sort((img1, img2) => (img1.z_Index > img2.z_Index ? 1 : -1)); 
 			
-		//sort additional tiles and concat to maptiles
 		this.mapTiles = [...backTiles, ...blocks, ...decoImages, ...frontTiles]; 
 
+	} 
+	updatePlatforms(){
+		this.platforms.forEach(platform=>{platform.updatePosition(this.player);});
 	}
-	//updates tiles that need to be updated even offscreen, filters all other tiles to onscreen tiles, 
-	//draws onscreen tiles, filters onscreen tiles to collision tiles.  TODO: tidy.
-	filterAndDraw(){
-		let distMax = 2 * this.tileSize;
+
+	filterTiles(){
 		this.onScreenTiles = this.mapTiles.filter(tile => {
-			if (tile.updateEvenOffscreen){  //updates moving platforms
-				tile.updateEvenOffscreen(this.player);
-				}
 			return this.gameScreen.isOnScreen(tile);
 		});
-		this.collisionTiles = this.onScreenTiles.filter(tile => {
-			tile.draw();
-			return tile !== this.player && tile.collide &&
-				   dist(this.player.C.x, this.player.C.y, tile.C.x, tile.C.y) < distMax;
+		this.onScreenMobs = this.enemyMobs.filter(mob=>{
+			return this.gameScreen.isOnScreen(mob);
+		})
+		
+	}
+	manageOnscreenTiles(){
+		this.onScreenTiles.forEach(tile=>{tile.draw();});
+		this.onScreenMobs.forEach(mob=>{
+			mob.draw();
+			mob.update(this.mapTiles);
 		});
 	}
 	manageScenes(){
@@ -232,10 +242,12 @@ class Game{
 			this.camera();
 			this.gameScreen.updatePosition();
 			this.gameScreen.drawArrObjects(this.gameScreen.bgObj);
-			this.filterAndDraw();
+			this.filterTiles();
+			this.manageOnscreenTiles();
+			this.updatePlatforms();
 			
 			//player updates and collision checks.
-			this.player.manageUpdates(this.collisionTiles);  
+			this.player.manageUpdates(this.onScreenTiles); //collisionTiles);  
 			
 			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
 
@@ -284,6 +296,8 @@ class Game{
 	loadMap(){
 		//remove existing tile objects if there are any
 		this.removeArray(this.mapTiles);
+		this.removeArray(this.platforms);
+		this.removeArray(this.enemyMobs);
 		this.setupMap();  	
 		
 		//TODO get another music loop for end

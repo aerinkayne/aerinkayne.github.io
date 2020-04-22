@@ -90,192 +90,6 @@ class LevelSelectButton extends Button {
 }
 
 
-
-
-
-class Player {
-	constructor (x,y,w,h, game){
-		this.P = createVector(x,y);
-		this.C = createVector(x+w/2, y+h/2);  //vector of center.
-		this.T = createVector(0,0); 		  //vector of translation coords.
-		this.game = game;
-		this.w = w;
-		this.h = h;
-		this.z_Index = 2;
-		this.V = createVector(0,0);
-		this.moveSpeed = 0.25;
-		this.MAXSPEED = 4;
-		this.MAXHEALTH = 6;
-		this.hurt = false;
-		this.falling = false;
-		this.gravity = createVector(0,0.4);
-		this.movements = {81:false, 69:false, 32:false}; //q e space
-		this.color = (50, 50, 50);
-		this.health = 3;
-		this.hasKey = false;
-		this.toNextLevel = false;
-		this.damageDelay = 40; //used to limit calls for damaging collisions
-		this.damageDelayTimer = this.damageDelay + 1;
-		this.z_Index = 2;
-	}
-	updateTranslation(){
-		this.T.x = (this.C.x >= this.game.levelW - width/2) ? 
-			this.game.levelW-width : round(max(0, this.C.x - width/2));
-		this.T.y = (this.C.y >= this.game.levelH - height/2)? 
-			this.game.levelH-height : round(this.C.y - height/2);  //no upper bound
-	} 
-	updateCenterPosition(){
-		this.C.x = this.P.x + this.w/2;
-		this.C.y = this.P.y + this.h/2;
-	}
-	manageUpdates(arr){  
-		//horizontal constrain
-		this.P.x = constrain(this.P.x, 0, this.game.levelW-this.w);
-		//check if player has fallen.  
-		if(this.P.y > this.game.levelH + height){this.health = 0;}
-		//check health
-		if(this.health <= 0 ){
-			this.game.gameScreen.color = [0,0,0];
-			this.game.gameScreen.opacity = 255;
-			this.game.gameState="gameOver";
-		}
-		//manage movement input
-		if(this.movements['69']){  //69 e
-			this.V.x += this.moveSpeed;
-		}
-		if(this.movements['81']){  //81 q
-			this.V.x -= this.moveSpeed;
-		}
-		if(this.movements['32'] && !this.falling){ //38 jump
-			this.V.y = -this.h/3.11;  
-			this.falling=true;
-			soundJump.play();
-		}
-		//limit horizontal and falling speed
-		if (this.V.x < -this.MAXSPEED){  
-			this.V.x = -this.MAXSPEED;
-		}
-		if (this.V.x > this.MAXSPEED){
-			this.V.x = this.MAXSPEED;
-		}
-		if (this.V.y > 3/7*this.h){
-			this.V.y = 3/7*this.h;
-		}
-		
-		//update x position
-		this.P.x += floor(this.V.x);
-		//check x collision 
-		this.checkMapCollision(arr, this.V.x, 0); 
-		//update y position
-		this.falling=true;
-		this.V.add(this.gravity);
-		this.P.y += this.V.y;
-		//check y collision
-		this.checkMapCollision(arr, 0, this.V.y);  
-		
-		//decelerate.  TODO vary friction with different surfaces
-		if(!this.movements['69'] && !this.movements['81']){
-			if(this.V.x > 0){
-				this.V.x -= this.moveSpeed;
-			}
-			if(this.V.x < -0){
-				this.V.x += this.moveSpeed;
-			}
-		}
-		this.updateCenterPosition();
-		this.updateTranslation();
-		//dmg delay timer
-		if (this.damageDelayTimer <= this.damageDelay){
-			this.damageDelayTimer ++;
-		}
-		this.overlayEffect();  //screen effects if damaged, and during level transitions.	
-	}
-	
-	//collisionTiles, check x and y separately after respective position updates
-	checkMapCollision(arr, Vx, Vy){  
-		for(let i=0; i<arr.length; i++){
-			//don't bother checking collision for blocks that are more than a few tiles away
-			if(arr[i].collide(this)){   
-				arr[i].collideEffect(this, Vx, Vy);
-			}	
-		}
-	}
-	overlayEffect(){  //during damage
-		if(this.hurt && this.health > 0){
-			this.game.gameScreen.color = [255, 0, 0];
-			this.game.gameScreen.opacity -= 10;
-			if(this.game.gameScreen.opacity < 0){
-				this.game.gameScreen.opacity = 0;
-				this.game.gameScreen.color = [255, 255, 255];
-				this.hurt = false;
-			}
-		}
-	}
-	draw() {  
-		noStroke();
-		fill(this.color);
-		push();
-		translate(this.P.x, this.P.y);
-		rect(0,0,this.w,this.h,8);
-		
-		//eyes.  set height relative to width so size doesn't change while ducking
-		fill(59, 255, 180);
-		if( sin(radians(frameCount/2))>0 && sin(radians(frameCount/2))< 0.05 ) {
-		ellipse(this.w/3.3,this.h/3,  this.w/3,this.w/15);
-		ellipse(this.w/1.4,this.h/3,  this.w/3,this.w/15);
-		}
-		else {
-		ellipse(this.w/3.5,this.h/3,  this.w/4,this.w/4.2);
-		ellipse(this.w/1.4,this.h/3,  this.w/4,this.w/4.2);
-		}
-		fill(0, 0, 0);
-		if (this.movements['69']){ 
-			 ellipse(this.w/2.80,this.h/3,  this.w/14,this.w/14);
-			 ellipse(this.w/1.25,this.h/3,  this.w/14,this.w/14);
-		}
-		else if (this.movements['81']){ 
-			 ellipse(this.w/4.80,this.h/3,  this.w/14,this.w/14);
-			 ellipse(this.w/1.55,this.h/3,  this.w/14,this.w/14);
-		}
-			else {
-				ellipse(this.w/3.19,this.h/3,  this.w/14,this.w/14);
-				ellipse(this.w/1.34,this.h/3,  this.w/14,this.w/14);
-			}
-		pop();    
-	}
-	stats(){
-		noStroke();
-		fill(255, 255, 255);
-		textSize(height/25);
-		textAlign(LEFT,CENTER);
-		text("Health ", width/50,height/35);
-		
-		for(let i = 0; i< this.MAXHEALTH; i++){
-			rect(width/50+i*21, height/17, 20, 10, 3);
-		}
-		fill(200, 50, 75);
-		for(let i=0; i<this.health; i++){
-			rect(width/50+i*21, height/17, 20, 10, 3);
-		}
-		//change to inventory slots with images 
-		fill(255, 255, 255);
-		textSize(height/25);
-		text("Got Key?: ", 0.78*width,height/35);
-
-		if(this.hasKey){
-			text("Yes!",0.91*width,height/35);
-		} else {
-				text("NO", 0.91*width, height/35); 
-				textSize(height/25);
-				fill(255, 255, 255, 100*abs(sin(radians(1.5*frameCount))));
-				text("Get the key !", 0.78*width, height/15);
-				}
-	}
-}
-
-
-
-
 class Block {  
 	constructor(x,y,w,h,img){  
 		this.P = createVector(x,y); 
@@ -285,11 +99,13 @@ class Block {
 		this.img=img;
 	}
 	collide(obj){
-		//rect(this.P.x, this.P.y, this.w, this.h);  //call distance check
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
                 this.P.y < obj.P.y + obj.h && this.P.y + this.h > obj.P.y;
 	}
+
 	collideEffect(obj, Vx, Vy){ 
+		fill(200,0,0,50);
+		rect(this.P.x, this.P.y, this.w, this.h);
 		if(Vy > 0){
 			obj.V.y = 0;
 			obj.falling = false;
@@ -300,17 +116,17 @@ class Block {
 			obj.P.y = this.P.y+this.h;
 		}
 		if(Vx < 0){
-			obj.V.x = 0;
 			obj.P.x = this.P.x + this.w;
+			obj.checkGrounding ? obj.V.x *= -1 : obj.V.x = 0;	
 		}
 		if(Vx > 0){
-			obj.V.x = 0;
 			obj.P.x = this.P.x-obj.w;
+			obj.checkGrounding ? obj.V.x *= -1 : obj.V.x = 0;
 		}
 	}
 	draw() {
 		push();
-			image(this.img, this.P.x, this.P.y, this.w+1, this.h+1);  //overlap helps with spaces
+			image(this.img, this.P.x, this.P.y, this.w+1, this.h+1);  //overlap allows shading 
 		pop();
 	}  
 }
@@ -325,11 +141,11 @@ class Mover extends Block{
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
                 this.P.y < obj.P.y + obj.h && this.P.y + this.h/2 > obj.P.y + 3/4*obj.h; //btm/4 player vs top/2 of mover
 	}
-	playerIsOn(obj){
+	objIsOn(obj){
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
 				obj.P.y === this.P.y - obj.h;
 	}
-	collideEffect(obj){ //moving platforms are checked along with other map tiles 
+	collideEffect(obj){  
 		if(obj.V.y > 0){
 			obj.V.y = 0;
 			obj.falling = false;
@@ -353,10 +169,10 @@ class Mover extends Block{
 		rect(this.P.x, this.P.y, this.w, this.h/4, 4);
 		pop();
 		}
-	updateEvenOffscreen(obj){ 
+	updatePosition(obj){ 
 		if (this.disp > 2*this.w || this.disp < -2*this.w){
 			this.V.x *= -1;
-			if(this.playerIsOn(obj)){
+			if(this.objIsOn(obj)){
 				obj.P.add(this.V);
 			}
 		}
@@ -406,6 +222,61 @@ class Portkey extends Block{
 	}
 }
 
+class Heart extends Block{
+	constructor(x,y,w,h,img){
+		super(x,y,w,h,img);
+		this.collected=false;
+	}
+	draw() {
+		if (!this.collected){
+			push();
+			image(this.img, this.P.x, this.P.y, this.w, this.h);
+			pop();
+		}
+	}
+	collideEffect(obj){
+		if(!this.collected && obj.health < obj.MAXHEALTH){
+			soundHeart.play();
+			obj.health++;
+			this.collected = true;	
+		}
+	}
+}
+
+class Lava{
+	constructor(x,y,w,h, arrColor){
+		this.P = createVector (x,y);
+		this.C = createVector (x + w/2, y + h/2);
+		this.w = w;
+		this.h = h;
+		this.color = arrColor;
+	}
+	draw() {
+		push();
+		translate(this.P.x, this.P.y);
+		noStroke();
+		fill(this.color);
+		beginShape();
+
+		let alt = 2.5;
+		for (let i=0; i<11; i++){
+			vertex(i*this.w/10, alt*sin(radians(1.5*frameCount)));
+			alt*=-1;
+		}
+		vertex(this.w, this.h);
+		vertex(0, this.h);
+		vertex(0,-alt*sin(radians(1.5*frameCount)));
+		endShape();
+		pop();
+		noStroke();
+	}
+	collide(){
+		return;  //TODO update later
+	}
+}
+
+
+
 class SpikeU extends Block{
 	constructor(x,y,w,h){
 		super(x,y,w,h);
@@ -416,17 +287,11 @@ class SpikeU extends Block{
 		this.color = [180, 200, 240];
 	}
 	collide(obj) {
-		/*/ range check
-		fill(0,0,0,100);           
-		rect(this.P.x, this.P.y + this.tip, this.w, this.h - this.tip); //*/
 		let subX;
 		//first checks if player is between the spike's tip and its base
         if (this.P.y + this.tip < obj.P.y + obj.h && this.P.y + this.h > obj.P.y) {
-			//1/2 spike base * (spike base - player base)/current spike height = amount to subtract from normal x range
+			//1/2 spike base * (spike base - player base)/current spike height = amount to subtract from each side of the width
 			subX =  this.w/2 * max((this.P.y + this.h)-(obj.P.y + obj.h), 0) / (this.h - this.tip);
-			/*/  range check
-			fill(255,0,0,100);
-			rect(this.P.x + subX, this.P.y, this.w-2*subX, 4);  //*/
             return  this.P.x + subX < obj.P.x + obj.w && this.P.x - subX + this.w > obj.P.x;
         }
 	}
@@ -563,176 +428,100 @@ class SpikeR extends SpikeU{  //check this
 }
 
 
-class Heart extends Block{
-	constructor(x,y,w,h,img){
-		super(x,y,w,h,img);
-		this.collected=false;
-	}
-	draw() {
-		if (!this.collected){
-			push();
-			image(this.img, this.P.x, this.P.y, this.w, this.h);
-			pop();
-		}
-	}
-	collideEffect(obj){
-		if(!this.collected && obj.health < obj.MAXHEALTH){
-			soundHeart.play();
-			obj.health++;
-			this.collected = true;	
-		}
-	}
-}
 
-class Lava{
-	constructor(x,y,w,h, arrColor){
-		this.P = createVector (x,y);
-		this.C = createVector (x + w/2, y + h/2);
+
+
+class Enemy{
+	constructor(x, y, w, h){
+		this.P = createVector(x, y);
+		this.PosLast = 0;
+		this.collisionTiles = [];
+		this.V = createVector(0.5, 0);
+		this.C = createVector(x+w/2, y+h/2);
 		this.w = w;
 		this.h = h;
-		this.color = arrColor;
+		this.gravity = 0.4;
+		this.checkGrounding = true;
+		this.grounded = true;
+		this.falling = false;
+		this.distMax = 3*w;  //update later.  should be ok for now.
 	}
-	draw() {
+	draw(){
 		push();
-		translate(this.P.x, this.P.y);
-		noStroke();
-		fill(this.color);
-		beginShape();
-
-		let alt = 2.5;
-		for (let i=0; i<11; i++){
-			vertex(i*this.w/10, alt*sin(radians(1.5*frameCount)));
-			alt*=-1;
-		}
-		vertex(this.w, this.h);
-		vertex(0, this.h);
-		vertex(0,-alt*sin(radians(1.5*frameCount)));
-		endShape();
+		fill(150,0,0);
+		rect(this.P.x, this.P.y, this.w, this.h, 3);
 		pop();
-		noStroke();
 	}
-}
+	collide(obj){
+		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
+				this.P.y < obj.P.y + obj.h && this.P.y + this.h > obj.P.y;
+	}
+	collideEffect(){
+		return;  //update later
+	}
+	getCollisionTiles(mapTiles){
+		this.collisionTiles = mapTiles.filter(tile=>{
+			return dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax;
+		});
+	}
+	update(mapTiles){
+		//filter mapTiles if PosNow is still 0 or again if mob has moved more than 1 width since last filtering
+		if (!this.PosLast || dist(this.P.x, this.P.y, this.PosLast.x,this.PosLast.y) > this.w ){
+			this.PosLast = createVector(this.P.x, this.P.y); 	 //create or update PosLast					 
+			this.getCollisionTiles(mapTiles);				     //get tiles to check
+		}
+		
 
-//background/foreground objects.  
-class Snowflake{
-	constructor(x,y, min, max){
-		this.P = createVector(x,y);
-		this.scale = random(min, max);  
-		this.V = createVector(this.scale*random(-1,1), this.scale*2);
-		this.w = this.h = ceil(5*this.scale);  //for bounds check
-		this.opacity = 75 + 180*this.scale;
+		//update x position
+		this.P.x += this.V.x;
+		//check for new x collisions (V.x)
+		this.checkMapCollision(this.V.x, 0); 
+		//update y
+		this.falling = true;
+		this.V.y += this.gravity;
+		this.P.y += this.V.y;
+		//check for new y collision (V.y)  
+		this.checkMapCollision(0, this.V.y); 
+		this.updateCenterPosition();
+		this.checkGroundingPoints();
+		//flip x direction if not grounded
+		if (!this.grounded && !this.falling){
+			this.V.x *= -1;
+		}
 		
 	}
-	update(gameScreen){  
-		if (this.P.x + this.w < gameScreen.P.x){
-			this.P.x = gameScreen.P.x + gameScreen.w + this.w;
-		}
-		if (this.P.x - this.w > gameScreen.P.x + gameScreen.w){
-			this.P.x = gameScreen.P.x - this.w;
-		}
-		if (this.P.y + this.h < gameScreen.P.y){
-			this.P.y = gameScreen.P.y + gameScreen.h + this.h;
-		}
-		if (this.P.y - this.h > gameScreen.P.y + gameScreen.h){
-			this.P.y = gameScreen.P.y - this.h;
-		}
-		this.P.add(this.V);
-
+	updateCenterPosition(){
+		this.C.x = this.P.x + this.w/2;
+		this.C.y = this.P.y + this.h/2;
 	}
-	draw() {
-		noStroke();
-		fill(255, 255, 255, this.opacity);
-		push();
-		translate(this.P.x, this.P.y);
-		ellipse(0,0,this.w/2+random(this.w/2), this.h/2+random(this.h/2));
-		pop();
-	}
-}
-class Raindrop extends Snowflake{
-	constructor(x,y, min, max){
-		super(x,y, min, max);
-		this.V = createVector(4*this.scale,12*this.scale);
-		this.opacity = 75 + 100*this.scale;
-	}
-	draw() {
-		stroke(175, 215, 255, this.opacity);
-		push();
-		translate(this.P.x, this.P.y);
-		line(0,0,this.V.x,this.V.y);
-		pop();
-	}
-}
-
-class Leaf extends Snowflake{
-	constructor(x,y){
-		super(x,y);
-		this.V = createVector(random(-1,1), random(0.5, 1));
-		this.w = random(3.5, 11); 
-		this.h = random(3.5, 11);
-		this.angle = 0;
-		this.spinSpeed = random(1,5);
-		this.color = [random(150,230), random(50, 200), random(25, 50)];
-	}
-	draw() {
-		this.angle += this.spinSpeed; //updating spin here
-		noStroke();
-		fill(this.color);
-		push();
-		translate(this.P.x,this.P.y);
-		rotate(radians(this.angle));
-		ellipse(0,0, this.w, this.h);
-		pop();
-	}
-}
-
-class Hills {  
-	constructor(game, arrPV, speed){ //lvW,H,player,level from gameScreen
-		this.arrPV = arrPV;
-		this.levelW = game.levelW;
-		this.levelH = game.levelH;
-		this.player = game.player;
-		this.currentLevel = game.currentLevel;
-		this.speed = speed;
-	}
-	draw(color, lakeBool) {  //currently called from screenEffects 
-		push();
-		//parallax effect 
-		translate(-this.speed*this.player.T.x, 0);
-		//subtract height because T is h/2 less than P, and only increments until h/2 before levelH
-		translate(0, this.speed*(this.levelH-height-this.player.T.y));
-		
-		fill(color);
-		beginShape();
-		curveVertex(0, this.levelH);
-		curveVertex(0, this.levelH);
-		curveVertex(0, this.arrPV[0].y); 
-		
-			for (let i = 0; i < this.arrPV.length; i++){
-				curveVertex(this.arrPV[i].x,  this.arrPV[i].y); 
+	checkGroundingPoints(){
+		this.grounded = false; //set grounded to false 
+		this.collisionTiles.forEach(tile=>{
+			if (this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
+				this.grounded = true;  
 			}
-			
-		curveVertex(this.levelW, this.arrPV[this.arrPV.length-1].y);
-		curveVertex(this.levelW, this.levelH);
-		curveVertex(this.levelW, this.levelH);
-		endShape(CLOSE); 
-		
-		//draw a lake effect if it has been set to true.  TODO needs rework.
-		if (levelData[this.currentLevel].hasLake && lakeBool){
-			fill(30, 100, 150);
-			rect(this.arrPV[0].x, this.arrPV[0].y+66, this.levelW, this.levelH-this.arrPV[0].y);
-			fill(150, 190, 220, 60);  
-				for (let i = 1; i<6; i++){
-					rect(0, this.arrPV[0].y+66, this.levelW, height/(5+5*i*i));
-				}
-		}
-		pop();
+		});
 	}
+	checkMapCollision(Vx, Vy){      
+		this.collisionTiles.forEach(tile=> {
+			stroke(0);  //call range check
+			line(this.C.x, this.C.y, tile.C.x, tile.C.y);		
+
+			if (tile.collide(this)){
+				tile.collideEffect(this, Vx, Vy);
+			} 
+		});
+	}
+
 }
 
-//decorative objs with draw method or sprite and z index for additional effects
+
+
+//decorative objs with draw method or sprite and z index
 class Deco{
 	constructor(x, y, w, h, img, z){
 		this.P = createVector(x,y);
+		this.C = createVector(x+w/2, y+h/2);
 		this.w=w;
 		this.h=h;
 		this.img = img; 
@@ -740,6 +529,9 @@ class Deco{
 	}
 	draw(){
 		image(this.img, this.P.x, this.P.y, this.w, this.h);
+	}
+	collide(){
+		return;
 	}
 }	
 
