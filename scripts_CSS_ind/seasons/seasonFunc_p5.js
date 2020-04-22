@@ -97,6 +97,7 @@ class Block {
 		this.w=w;
 		this.h=h;
 		this.img=img;
+		this.checkCollisionForEnemies = true;
 	}
 	collide(obj){
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
@@ -186,6 +187,7 @@ class Mover extends Block{
 class Portal extends Block{
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
+		this.checkCollisionForEnemies = false;
 		this.collected = false;
 	}
 	collideEffect(obj){
@@ -206,6 +208,7 @@ class Portal extends Block{
 class Portkey extends Block{ 
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
+		this.checkCollisionForEnemies = false;
 		this.collected = false;
 	}
 	draw() {
@@ -226,6 +229,7 @@ class Heart extends Block{
 	constructor(x,y,w,h,img){
 		super(x,y,w,h,img);
 		this.collected=false;
+		this.checkCollisionForEnemies = false;
 	}
 	draw() {
 		if (!this.collected){
@@ -288,6 +292,7 @@ class SpikeU extends Block{
 		this.damage = 1;
 		this.health = 1;
 		this.sound = soundSpike;
+		this.checkCollisionForEnemies = false;
 	}
 	collide(obj) {
 		let subX;
@@ -447,6 +452,7 @@ class Enemy{
 		this.damageDelay = 40; 
 		this.damageDelayTimer = this.damageDelay + 1;
 		this.health = 1;
+		this.isPlayer = false;
 	}
 	draw(){
 		push();
@@ -465,7 +471,7 @@ class Enemy{
 			if (this.health <= 0){
 				this.dead = true
 			}
-			source.V.y = -4;
+			source.V.y = -source.h/7;
 			this.damageDelayTimer = 0;
 		}
 	}
@@ -475,7 +481,7 @@ class Enemy{
 	}
 	getCollisionTiles(game){
 		this.collisionTiles = game.mapTiles.filter(tile=>{
-			return tile !== game.player && dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax;
+			return dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax && tile.checkCollisionForEnemies && tile !== game.player;
 		});
 	}
 	update(game){
@@ -512,7 +518,7 @@ class Enemy{
 	}
 	checkGroundingPoints(game){
 		this.updateCenterPosition();
-		this.grounded = false; //set grounded to false 
+		this.grounded = false; 
 		this.collisionTiles.forEach(tile=>{
 			if (this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
 				this.grounded = true;  
@@ -541,6 +547,7 @@ class Deco{
 		this.w=w;
 		this.h=h;
 		this.img = img; 
+		this.checkCollisionForEnemies = false;
 		this.z_Index = z;
 	}
 	draw(){

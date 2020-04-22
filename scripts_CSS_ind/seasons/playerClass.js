@@ -15,6 +15,7 @@ class Player {
 		this.moveSpeed = 0.25;
 		this.MAXSPEED = 4;
 		this.MAXHEALTH = 6;
+		this.isPlayer = true;
 		this.hurt = false;
 		this.falling = false;
 		this.gravity = createVector(0,0.4);

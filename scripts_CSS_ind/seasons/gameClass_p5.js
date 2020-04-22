@@ -286,11 +286,11 @@ class Game{
 			//foreground and overlay effects
 			resetMatrix();
 			this.player.stats(); //health, info
-			if (this.gameScreen.opacity){
-				this.gameScreen.drawScreen();
-			}
 		}
 		btnPause.draw();
+		if (!this.paused && this.gameScreen.opacity){
+			this.gameScreen.drawScreen();
+		}
 	}
 	sceneGameOver(){
 		if (this.gameScreen.opacity){
