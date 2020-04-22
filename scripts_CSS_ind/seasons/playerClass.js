@@ -1,13 +1,15 @@
 //TODO put me in my own file plox
 class Player {
 	constructor (x,y,w,h, game){
-		this.P = createVector(x,y);
+        this.P = createVector(x,y);
 		this.C = createVector(x+w/2, y+h/2);  
 		this.T = createVector(0,0); 		  
-		this.game = game;
+        this.game = game;
+        this.PosLast = 0;
+        this.collisionTiles = [];
 		this.w = w;
 		this.h = h;
-		this.distMax = w+h;
+		this.distMax = 3*w;
 		this.z_Index = 2;
 		this.V = createVector(0,0);
 		this.moveSpeed = 0.25;
@@ -18,17 +20,16 @@ class Player {
 		this.gravity = createVector(0,0.4);
 		this.movements = {81:false, 69:false, 32:false}; //q e space
 		this.color = (50, 50, 50);
-		this.health = 3;
+        this.health = 3;
+        this.hurt = false;
 		this.hasKey = false;
-		this.toNextLevel = false;
+        this.toNextLevel = false;
+        this.damage = 1;
 		this.damageDelay = 40; //used to limit calls for damaging collisions
 		this.damageDelayTimer = this.damageDelay + 1;
 		this.checkGrounding = false;
 		this.z_Index = 2;
-	}
-	collide(obj){
-		return;
-	}
+    }
 	updateTranslation(){
 		this.T.x = (this.C.x >= this.game.levelW - width/2) ? 
 			this.game.levelW-width : round(max(0, this.C.x - width/2));
@@ -38,8 +39,24 @@ class Player {
 	updateCenterPosition(){
 		this.C.x = this.P.x + this.w/2;
 		this.C.y = this.P.y + this.h/2;
+    }
+    getCollisionTiles(){
+        let mobs = this.game.onScreenMobs.filter(tile=>{
+            return dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax;
+        });    
+		let tiles = this.game.onScreenTiles.filter(tile=>{
+			return dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax && tile !== this;
+        });
+        this.collisionTiles = [...tiles, ...mobs];
 	}
-	manageUpdates(arr){  
+	manageUpdates(){  
+        //update collisionTiles if player has moved more than a width since last filter.
+        if (!this.PosLast || dist(this.P.x, this.P.y, this.PosLast.x,this.PosLast.y) > this.w ){
+			this.PosLast = createVector(this.P.x, this.P.y); 	//create or update PosLast	
+			this.updateCenterPosition();				 		//updateC for tile check
+			this.getCollisionTiles();				            //get tiles to check
+		}
+
 		//horizontal constrain
 		this.P.x = constrain(this.P.x, 0, this.game.levelW-this.w);
 		//check if player has fallen.  
@@ -76,13 +93,13 @@ class Player {
 		//update x position
 		this.P.x += floor(this.V.x);
 		//check x collision 
-		this.checkMapCollision(arr, this.V.x, 0); 
+		this.checkMapCollision(this.V.x, 0); 
 		//update y position
 		this.falling=true;
 		this.V.add(this.gravity);
 		this.P.y += this.V.y;
 		//check y collision
-		this.checkMapCollision(arr, 0, this.V.y);  
+		this.checkMapCollision(0, this.V.y);  
 		
 		//decelerate.  TODO vary friction with different surfaces
 		if(!this.movements['69'] && !this.movements['81']){
@@ -100,13 +117,21 @@ class Player {
 			this.damageDelayTimer ++;
 		}
 		this.overlayEffect();  //screen effects if damaged, and during level transitions.	
-	}
-	
-	//check collision for nearby tiles.  check x and y separately after respective position update
-	checkMapCollision(arr, Vx, Vy){  
-		arr.forEach(tile=> {
-			if (dist(this.C.x, this.C.y, tile.C.x, tile.C.y) < this.distMax && 
-				tile !== this && tile.collide(this)){
+    }
+    takeDamage(source, sound=0){
+        if (this.damageDelayTimer > this.damageDelay && source.health > 0){
+            if (sound){
+                sound.play();
+            }
+            this.hurt = true;
+            this.game.gameScreen.opacity = 150; 
+            this.health -= source.damage;
+            this.damageDelayTimer = 0;
+        }
+    }
+	checkMapCollision(Vx, Vy){  
+		this.collisionTiles.forEach(tile=> { 
+			if (tile.collide(this)){  
 				tile.collideEffect(this, Vx, Vy);
 			}
 		});

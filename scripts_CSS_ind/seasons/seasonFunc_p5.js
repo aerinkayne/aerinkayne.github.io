@@ -285,6 +285,9 @@ class SpikeU extends Block{
 		this.tip;
 		this.timer = 0;
 		this.color = [180, 200, 240];
+		this.damage = 1;
+		this.health = 1;
+		this.sound = soundSpike;
 	}
 	collide(obj) {
 		let subX;
@@ -320,13 +323,7 @@ class SpikeU extends Block{
 		this.updateTimer();
 	}
 	collideEffect(obj){
-		if(obj.damageDelayTimer > 40){ 
-			obj.hurt=true;
-			obj.game.gameScreen.opacity = 150;  
-			obj.health--;
-			obj.damageDelayTimer = 0;
-			soundSpike.play();
-		}
+		obj.takeDamage(this, this.sound);
 	}
 }
 class SpikeD extends SpikeU{
@@ -436,7 +433,7 @@ class Enemy{
 		this.P = createVector(x, y);
 		this.PosLast = 0;
 		this.collisionTiles = [];
-		this.V = createVector(0.5, 0);
+		this.V = createVector(0.75, 0);
 		this.C = createVector(x+w/2, y+h/2);
 		this.w = w;
 		this.h = h;
@@ -445,6 +442,11 @@ class Enemy{
 		this.grounded = true;
 		this.falling = false;
 		this.distMax = 3*w;  //update later.  should be ok for now.
+		this.dead = false;
+		this.damage = 1;
+		this.damageDelay = 40; 
+		this.damageDelayTimer = this.damageDelay + 1;
+		this.health = 1;
 	}
 	draw(){
 		push();
@@ -456,45 +458,60 @@ class Enemy{
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
 				this.P.y < obj.P.y + obj.h && this.P.y + this.h > obj.P.y;
 	}
-	collideEffect(){
-		return;  //update later
+	takeDamage(source, sound = 0){
+		if (this.damageDelayTimer > this.damageDelay){
+			if (sound){sound.play();}
+			this.health-=source.damage;
+			if (this.health <= 0){
+				this.dead = true
+			}
+			source.V.y = -4;
+			this.damageDelayTimer = 0;
+		}
 	}
-	getCollisionTiles(mapTiles){
-		this.collisionTiles = mapTiles.filter(tile=>{
-			return dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax;
+	collideEffect(obj){
+		obj.P.y + obj.h < this.P.y + this.h/2 ?
+		this.takeDamage(obj, soundSquish) : obj.takeDamage(this);
+	}
+	getCollisionTiles(game){
+		this.collisionTiles = game.mapTiles.filter(tile=>{
+			return tile !== game.player && dist(tile.C.x, tile.C.y, this.C.x, this.C.y) < this.distMax;
 		});
 	}
-	update(mapTiles){
-		//filter mapTiles if PosNow is still 0 or again if mob has moved more than 1 width since last filtering
-		if (!this.PosLast || dist(this.P.x, this.P.y, this.PosLast.x,this.PosLast.y) > this.w ){
-			this.PosLast = createVector(this.P.x, this.P.y); 	 //create or update PosLast					 
-			this.getCollisionTiles(mapTiles);				     //get tiles to check
+	update(game){
+		if (!this.dead){
+			//filter mapTiles if PosNow is still 0, or if mob has moved more than 1 width since last filtering
+			if (!this.PosLast || dist(this.P.x, this.P.y, this.PosLast.x,this.PosLast.y) > this.w ){
+				this.PosLast = createVector(this.P.x, this.P.y); 	//create or update PosLast	
+				this.updateCenterPosition();				 		//updateC for tile check
+				this.getCollisionTiles(game);				        //get tiles to check
+			}
+			//update x position
+			this.P.x += this.V.x;
+			//check for new x collisions (V.x)
+			this.checkMapCollision(this.V.x, 0); 
+			//update y
+			this.falling = true;
+			this.V.y += this.gravity;
+			this.P.y += this.V.y;
+			//check for new y collision (V.y)  
+			this.checkMapCollision(0, this.V.y); 
+			this.checkGroundingPoints(game);
+			//flip x direction if not grounded
+			if (!this.grounded && !this.falling){
+				this.V.x *= -1;
+			}
+		} else {
+			this.V.y += this.gravity;
+			this.P.y += this.V.y;
 		}
-		
-
-		//update x position
-		this.P.x += this.V.x;
-		//check for new x collisions (V.x)
-		this.checkMapCollision(this.V.x, 0); 
-		//update y
-		this.falling = true;
-		this.V.y += this.gravity;
-		this.P.y += this.V.y;
-		//check for new y collision (V.y)  
-		this.checkMapCollision(0, this.V.y); 
-		this.updateCenterPosition();
-		this.checkGroundingPoints();
-		//flip x direction if not grounded
-		if (!this.grounded && !this.falling){
-			this.V.x *= -1;
-		}
-		
 	}
 	updateCenterPosition(){
 		this.C.x = this.P.x + this.w/2;
 		this.C.y = this.P.y + this.h/2;
 	}
-	checkGroundingPoints(){
+	checkGroundingPoints(game){
+		this.updateCenterPosition();
 		this.grounded = false; //set grounded to false 
 		this.collisionTiles.forEach(tile=>{
 			if (this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
@@ -506,7 +523,6 @@ class Enemy{
 		this.collisionTiles.forEach(tile=> {
 			//stroke(0);  //call range check
 			//line(this.C.x, this.C.y, tile.C.x, tile.C.y);		 
-
 			if (tile.collide(this)){
 				tile.collideEffect(this, Vx, Vy);
 			} 

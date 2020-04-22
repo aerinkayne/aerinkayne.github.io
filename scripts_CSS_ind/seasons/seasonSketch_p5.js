@@ -15,6 +15,7 @@ function preload(){
 	soundHeart = loadSound("scripts_CSS_ind/seasons/assets/sounds/243701__ertfelda__correct.wav"); 
 	soundJump = loadSound("scripts_CSS_ind/seasons/assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
+	soundSquish = loadSound("scripts_CSS_ind/seasons/assets/sounds/316942__boxerdave92__spiderman-thwip.wav");
 
 	levelData[0].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
 	levelData[1].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");

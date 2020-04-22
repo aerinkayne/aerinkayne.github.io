@@ -18,9 +18,20 @@ class Game{
 		this.paused = false;
 		this.gameState = "levelSelect"; 
 		}
-
 	camera(){     
 		translate(-this.player.T.x, -this.player.T.y);
+	}
+	loadMap(){
+		//remove existing tile objects if there are any
+		this.removeArray(this.mapTiles);
+		this.removeArray(this.platforms);
+		this.removeArray(this.enemyMobs);
+		this.setupMap();  	
+		//TODO get another music loop for end
+		if (this.currentLevel < this.numLevels) {  
+			this.levelData[this.currentLevel].music.loop();
+		}	
+		this.gameState = "inGame"; 
 	}
 	setupMap(){   
 		let S = this.tileSize;  	
@@ -182,8 +193,15 @@ class Game{
 	updatePlatforms(){
 		this.platforms.forEach(platform=>{platform.updatePosition(this.player);});
 	}
-
 	filterTiles(){
+		//remove defeated enemies
+		let len = this.enemyMobs.length;
+		for (let i = len-1; i >= 0; i--){
+			if (this.enemyMobs[i].dead && !this.gameScreen.isOnScreen(this.enemyMobs[i])){
+				this.enemyMobs.splice(i,1);
+			}
+		}
+
 		this.onScreenTiles = this.mapTiles.filter(tile => {
 			return this.gameScreen.isOnScreen(tile);
 		});
@@ -196,7 +214,7 @@ class Game{
 		this.onScreenTiles.forEach(tile=>{tile.draw();});
 		this.onScreenMobs.forEach(mob=>{
 			mob.draw();
-			mob.update(this.mapTiles);
+			mob.update(this);
 		});
 	}
 	manageScenes(){
@@ -247,7 +265,7 @@ class Game{
 			this.updatePlatforms();
 			
 			//player updates and collision checks.
-			this.player.manageUpdates(this.onScreenTiles); //collisionTiles);  
+			this.player.manageUpdates();   
 			
 			this.gameScreen.drawArrObjects(this.gameScreen.fgObj);
 
@@ -274,7 +292,6 @@ class Game{
 		}
 		btnPause.draw();
 	}
-
 	sceneGameOver(){
 		if (this.gameScreen.opacity){
 			this.gameScreen.drawScreen();
@@ -289,24 +306,9 @@ class Game{
 		btnRestart.draw();
 		btnContinue.draw();
 	}
-	
 	setLevel(n){
 		this.currentLevel = n;
 	}
-	loadMap(){
-		//remove existing tile objects if there are any
-		this.removeArray(this.mapTiles);
-		this.removeArray(this.platforms);
-		this.removeArray(this.enemyMobs);
-		this.setupMap();  	
-		
-		//TODO get another music loop for end
-		if (this.currentLevel < this.numLevels) {  
-			this.levelData[this.currentLevel].music.loop();
-		}	
-		this.gameState = "inGame"; 
-	}
-
 	removeArray(arr){
 		while(arr.length){arr.pop();}
 	}
