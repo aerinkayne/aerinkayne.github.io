@@ -104,8 +104,8 @@ class Block {
 	}
 
 	collideEffect(obj, Vx, Vy){ 
-		fill(200,0,0,50);
-		rect(this.P.x, this.P.y, this.w, this.h);
+		//fill(200,0,0,50);
+		//rect(this.P.x, this.P.y, this.w, this.h);
 		if(Vy > 0){
 			obj.V.y = 0;
 			obj.falling = false;
@@ -504,8 +504,8 @@ class Enemy{
 	}
 	checkMapCollision(Vx, Vy){      
 		this.collisionTiles.forEach(tile=> {
-			stroke(0);  //call range check
-			line(this.C.x, this.C.y, tile.C.x, tile.C.y);		
+			//stroke(0);  //call range check
+			//line(this.C.x, this.C.y, tile.C.x, tile.C.y);		 
 
 			if (tile.collide(this)){
 				tile.collideEffect(this, Vx, Vy);
