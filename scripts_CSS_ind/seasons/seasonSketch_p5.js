@@ -2,10 +2,7 @@ let sprite1;
 let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
 let btnLevels = [];
 
-let soundJump;
-let soundKey;
-let soundHeart;
-let soundSpike; 
+let soundJump, soundKey, soundHeart, soundSpike, soundSquish, soundSqueak; 
 let game;
 
 function preload(){
@@ -16,6 +13,7 @@ function preload(){
 	soundJump = loadSound("scripts_CSS_ind/seasons/assets/sounds/420668__sypherzent__basic-melee-swing-miss-whoosh.wav");
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
 	soundSquish = loadSound("scripts_CSS_ind/seasons/assets/sounds/316942__boxerdave92__spiderman-thwip.wav");
+	soundSqueak = loadSound("scripts_CSS_ind/seasons/assets/sounds/321099__nsstudios__squeaky-toy.wav");
 
 	levelData[0].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
 	levelData[1].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
@@ -72,6 +70,15 @@ function setup() {
 	imgFlower2 = sprite1.get(150, 50, 50, 50); 
 	imgFossil = sprite1.get(200, 100, 50, 50); 
 	imgPumpk = sprite1.get(150, 100, 50, 50); 
+
+	imgEnm1L = sprite1.get(305,77, 41,23);
+	imgEnm2L = sprite1.get(347,77, 41,23);
+	imgEnSpike1L = sprite1.get(389,64, 41,36);
+	imgEnSpike2L = sprite1.get(431,64, 41,36);
+	imgEnm1R = sprite1.get(431,113, 41,23);
+	imgEnm2R = sprite1.get(389,113, 41,23);
+	imgEnSpike1R = sprite1.get(347,100, 41,36);
+	imgEnSpike2R = sprite1.get(305,100, 41,36);
 
 	//game instance
 	game = new Game();  

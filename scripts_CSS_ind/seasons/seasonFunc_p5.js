@@ -291,7 +291,6 @@ class SpikeU extends Block{
 		this.color = [180, 200, 240];
 		this.damage = 1;
 		this.health = 1;
-		this.sound = soundSpike;
 		this.checkCollisionForEnemies = false;
 	}
 	collide(obj) {
@@ -328,7 +327,7 @@ class SpikeU extends Block{
 		this.updateTimer();
 	}
 	collideEffect(obj){
-		obj.takeDamage(this, this.sound);
+		obj.takeDamage(this, soundSpike);
 	}
 }
 class SpikeD extends SpikeU{
@@ -438,7 +437,7 @@ class Enemy{
 		this.P = createVector(x, y);
 		this.PosLast = 0;
 		this.collisionTiles = [];
-		this.V = createVector(0.75, 0);
+		this.V = createVector(-0.75, 0);
 		this.C = createVector(x+w/2, y+h/2);
 		this.w = w;
 		this.h = h;
@@ -446,19 +445,39 @@ class Enemy{
 		this.checkGrounding = true;
 		this.grounded = true;
 		this.falling = false;
-		this.distMax = 3*w;  //update later.  should be ok for now.
+		this.distMax = 2*w;  //update later.  should be ok for now.
 		this.dead = false;
 		this.damage = 1;
 		this.damageDelay = 40; 
 		this.damageDelayTimer = this.damageDelay + 1;
 		this.health = 1;
-		this.isPlayer = false;
+		this.frameCycleTime = 30;  //@60frames per second
+		this.frameTime = 0;
+		this.sprites = [imgEnm1L, imgEnm2L, imgEnm1R, imgEnm2R];
+		this.img = imgEnm1L;
+	}
+	updateSprites(){
+		if (this.V.x < 0){
+			this.frameTime/this.frameCycleTime < 0.5 ? this.img = this.sprites[0] : this.img = this.sprites[1];
+		} else {
+			this.frameTime/this.frameCycleTime < 0.5 ? this.img = this.sprites[2] : this.img = this.sprites[3];
+		}
+	}
+	updateFrameTime(){
+		this.frameTime++;
+		if (this.frameTime === this.frameCycleTime){
+			this.frameTime = 0;
+		}
 	}
 	draw(){
 		push();
-		fill(150,0,0);
-		rect(this.P.x, this.P.y, this.w, this.h, 3);
+		translate(this.P.x, this.P.y);
+		image(this.img, 0,0,this.w, this.h)
+		//fill(150,0,0);
+		//rect(this.P.x, this.P.y, this.w, this.h, 3);
 		pop();
+		this.updateFrameTime();
+		this.updateSprites();
 	}
 	collide(obj){
 		return  this.P.x < obj.P.x + obj.w && this.P.x + this.w > obj.P.x &&
@@ -477,7 +496,7 @@ class Enemy{
 	}
 	collideEffect(obj){
 		obj.P.y + obj.h < this.P.y + this.h/2 ?
-		this.takeDamage(obj, soundSquish) : obj.takeDamage(this);
+		this.takeDamage(obj, soundSquish) : obj.takeDamage(this, soundSqueak);
 	}
 	getCollisionTiles(game){
 		this.collisionTiles = game.mapTiles.filter(tile=>{
@@ -520,6 +539,7 @@ class Enemy{
 		this.updateCenterPosition();
 		this.grounded = false; 
 		this.collisionTiles.forEach(tile=>{
+			//rect(tile.P.x, tile.P.y, tile.w, tile.h);
 			if (this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
 				this.grounded = true;  
 			}
@@ -534,9 +554,18 @@ class Enemy{
 			} 
 		});
 	}
-
 }
-
+class SpikedEnemy extends Enemy{
+	constructor(x, y, w, h){
+		super(x, y, w, h);
+		this.sprites = [imgEnSpike1L, imgEnSpike2L, imgEnSpike1R, imgEnSpike2R];
+		this.img = imgEnSpike1L;
+	}
+	collideEffect(obj){
+		obj.V.y = -1/6*obj.h;
+		obj.takeDamage(this, soundSqueak);
+	}
+}
 
 
 //decorative objs with draw method or sprite and z index

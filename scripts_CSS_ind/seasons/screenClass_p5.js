@@ -85,10 +85,12 @@ constructor(game){
 		});
 	}
 
-	drawScreen(){  //only called in game loop if this.opacity is not 0.
-		//called after matrix reset, so no translation used.
-		fill(this.color[0], this.color[1], this.color[2], this.opacity);
-		rect(0,0,this.w, this.h);
+	drawScreen(){  
+		//called after matrix reset
+		if (this.opacity){
+			fill(this.color[0], this.color[1], this.color[2], this.opacity);
+			rect(0,0,this.w, this.h);
+		}
 	}
 }
 

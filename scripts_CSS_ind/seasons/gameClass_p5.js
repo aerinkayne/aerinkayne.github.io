@@ -179,7 +179,10 @@ class Game{
 					decoImages.push(new Water(x, y+S/5, S, S-S/5));
 				}
 				else if (s==="En"){
-					this.enemyMobs.push(new Enemy(x+S/4, y+S/4, S/2, S/2));
+					this.enemyMobs.push(new Enemy(x, y, 35, 20));
+				}
+				else if (s==="ES"){
+					this.enemyMobs.push(new SpikedEnemy(x, y, 35, 31));
 				}
 			}
 		}
@@ -227,11 +230,14 @@ class Game{
 			this.sceneInGame(); 
 		}
 		else if(this.gameState === "gameOver"){ 
-			this.levelData[this.currentLevel].music.stop();
+			this.levelData[this.currentLevel].music.stop(); 
 			this.sceneGameOver();
 		}
 		else if(this.gameState === "win"){ //todo make an end scene 
-			fill(0, 200, 0,1);
+			
+			//if (this.gameScreen.opacity < 255){this.gameScreen.opacity+=1};
+			//else {this.credits}
+			fill(0, 0, 0, 1);
 			noStroke();
 			rect(0,0,width,height);
 			fill(0, 0, 0);
@@ -280,6 +286,7 @@ class Game{
 			} 
 	
 			if(this.currentLevel===4){ //todo: credit, music.
+				this.gameScreen.color = [0,0,0];
 				this.gameState="win";
 			}
 		
@@ -288,14 +295,14 @@ class Game{
 			this.player.stats(); //health, info
 		}
 		btnPause.draw();
-		if (!this.paused && this.gameScreen.opacity){
+		if (!this.paused){
 			this.gameScreen.drawScreen();
 		}
 	}
 	sceneGameOver(){
-		if (this.gameScreen.opacity){
-			this.gameScreen.drawScreen();
-		}
+		
+		this.gameScreen.drawScreen();
+		
 		noStroke();
 		fill(200, 0, 0,1);
 		rect(0,0,width,height);
@@ -305,6 +312,9 @@ class Game{
 		text("You have died!",width/2,1/3*height);
 		btnRestart.draw();
 		btnContinue.draw();
+	}
+	sceneCredits(){
+
 	}
 	setLevel(n){
 		this.currentLevel = n;
