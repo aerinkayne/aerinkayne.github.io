@@ -2,7 +2,7 @@ let sprite1;
 let btnWint, btnSpr, btnSum, btnFall, btnPause, btnRestart, btnContinue;
 let btnLevels = [];
 
-let soundJump, soundKey, soundHeart, soundSpike, soundSquish, soundSqueak; 
+let soundJump, soundKey, soundHeart, soundSpike, soundSquish, soundSqueak, soundLeaves; 
 let game;
 
 function preload(){
@@ -14,6 +14,7 @@ function preload(){
 	soundSpike = loadSound("scripts_CSS_ind/seasons/assets/sounds/344131__thebuilder15__sword-slice.wav");
 	soundSquish = loadSound("scripts_CSS_ind/seasons/assets/sounds/316942__boxerdave92__spiderman-thwip.wav");
 	soundSqueak = loadSound("scripts_CSS_ind/seasons/assets/sounds/321099__nsstudios__squeaky-toy.wav");
+	soundLeaves = loadSound("scripts_CSS_ind/seasons/assets/sounds/204029__duckduckpony__tumbleweed-impact-002.wav");
 
 	levelData[0].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/320447__ellary__soundscape-find-nothing.mp3");
 	levelData[1].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");

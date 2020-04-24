@@ -27,10 +27,7 @@ class Game{
 		this.removeArray(this.platforms);
 		this.removeArray(this.enemyMobs);
 		this.setupMap();  	
-		//TODO get another music loop for end
-		//if (this.currentLevel < this.numLevels) {  
-			this.levelData[this.currentLevel].music.loop();
-		//}	
+		this.levelData[this.currentLevel].music.loop();
 		this.gameState = "inGame"; 
 	}
 	setupMap(){   

@@ -601,6 +601,7 @@ class LeafPile extends Deco{
 	}
 	collide(obj){
 		if(this.isInside(obj)){
+			if (!obj.hidden){soundLeaves.play();}
 			obj.hidden = true;
 		} else {obj.hidden = false;}  //TODO check this in player too at other times
 	}
