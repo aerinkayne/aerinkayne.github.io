@@ -17,6 +17,7 @@ class Player {
 		this.MAXHEALTH = 6;
 		this.hurt = false;
 		this.falling = false;
+		this.hidden = false;
 		this.gravity = createVector(0,0.4);
 		this.movements = {81:false, 69:false, 32:false}; //q e space
 		this.color = (50, 50, 50);
@@ -119,7 +120,7 @@ class Player {
 		this.overlayEffect();  //screen effects if damaged, and during level transitions.	
     }
     takeDamage(source, sound=0){
-        if (this.damageDelayTimer > this.damageDelay && source.health > 0){
+        if (this.damageDelayTimer > this.damageDelay && !this.hidden && source.health > 0){
             if (sound){
                 sound.play();
             }

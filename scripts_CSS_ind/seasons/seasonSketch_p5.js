@@ -19,6 +19,7 @@ function preload(){
 	levelData[1].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/325647__shadydave__expressions-of-the-mind-piano-loop.mp3");
 	levelData[2].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/370293__mrthenoronha__water-game-theme-loop.wav");
 	levelData[3].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/468407__onderwish__sci-fi-survival-dreamscape.mp3");
+	levelData[4].music = loadSound("scripts_CSS_ind/seasons/assets/sounds/soundscapes/267641__frankum__bells-electronic-loop.mp3");
 }
 
 
@@ -26,6 +27,7 @@ function setup() {
 	let c = createCanvas(550, 375);  
 	c.parent('cParent');
 	frameRate(60);
+	textFont("Mansalva");
 	
 	//volume adjustments
 	soundJump.setVolume(0.4);
@@ -69,7 +71,8 @@ function setup() {
 	imgFlower = sprite1.get(150, 0, 50, 50);
 	imgFlower2 = sprite1.get(150, 50, 50, 50); 
 	imgFossil = sprite1.get(200, 100, 50, 50); 
-	imgPumpk = sprite1.get(150, 100, 50, 50); 
+	imgPumpk = sprite1.get(150, 100, 50, 50);
+	imgLeafP = sprite1.get(100, 152, 75, 48); 
 
 	imgEnm1L = sprite1.get(305,77, 41,23);
 	imgEnm2L = sprite1.get(347,77, 41,23);
@@ -104,7 +107,7 @@ function keyPressed(){
 			game.player.movements[keyCode] = true;  
 		}
 	}	catch(e) {
-		console.log("Are you already mashing keys?  We are still loading stuff!");
+		console.log("Select a level and click start to play!");
 	}
 }
 function keyReleased(){

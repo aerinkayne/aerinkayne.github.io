@@ -540,7 +540,7 @@ class Enemy{
 		this.grounded = false; 
 		this.collisionTiles.forEach(tile=>{
 			//rect(tile.P.x, tile.P.y, tile.w, tile.h);
-			if (this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
+			if (max(tile.C.y-this.C.y,0) < tile.h && this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
 				this.grounded = true;  
 			}
 		});
@@ -586,7 +586,25 @@ class Deco{
 		return;
 	}
 }	
-
+class LeafPile extends Deco{
+	constructor(x, y, w, h){  //uses size for collision, draw modified so that image extends beyond edges
+		super(x, y, w, h);
+		this.img = imgLeafP;
+		this.z_Index = 3;
+	}
+	draw(){
+		image(this.img, this.P.x - this.w/4, this.P.y, 3/2*this.w, this.h); 
+	}
+	isInside(obj){
+		return 	obj.P.x >= this.P.x && obj.P.x + obj.w <= this.P.x + this.w &&
+				obj.P.y >= this.P.y && obj.P.y + obj.h <= this.P.y + this.h;
+	}
+	collide(obj){
+		if(this.isInside(obj)){
+			obj.hidden = true;
+		} else {obj.hidden = false;}  //TODO check this in player too at other times
+	}
+}
 class Water extends Deco{
 	constructor(x, y, w, h){
 		super(x, y, w, h);

@@ -184,6 +184,9 @@ class Game{
 				else if (s==="ES"){
 					this.enemyMobs.push(new SpikedEnemy(x, y, 35, 31));
 				}
+				else if (s==="LP"){
+					decoImages.push(new LeafPile(x, y, 3/2*S, S));
+				}
 			}
 		}
 		//add player to decoImages array and sort by z_Index property to change draw order
@@ -250,7 +253,7 @@ class Game{
 	sceneLvSelect(){
 		background(125,135,150);
 		textSize(height/21);
-		fill(230,255,255);
+		fill(240,255,255);
 		textAlign(LEFT,CENTER);
 		text("Select a level and press the start button to begin.",width/10,height/12);
 		//TODO: get into game or screen class
