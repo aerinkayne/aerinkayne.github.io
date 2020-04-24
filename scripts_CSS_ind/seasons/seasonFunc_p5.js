@@ -506,7 +506,7 @@ class Enemy{
 	update(game){
 		if (!this.dead){
 			//filter mapTiles if PosNow is still 0, or if mob has moved more than 1 width since last filtering
-			if (!this.PosLast || dist(this.P.x, this.P.y, this.PosLast.x,this.PosLast.y) > this.w ){
+			if (!this.PosLast || dist(this.P.x, this.P.y, this.PosLast.x,this.PosLast.y) >= this.w ){
 				this.PosLast = createVector(this.P.x, this.P.y); 	//create or update PosLast	
 				this.updateCenterPosition();				 		//updateC for tile check
 				this.getCollisionTiles(game);				        //get tiles to check
@@ -540,7 +540,7 @@ class Enemy{
 		this.grounded = false; 
 		this.collisionTiles.forEach(tile=>{
 			//rect(tile.P.x, tile.P.y, tile.w, tile.h);
-			if (max(tile.C.y-this.C.y,0) < tile.h && this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
+			if (tile.C.y-this.C.y > 0 && tile.C.y-this.C.y < tile.h && this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
 				this.grounded = true;  
 			}
 		});

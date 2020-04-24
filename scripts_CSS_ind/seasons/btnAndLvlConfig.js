@@ -125,9 +125,9 @@ const levelData = [
         hillColors: [[150, 190, 220],[105,170,135],[130, 200, 130]],
         hasLake: true,
         music: undefined,   //assigned in sketch preload
-        levelEffect: "rain",
-        numBGeffects: 1,
-        numFGeffects: 1
+        levelEffect: "none",   //TODO update
+        numBGeffects: 0,
+        numFGeffects: 0
     },
 
 
