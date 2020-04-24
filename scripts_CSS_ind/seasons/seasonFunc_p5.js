@@ -521,7 +521,7 @@ class Enemy{
 			this.P.y += this.V.y;
 			//check for new y collision (V.y)  
 			this.checkMapCollision(0, this.V.y); 
-			this.checkGroundingPoints(game);
+			this.checkGroundingPoints();
 			//flip x direction if not grounded
 			if (!this.grounded && !this.falling){
 				this.V.x *= -1;
@@ -535,7 +535,7 @@ class Enemy{
 		this.C.x = this.P.x + this.w/2;
 		this.C.y = this.P.y + this.h/2;
 	}
-	checkGroundingPoints(game){
+	checkGroundingPoints(){
 		this.updateCenterPosition();
 		this.grounded = false; 
 		this.collisionTiles.forEach(tile=>{
