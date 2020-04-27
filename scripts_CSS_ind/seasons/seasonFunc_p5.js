@@ -562,7 +562,6 @@ class SpikedEnemy extends Enemy{
 		this.img = imgEnSpike1L;
 	}
 	collideEffect(obj){
-		obj.V.y = -1/6*obj.h;
 		obj.takeDamage(this, soundSqueak);
 	}
 }
