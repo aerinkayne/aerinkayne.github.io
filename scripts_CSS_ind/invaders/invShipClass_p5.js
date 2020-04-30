@@ -6,6 +6,7 @@ class Ship{
 	this.T = createVector(0,0);
 	this.w = w;
 	this.h = h;
+	
 	this.movements = {39: false, 37: false, 38: false, 40: false}; //R,L,U,D 
 	this.acc = 1.0;
 	this.dec = 0.25;

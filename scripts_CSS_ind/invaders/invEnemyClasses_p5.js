@@ -1,5 +1,4 @@
-//TODO move collide into here.  add shield bar
-
+//TODO: fix all the things.
 class Enemy{
 	constructor(x, y, gridW, gridH){  
 		this.spawnInP = createVector(0,-height/2);
@@ -159,7 +158,7 @@ class Enemy{
 			this.updatePosition();
 			
 			//limit attack rate
-			if (this.firingDelay <= this.attackCooldown){
+			if (this.firingDelay < this.attackCooldown){
 				this.firingDelay++;  
 			}  
 			else {
@@ -312,12 +311,12 @@ class Eye extends Enemy{
 		this.h = 40;
 		this.scaleMod = 1;
 		this.imageSprites = [eye2, eye1, eye1, eye2, eyeClosed, eyeClosed, eyeClosed, eyeClosed];
-		this.cycleTime = 1000;
+		this.cycleTime = 900;
 		this.drawTimer = random(0,this.cycleTime);
 		this.gunType = homingMissile;
 		this.V = createVector(0.25,0);
 		this.health = 1200;
-		this.attackCooldown = 200; 
+		this.attackCooldown = 360; 
 		this.boundXL = floor(x); 
 		this.boundXR = floor(levelW - num);  
 		this.att = sEnmAtt;
@@ -340,17 +339,23 @@ class EnmBase extends Eye{
 		this.w = 100;
 		this.h = 90;
 		this.drawTimer = 0;
-		this.cycleTime = 400;
-		this.attackCooldown = 400; 
-		this.imageSprites = [base1, base2];
+		this.cycleTime = 600;
+		this.attackCooldown = floor(this.cycleTime/4);
+		this.firingDelay = 0;
+		this.imageSprites = [baseOpen, baseClosed];
 		this.takesDamage = false;
 	}
+	attackRoll(){
+		if(this.firingDelay === this.attackCooldown && this.drawTimer === this.attackCooldown){
+			this.shoot();
+			this.firingDelay = 0;
+		}
+	}	
 	shoot(){	
-		if(this.drawTimer < this.cycleTime/2){		  //normal spawn is at -height/2
-			let P = createVector(this.P.x + this.w/4 - this.indentMeX, this.P.y + height/2 + 4/5*this.h);
+			let P = createVector(this.P.x + this.w/4 - this.indentMeX, this.P.y + height/2 + 4/5*this.h); //normal spawn is at -height/2
 			//passing in 0,0 for grid values so that initial position will not be corrected for these ships 
 			bads.unshift(new OrangeShip(P.x, P.y, 0, 0));  
 			this.att.play();
 		}	
-	}
+	
 }

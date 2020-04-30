@@ -10,7 +10,7 @@ let bads = [];
 let pups = [];
 let sprites2, starBG, imgStarBG;
 let sprBadR1, sprBadR2, sprBadG1, sprBadG2, sprBadB1, sprBadB2, sprBadBr1, sprBadBr2;
-let sprCrim1, sprCrim2, sprCrim3, eye1, eye2, eyeClosed, base1, base2, sprShip1, sprShipF;
+let sprCrim1, sprCrim2, sprCrim3, eye1, eye2, eyeClosed, baseOpen, baseClosed, sprShip1, sprShipF;
 //sound related
 let slider, oldVolume, newVolume;
 let soundEffects = [];
@@ -61,8 +61,8 @@ function setup(){
 	eye1 = sprites2.get(366,278,150,98);
 	eye2 = sprites2.get(535,278,150,98);
 	eyeClosed = sprites2.get(535,367,150,98);
-	base1 = sprites2.get(26,742,317,146);
-	base2 = sprites2.get(361,742,317,146);
+	baseOpen = sprites2.get(26,742,317,146);
+	baseClosed = sprites2.get(361,742,317,146);
 	sprShip1 = sprites2.get(50,450,102,123);
 	sprShipF = sprites2.get(200,450,102,123); 
 	
