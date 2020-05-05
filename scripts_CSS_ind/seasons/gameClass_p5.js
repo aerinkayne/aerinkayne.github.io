@@ -67,6 +67,12 @@ class Game{
 					this.gameScreen = new GameScreen(this); 
 					
 				}
+				else if(s==="0m"){  //moving platforms
+					let M = new Mover(x,y,3/2*S,S/3);
+					blocks.push(M);
+					this.platforms.push(M); 
+				}
+
 				//blocks array contains map tiles that affect player position
 				else if(s==="01"){  //ice
 					blocks.push(new Block(x,y,S,S,imgIce1)); 
@@ -100,11 +106,6 @@ class Game{
 				}
 				else if(s==="14"){  //dirt2
 					blocks.push(new Block(x,y,S,S,imgD2)); 
-				}
-				else if(s==="0m"){  //moving platform
-					let M = new Mover(x,y,3/2*S,S/3);
-					blocks.push(M);
-					this.platforms.push(M); 
 				}
 				else if (s==="0C"){  
 					blocks.push(new Block(x,y,S,S,imgClM));  
@@ -225,26 +226,19 @@ class Game{
 			this.sceneLvSelect();
 		}
 		else if(this.gameState === "inGame"){ 
-			if (!this.mapTiles.length){this.loadMap();}
-			//new gamescreen is created in each map load.
+			if (!this.mapTiles.length){
+				this.loadMap(); //new gamescreen is created in each map load.
+			}
 			this.sceneInGame(); 
 		}
 		else if(this.gameState === "gameOver"){ 
 			this.levelData[this.currentLevel].music.stop(); 
 			this.sceneGameOver();
 		}
-		else if(this.gameState === "win"){ //todo make an end scene 
-			
-			//if (this.gameScreen.opacity < 255){this.gameScreen.opacity+=1};
-			//else {this.credits}
-			fill(0, 0, 0, 1);
-			noStroke();
-			rect(0,0,width,height);
-			fill(0, 0, 0);
-			textAlign(CENTER,CENTER);
-			textSize(50);
-			text("You Win!",width/2,height/2);
+		else if(this.gameState === "credits"){ //todo make an end scene 
+			this.sceneCredits();
 		}
+	
 	}
 	//methods for screen managment 
 	sceneLvSelect(){
@@ -287,7 +281,7 @@ class Game{
 	
 			if(this.currentLevel===4){ //todo: credit, music.
 				this.gameScreen.color = [0,0,0];
-				this.gameState="win";
+				this.gameState = "credits";
 			}
 		
 			//foreground and overlay effects
@@ -300,7 +294,6 @@ class Game{
 		}
 	}
 	sceneGameOver(){
-		
 		this.gameScreen.drawScreen();
 		
 		noStroke();
@@ -314,7 +307,30 @@ class Game{
 		btnContinue.draw();
 	}
 	sceneCredits(){
+		this.gameScreen.drawScreen();
 
+		if (this.gameScreen.opacity < 255){
+			this.gameScreen.opacity += 2;
+		} else {
+		fill(255,255,200);
+		textAlign(CENTER,CENTER);
+		textSize(46);
+		text("Thank you for playing", width/2,height/10);
+		fill(255,150,175);
+		textSize(24);
+		text("Music and Sound from Freesound.org:", width/2,height/4);  //TODO: data obj for this plox
+		fill(255);
+		textSize(18);
+		textAlign(LEFT,TOP);
+		text(`'Find Nothing'                        Ellary ('Tri-Tachyon')`, width/6, height/3);
+		text(`'Expressions of the Mind'      ShadyDave`, width/6, height/3 +height/13);
+		text(`'Water Game Theme'            Mrthenoronha`, width/6, height/3+2*height/13);
+		text(`'SciFi Survival Dreamscape'  Onderwish`, width/6, height/3+3*height/13);
+		text(`'Bells Electronic Loop'           Frankumjay`, width/6, height/3+4*height/13);
+		text(`Sound Effects:  duckduckpony, ertfelda,
+		boxerdave92, nsstudios, thebuilder15, sypherzent`, width/6, height/3 + 5*height/13);
+		btnRestart.draw(width/2-btnRestart.w/2, 7/8*height);
+		}
 	}
 	setLevel(n){
 		this.currentLevel = n;

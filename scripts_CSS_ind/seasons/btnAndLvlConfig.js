@@ -50,7 +50,7 @@ const levelData = [
 
     {   //spring
         levelMap: 
-        [ 	//03 rocks  04 rocks w grass   05 dirt   06 dirt w grass
+        [ 	//03 rocks  04 rocks w grass   05 ground   06 ground w grass
             "                                                   0F 0F 0F 0f 0F 0F 0f 0f En    07    0f                                              ",  
             "                                             04 04 04 04 04 04 04 04 04 04 04 04 04 04 04                                              ",  
             "                     0c 0C 0C 0C 0d                                                                                                    ",
@@ -136,28 +136,28 @@ const levelData = [
 
     {   //fall
         levelMap:
-        [   //12, 13 leaves.  05, 14 dirt
-            "                                                                        ",
-            "                                                                        ",
-            "               En                   ES                               07 ",
-            "0h          0c 0C 0C 0C 0d       0c 0C 0d          0c 0C 0C 0C 0C 0C 0C ",
-            "13                                                                      ",
-            "                                                                        ",
-            "            0m                                                          ",
-            "0p                                                                      ",
-            "12          13          12                12       13 12                ",
-            "14                            En 0p    12    0^ 0^       13             ",
-            "05                            12 13 13 05 12 12 13 13 12 dF 12 13       ",
-            "14             12          12                                        12 ",
-            "dF       12                05 ES    09                En          12    ",
-            "05       05             12 05 12 12 12 13       12 0^ 12 13 0^          ",
-            "05    13 05             14    00                   12       12 13 13 12 ",
-            "14       14 0^    0^ 12 05          0p    LP          ES                ",
-            "05 12    05 12 13 12 05 14 12 13 13 12 12 12 13 13 12 12 12             ",
-            "         05 14 05                                                       ",
-            "   13 12 14 05                                  12    13    12          ",
-            "         LP ES    13 0^                ES    0^    0^    0^    0^    0p ",
-            "12 13 12 12 13 13 05 12 12 0L 0L 0L 12 12 13 13 12 12 13 12 12 12 13 12 "
+        [   //12, 13 leaves.  05, 14 ground
+            "                                                                                                                                       ",
+            "                                                                                                                                       ",
+            "               En                   ES                                                                                        0h       ",
+            "0h          0c 0C 0C 0C 0d       0c 0C 0d          0c 0C 0C 0C 0C 0d                En                               0c 0C 0C 0d       ",
+            "13                                                                               13 12 12                                              ",
+            "                                                                              13                            0m                         ",
+            "            0m                                                             12                                                          ",
+            "                                                                           dF                13 12 12 13 12                            ",
+            "                     12                                                    14 0p                            12                         ",
+            "                              En          12 0^          13 12          13    13 13 ES       LP                13                      ",
+            "                              12 13 13 13 14 12 13 13 12             13             12 12 13 12 12 13             13                   ",
+            "                           12                                     12                   0v                         14                   ",
+            "0p       12                05 ES    09                En    0^    05 07       0^ LP ES       12 12 13 13 12 12 13                      ",
+            "12    13 05             12 05 12 12 12 13       12 12 12 13 12 13 05 13 13 13 12 12 13 13 12                                           ",
+            "05       05             14       00                             0v                                             0p                      ",
+            "dF 12    14 0h 0^ 0^ 12 05                LP          ES 12                   0^          LP    0^ ES 12 13 12 12 13 13 13 12          ",
+            "         05 12 13 12 05 14 12 13 13 12 12 12 13 13 12 12 dF 13 12 12 13 12 13 12 12 13 12 13 12 12 13                      0v          ",
+            "      12 14 05 05                                                          0v                                                          ",
+            "   13                                        12    13    12                         0^                            12                   ",
+            "         LP ES    13 0^                   0^    0^    0^    0^          13 13 12 12 12 13 0>             ES LP             13    12    ",
+            "12 13 12 12 13 13 05 12 12 0L 0L 0L 12 12 13 13 12 12 13 12 12 12 13 12 14 05 14 14 05 14 05 14 05 0L 0L 12 13 12 0L 0L 0L 0L 0L 0L 0L "
         ],
         skyStart: [45, 50, 90],
         skyEnd: [255, 180, 200],
@@ -178,8 +178,6 @@ const levelData = [
 ]
 
 
-
-
 //************************ buttons **************************/
 
 const btnStart1 = {
@@ -195,10 +193,10 @@ const btnStart1 = {
 	onClick: ()=> {
 		game.gameState = "inGame";
     },
-    onHover: function() {
+    onHover() {
         this.txtColor = [150,255,255];
     },
-    offHover: function() {
+    offHover() {
         this.txtColor = [65,200,185];
     }
 }
@@ -210,10 +208,10 @@ const pause1 = {
     h: scrHeight/25,
     r: 2,               
     txt: "❚❚",
-    txtSize: 10,    
+    txtSize: 9,    
     btnColor: [50,175,150],
     txtColor: [200,255,255], 
-    onClick: function(){
+    onClick(){
         if (!this.paused) {
             game.paused = true;
             this.txt =  "➤";
@@ -233,10 +231,11 @@ const continue1 = {
 	y: scrHeight/2,              
 	w: scrWidth/8, 
     h: scrHeight/15,
-    r: 8,               
+    r: 8,
+    txtSize: 14,               
 	txt: "continue",    
     btnColor: [75,200,255], 
-    onClick: function(){
+    onClick(){
          game.clickToContinue();
     }
 }
@@ -245,10 +244,12 @@ const restart1 = {
 	y: scrHeight/2,               
 	w: scrWidth/8,
     h: scrHeight/15,
-    r: 1,               
+    r: 1,    
+    txtSize: 14,             
 	txt: "Restart",    
     btnColor: [255,75,110], 
-    onClick: function(){
+    onClick(){
+        game.levelData[game.currentLevel].music.stop();
         game = new Game();
    }
 }
@@ -261,7 +262,7 @@ const btnLevelSelect = {
     r: 2,
     txtSize: 16,
     txtColor: [255,255,255],
-	onClick: function() {
+	onClick() {
         game.setLevel(this.accessLevel);
         btnLevels.forEach(btn=> {
             btn.btnColor = [0,0,0];
@@ -270,7 +271,7 @@ const btnLevelSelect = {
         this.selected = true;
         this.btnColor = [255,255,255];
     },
-    onHover: function() {
+    onHover() {
         this.overlayAlpha = 0;
         textAlign(CENTER,CENTER);
         textSize(this.txtSize);
@@ -279,7 +280,7 @@ const btnLevelSelect = {
 `Selecting this will
  take you to ${this.season}`,this.P.x+this.w/2, this.P.y+this.h/2);
     },
-    offHover: function() {
+    offHover() {
         if (!this.selected){
             this.overlayAlpha = 100;
         } 

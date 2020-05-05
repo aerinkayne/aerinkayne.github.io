@@ -42,27 +42,36 @@ class Button {
 			this.offHover();
 		}
 	}
-	draw(){
+	draw(x=this.P.x, y=this.P.y){
+		if (x !== this.P.x || y !== this.P.y) {
+			this.P.x = x;  this.P.y = y;
+		}
 		if(!this.paused){
 			if(this.img){
+				push();
+				translate(x,y);
 				fill(this.btnColor);
 				noStroke();
-				rect(this.P.x - 2, this.P.y - 2, this.w + 4, this.h + 4, this.r);
-				image(this.img, this.P.x, this.P.y, this.w, this.h);
-				fill(0,0,0,this.overlayAlpha);
-				rect(this.P.x, this.P.y, this.w, this.h);
+				rect( - 2,  - 2, this.w + 4, this.h + 4, this.r);
+				image(this.img, 0, 0, this.w, this.h);
+				fill(0,0,0, this.overlayAlpha);
+				rect(0, 0, this.w, this.h);
+				pop();
 			}
 			else {
+				push();
+				translate(x,y);
 				strokeWeight(this.strokeW);
 				stroke(this.borderColor);
 				fill(this.btnColor);
-				rect(this.P.x, this.P.y, this.w, this.h, this.r);
+				rect(0, 0, this.w, this.h, this.r);
 				strokeWeight(1);
 				noStroke();
 				textAlign(CENTER,CENTER);
 				textSize(this.txtSize);
 				fill(this.txtColor);
-				text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
+				text(this.txt, this.w/2, this.h/2);
+				pop();
 			}
 		}
 		this.updateTimer();
