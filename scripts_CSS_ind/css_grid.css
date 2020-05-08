@@ -1,18 +1,21 @@
 /* for image displays*/
+
+
 .gridDisplay {
 	display: none;
 	grid-template-rows: repeat(10, 1fr);
 	grid-template-columns: repeat(12, 1fr);
 	grid-gap: 1.2vw;
-	margin: 1% auto;
+	margin: auto;
 	width: 90%;
 	height: 55vw;
-	max-width: 884px; /*var(--maxWidth, 1024px);*/
-	max-height: 550px;
+
+	min-height: 380px; 
+	max-height: 760px;
+
 }
 .gridItem {
 	height: 100%;
-	display: flex;
 	background-size: cover;
 	justify-content: center;
 	align-items: center;
