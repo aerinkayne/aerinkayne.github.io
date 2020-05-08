@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCC Survey Form Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/CSS" href="main.css">
+
+</head>
+<body>
+    <div id="mainContainer">
+       <!-- <div id="mainContent"> -->
+            <nav>
+                <ul>
+                    <li><a href="#">main site</a></li>
+                    <li class="hasDropContent"><a href="#">other CC projects</a>
+                        <ul class="dropContent">
+                            <li><a href="#">project 1</a></li>
+                            <li><a href="#">project 2</a></li>
+                            <li><a href="#">project 3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <div id="mainContent"> 
+
+                <h1 id="title">Survey Form Project</h1>
+
+                <p id="description">This page was created for a freeCodeCamp project</p>
+
+                <form id="survey-form" method="POST" action="">
+                    <div class="formElementBox">
+                        <label id="name-label" for="name">User Name</label>
+                        <input type="text" id="name" placeholder="user name" 
+                            name="name" minlength="3" maxlength="20" required />   
+                    </div>
+
+                    <div class="formElementBox">
+                        <label id="email-label" for="email">User Email</label>
+                        <input type="email" id="email" placeholder="email" name="email"/>
+                    </div>
+
+                    <div class="formElementBox">
+                        <label id="number-label" for="number">Number</label>
+                        <input type="number" id="number" placeholder="number" min="1" max="10" name="number"/>
+                    </div>
+
+
+                    <div class="formElementBox">
+                        <label for="dropdown">Favorite Pokémon</label>
+                        <select id="dropdown">
+                            <option value="1">Charizard</option>
+                            <option value="2">Magikarp</option>
+                            <option value="3">Psyduck</option>
+                        </select>
+                    </div>
+
+                    <div class="formElementBox">
+                        <fieldset id="radioBox">
+                            <legend>What is your Primary Element Type?</legend>
+                            <label for="air" class="elements first">Air</label>  
+                            <input type="radio" id="air" name="elementType" value="air">
+                            <label for="fire" class="elements">Fire</label> 
+                            <input type="radio" id="fire" name="elementType" value="fire">
+                            <label for="earth" class="elements">Earth</label> 
+                            <input type="radio" id="earth" name="elementType" value="earth">
+                            <label for="water" class="elements">Water</label> 
+                            <input type="radio" id="water" name="elementType" value="water">  
+                        </fieldset>
+                    </div>
+                    
+                    <div class="formElementBox">
+                        <fieldset id="creatureProps"> 
+                            <legend>Select Creature Properties</legend>  
+                            <label for="scales">Scales</label>
+                            <input type="checkbox" id="scales" name="props" value="scales">
+                            <label for="horns">Horns</label>
+                            <input type="checkbox" id="horns" name="props" value="horns">
+                            <label for="beak">Beak</label>
+                            <input type="checkbox" id="beak" name="props" value="beak">
+                            <label for="twoHeads">Two Heads</label>
+                            <input type="checkbox" id="twoHeads" name="props" value="twoHeads">
+                        </fieldset>
+                    </div>
+
+                    <div class="formElementBox textArea">
+                        <label for="comments" id="commentLabel">Please enter questions or comments</label>
+                        <textarea id="comments" name="userComments">
+                        comments
+                        </textarea>
+                    </div>
+
+                    <div class="formElementBox">
+                        <button id="submit">Submit</button>
+                    </div>
+
+                </form>
+            </div> <!--centering div -->
+            
+        <!-- </div> -->
+    </div>
+    <footer>
+        <ul>
+            <li><a href="#">footer item</a></li>
+            <li><a href="#">footer item</a></li>
+            <li><a href="#">footer item</a></li>
+        </ul>
+    </footer>
+
+</body>
+</html>

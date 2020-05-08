@@ -5,12 +5,9 @@
 	box-sizing: border-box;	
 }
 
-html, body {
-	height: 100%;
-}
 
 body {
-	background-image: linear-gradient(to bottom right, #d0d0d8, #bbc);
+	background-color: #585860;
 	background-attachment: fixed;
 	font-family: 'Mansalva', sans-serif;
 	overflow-x: hidden;
@@ -19,60 +16,48 @@ body {
 	--navBGColor: #343438;
 	--navMidBGColor: #000;
 	--sectionTextColor: #e8e8f0;
-	--maxWidth: 1024px;
+	--maxWidth: 1200px;
+	--minWidth: 600px;
+	--navH: 6vh;
+	--footerH: 50px;
 	--maskColor: #808088; 
 	--mask2Color: #d8d8e0; /*for color scheme testing*/
 }
 
-#pageContainer {
-	min-height: 100%;
-}
 #pageContent {
+	min-height: 94vh;   /* 100 - navH */
+	min-width: var(--minWidth);
+	background-image: linear-gradient(180deg, #d8d8e4, #bbc);
+	width: 90%;
+	max-width: var(--maxWidth);
+	margin: 0px auto;
+	padding-top: 1em;
 	overflow: auto;
-	padding-bottom: 50px;
+	padding-bottom: var(--navH);
+	box-shadow: 0 4px 6px rgba(240,245,255,0.8);
 }
 
 canvas {
-	margin: 1%;
+	margin: 0.5em;
 	border: 2px solid #e0e8f0;
 	border-bottom: 2px solid #8898b8;
 	border-right: 2px solid #8898b8;
 	border-radius: 3px;
 }
-#cParent {
-	height: 450px;
-	width: 800px;
-}
-#fishtank {
-	width: 400px;
-}
 
 
 p {	
 	font-family: 'dosis', sans-serif;
-	padding: 1%;
-	font-size: 16px;
+	padding: 0.3em 0.6em;
+	font-size: 1rem;
 	line-height: 24px;
-}
-
-div.center {
-	margin: 2% auto;
-	padding: 0;
-	background-color: transparent;
-	width: 90%;
-	max-width: var(--maxWidth, 1024px);
-	min-width: 400px;
-	border-radius: 3px;
-	overflow: hidden;
 }
 
 section { 
 	display: flex;
 	justify-content: space-around;
-	margin: 3% auto;
+	margin: 2em auto;
 	width: 90%;
-	max-width: var(--maxWidth, 1024px);
-	min-width: 400px;
 }
 .maskSection {
 	background-color: var(--maskColor);
@@ -94,42 +79,37 @@ section {
 	color: #002;
 	border-radius: 5px;
 }
-
-
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
 	font-family: 'Kalam', cursive;
-	letter-spacing: 2px;
-	margin: auto;
-	margin-top: 3%;
-	padding: 1%;
+	letter-spacing: 1.8px;
+	margin: 1em auto;
 	text-align: center;
 	text-transform: uppercase;
 	text-shadow: 0px 0px 4px #112;
 	color: var(--sectionTextColor);
-	width: 90%;
 	max-width: var(--maxWidth, 1024px);
 }
+div.center {
 
-.centerFit {
-	width: fit-content;  /* IEedge I hate you */
-	text-align: center;
-	margin: auto;
-	margin-top: 3%;
+	margin: 1em auto;
+	width: 90%;
+	max-width: var(--maxWidth);
+	border-radius: 3px;
+	overflow: hidden;
 }
 
 nav {
 	background-color: var(--navBGColor);
-	height: 50px;
-	z-index: 1;
+	height: var(--navH);
 }
 .mid {
- display: flex;
- justify-content: center;
- align-items: center;
+	min-width: var(--minWidth);
+ 	display: flex;
+ 	justify-content: center;
+ 	align-items: center;
 	margin: 0px auto;
 	width: 90%;
-	min-width: 400px;
-	max-width: var(--maxWidth, 1024px);
+	max-width: var(--maxWidth);
 	background-color: var(--navMidBGColor);
 	height: 100%; 
 }
@@ -140,7 +120,6 @@ nav {
 .navLogoDiv span {
 	color: var(--navHighliteColor);
 	font-size: 30px;
-	height: 100%;
 }
 
 nav a {
@@ -148,9 +127,9 @@ nav a {
 }
 #navLinks {
  
- width: 100%;
+	width: 100%;
 	display: flex;
- justify-content: flex-end;
+	justify-content: flex-end;
 	visibility: hidden;
 	opacity: 0;
 	transition-timing-function: ease-in;
@@ -261,7 +240,7 @@ footer {
 	background-color: var(--navBGColor);
 	font-size: 14px;
 	letter-spacing: 1.4px;
-	margin-top: -50px;
+	margin-top: calc(-1*var(--footerH));
 }  
 footer img {
 	vertical-align: middle; 
