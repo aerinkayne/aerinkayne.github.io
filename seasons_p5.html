@@ -28,13 +28,15 @@ Modifications by Aerin-Kayne
 	
 		
 		<nav>
-			<div class="mid"> <!-- used to center nav content -->
-				<div class="navLogoDiv"><span>&#x270E;</span></div>
+			<div class="navContentContainer">
+			
+				<div id="navLogoDiv"><span>&#x270E;</span></div>
+	
 				<ul id="navLinks">
-					<li><a href="index.html">Home</a></li>
+					<li><a href="index.html">HOME</a></li>
 					<li><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
 					<li><a href="">About</a></li>
-					<li class="dropdown" id="dropBtn1">Javascript Projects
+					<li class="dropdown" id="dropBtn1"><a href="#">Javascript Projects</a>
 						<ul class="dropdownContent" id="drop1Content">
 							<li><a href="fishtank.html">Canvas Art</a></li>
 							<li><a href="seasons_p5.html">Seasons Spin Off</a></li>
@@ -42,53 +44,56 @@ Modifications by Aerin-Kayne
 						</ul>
 					</li>
 				</ul>
+				
 				<div id="burger">
 					<div class="topB"></div>
 					<div class="midB"></div>
 					<div class="btmB"></div>
 				</div>
-			</div> <!-- middle -->	
+			
+			</div>
 		</nav>
 		
+
 		<div id="pageContent">
-	
-		
-		<div class="center">
-			<p>A project based on a Spin Off of 
-			<a href="https://www.khanacademy.org/computer-programming/seasons-the-game/5900023699079168" target="_blank">'Seasons'</a>, 
-			posted to Khan Academy by Ryan Kee.  <br/>Use Q and E to move, and spacebar to jump.
+			
+			<div class="center">
+				<p>A project based on a Spin Off of 
+				<a href="https://www.khanacademy.org/computer-programming/seasons-the-game/5900023699079168" target="_blank">'Seasons'</a>, 
+				posted to Khan Academy by Ryan Kee.  <br/>Use Q and E to move, and spacebar to jump.
+				</p>
+			</div>
+			
+			<div class="center">
+				<div id="cParent"></div> 
+			</div>
+			
+			<div class="center">
+			<p><em>Music is from Freesound.org:</em></p>
+			<p>
+			"Find Nothing", by Ellary, "Tri-Tachyon" <a href="https://soundcloud.com/tri-tachyon/albums" target="_blank">Tri-Tachyon, soundcloud.com</a><br/>
+			"Expressions of the Mind" by <a href = "https://freesound.org/people/ShadyDave/sounds/325647/" target="_blank">ShadyDave</a><br/>
+			"Water Game Theme" by <a href="https://freesound.org/people/Mrthenoronha/sounds/370293/" target="_blank">Mrthenoronha</a><br/>
+			"Sci-Fi Survival Dreamscape" by <a href="https://freesound.org/people/onderwish/sounds/468407/" target="_blank">onderwish</a><br/>
+			"Bells Electronic Loop" by <a href="https://freesound.org/people/frankum/sounds/267641/" target="_blank">Frankumjay</a><br/>
 			</p>
-		</div>
+			</div>
 		
-		<div class="center">
-			<div id="cParent"></div> 
-		</div>
-		
-		<div class="center">
-		<p><em>Music is from Freesound.org:</em></p>
-		<p>
-		"Find Nothing", by Ellary, "Tri-Tachyon" <a href="https://soundcloud.com/tri-tachyon/albums" target="_blank">Tri-Tachyon, soundcloud.com</a><br/>
-		"Expressions of the Mind" by <a href = "https://freesound.org/people/ShadyDave/sounds/325647/" target="_blank">ShadyDave</a><br/>
-		"Water Game Theme" by <a href="https://freesound.org/people/Mrthenoronha/sounds/370293/" target="_blank">Mrthenoronha</a><br/>
-		"Sci-Fi Survival Dreamscape" by <a href="https://freesound.org/people/onderwish/sounds/468407/" target="_blank">onderwish</a><br/>
-		"Bells Electronic Loop" by <a href="https://freesound.org/people/frankum/sounds/267641/" target="_blank">Frankumjay</a><br/>
-		</p>
-		</div>
-	
-	</div>	<!-- content -->
+		</div>	<!-- content -->
 	
 	
-	<footer>
-		<div class="mid">
+		<footer>
+			
 			<ul id="footerLinks">				
-				<li><a href="https://simpleicons.org/"><img height="24" width="24" src="svg/simpleicons.svg"></a></li>
+				<li class="first"><a href="https://simpleicons.org/"><img height="24" width="24" src="svg/simpleicons.svg"></a></li>
 				<li><a href="https://www.pexels.com/"><img height="24" width="24" src="svg/pexels.svg"></a></li>
 				<li><a href="https://www.deviantart.com/aerin-kayne"><img height="24" width="24" src="svg/deviantart.svg"></a></li>
 				<li><a href="https://www.artstation.com/aerin-kayne"><img height="24" width="24" src="svg/artstation.svg"></a></li>
 				<li class="last"><a href="https://github.com/aerinkayne"><img height="24" width="24" src="svg/github.svg"></a></li>
 			</ul>
-		</div>
-	</footer>
+			
+		</footer>
+
 		<!-- p5 -->
 		<script src="scripts_CSS_ind/p5.min.js"></script> 
 		<script src="scripts_CSS_ind/p5.sound.min.js"></script> 
