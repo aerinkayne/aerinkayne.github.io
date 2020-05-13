@@ -27,26 +27,6 @@
 }
 
 
-#gridTheme {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 1% auto;
-	max-width: var(--maxWidth, 1024px);
-	font-family: 'Mansalva', cursive;
-	color: #303038;
-	font-size: 0.8em;
-	text-transform: uppercase;
-}
-#gridTheme label {
-	margin-left: 0.2em;
-	color: #667;
-}
-
-#gridTheme input:not(#abstr) {
-	margin-left: 2em;
-}
-
 
 
 #abstract .gt1 {

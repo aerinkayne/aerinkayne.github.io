@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html>
+	<head> 
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+		<title>Negative Space</title>
+		
+		<!-- google fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+		<!-- styles -->
+		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/main.css">
+	</head>
+	
+	<body>
+	
+	
+	<nav>
+		
+		<div class="navContentContainer">
+			<div id="navLogoDiv"><span>&#x270E;</span></div>
+
+			<ul id="navLinks">
+				<li><a href="index.html">HOME</li>
+				<li class="dropdown">
+					<a href="#">CSS Projects</a>
+					<ul class="dropdownContent">
+						<li><a href="gridRadio.html">Grid Radio</a></li>
+						<li><a href="negSpace.html">Image Masking</a></li>
+						<li><a href="#">Banners</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="#">JS Projects</a>
+					<ul class="dropdownContent">
+						<li><a href="fishtank.html">Canvas Art</a></li>
+						<li><a href="seasons_p5.html">Seasons Spin Off</a></li>
+						<li><a href="invaders.html">Space Invaders</a></li>
+					</ul>
+				</li>
+			</ul>
+			
+			<div id="burger">
+				<div class="topB"></div>
+				<div class="midB"></div>
+				<div class="btmB"></div>
+			</div>
+		
+		</div>
+	</nav>
+
+	<div id="pageContent">
+
+		<h1>Image Masks</h1>
+
+		<div class="maskContainer">
+			
+			<div id="_even3" class="maskType">
+				<div class="bordered L"></div>
+				<div class="bordered R"></div>
+				<div class="bordered T"></div>
+				<div class="bordered B"></div>
+				<div class="vertCol2_w3 col1"></div>
+				<div class="vertCol2_w3 col2"></div>
+				<div class="vertCol2_w3 frame1"></div>
+				<div class="vertCol2_w3 frame2"></div>
+				<div class="vertCol2_w3 frame3"></div>
+			</div>
+			<div id="_even4" class="maskType">
+				<div class="bordered L"></div>
+				<div class="bordered R"></div>
+				<div class="bordered T"></div>
+				<div class="bordered B"></div>
+				<div class="vertCol3_w3 col1"></div>
+				<div class="vertCol3_w3 col2"></div>
+				<div class="vertCol3_w3 col3"></div>
+				<div class="vertCol3_w3 frame1"></div>
+				<div class="vertCol3_w3 frame2"></div>
+				<div class="vertCol3_w3 frame3"></div>
+				<div class="vertCol3_w3 frame4"></div>
+			</div>
+			<div id="_even5" class="maskType">
+				<div class="bordered L"></div>
+				<div class="bordered R"></div>
+				<div class="bordered T"></div>
+				<div class="bordered B"></div>
+				<div class="vertCol4_w3 col1"></div>
+				<div class="vertCol4_w3 col2"></div>
+				<div class="vertCol4_w3 col3"></div>
+				<div class="vertCol4_w3 col4"></div>
+				<div class="vertCol4_w3 frame1"></div>
+				<div class="vertCol4_w3 frame2"></div>
+				<div class="vertCol4_w3 frame3"></div>
+				<div class="vertCol4_w3 frame4"></div>
+				<div class="vertCol4_w3 frame5"></div>
+			</div>
+			<div id="_wide3" class="maskType">
+				<div class="bordered L"></div>
+				<div class="bordered R"></div>
+				<div class="bordered T"></div>
+				<div class="bordered B"></div>
+				<div class="vertWideC_40 Lmask"></div>
+				<div class="vertWideC_40 Rmask"></div>
+				<div class="vertWideC_40 Lframe"></div>
+				<div class="vertWideC_40 Midframe"></div>
+				<div class="vertWideC_40 Rframe"></div>
+			</div>
+			<div id="_wider3" class="maskType">
+				<div class="bordered L"></div>
+				<div class="bordered R"></div>
+				<div class="bordered T"></div>
+				<div class="bordered B"></div>
+				<div class="vertWideC_60 Lmask"></div>
+				<div class="vertWideC_60 Rmask"></div>
+				<div class="vertWideC_60 Lframe"></div>
+				<div class="vertWideC_60 Midframe"></div>
+				<div class="vertWideC_60 Rframe"></div>
+			</div>
+		</div>
+
+		<div class="radioSelect">
+			<div>
+				<label for="even3">3 panel, even</label>
+				<input type="radio" id="even3" name="frameOptions" value="_even3" checked="checked">
+			</div>
+			<div>
+				<label for="even4">4 panel, even</label>
+				<input type="radio" id="even4" name="frameOptions" value="_even4">
+			</div>
+			<div>
+				<label for="even5">5 panel, even</label>
+				<input type="radio" id="even5" name="frameOptions" value="_even5">
+			</div>
+			<div>
+				<label for="wide3">3 panel, wide</label>
+				<input type="radio" id="wide3" name="frameOptions" value="_wide3">
+			</div>
+			<div class="last">
+				<label for="wider3">3 panel, wider</label>
+				<input type="radio" id="wider3" name="frameOptions" value="_wider3">
+			</div>
+		</div>
+
+
+		<br/>
+		
+	</div>	<!-- content -->
+	
+	
+	<footer>
+		
+		<ul id="footerLinks">				
+			<li class="first"><a href="https://simpleicons.org/"><img height="24" width="24" src="svg/simpleicons.svg"></a></li>
+			<li><a href="https://www.pexels.com/"><img height="24" width="24" src="svg/pexels.svg"></a></li>
+			<li><a href="https://www.deviantart.com/aerin-kayne"><img height="24" width="24" src="svg/deviantart.svg"></a></li>
+			<li><a href="https://www.artstation.com/aerin-kayne"><img height="24" width="24" src="svg/artstation.svg"></a></li>
+			<li><a href="https://github.com/aerinkayne"><img height="24" width="24" src="svg/github.svg"></a></li>
+			<li class="last"><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
+		</ul>
+		
+	</footer>	
+	
+	
+	<script src="scripts_CSS_ind/myScript.js"></script>
+	</body>
+</html>	

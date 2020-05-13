@@ -12,7 +12,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
 		<!-- styles -->
-		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/css_general.css">
+		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/main.css">
 		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/css_grid.css">
 	</head>
 	
@@ -25,10 +25,19 @@
 			<div id="navLogoDiv"><span>&#x270E;</span></div>
 
 			<ul id="navLinks">
-				<li><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
-				<li><a href="">About</a></li>
-				<li class="dropdown" id="dropBtn1"><a href="#">Javascript Projects</a>
-					<ul class="dropdownContent" id="drop1Content">
+				<li><a href="index.html">HOME</li>
+				<li class="dropdown">
+					<a href="#">CSS Projects</a>
+					<ul class="dropdownContent">
+						<li><a href="gridRadio.html">Grid Radio</a></li>
+						<li><a href="negSpace.html">Image Masking</a></li>
+						<li><a href="#">Banners</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="#">JS Projects</a>
+					<ul class="dropdownContent">
 						<li><a href="fishtank.html">Canvas Art</a></li>
 						<li><a href="seasons_p5.html">Seasons Spin Off</a></li>
 						<li><a href="invaders.html">Space Invaders</a></li>
@@ -47,47 +56,6 @@
 
 	<div id="pageContent">
 
-		<h1>Grid Radio</h1>
-
-		<form id="gridTheme">
-			<input type="radio" id="abstr" name="theme" value="abstract" checked="checked">
-			<label for="abstr">Abstract</label>
-			<input type="radio" id="ocean" name="theme" value="sandWater">
-			<label for="ocean">Ocean</label>
-			<input type="radio" id="bird_forest" name="theme" value="birds">
-			<label for="bird_forest">birds</label>
-		</form>	
-
-	
-		<div class="gridDisplay" id="abstract"> 
-			<div class="spinner"><div class="gridItem gt1"></div></div>
-			<div class="gridItem gt2"></div>
-			<div class="gridItem gt3"></div>
-			<div class="gridItem gt4"></div>
-			<div class="gridItem gt5"></div>
-			<div class="gridItem gt6"></div>
-		</div>
-		
-		<div class="gridDisplay" id="sandWater">  
-			<div class="gridItem gt1"></div>
-			<div class="gridItem gt2"></div>
-			<div class="gridItem gt3"></div>
-			<div class="gridItem gt4"></div>
-			<div class="gridItem gt5"></div>
-			<div class="gridItem gt6"></div>
-			<div class="gridItem gt7"></div>
-		</div>
-	
-		<div class="gridDisplay" id="birds">  
-			<div class="gridItem gt1"></div>
-			<div class="gridItem gt2"></div>
-			<div class="gridItem gt3"></div>
-			<div class="gridItem gt4"></div>
-			<div class="gridItem gt5"></div>
-			<div class="gridItem gt6"></div>
-		</div>
-
-	
 		<h2>Lorem ipsum dolor sit amet</h2>
 		<section class="columns">
 			<p class="flex3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
@@ -117,7 +85,8 @@
 			<li><a href="https://www.pexels.com/"><img height="24" width="24" src="svg/pexels.svg"></a></li>
 			<li><a href="https://www.deviantart.com/aerin-kayne"><img height="24" width="24" src="svg/deviantart.svg"></a></li>
 			<li><a href="https://www.artstation.com/aerin-kayne"><img height="24" width="24" src="svg/artstation.svg"></a></li>
-			<li class="last"><a href="https://github.com/aerinkayne"><img height="24" width="24" src="svg/github.svg"></a></li>
+			<li><a href="https://github.com/aerinkayne"><img height="24" width="24" src="svg/github.svg"></a></li>
+			<li class="last"><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
 		</ul>
 		
 	</footer>	
