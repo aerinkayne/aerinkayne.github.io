@@ -2,97 +2,135 @@
     padding: 1em;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(7, 1fr);
+    grid-template-rows: repeat(9, 1fr);
     grid-gap: 1.25% 1%;
     width: 100%;
-    height: 65vw;
-    min-height: calc(0.65*600px);
-    max-height: calc(0.65*1200px);
-}
-
-.gridMain {
+    height: 85vh;
+    min-height: calc(0.85*600px);
+    max-height: calc(0.85*1200px);
     grid-template-areas: 
-    "a a a b b c c d"
-    "a a a b b . . ."
-    "e e f . . . . ."
-    "h . . . . . . g"
-    ". . . . . i j j"
-    ". . . k k l l l"
-    "m n n k k l l l";
+        ". c c b b a a a"
+        "d . . b b a a a"
+        ". . . . f f e e"
+        ". x x x x x x h"
+        "g x x x x x x h"
+        "g x x x x x x ."
+        "j j i i . . . ."
+        "l l l k k . . m"
+        "l l l k k n n ."; 
 }
 
-.gridMain div {
+
+.flip {
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+}
+
+.flip:hover .flip_inner {
+    transform: rotateY(180deg);
+}
+.flip_inner {
+    width: 100%;
+    height: 100%; 
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+.flip_front, .flip_back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip_back {
+    transform: rotateY(180deg);
+}
+
+.BG1.flip_front, .BG1.flip_back, .BG2.flip_front, .BG2.flip_back {
+    background-position: center top;
     background-attachment: fixed;
     background-size: 1200px;
 }
-.gridMain div.BG1 {    
-    background-position: center top;
+.BG2.flip_front, .BG2.flip_back {
+    background-position: center bottom; 
+}
+
+.BG1.flip_front, .BG2.flip_back { 
+    background-image: url("../images/negSpaceImages/pexels-photo-2885320RobertoNickson.jpeg");
     border: 1px solid black;
     box-shadow: 1px 1px 2px 3px rgba(0,0,0,0.25),
                 0px 0px 2px 2px rgba(0,0,0,0.25) inset;
 }
-.gridMain div.BG2 { 
-    background-position: center bottom;   
+.BG1.flip_back, .BG2.flip_front {  
+    background-image: url("../images/negSpaceImages/pexels-photo-733100Rev.jpeg");  
     border: 1px solid white;
     box-shadow: 1px 1px 2px 3px rgba(0,0,0,0.25),
                 0px 0px 2px 2px rgba(255,255,255,0.25) inset;
 }
-.gridMain div.BG1:hover {
-    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3),
-                0px 0px 3px 4px rgba(0,150,150, 0.5) inset;    
-}
-.gridMain div.BG2:hover {
-    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.25),
-                0px 0px 3px 4px rgba(255,255, 155, 0.5) inset;  
-}
 
-._a, ._b, ._c, ._d, ._e, ._f, ._h {
-    background-image: url("../images/negSpaceImages/pexels-photo-2885320RobertoNickson.jpeg");
-}
-._g, ._i, ._j, ._k, ._l, ._m, ._n {
-    background-image: url("../images/negSpaceImages/pexels-photo-733100.jpeg");
-}
-.BG1._a {
+
+
+
+._a {
     grid-area: a;
 }
-.BG1._b {
+._b {
     grid-area: b;
 }
-.BG1._c {
+._c {
     grid-area: c;
 }
-.BG1._d {
+._d {
     grid-area: d;
 }
-.BG1._e {
+._e {
     grid-area: e;
 }
-.BG1._f {
+._f {
     grid-area: f;
 }
-.BG1._h {
+._h {
     grid-area: h;
 }
-.BG2._g {
+._g {
     grid-area: g;
 }
-.BG2._i {
+._i {
     grid-area: i;
 }
-.BG2._j {
+._j {
     grid-area: j;
 }
-.BG2._k {
+._k {
     grid-area: k;
 }
-.BG2._l {
+._l {
     grid-area: l;
 }
-.BG2._m {
+._m {
     grid-area: m;
 }
-.BG2._n {
+._n {
     grid-area: n;
 }
 
+
+._x, ._y, ._z {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+._x {
+    grid-area: x;
+}
+._y {
+    grid-area: y;
+}
+._z {
+    grid-area: z;
+}
 

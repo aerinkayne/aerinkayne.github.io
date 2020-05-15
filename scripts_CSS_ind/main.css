@@ -211,6 +211,11 @@ footer ul li {
   height: 25px;
   flex: 1 1 50px;
 }
+footer ul li.last {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 footer ul li:not(.last) {
   border-right: 2px solid #71718e;
 }

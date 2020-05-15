@@ -22,6 +22,14 @@
   background-image: url("/images/negSpaceImages/silver-bordered-fritillary-butterfly-nature-orangePixabay.jpg");
 }
 
+.img7 {
+  background-image: url("/images/negSpaceImages/earth-spaceJaymantri1000.jpg");
+}
+
+.img9 {
+  background-image: url("/images/negSpaceImages/pexels-photo-55787DonaldTong.jpeg");
+}
+
 .maskContainer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -36,7 +44,7 @@
   background-color: #9898a8;
 }
 
-.maskTypeDisplay {
+.maskedImageDisplay {
   display: none;
   margin: auto;
   background-image: url("/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg");
@@ -50,7 +58,7 @@
   max-height: calc(0.35 * 1200px);
 }
 
-.maskType {
+.maskedImage {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -58,7 +66,7 @@
   position: relative;
 }
 
-.maskType._4to3 {
+.maskedImage._4to3 {
   width: 20vw;
   min-width: calc(0.2 * 600px);
   max-width: calc(0.2 * 1200px);
@@ -67,13 +75,21 @@
   max-height: calc(0.15 * 1200px);
 }
 
-.maskType._1to1 {
+.maskedImage._1to1 {
   width: 18vw;
   min-width: calc(0.18 * 600px);
   max-width: calc(0.18 * 1200px);
   height: 18vw;
   min-height: calc(0.18 * 600px);
   max-height: calc(0.18 * 1200px);
+}
+.maskedImage._1to1sm {
+  width: 15vw;
+  min-width: calc(0.15 * 600px);
+  max-width: calc(0.15 * 1200px);
+  height: 15vw;
+  min-height: calc(0.15 * 600px);
+  max-height: calc(0.15 * 1200px);
 }
 
 .bordered.L {
@@ -110,6 +126,15 @@
   height: calc(1%*3 + 0.04%);
   left: calc(1%*0 - 0.02%);
   top: calc(1%*98 - 0.02%);
+}
+
+.circle {
+  margin: 1em;
+  border-radius: 50%;
+  border: 1px solid #ccd;
+  border-right: 1px solid #88a;
+  border-bottom: 1px solid #667;
+  box-shadow: 0 0 3px 3px rgba(0,0,20,0.2);
 }
 
 .triangleUP {
