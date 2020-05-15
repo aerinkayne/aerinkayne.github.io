@@ -1,5 +1,6 @@
 .gridMain {
-    padding: 1em;
+    margin: auto;
+    padding: 0.8em;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(9, 1fr);
@@ -21,19 +22,13 @@
 }
 
 
-.flip {
-    background-color: transparent;
-    height: 100%;
-    width: 100%;
-}
-
 .flip:hover .flip_inner {
     transform: rotateY(180deg);
 }
 .flip_inner {
+    position: relative;
     width: 100%;
     height: 100%; 
-    position: relative;
     transition: transform 1s;
     transform-style: preserve-3d;
 }
@@ -44,7 +39,6 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
-
 .flip_back {
     transform: rotateY(180deg);
 }

@@ -7,29 +7,6 @@
   list-style-type: none;
 }
 
-div.HRdiv {
-  margin: 3em auto;
-  position: relative;
-  width: 50%;
-  height: 25px;
-  border-radius: 15px / 45%;
-  background-color: transparent;
-  border-top: 3px solid #667;
-  overflow: show;
-}
-div.HRdiv::before {
-  position: absolute;
-  bottom: 22px;
-  left: 0;
-  content: "";
-  width: 100%;
-  border-radius: 15px / 45%;
-  height: 25px;
-  background-color: transparent;
-  border-bottom: 3px solid #667;
-}
-
-
 
 a {
   color: #036;
@@ -44,10 +21,7 @@ body {
 p {
   padding: 1%;
 }
-
-.empty {
-  display: hidden;
-}   
+ 
 
 div.center {
   margin: 1em auto;
@@ -362,10 +336,10 @@ nav {
 }
 
 .dropdownContent li:hover {
-  background-image: -webkit-gradient(linear, left top, right top, from(#96ffe1), color-stop(3%, rgba(0, 200, 200, 0.65)), color-stop(50%, rgba(0, 200, 200, 0)), color-stop(97%, rgba(0, 200, 200, 0.65)), to(#96ffe1));
-  background-image: linear-gradient(90deg, #96ffe1 0%, rgba(0, 200, 200, 0.65) 3%, rgba(0, 200, 200, 0) 50%, rgba(0, 200, 200, 0.65) 97%, #96ffe1 100%);
-  border-left: 3px solid #c8fff0;
-  border-right: 3px solid #c8fff0;
+  background-image: -webkit-gradient(linear, left top, right top, from(#96f0e1), color-stop(3%, rgba(0, 200, 200, 0.65)), color-stop(50%, rgba(0, 200, 200, 0)), color-stop(97%, rgba(0, 200, 200, 0.65)), to(#96f0e1));
+  background-image: linear-gradient(90deg, #96f0e1 0%, rgba(0, 200, 200, 0.65) 3%, rgba(0, 200, 200, 0) 50%, rgba(0, 200, 200, 0.65) 97%, #96f0e1 100%);
+  border-left: 3px solid #c8f0f0;
+  border-right: 3px solid #c8f0f0;
 }
 
 #navLinks .dropdownContent a {
@@ -375,11 +349,11 @@ nav {
 }
 
 #navLinks a:link {
-  color: #3ba;
+  color: #3aa;
 }
 
 #navLinks a:visited {
-  color: #3ba;
+  color: #3aa;
 }
 
 #navLinks a:hover {
@@ -403,7 +377,7 @@ nav {
 #burger div {
   width: 25px;
   height: 2px;
-  margin: 5px 10px;
+  margin: 5px;
   background-color: #3ba;
   -webkit-transition: opacity 0.2s ease-in 0.2s, background-color 0.2s ease-in 0.2s, -webkit-transform 0.4s ease-in 0s;
   transition: opacity 0.2s ease-in 0.2s, background-color 0.2s ease-in 0.2s, -webkit-transform 0.4s ease-in 0s;
