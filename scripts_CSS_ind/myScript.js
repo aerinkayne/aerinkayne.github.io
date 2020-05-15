@@ -50,7 +50,7 @@ if (themeOptions.length){  //'theme' radio group used for sandWater, gridDisplay
 let elFrameOptions = document.getElementsByName('frameOptions');//radio group name
 
 if(elFrameOptions.length){  
- let divMaskList = document.getElementsByClassName('maskType'); //mask containers to change display of
+ let divMaskList = document.getElementsByClassName('maskTypeDisplay'); //mask containers to change display of
  divMaskList[0].style.display = "flex";                         //show one initially
  for (let i = 0; i < elFrameOptions.length; i++)                    
  elFrameOptions[i].addEventListener('click',(e)=> {  
