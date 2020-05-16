@@ -1,68 +1,56 @@
 .gridMain {
     margin: auto;
-    padding: 0.8em;
     display: grid;
+    padding: 10px;
+    background-color: #9898a8;
     grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(9, 1fr);
-    grid-gap: 1.25% 1%;
-    width: 100%;
-    height: 85vh;
-    min-height: calc(0.85*600px);
-    max-height: calc(0.85*1200px);
+    grid-template-rows: repeat(8, 1fr);
+    width: 96%;
+    grid-gap: 10px;
+    border: 1px solid black;
+    height: 70vh;
+    min-height: calc(0.70*600px);
+    max-height: calc(0.70*1200px);
     grid-template-areas: 
-        ". c c b b a a a"
-        "d . . b b a a a"
-        ". . . . f f e e"
-        ". x x x x x x h"
-        "g x x x x x x h"
-        "g x x x x x x ."
-        "j j i i . . . ."
-        "l l l k k . . m"
-        "l l l k k n n ."; 
+        ". b b a a a a a"
+        "c . . a a a a a"
+        ". . . . d d d d"
+        ". . x x x x . e"
+        "f . x x x x . ."
+        "g g g g . . . ."
+        "h h h h h . . j"
+        "h h h h h i i .";
 }
 
 
-.flip:hover .flip_inner {
-    transform: rotateY(180deg);
-}
-.flip_inner {
-    position: relative;
-    width: 100%;
-    height: 100%; 
-    transition: transform 1s;
-    transform-style: preserve-3d;
-}
-.flip_front, .flip_back{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-.flip_back {
-    transform: rotateY(180deg);
-}
-
-.BG1.flip_front, .BG1.flip_back, .BG2.flip_front, .BG2.flip_back {
-    background-position: center top;
+.BG1top, .BG2top, .BG1bottom, .BG2bottom { 
     background-attachment: fixed;
     background-size: 1200px;
-}
-.BG2.flip_front, .BG2.flip_back {
-    background-position: center bottom; 
+    background-position: center;
+    border-radius: 2px;
+    box-shadow: 1px 1px 3px 2px rgba(0,0,20,0.15);
 }
 
-.BG1.flip_front, .BG2.flip_back { 
-    background-image: url("../images/negSpaceImages/pexels-photo-2885320RobertoNickson.jpeg");
-    border: 1px solid black;
-    box-shadow: 1px 1px 2px 3px rgba(0,0,0,0.25),
-                0px 0px 2px 2px rgba(0,0,0,0.25) inset;
+.BG2top {
+    background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
+} 
+.BG1bottom { 
+    background-position: center bottom;
+    background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu.jpeg");
+} 
+.BG1top {
+    background-image: url("../images/negSpaceImages/pexels-photo-235621pixabay.jpeg"); 
+} 
+.BG2bottom {
+    background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
 }
-.BG1.flip_back, .BG2.flip_front {  
-    background-image: url("../images/negSpaceImages/pexels-photo-733100Rev.jpeg");  
-    border: 1px solid white;
-    box-shadow: 1px 1px 2px 3px rgba(0,0,0,0.25),
-                0px 0px 2px 2px rgba(255,255,255,0.25) inset;
+.BG2top, .BG2bottom {
+    width: 100%;
+    height: 100%;
+    transition: opacity 4s ease;
+}
+.BG2top:hover, .BG2bottom:hover {
+    opacity: 0;
 }
 
 
@@ -113,6 +101,8 @@
 
 
 ._x, ._y, ._z {
+    background-color: #9898a8;
+    border: 1px solid #ccd !important;
     display: flex;
     justify-content: center;
     align-items: center;
