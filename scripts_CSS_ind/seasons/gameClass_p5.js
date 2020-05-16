@@ -119,16 +119,16 @@ class Game{
 				
 				//spikes, lave, keys, doors 
 				else if(s==="0^"){
-					backTiles.push(new SpikeU(x + S/4, y - 1.25*S, S/2, 2.25*S));
+					backTiles.push(new SpikeU(x + S/4, y - 1.35*S, S/2, 2.35*S));
 				}
 				else if(s==="0v"){
-					backTiles.push(new SpikeD(x + S/4, y, S/2, 2.25*S));
+					backTiles.push(new SpikeD(x + S/4, y, S/2, 2.35*S));
 				}
 				else if(s==="0<"){
-					backTiles.push(new SpikeL(x - 1.25*S, y + S/4, 2.25*S, S/2));
+					backTiles.push(new SpikeL(x - 1.35*S, y + S/4, 2.35*S, S/2));
 				}
 				else if(s==="0>"){
-					backTiles.push(new SpikeR(x, y + S/4, 2.25*S, S/2));
+					backTiles.push(new SpikeR(x, y + S/4, 2.35*S, S/2));
 				}
 				else if(s==="0L"){  
 					backTiles.push(new Lava(x,y+S/5,S,S-S/5, [180,0,0]));
@@ -303,7 +303,7 @@ class Game{
 		textSize(width/12);
 		textAlign(CENTER,CENTER);
 		text("You have died!",width/2,1/3*height);
-		btnRestart.draw();
+		btnRestart.draw(width/2+width/20,height/2);
 		btnContinue.draw();
 	}
 	sceneCredits(){

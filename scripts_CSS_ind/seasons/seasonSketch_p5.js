@@ -25,7 +25,7 @@ function preload(){
 
 
 function setup() {
-	let c = createCanvas(550, 375);  
+	let c = createCanvas(500, 375);  
 	c.parent('cParent');
 	frameRate(60);
 	textFont("Mansalva");
