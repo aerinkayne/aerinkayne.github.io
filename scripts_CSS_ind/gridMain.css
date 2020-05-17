@@ -1,11 +1,12 @@
 .gridMain {
-    margin: auto;
+    margin: 0.5em auto;
+    background-color:  #9898a8;
     display: grid;
     padding: 10px;
-    background-color: #9898a8;
+    
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    width: 96%;
+    width: 98%;
     grid-gap: 10px;
     border: 1px solid black;
     height: 70vh;
@@ -26,31 +27,38 @@
 .BG1top, .BG2top, .BG1bottom, .BG2bottom { 
     background-attachment: fixed;
     background-size: 1200px;
-    background-position: center;
-    border-radius: 2px;
+    border-radius: 3px;
     box-shadow: 1px 1px 3px 2px rgba(0,0,20,0.15);
+    transition: opacity 4s ease, box-shadow 4s ease;
 }
 
 .BG2top {
+    background-position: center top;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
 } 
+
 .BG1bottom { 
     background-position: center bottom;
     background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu.jpeg");
 } 
 .BG1top {
+    background-position: center top;
     background-image: url("../images/negSpaceImages/pexels-photo-235621pixabay.jpeg"); 
 } 
 .BG2bottom {
+    background-position: center center;
     background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
 }
 .BG2top, .BG2bottom {
     width: 100%;
     height: 100%;
-    transition: opacity 4s ease;
+    /*transition: opacity 4s ease;*/
 }
 .BG2top:hover, .BG2bottom:hover {
     opacity: 0;
+}
+.BG1top:hover, .BG1bottom:hover {
+    box-shadow: 1px 1px 3px 2px rgba(0,0,20,0.3);
 }
 
 
