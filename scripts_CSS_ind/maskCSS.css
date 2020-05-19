@@ -41,7 +41,9 @@
   display: none;
 }
 
+/* ratios and sizes of img parents */
 ._4to3 {
+  --angle: 33.7deg;    /* atan W/2/H:  used for transform skewX in triangle divs  */
   width: 20vw;
   min-width: calc(0.2 * 600px);
   max-width: calc(0.2 * 1200px);
@@ -50,6 +52,7 @@
   max-height: calc(0.15 * 1200px);
 }
 ._4to3lg {
+  --angle: 33.7deg;
   width: 40vw;
   min-width: calc(0.4 * 600px);
   max-width: calc(0.4 * 1200px);
@@ -57,9 +60,8 @@
   min-height: calc(0.3 * 600px);
   max-height: calc(0.3 * 1200px);
 }
-
-
 ._1to1 {
+  --angle: 26.57deg; 
   width: 18vw;
   min-width: calc(0.18 * 600px);
   max-width: calc(0.18 * 1200px);
@@ -68,6 +70,7 @@
   max-height: calc(0.18 * 1200px);
 }
 ._1to1sm {
+  --angle: 26.57deg;
   width: 14vw;
   min-width: calc(0.14 * 600px);
   max-width: calc(0.14 * 1200px);
@@ -76,6 +79,7 @@
   max-height: calc(0.14 * 1200px);
 }
 ._1to1lg {
+  --angle: 26.57deg;
   width: 23vw;
   min-width: calc(0.23 * 600px);
   max-width: calc(0.23 * 1200px);
@@ -83,6 +87,7 @@
   min-height: calc(0.23 * 600px);
   max-height: calc(0.23 * 1200px);
 }
+
 
 .border_L {
   position: absolute;
@@ -92,7 +97,6 @@
   left: calc(1%*-1 - 0.02%);
   top: calc(1%*0 - 0.02%);
 }
-
 .border_T {
   position: absolute;
   background-color: #9898a8;
@@ -101,7 +105,6 @@
   left: calc(1%*0 - 0.02%);
   top: calc(1%*-1 - 0.02%);
 }
-
 .border_R {
   position: absolute;
   background-color: #9898a8;
@@ -110,7 +113,6 @@
   left: calc(1%*97.5 - 0.02%);
   top: calc(1%*0 - 0.02%);
 }
-
 .border_B {
   position: absolute;
   background-color: #9898a8;
@@ -128,7 +130,6 @@
   -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 20, 0.2);
           box-shadow: 0 0 2px 2px rgba(0, 0, 20, 0.2);
 }
-
 .eclipse {
   position: absolute;
   width: 100%;
@@ -140,21 +141,13 @@
   border: 1px solid #99a;
 }
 
+
 .triangle {
   position: absolute;
   top: 2%;
   width: 96%;
   height: 96%;
 }
-
-.triangle.up {
-  border-bottom: 2px solid #667;
-}
-
-.triangle.down {
-  border-top: 2px solid #dde;
-}
-
 .triangle::before, .triangle::after {
   content: "";
   position: absolute;
@@ -164,68 +157,37 @@
   height: 101.2%;
 }
 
-.triangle.down::before, .triangle.down::after {
-  -webkit-transform-origin: top center;
-          transform-origin: top center;
+.triangle.up {
+  border-bottom: 2px solid #667;
+  --sign: -1;  /* for sign in before and after skew calc */
+}
+.triangle.down {
+  border-top: 2px solid #dde;
+  --sign: 1;
 }
 .triangle.up::before, .triangle.up::after {
   -webkit-transform-origin: bottom center;
           transform-origin: bottom center;
 }
+.triangle.down::before, .triangle.down::after {
+  -webkit-transform-origin: top center;
+          transform-origin: top center;
+}
 
-.triangle.up::before {
+/*note: angle vars are defined on the WtoH containers, and sign vars on tri.up tri.down */
+.triangle.up::before, .triangle.down::before {
   left: 0;
+  -webkit-transform: skewX(calc(var(--sign)*var(--angle))) translateX(-100%);
+  transform: skewX(calc(var(--sign)*var(--angle))) translateX(-100%);
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 96%, rgba(0, 0, 0, 0.25) 99%, #eef 99.5%);
 }
-._1to1 .triangle.up::before, ._1to1sm .triangle.up::before, ._1to1lg .triangle.up::before {
--webkit-transform: skewX(-26.5deg) translateX(-100%);
-  transform: skewX(-26.5deg) translateX(-100%);
-}
-._4to3 .triangle.up::before, ._4to3lg .triangle.up::before {
--webkit-transform: skewX(-33.7deg) translateX(-100%);
-  transform: skewX(-33.7deg) translateX(-100%);
-}
-
-.triangle.up::after {
+.triangle.up::after, .triangle.down::after {
   right: 0; 
+  -webkit-transform: skewX(calc(-1*var(--sign)*var(--angle))) translateX(100%);
+  transform: skewX(calc(-1*var(--sign)*var(--angle))) translateX(100%);
   background-image: linear-gradient(90deg, #556 2px, rgba(0, 0, 0, 0) 2%);
 }
-._1to1 .triangle.up::after, ._1to1sm .triangle.up::after, ._1to1lg .triangle.up::after {
-  -webkit-transform: skewX(26.5deg) translateX(100%);
-    transform: skewX(26.5deg) translateX(100%);
-  }
-._4to3 .triangle.up::after, ._4to3lg .triangle.up::after {
-  -webkit-transform: skewX(33.7deg) translateX(100%);
-    transform: skewX(33.7deg) translateX(100%);
-  }
 
-
-.triangle.down::before {
-  left: 0;
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 96%, rgba(0, 0, 0, 0.25) 99%, #eef 99.5%);
-}
-._1to1 .triangle.down::before, ._1to1sm .triangle.down::before, ._1to1lg .triangle.down::before {
-  -webkit-transform: skewX(26.5deg) translateX(-100%);
-    transform: skewX(26.5deg) translateX(-100%);
-  }
-  ._4to3 .triangle.down::before, ._4to3lg .triangle.down::before {
-  -webkit-transform: skewX(33.7deg) translateX(-100%);
-    transform: skewX(33.7deg) translateX(-100%);
-  }
-
-
-.triangle.down::after {
-  right: 0;
-  background-image: linear-gradient(90deg, #556 2px, rgba(0, 0, 0, 0.25) 3px, rgba(0, 0, 0, 0) 3%);
-}
-._1to1 .triangle.down::after, ._1to1sm .triangle.down::after, ._1to1lg .triangle.down::after {
-  -webkit-transform: skewX(-26.5deg) translateX(100%);
-    transform: skewX(-26.5deg) translateX(100%);
-  }
-  ._4to3 .triangle.down::after, ._4to3lg .triangle.down::after {
-  -webkit-transform: skewX(-33.7deg) translateX(100%);
-    transform: skewX(-33.7deg) translateX(100%);
-  }
 
 .vertWideC_40.Lmask {
   position: absolute;
