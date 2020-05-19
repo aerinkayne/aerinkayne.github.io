@@ -60,7 +60,7 @@
 
 		<div class="maskContainerSection">
 			
-			<div id="_even3" class="maskedImageDisplay">
+			<div id="_even3" class="maskedImageDisplay _4to3lg">
 				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
 				<div class="vertCol2_w3 col1"></div>
 				<div class="vertCol2_w3 col2"></div>
@@ -69,7 +69,7 @@
 				<div class="vertCol2_w3 frame3"></div>
 			</div>
 
-			<div id="_even4" class="maskedImageDisplay">
+			<div id="_even4" class="maskedImageDisplay _4to3lg">
 				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
 				<div class="vertCol3_w3 col1"></div>
 				<div class="vertCol3_w3 col2"></div>
@@ -80,7 +80,7 @@
 				<div class="vertCol3_w3 frame4"></div>
 			</div>
 
-			<div id="_even5" class="maskedImageDisplay">
+			<div id="_even5" class="maskedImageDisplay _4to3lg">
 				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
 				<div class="vertCol4_w3 col1"></div>
 				<div class="vertCol4_w3 col2"></div>
@@ -93,7 +93,7 @@
 				<div class="vertCol4_w3 frame5"></div>
 			</div>
 
-			<div id="_wide3" class="maskedImageDisplay">
+			<div id="_wide3" class="maskedImageDisplay _4to3lg">
 				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
 				<div class="vertWideC_40 Lmask"></div>
 				<div class="vertWideC_40 Rmask"></div>
@@ -102,13 +102,23 @@
 				<div class="vertWideC_40 Rframe"></div>
 			</div>
 
-			<div id="_wider3" class="maskedImageDisplay">
+			<div id="_wider3" class="maskedImageDisplay _4to3lg">
 				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
 				<div class="vertWideC_60 Lmask"></div>
 				<div class="vertWideC_60 Rmask"></div>
 				<div class="vertWideC_60 Lframe"></div>
 				<div class="vertWideC_60 Midframe"></div>
 				<div class="vertWideC_60 Rframe"></div>
+			</div>
+
+			<div id="_triUp" class="maskedImageDisplay _4to3lg">
+				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
+				<div class="triangle up"></div>
+			</div>
+
+			<div id="_triDown" class="maskedImageDisplay _4to3lg">
+				<img src="/images/negSpaceImages/mountain-view-golden-hour-photography-733168.jpg">
+				<div class="triangle down"></div>
 			</div>
 		</div>
 
@@ -129,10 +139,22 @@
 				<label for="wide3">3 panel, wide</label>
 				<input type="radio" id="wide3" name="frameOptions" value="_wide3">
 			</div>
-			<div class="last">
+			<div>
 				<label for="wider3">3 panel, wider</label>
 				<input type="radio" id="wider3" name="frameOptions" value="_wider3">
 			</div>
+			<div>
+				<label for="triU">upward triangle</label>
+				<input type="radio" id="triU" name="frameOptions" value="_triUp">
+			</div>
+			<div class="last">
+				<label for="triD">downward triangle</label>
+				<input type="radio" id="triD" name="frameOptions" value="_triDown">
+			</div>
+		</div>
+
+		<div class="center">
+			<p>This is an in-progress experiment using SASS mixins, functions and loops to generate class names for masking and framing images. It started, in part, simply as a way to become more familiar with functionalities available through SASS.  I also wanted triangular images ._.  I don't know if the world needs triangular images, but I wanted them.</p>
 		</div>
 
 
@@ -174,7 +196,7 @@
 				<div class="triangle down"></div> 
 			</div>
 
-			<div class="maskContainer  _1to1">
+			<div class="maskContainer  _1to1lg">
 				<img src="/images/negSpaceImages/pexels-photo-2131828QuangNguyenVinh650.jpeg"> 
 				<div class="triangle up"></div>
 			</div>
