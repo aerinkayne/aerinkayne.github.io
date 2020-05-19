@@ -159,9 +159,9 @@
   content: "";
   position: absolute;
   background-color: #9898a8;
-  top: -0.4%;
+  top: -0.6%;
   width: 52%;
-  height: 100.8%;
+  height: 101.2%;
 }
 
 .triangle.down::before, .triangle.down::after {
