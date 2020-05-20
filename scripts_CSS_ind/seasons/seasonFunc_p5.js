@@ -544,15 +544,15 @@ class Enemy{
 		this.C.x = this.P.x + this.w/2;
 		this.C.y = this.P.y + this.h/2;
 	}
+	isGrounded(t){
+		return t.C.y-this.C.y > 0 && t.C.y-this.C.y < t.h && this.C.x >= t.P.x && this.C.x <= t.P.x + t.w
+	}
 	checkGroundingPoints(){
 		this.updateCenterPosition();
-		this.grounded = false; 
-		this.collisionTiles.forEach(tile=>{
-			//rect(tile.P.x, tile.P.y, tile.w, tile.h);
-			if (tile.C.y-this.C.y > 0 && tile.C.y-this.C.y < tile.h && this.C.x >= tile.P.x && this.C.x <= tile.P.x + tile.w){
-				this.grounded = true;  
-			}
-		});
+		this.grounded = false;   
+		if(this.collisionTiles.some(tile=> this.isGrounded(tile))){
+			this.grounded = true; 
+		}
 	}
 	checkMapCollision(Vx, Vy){      
 		this.collisionTiles.forEach(tile=> {
