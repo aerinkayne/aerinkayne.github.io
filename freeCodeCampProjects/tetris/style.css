@@ -27,9 +27,7 @@ p {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(20, 1fr);
-    grid-gap: 1px;
     padding: 1px;
-    background-color: #001020;
     border: 2px solid #004870;
     border-right: 2px solid #002435;
     border-bottom: 2px solid #002435;
@@ -58,11 +56,9 @@ p {
 } 
 
 
-.tetromino {
-    border-radius: 2px;
-}
 
 .orange {
+    border-radius: 3px 20%;
     background-color: #784800;
     background-image: 
     linear-gradient(45deg, rgba(80, 50, 0, 0.5) 20%, rgba(150,125,0, 0.75) 50%, rgba(80,50,0, 0.5) 80%),
@@ -70,6 +66,7 @@ p {
     border: 1px outset #906030;
 }
 .red {
+    border-radius: 0px 35%;
     background-color: #800000; 
     background-image: 
     linear-gradient(45deg, rgba(50, 0, 10, 0.5) 20%, rgba(100,0,25, 0.75) 50%, rgba(50, 0, 10, 0.5) 80%),
@@ -79,36 +76,39 @@ p {
 .blue{
     background-color: #202060; 
     background-image: 
-    linear-gradient(45deg, rgba(0, 50, 80, 0.5) 20%, rgba(0, 100, 150, 0.75) 50%, rgba(0, 50, 80, 0.5) 80%),
-    linear-gradient(135deg, rgba(0, 50, 80, 0.5) 20%, rgba(0, 100, 150, 0.75) 50%, rgba(0, 50, 80, 0.5) 80%); 
+    linear-gradient(0deg, rgba(0, 50, 80, 0.5) 20%, rgba(0, 100, 150, 0.75) 50%, rgba(0, 50, 80, 0.5) 80%),
+    linear-gradient(90deg, rgba(0, 50, 80, 0.5) 20%, rgba(0, 100, 150, 0.75) 50%, rgba(0, 50, 80, 0.5) 80%); 
     border: 1px outset #306090;    
 }
 .green {
+    border-radius: 20%;
     background-color: #006000; 
     background-image: 
-    linear-gradient(45deg, rgba(0, 80, 50, 0.5) 20%, rgba(0, 150, 100, 0.75) 50%, rgba(0, 80, 50, 0.5) 80%),
-    linear-gradient(135deg, rgba(0, 80, 50, 0.5) 20%, rgba(0, 150, 100, 0.75) 50%, rgba(0, 80, 50, 0.5) 80%); 
+    linear-gradient(0deg, rgba(0, 80, 50, 0.5) 20%, rgba(0, 150, 100, 0.75) 50%, rgba(0, 80, 50, 0.5) 80%),
+    linear-gradient(90deg, rgba(0, 80, 50, 0.5) 20%, rgba(0, 150, 100, 0.75) 50%, rgba(0, 80, 50, 0.5) 80%); 
     border: 1px outset #309060; 
 }
 .magenta {
+    border-radius: 35%;
     background-color: #600040; 
     background-image: 
-    linear-gradient(45deg, rgba(80, 0, 50, 0.5) 20%, rgba(150, 25, 100, 0.75) 50%, rgba(80, 0, 50, 0.5) 80%),
-    linear-gradient(135deg, rgba(80, 0, 50, 0.5) 20%, rgba(150, 25, 100, 0.75) 50%, rgba(80, 0, 50, 0.5) 80%); 
+    linear-gradient(45deg, rgba(80, 0, 50, 0.5) 20%, rgba(150, 25, 100, 0.5) 50%, rgba(80, 0, 50, 0.5) 80%),
+    linear-gradient(135deg, rgba(80, 0, 50, 0.5) 20%, rgba(150, 25, 100, 0.5) 50%, rgba(80, 0, 50, 0.5) 80%); 
     border: 1px outset #903060; 
 }
 .violet {
     background-color: #382060; 
     background-image: 
-    linear-gradient(45deg, rgba(50, 0, 75, 0.5) 20%, rgba(100, 25, 125, 0.75) 50%, rgba(50, 0, 75, 0.5) 80%),
-    linear-gradient(135deg, rgba(50, 0, 75, 0.5) 20%, rgba(100, 25, 125, 0.75) 50%, rgba(50, 0, 75, 0.5) 80%); 
+    linear-gradient(45deg, rgba(125, 75, 150, 0.5) 20%, rgba(25, 0, 35, 0.5) 50%, rgba(125, 75, 150, 0.5) 80%),
+    linear-gradient(135deg, rgba(125, 75, 150, 0.5) 20%, rgba(25, 0, 35, 0.5) 50%, rgba(125, 75, 150, 0.5) 80%); 
     border: 1px outset #603090; 
 }
 .lime {
+    border-radius: 0px 20%;
     background-color: #507000; 
     background-image: 
-    linear-gradient(45deg, rgba(60, 80, 0, 0.5) 20%, rgba(125, 150, 0, 0.75) 50%, rgba(60, 80, 0, 0.5) 80%),
-    linear-gradient(135deg, rgba(60, 80, 0, 0.5) 20%, rgba(125, 150, 0, 0.75) 50%, rgba(60, 80, 0, 0.5) 80%); 
+    linear-gradient(0deg, rgba(60, 80, 0, 0.5) 20%, rgba(125, 150, 0, 0.75) 50%, rgba(60, 80, 0, 0.5) 80%),
+    linear-gradient(90deg, rgba(60, 80, 0, 0.5) 20%, rgba(125, 150, 0, 0.75) 50%, rgba(60, 80, 0, 0.5) 80%); 
     border: 1px outset #709030; 
 }
 
@@ -116,7 +116,7 @@ p {
     margin-left: 1em;
     display: flex;
     flex-direction: column;
-    height: fit-content;
+    justify-content: flex-start;
 }
 
 #miniGrid {
@@ -141,9 +141,9 @@ p {
 }
 
 #credits {
-    margin: auto;
+    margin: 1em auto;
     padding: 0.5em;
-    font-size: calc(max(0.7rem, min(1vw, 1rem)));
+    font-size: calc(max(0.65rem, min(1vw, 1rem)));
     text-align: left;
     width: 12vw;
     min-width: calc(0.12*600px);
