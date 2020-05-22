@@ -111,6 +111,8 @@ class Game{
 					bads.splice(i,1);
 				} 
 			}
+			this.checkSynchronizedBads();
+
 			if (!this.paused){ship.update();} 
 			ship.shots.forEach(shot=> {shot.draw(ship);});
 			ship.draw();
@@ -120,7 +122,7 @@ class Game{
 				for (let i = pups.length-1; i >=0 ; i--){
 					pups[i].draw();
 					if (!this.paused){pups[i].update();}
-					//splice pup out if it goes offscreen or if it's picked up
+					//splice pup out if it goes offscreen(Y) or if it's picked up
 					if (collide(pups[i], ship)){
 						pups[i].modShip(ship);
 						pups.splice(i,1);
@@ -141,7 +143,7 @@ class Game{
 			invGame = new Game();
 			invShip = new Ship(width/2-35,height-35, 35,35);
 			gameScreen = new GameScreen(invShip); 
-			gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w > s2.w ? 1 : -1 ));
+			gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w - s2.w ));
 			this.gameState = "gameStart";
 		}
 	}
@@ -164,6 +166,22 @@ class Game{
 		//clear pause duration
 		this.timePaused = 0;
 		this.timeUnpaused = 0;
+	}
+	checkSynchronizedBads(){
+		if (moveTogether.length){
+			//removed defeated from tracking array.
+			moveTogether = moveTogether.filter(enemy=> {
+				return enemy.health > 0;
+			});
+			//reverse movement if any of them are outside of level width
+			if (moveTogether.some(enemy=> {
+				return enemy.P.x + enemy.w > this.levelW || enemy.P.x < 0;
+			})){
+				moveTogether.forEach(enemy=> {
+					enemy.V.x *= -1;
+				});
+			}
+		}
 	}
 	waveCheck(){
 		if (!this.spawned[this.currentWave] && this.currentWave < this.waveMap.length ){
@@ -205,11 +223,18 @@ class Game{
 					else if(s==="2"){bads.push(new BlueShip(gw*col, gh*row, gw, gh));}
 					else if(s==="3"){bads.push(new GreenShip(gw*col, gh*row, gw, gh));}
 					else if(s==="4"){bads.push(new OrangeShip(gw*col, gh*row, gw, gh));}
-					else if(s==="5"){bads.push(new Eye(gw*col, 50+gh*row, gw, gh, gw*(numCols-col)));}  
+					else if(s==="5"){
+						let B = new Eye(gw*col, 50+gh*row, gw, gh);
+						bads.push(B);
+						moveTogether.push(B);
+					}  
 					else if(s==="6"){bads.push(new CrimsonShip(gw*col, gh*row, gw, gh));}
 					else if(s==="7"){
+						let B = new EnmBase(gw*col, gh*row, gw, gh);
 						//unshifted so that it's drawn last (loop is backwards). 
-						bads.unshift(new EnmBase(gw*col, gh*row, gw, gh, gw*(numCols-col)));}
+						bads.unshift(B);
+						moveTogether.push(B);
+					}
 					else {console.log("unexpected char in game waveMap: " + s);}
 					}
 		}

@@ -86,7 +86,7 @@ class Enemy{
 	updateVelocity(){
 		return;
 	}
-	drawShots(ship){
+	drawShots(){
 		this.shots.forEach(shot => {
 			if (collide(shot, gameScreen)){
 				shot.draw(this);
@@ -304,9 +304,12 @@ class OrangeShip extends Enemy{
 		(this.V.x >= 0) ? this.V.x = abs(cos(frameCount/20)) : this.V.x = -abs(cos(frameCount/20));
 	}
 }
+
+
+
 class Eye extends Enemy{
-	constructor(x, y, gridW, gridH, num){ //(numcols in array - current col index - 1)*gridW
-		super(x, y, gridW, gridH, num);
+	constructor(x, y, gridW, gridH){ 
+		super(x, y, gridW, gridH);
 		this.w = 70;
 		this.h = 40;
 		this.scaleMod = 1;
@@ -317,25 +320,26 @@ class Eye extends Enemy{
 		this.V = createVector(0.25,0);
 		this.health = 1200;
 		this.attackCooldown = 360; 
-		this.boundXL = floor(x); 
-		this.boundXR = floor(levelW - num);  
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
 	}
 	
 	movementBounds(){
+		return;
+	}
+	/*
 		if (this.P.x < this.boundXL || this.P.x > this.boundXR){
 			this.V.x *= -1;
 		}
-	}
+	} */
 	checkIfAttackable(){
 		(this.drawTimer < this.cycleTime/2) ?  this.takesDamage = true : this.takesDamage = false;
 	}
 }
 
 class EnmBase extends Eye{
-	constructor(x, y, gridW, gridH, num){
-		super(x, y, gridW, gridH, num);
+	constructor(x, y, gridW, gridH){
+		super(x, y, gridW, gridH);
 		this.w = 100;
 		this.h = 90;
 		this.drawTimer = 0;
@@ -352,7 +356,8 @@ class EnmBase extends Eye{
 		}
 	}	
 	shoot(){	
-			let P = createVector(this.P.x + this.w/4 - this.indentMeX, this.P.y + height/2 + 4/5*this.h); //normal spawn is at -height/2
+			let P = createVector(this.P.x + this.w/4 - this.indentMeX, this.P.y + height/2 + 4/5*this.h); 
+			//normal spawn is at -height/2
 			//passing in 0,0 for grid values so that initial position will not be corrected for these ships 
 			bads.unshift(new OrangeShip(P.x, P.y, 0, 0));  
 			this.att.play();

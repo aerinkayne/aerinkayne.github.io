@@ -1,5 +1,4 @@
-//import { startLaser,  redLaser, blueLaser, greenPulse, orangeLaser, homingMissile, spreader } from './gunExports.js';
-//SOME DAY! 
+//TODO refactor all the things 
 
 let invGame, gameScreen, invShip;
 let levelW, levelH, bordL, bordR;  //level borders - define after game created
@@ -7,6 +6,7 @@ let levelW, levelH, bordL, bordR;  //level borders - define after game created
 let btnStart, btnPause, btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun;
 //arrays for enemies and powerups, sprites
 let bads = [];
+let moveTogether = [];
 let pups = [];
 let sprites2, starBG, imgStarBG;
 let sprBadR1, sprBadR2, sprBadG1, sprBadG2, sprBadB1, sprBadB2, sprBadBr1, sprBadBr2;
@@ -92,7 +92,7 @@ function setup(){
 	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
 	invShip = new Ship(width/2-35,height-35, 35,35);
 	gameScreen = new GameScreen(invShip); 
-	gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w > s2.w ? 1 : -1 ));
+	gameScreen.stars = gameScreen.stars.sort((s1, s2) => (s1.w - s2.w));
 }	
 
 //movements = {39:bool,37:bool,38:bool,40:bool}
