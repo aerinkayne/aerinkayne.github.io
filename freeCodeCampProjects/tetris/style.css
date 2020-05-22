@@ -3,16 +3,23 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-family: 'dosis', sans-serif;
+    letter-spacing: 2;
 }
 
 body {
     background-color: #000008;
 }
-
+a, a:visited, a:active {
+    color: #c8f0f0;
+}
+p {
+    color: #7090a0;
+}
 #flexContainer {
     display: flex;
     width: fit-content;
-    margin: 2em auto;
+    margin: 1.5em auto;
 }
 
 
@@ -52,7 +59,6 @@ body {
 
 
 .tetromino {
-    background-color: #557;
     border-radius: 2px;
 }
 
@@ -106,6 +112,12 @@ body {
     border: 1px outset #709030; 
 }
 
+#sideDiv {
+    margin-left: 1em;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
 
 #miniGrid {
     padding: 1px;
@@ -119,11 +131,21 @@ body {
     width: 8vw;
     min-width: calc(0.08*600px);
     max-width: calc(0.08*1200px);
-    height: 7vw;
-    min-height: calc(0.07*600px);
-    max-height: calc(0.07*1200px);
+    height: 8vw;
+    min-height: calc(0.08*600px);
+    max-height: calc(0.08*1200px);
 }
 #miniGrid div {
     border-right: 1px solid #001020;
     border-bottom: 1px solid #001020;
+}
+
+#credits {
+    margin: auto;
+    padding: 0.5em;
+    font-size: calc(max(0.7rem, min(1vw, 1rem)));
+    text-align: left;
+    width: 12vw;
+    min-width: calc(0.12*600px);
+    max-width: calc(0.12*1200px);
 }
