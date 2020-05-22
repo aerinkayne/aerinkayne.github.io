@@ -1,4 +1,4 @@
-//TODO refactor all the things 
+//TODO refactor All the Things 
 
 let invGame, gameScreen, invShip;
 let levelW, levelH, bordL, bordR;  //level borders - define after game created

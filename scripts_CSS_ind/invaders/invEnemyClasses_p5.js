@@ -323,15 +323,11 @@ class Eye extends Enemy{
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
 	}
-	
+	//(currently) synchronized by 'checkSynchronizedBads' method in game class.
 	movementBounds(){
 		return;
 	}
-	/*
-		if (this.P.x < this.boundXL || this.P.x > this.boundXR){
-			this.V.x *= -1;
-		}
-	} */
+
 	checkIfAttackable(){
 		(this.drawTimer < this.cycleTime/2) ?  this.takesDamage = true : this.takesDamage = false;
 	}
