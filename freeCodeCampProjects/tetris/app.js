@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', ()=> {
-    const width = 10;  //num cols in grid, for indexing: 0-9 row 1, 10-19 row 2
+    const width = 10;  //num cols in grid
     let squares = Array.from(document.querySelectorAll('#grid div'));
     let score = 0;
     const grid = document.getElementById('grid');
@@ -42,8 +42,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
             timerID = null;
         } else {
             draw();
-            timerID = setInterval(moveDown, 500);
-            nextType = Math.floor(Math.random()*tetros.length);
+            timerID = setInterval(moveDown, 600);
             displayInNext();
         }
     });
@@ -109,7 +108,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     let upNextSquares = Array.from(document.querySelectorAll('#miniGrid div'));
     const displayWidth = 4;
     let displayIndex = 0;
-    let nextType = 0;
+    let nextType = Math.floor(Math.random()*tetros.length); 
     const upNextTetros = [
         [1, displayWidth+1, 2*displayWidth+1, 2],       //L1_0
         [1, displayWidth+1, 2*displayWidth+1, 0],       //L2_0
@@ -161,7 +160,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 
     function freeze(){
-        if(currentTet.some(i=> squares[currentP + i + width].classList.contains('taken'))){
+        if(currentTet.some(index=> squares[currentP + index + width].classList.contains('taken'))){
             currentTet.forEach(tet=> squares[currentP + tet].classList.add('taken'));
             
             currentType = nextType;
@@ -176,10 +175,10 @@ document.addEventListener('DOMContentLoaded', ()=> {
         }
     }
     function isAtRight() {
-        return currentTet.some(ind=> (currentP + ind + 1) % width === 0);
+        return currentTet.some(index=> (currentP + index + 1) % width === 0);  
     }
     function isAtLeft() {
-        return currentTet.some(ind=> (currentP + ind) % width === 0);
+        return currentTet.some(index=> (currentP + index) % width === 0);
     }
 
     function moveLeft(){
@@ -214,14 +213,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
     }
 
     function checkRotatedP(P){
-        P = P || currentP;
-        if (P % width < 4) {
-            if (isAtRight()){ 
-                currentP += 1;
-                checkRotatedP(P);
+        P = P || currentP;         //get current position.  Then, check if the piece is near the left side.
+        if ((P+1) % width < 4) {   //add 1 because the position index can be 1 less than where the piece is (with how they are drawn).     
+            if (isAtRight()){      //check if it's flipped over to right side
+                currentP += 1;     //if so add one to wrap it back around
+                checkRotatedP(P);  //check again with the position from start, since long block might need to move twice.
             }
         }
-        if (P % width > 5) {
+        else if (P % width > 5) {
             if (isAtLeft()){
                 currentP -= 1;
                 checkRotatedP(P);
