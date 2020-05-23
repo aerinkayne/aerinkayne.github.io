@@ -4,7 +4,6 @@
     box-sizing: border-box;
     text-decoration: none;
     font-family: 'dosis', sans-serif;
-    letter-spacing: 2;
 }
 
 body {
@@ -60,56 +59,57 @@ p {
 .orange {
     border-radius: 3px 20%;
     background-color: #784800;
-    background-image: 
-    linear-gradient(45deg, rgba(80, 50, 0, 0.5) 20%, rgba(150,125,0, 0.75) 50%, rgba(80,50,0, 0.5) 80%),
-    linear-gradient(135deg, rgba(80, 50, 0, 0.5) 20%, rgba(150,125,0, 0.75) 50%, rgba(80,50,0, 0.5) 80%); 
-    border: 1px outset #906030;
+    background-image: /* the first one gets drawn second because CSS is weird */
+    linear-gradient(35deg, rgba(85, 30, 0, 0.5) 20%, rgba(180,125,75, 0.5) 50%, rgba(85,30,0, 0.5) 80%),
+    linear-gradient(150deg, rgb(85, 30, 0) 20%, rgb(180,125,75) 50%, rgb(85,30,0) 80%); 
+    border: 2px outset #b08050;
 }
 .red {
-    border-radius: 0px 35%;
+    border-radius: 1px 35%;
     background-color: #800000; 
     background-image: 
-    linear-gradient(45deg, rgba(50, 0, 10, 0.5) 20%, rgba(100,0,25, 0.75) 50%, rgba(50, 0, 10, 0.5) 80%),
-    linear-gradient(135deg, rgba(50, 0, 10, 0.5) 20%, rgba(100,0,25, 0.75) 50%, rgba(50, 0, 10, 0.5) 80%); 
-    border: 1px outset #a03038;
+    linear-gradient(45deg, rgba(40, 0, 5, 0.5) 25%, rgba(100,0,25, 0.5) 50%, rgba(40, 0, 5, 0.5) 75%),
+    linear-gradient(135deg, rgb(40, 0, 5) 25%, rgb(100,0,25) 50%, rgb(40, 0, 5) 75%); 
+    border: 2px outset #a03038;
 }
 .blue{
     background-color: #202060; 
     background-image: 
-    linear-gradient(0deg, rgba(0, 50, 80, 0.5) 20%, rgba(0, 100, 150, 0.75) 50%, rgba(0, 50, 80, 0.5) 80%),
-    linear-gradient(90deg, rgba(0, 50, 80, 0.5) 20%, rgba(0, 100, 150, 0.75) 50%, rgba(0, 50, 80, 0.5) 80%); 
-    border: 1px outset #306090;    
+    linear-gradient(0deg, rgba(0, 30, 60, 0.5) 20%, rgba(0, 100, 150, 0.5) 50%, rgba(0, 30, 60, 0.5) 80%),
+    linear-gradient(90deg, rgb(0, 30, 60) 20%, rgb(0, 100, 150) 50%, rgb(0, 30, 60) 80%); 
+    border: 3px outset #4070a0;    
 }
 .green {
-    border-radius: 20%;
+    border-radius: 15%;
     background-color: #006000; 
     background-image: 
-    linear-gradient(0deg, rgba(0, 80, 50, 0.5) 20%, rgba(0, 150, 100, 0.75) 50%, rgba(0, 80, 50, 0.5) 80%),
-    linear-gradient(90deg, rgba(0, 80, 50, 0.5) 20%, rgba(0, 150, 100, 0.75) 50%, rgba(0, 80, 50, 0.5) 80%); 
+    linear-gradient(45deg, rgba(0, 50, 60, 0.5) 25%, rgba(0, 175, 100, 0.5) 50%, rgba(0, 50, 60, 0.5) 75%),
+    linear-gradient(135deg, rgb(0, 50, 60) 25%, rgb(0, 175, 100) 50%, rgb(0, 50, 60) 75%); 
     border: 1px outset #309060; 
 }
 .magenta {
-    border-radius: 35%;
+    border-radius: 50%;
     background-color: #600040; 
     background-image: 
-    linear-gradient(45deg, rgba(80, 0, 50, 0.5) 20%, rgba(150, 25, 100, 0.5) 50%, rgba(80, 0, 50, 0.5) 80%),
-    linear-gradient(135deg, rgba(80, 0, 50, 0.5) 20%, rgba(150, 25, 100, 0.5) 50%, rgba(80, 0, 50, 0.5) 80%); 
-    border: 1px outset #903060; 
+    radial-gradient(rgb(200, 100, 175) 5%,  rgb(125, 50, 100) 25%, rgb(70, 0, 70) 60%, rgb(40,0,40) 85%); 
+    border: 1px outset rgb(150, 75, 150);
 }
 .violet {
     background-color: #382060; 
-    background-image: 
-    linear-gradient(45deg, rgba(125, 75, 150, 0.5) 20%, rgba(25, 0, 35, 0.5) 50%, rgba(125, 75, 150, 0.5) 80%),
-    linear-gradient(135deg, rgba(125, 75, 150, 0.5) 20%, rgba(25, 0, 35, 0.5) 50%, rgba(125, 75, 150, 0.5) 80%); 
-    border: 1px outset #603090; 
+    background-image:  
+    linear-gradient(45deg, rgb(100, 50, 125) 10%, rgb(175, 125, 200) 30%, rgb(25, 0, 35) 50%, rgb(100, 50, 125) 70%, rgb(175, 125, 200) 90%); 
+    border: 1px outset rgb(175, 125, 200);
+    
 }
-.lime {
-    border-radius: 0px 20%;
-    background-color: #507000; 
+.yellow {
+    border-radius: 20% 4px;
+    background-color: #606000; 
     background-image: 
-    linear-gradient(0deg, rgba(60, 80, 0, 0.5) 20%, rgba(125, 150, 0, 0.75) 50%, rgba(60, 80, 0, 0.5) 80%),
-    linear-gradient(90deg, rgba(60, 80, 0, 0.5) 20%, rgba(125, 150, 0, 0.75) 50%, rgba(60, 80, 0, 0.5) 80%); 
-    border: 1px outset #709030; 
+    linear-gradient(45deg, rgba(75, 75, 0, 0.5) 20%, rgba(175, 175, 100, 0.5) 45%, rgba(200, 200, 175, 0.5) 50%,
+                     rgba(175, 175, 100, 0.5) 55%, rgba(75, 75, 0, 0.5) 80%),
+    linear-gradient(110deg, rgb(75, 75, 0) 20%, rgb(175, 175, 100) 45%, rgb(200, 200, 175) 50%,
+                     rgb(175, 175, 100) 55%, rgb(75, 75, 0) 80%); 
+    border: 1px outset #c0c080; 
 }
 
 #sideDiv {
