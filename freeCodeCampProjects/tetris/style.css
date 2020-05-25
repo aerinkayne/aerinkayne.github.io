@@ -75,9 +75,9 @@ p {
 .blue{
     background-color: #202060; 
     background-image: 
-    linear-gradient(0deg, rgba(0, 30, 60, 0.5) 20%, rgba(0, 100, 150, 0.5) 50%, rgba(0, 30, 60, 0.5) 80%),
-    linear-gradient(90deg, rgb(0, 30, 60) 20%, rgb(0, 100, 150) 50%, rgb(0, 30, 60) 80%); 
-    border: 3px outset #4070a0;    
+    linear-gradient(0deg, rgba(0, 20, 60, 0.5) 20%, rgba(0, 80, 150, 0.5) 50%, rgba(0, 20, 60, 0.5) 80%),
+    linear-gradient(90deg, rgb(0, 20, 60) 20%, rgb(0, 80, 150) 50%, rgb(0, 20, 60) 80%); 
+    border: 3px outset #4060a0;    
 }
 .green {
     border-radius: 15%;
@@ -87,12 +87,12 @@ p {
     linear-gradient(135deg, rgb(0, 50, 60) 25%, rgb(0, 175, 100) 50%, rgb(0, 50, 60) 75%); 
     border: 1px outset #309060; 
 }
-.magenta {
+.cyan {
     border-radius: 50%;
-    background-color: #600040; 
+    background-color: #400060; 
     background-image: 
-    radial-gradient(rgb(200, 100, 175) 5%,  rgb(125, 50, 100) 25%, rgb(70, 0, 70) 60%, rgb(40,0,40) 85%); 
-    border: 1px outset rgb(150, 75, 150);
+    radial-gradient(rgb(175, 200, 255) 3%,  rgb(40, 125, 150) 25%, rgb(0,25,40) 80%); 
+    border: 1px outset rgb(40, 125, 150);
 }
 .violet {
     background-color: #382060; 

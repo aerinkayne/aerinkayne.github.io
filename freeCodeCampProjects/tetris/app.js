@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     //active piece
     const tetros = [L1Tetro, L2Tetro, BoxTetro, TTetro, ITetro, ZigTetro, ZagTetro];
     //style names used in CSS file for each tetromino type.
-    const tetStyles = ["red", "blue", "green", "orange", "violet", "magenta", "yellow"];
+    const tetStyles = ["red", "blue", "green", "orange", "violet", "cyan", "yellow"];
 
     let currentP = 4;
     let currentType = Math.floor(Math.random()*tetros.length);

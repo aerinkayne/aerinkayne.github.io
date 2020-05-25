@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Weather API</title>
+    <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="css.css">
+</head>
+<body>
+    <div id="main">
+        <div id=weatherBtnDiv>
+            <label for="weatherInput"></label>
+            <input type="text" id="weatherInput" placeholder="enter city">
+            <button id="weatherBtn">get weather</button>
+            <p>A project I started to help learn about fetching and using data from an API. <br/>Data are from <a href="https://openweathermap.org/api">OpenWeather</a></p>
+        </div>
+        <div id="weatherGrid">
+
+            <div id="title">
+                <h1>Weather from Open Weather API</h1>
+            </div>
+
+            <div id="weatherDivinations">
+                <div class="weatherDay first"></div>
+                <div class="weatherDay"></div>
+                <div class="weatherDay"></div>
+                <div class="weatherDay"></div>
+                <div class="weatherDay last"></div>
+            </div>
+
+            <div id="notes">
+                <div id="BGdiv"></div>
+                <div id="BGtext"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+<script src="app.js"></script> 
+    
+</body>
+</html>
