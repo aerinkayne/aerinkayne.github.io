@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     elInput = document.getElementById('weatherInput');
 
     const key = '26e332d34fb63993da7fd6e6cedd790f';
-    const url = 'http://api.openweathermap.org/data/2.5/forecast?q=';
+    const url = 'https://api.openweathermap.org/data/2.5/forecast?q=';
 
 
     elBtn.addEventListener('click', ()=> {
