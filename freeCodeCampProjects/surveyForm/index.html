@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="mainContainer">
-       <!-- <div id="mainContent"> -->
+       
             <nav>
                 <ul>
                     <li><a href="#">main site</a></li>
@@ -30,7 +30,7 @@
 
                 <h1 id="title">Survey Form Project</h1>
 
-                <p id="description">This page was created for a freeCodeCamp project</p>
+                <p id="description">This page was created for a freeCodeCamp project.  </p>
 
                 <form id="survey-form" method="POST" action="">
                     <div class="formElementBox">
@@ -53,9 +53,9 @@
                     <div class="formElementBox">
                         <label for="dropdown">Favorite Pokémon</label>
                         <select id="dropdown">
-                            <option value="1">Charizard</option>
-                            <option value="2">Magikarp</option>
-                            <option value="3">Psyduck</option>
+                            <option value="char">Charizard</option>
+                            <option value="magi">Magikarp</option>
+                            <option value="psy">Psyduck</option>
                         </select>
                     </div>
 
@@ -76,33 +76,31 @@
                     <div class="formElementBox">
                         <fieldset id="creatureProps"> 
                             <legend>Select Creature Properties</legend>  
-                            <label for="scales">Scales</label>
+                            <label for="scales" class="creatureFeature first">Scales</label>
                             <input type="checkbox" id="scales" name="props" value="scales">
-                            <label for="horns">Horns</label>
-                            <input type="checkbox" id="horns" name="props" value="horns">
-                            <label for="beak">Beak</label>
+                            <label for="horns" class="creatureFeature" >Horns</label>
+                            <input type="checkbox"id="horns" name="props" value="horns">
+                            <label for="beak" class="creatureFeature">Beak</label>
                             <input type="checkbox" id="beak" name="props" value="beak">
-                            <label for="twoHeads">Two Heads</label>
-                            <input type="checkbox" id="twoHeads" name="props" value="twoHeads">
+                            <label for="twoHeads" class="creatureFeature" >2 Heads</label>
+                            <input type="checkbox"id="twoHeads" name="props" value="twoHeads">
                         </fieldset>
                     </div>
 
                     <div class="formElementBox textArea">
                         <label for="comments" id="commentLabel">Please enter questions or comments</label>
-                        <textarea id="comments" name="userComments">
-                        comments
-                        </textarea>
+                        <textarea id="comments" name="userComments">questions or comments</textarea>
                     </div>
 
                     <div class="formElementBox">
-                        <button id="submit">Submit</button>
+                        <button type="submit" id="submitBtn">Submit</button>
                     </div>
-
                 </form>
-            </div> <!--centering div -->
+                
+            </div> <!--main content (does not include nav)  -->
             
-        <!-- </div> -->
-    </div>
+        
+    </div>  <!-- main container (included nav) -->
     <footer>
         <ul>
             <li><a href="#">footer item</a></li>

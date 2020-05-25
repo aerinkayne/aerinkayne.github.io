@@ -10,17 +10,7 @@ body {
   font-family: 'dosis', sans-serif;
 }
 
-img {
-  display: block;
-  max-width: 100%;
-}
 
-#title {
-  font-family: 'Amatic SC', cursive;
-  font-size: 48px;
-  letter-spacing: 1.3px;
-  margin: 0.5em;
-}
 
 p {
   margin: 1em 1.5em;
@@ -32,11 +22,11 @@ p {
 }
 
 #mainContent {
+  padding: 2em;
   padding-bottom: 75px;
   overflow: auto;
-  padding-top: 50px;
   width: 85%;
-  background-color: #eaeaf0;
+  background-color: #cacad0; /* #eaeaf0; */
   margin: auto;
   min-width: 600px;
   max-width: 1200px;
@@ -50,7 +40,7 @@ nav {
 
 footer {
   height: 75px;
-  margin-top: calc(-1*$footerH);
+  margin-top: -75px;
 }
 
 nav, footer {
@@ -65,7 +55,7 @@ nav, footer {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #303438;
+  background-color: #383b40;
   width: 100%;
 }
 
@@ -74,7 +64,6 @@ nav a, footer a {
   text-decoration: none;
   color: #f55;
 }
-
 nav a:hover, footer a:hover {
   color: #ffcdb8;
 }
@@ -113,7 +102,7 @@ nav > ul li {
 }
 
 footer ul {
-  background-color: #303438;
+  background-color: #383b40;
 }
 
 footer ul li {
@@ -167,9 +156,31 @@ ul.dropContent li:hover {
   display: block;
 }
 
+
+
+
+
+#title {
+  font-family: 'Amatic SC', cursive;
+  font-size: 48px;
+  letter-spacing: 1.3px;
+  margin-top: 0.5em;
+}
+#description {
+  margin: 0;
+  margin-bottom: 3em;
+}
+
+
+
 form {
+  background-color: rgba(240,240,255,0.2);
   min-width: 400px;
-  margin: 1em;
+  border: 1px solid #889;
+  padding: 0.75em 2em;
+  margin-bottom: 1em;
+  border-radius: 2px;
+  box-shadow: 1px 1px 4px rgba(0,0,25,0.3);
 }
 
 .formElementBox {
@@ -177,28 +188,36 @@ form {
 }
 
 fieldset {
-  padding: 0.5em;
+  border-radius: 6px  10% 2px;
+  padding: 1em 0.5em;
+  border: 3px solid rgba(0,0,50, 0.1);
 }
 
 input {
-  border: 1px solid red;
+  border: 1px solid #889;
+  padding: 0.2em;
 }
 
+
 label {
-  background-color: silver;
   display: inline-block;
-  padding: 0.1em 0.5em;
+  padding: 0.1em 0.25em;
   width: 100px;
   text-align: right;
 }
 
-.elements {
-  text-align: center;
-  width: 65px;
+#dropdown, #number {
+  width: 100px;
+  border: 1px solid #889;
+  padding: 0.2em;
 }
 
-.elements:not(.first) {
-  margin-left: 3%;
+.elements, .creatureFeature {
+  width: 70px;
+}
+
+.elements:not(.first), .creatureFeature:not(.first) {
+  margin-left: 2em;
 }
 
 #commentLabel {
@@ -208,6 +227,10 @@ label {
 
 button {
   padding: 0.3em 0.5em;
+  text-align: center;
+  width: 70px;
+  border: 2px outset #e8e8ff;
+  background-image: linear-gradient(30deg, #d0d0e0 5%, #e8e8ff 30%, #c0c0d4 55%, #d0d0db 75%, #c0c0d0);
 }
 
 textarea {
@@ -215,5 +238,6 @@ textarea {
   height: 200px;
   display: block;
   margin: 0.5em 0;
+  padding: 0.25em;
+  border: 1px solid #889;
 }
-/*# sourceMappingURL=main.css.map */
