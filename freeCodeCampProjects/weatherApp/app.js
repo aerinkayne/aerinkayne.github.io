@@ -26,21 +26,23 @@ document.addEventListener('DOMContentLoaded', ()=> {
     })
 
     const forecastDivs = Array.from(document.querySelectorAll('.weatherDay'));
+    const descriptionDivs = Array.from(document.querySelectorAll('.weatherDesc'));
     elNoteTxt = document.getElementById('BGtext');
 
     function addToDivs(city, arrDays){
         let noteTxt = `Weather Info for ${city.name}`;
         for (let i = 0; i < arrDays.length; i++){
-            let addedText = `\n${arrDays[i][0].dt_txt.slice(5,10)}\n\n`;
-            let mainTxt = `\n${arrDays[i][0].weather[0].description}`;
+            let weatherText = `<p><b>${arrDays[i][0].dt_txt.slice(5,10)}</b><br/>`;
+            let descriptionTxt = `${arrDays[i][0].weather[0].description}`;
             arrDays[i].forEach(log=> {
                 let t = log.dt_txt.slice(11, 16);
                 let f = KtoF(log.main.temp);
-                addedText += `${t}\t${f}°F\n`;
+                weatherText += `<br/>${t}\t${f}°F`;
             });
-            addedText += mainTxt;
+            
             try{
-                forecastDivs[i].innerText = addedText;
+                forecastDivs[i].innerHTML = `${weatherText}</p>`;
+                descriptionDivs[i].innerText = descriptionTxt;
                 elNoteTxt.innerText = noteTxt;
             }
             catch(e){console.log(";_;", e);}
