@@ -215,6 +215,7 @@ h1, h2, h3, h4, h5 {
 nav {
   background-color: #343438;
   height: 45px;
+  z-index: 9999;
 }
 
 .navContentContainer {
@@ -262,10 +263,12 @@ nav {
 }
 
 #navLinks > li {
+  min-width: 140px;
+  text-align: center;
   padding: 0.10em 0.6em;
-  border-radius: 8px / 20%;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
+  border-radius: 6px / 20%;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
 }
 
 /*showNav class is toggled with event listener on #burger div*/
@@ -275,15 +278,13 @@ nav {
 }
 
 #navLinks > li:hover {
-  border-left: 4px solid #c8fff0;
-  border-right: 4px solid #c8fff0;
+  border-left: 3px solid #c8fff0;
+  border-right: 3px solid #c8fff0;
   color: #c8fff0;
 }
 
 .dropdown {
-  text-align: center;
   position: relative;
-  min-width: 140px;
 }
 
 .dropdownContent {
@@ -309,9 +310,8 @@ nav {
   background-image: linear-gradient(90deg, rgba(0, 200, 200, 0) 0%, rgba(0, 200, 200, 0) 3%, rgba(0, 200, 200, 0.4) 50%, rgba(0, 200, 200, 0) 97%, rgba(0, 200, 200, 0) 100%);
   color: #3ba;
   border-radius: 6px / 20%;
-  -webkit-transition: background-image 0.75s;
-  transition: background-image 0.75s;
-  margin: 0.35em;
+
+  margin: 0.25em;
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
   text-align: center;
@@ -327,7 +327,7 @@ nav {
 #navLinks .dropdownContent a {
   display: block;
   font-size: 0.9rem;
-  padding: 0.5em 0;
+  padding: 0.35em 0;
 }
 
 #navLinks a:link {
