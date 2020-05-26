@@ -7,10 +7,24 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
 </head>
+
+<!--  
+
+changes and fixes:
+Added an array of strings used as class names for piece styling.
+Added additional pieces (second L and Z).
+Board should scale with the window on most browsers.  General styling.
+Pieces should no longer sometimes rotate through the screen.
+Pausing/unpausing the game will not recast the next piece, and initial next piece is random instead of 0.
+Matching multiple rows simultaneously awards more points, and a 4 row match significantly more. 
+known issues:
+A multiple row match results in 'lag' and can cause style retention if the piece is moved during that time.  
+Pieces cannot 'slide' at the last moment. 
+
+-->
+
 <body>
     
-
-
     <div id="flexContainer">
         <div id="startDiv">
             <button id="startBtn">Start/Pause</button>
@@ -251,7 +265,8 @@
             </div>
 
             <div id="credits">
-                <p>Created with the help of <a href="https://www.youtube.com/watch?v=rAUn1Lom6dw&lc=Ugyi3SNfVVYg7PI5WTZ4AaABAg.98qEmn0_5lR98yKNhQxiUs">Ania's Tetris tutorial on freeCodeCamp</a>
+                <p>Created with the help of <a href="https://www.youtube.com/watch?v=rAUn1Lom6dw&lc=Ugyi3SNfVVYg7PI5WTZ4AaABAg.98qEmn0_5lR98yKNhQxiUs">Ania's Tetris tutorial on freeCodeCamp</a>.</p>  
+                <p>Source can be viewed for comments about changes.
                 </p>
             </div>
         </div>

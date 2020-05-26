@@ -6,25 +6,24 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 
     function addScore(){
-        for (let i = 0; i < 199; i+=width){
+        let rowsFilled = 0;
+        for (let i = 0; i < 200; i+=width){  
             const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9];
             if (row.every(index=> squares[index].classList.contains('taken'))){
-                score+=10;
+                rowsFilled++;
+                if (rowsFilled===4){rowsFilled=14;}
+                                        //10     30        60           200
+                score += 10*rowsFilled; //1->10, 2->10+20, 3->10+20+30, 4->10+20+30+140
                 scoreSpan.innerHTML = score;
+
                 row.forEach(index=> {
-                    squares[index].classList.remove('taken');
-                    squares[index].classList.remove('tetromino');
-
-                    tetStyles.forEach(style=> {   
-                        squares[index].classList.remove(style);
-                    });
-
+                    squares[index].className = '';
                 });
                 const squaresRemoved = squares.splice(i,width);
                 
                 squares = squaresRemoved.concat(squares);
                 squares.forEach(cell=> grid.appendChild(cell));
-            }
+            } 
         }
     }
 
@@ -93,7 +92,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         [1,2, width, width+1]
     ]
 
-    //active piece
+    //piece types
     const tetros = [L1Tetro, L2Tetro, BoxTetro, TTetro, ITetro, ZigTetro, ZagTetro];
     //style names used in CSS file for each tetromino type.
     const tetStyles = ["red", "blue", "green", "orange", "violet", "cyan", "yellow"];

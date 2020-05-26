@@ -17,7 +17,7 @@ p {
 }
 #flexContainer {
     display: flex;
-    width: fit-content;
+    justify-content: center;
     margin: 1.5em auto;
 }
 
