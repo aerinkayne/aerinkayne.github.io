@@ -21,7 +21,6 @@ class Ship{
 	this.shots = [];
 	this.firing = false;
 	this.firingDelay = 0;
-	this.modifyLocation = 0; //0 or 1.  used as a multiplier for some image alterations
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
 	
 	this.powerLevel = 0;  //zero based
@@ -72,7 +71,7 @@ class Ship{
 		return target;
 	}
 	shoot(){ 
-		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y + this.h*this.modifyLocation);
+		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y);
 		let V = createVector(0, this.gunType.speed*this.shotDirection);
 
 		P.x -= this.w/8*this.powerLevel;

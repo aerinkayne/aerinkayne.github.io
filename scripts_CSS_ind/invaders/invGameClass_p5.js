@@ -217,15 +217,15 @@ class Game{
 		let numCols = this.waveMap[wave][0].length;
 		for(let row=0; row < numRows; row++){  
 			for(let col=0; col < numCols; col++){  
-				let s=this.waveMap[wave][row][col];  //char in game.waveMap array
-				let X = 50;
+				let s=this.waveMap[wave][row][col];  
+				let X = 50;  //some mobs are wider than grid size. indents X position to account for centering 
 				if (s===" "){continue;}
 				else if(s==="1"){bads.push(new RedShip(X + w*col, h*row, w, h));}  
 				else if(s==="2"){bads.push(new BlueShip(X + w*col, h*row, w, h));}
 				else if(s==="3"){bads.push(new GreenShip(X + w*col, h*row, w, h));}
 				else if(s==="4"){bads.push(new OrangeShip(X + w*col, h*row, w, h));}
 				else if(s==="5"){
-					let B = new Eye(X + w*col, 50+h*row, w, h);
+					let B = new Eye(X + w*col, h*row, w, h);
 					bads.push(B);
 					moveTogether.push(B);
 				}  
