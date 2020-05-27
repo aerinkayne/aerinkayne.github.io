@@ -59,7 +59,6 @@ class StartBtn extends Button{
 
 		invShip = new Ship(width/2-35,height-35, 35,35);
 		gameScreen = new GameScreen(invShip); 
-		gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w > s2.w ? 1 : -1 ));
 		
 		invGame.startGame();
 		invGame.gameState = "inGame";
@@ -127,28 +126,32 @@ class GameScreen{
 		this.w = width;
 		this.h = height;
 		this.numStars = 70;
-		this.stars = [];  
-		//meth setup - todo: move to method
+		this.stars = this.addStars();  
+	}
 
+	addStars(){
+		let stars = [];
 		for (let i = 0; i < this.numStars; i++){ //how many from param
-			this.stars.push(new Object());
-			this.stars[i].P = createVector(random(this.P.x, this.P.x + this.w), random(this.P.y, this.P.y + this.h));
+			stars.push(new Object());
+			stars[i].P = createVector(random(this.P.x, this.P.x + this.w), random(this.P.y, this.P.y + this.h));
 			
 			//~75% small, 22.5% medium, 2.5% large stars, vary colors for each size somewhat.
 			let sizeRoll = random(0,this.numStars);
 			if (sizeRoll < 3/4*this.numStars) {
-				this.stars[i].w = this.stars[i].h = random(1.5, 2.5);
-				this.stars[i].color = [random(0, 25), random(50,100), random(125, 175)];
+				stars[i].w = stars[i].h = random(1.5, 2.5);
+				stars[i].color = [random(0, 25), random(50,100), random(125, 175)];
 			}
 			else if (sizeRoll < 19.5/20*this.numStars){
-				this.stars[i].w  = this.stars[i].h = random(2, 4);
-				this.stars[i].color = [random(0, 50), random(75,150), random(150, 225)];
+				stars[i].w  = stars[i].h = random(2, 4);
+				stars[i].color = [random(0, 50), random(75,150), random(150, 225)];
 			}
 			else {
-				this.stars[i].w = this.stars[i].h = random(5,8);
-				this.stars[i].color = [255, random(150,225), random(100, 210)];
+				stars[i].w = stars[i].h = random(5,8);
+				stars[i].color = [255, random(150,225), random(100, 210)];
 			}
-		}	
+		}
+		stars.sort((a,b)=> a.w - b.w);	
+		return stars;
 	}
 	updatePosition(ship){
 		this.P.x = ship.T.x;

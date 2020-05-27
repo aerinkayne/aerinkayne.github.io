@@ -4,8 +4,8 @@ class Game{
 		this.levelH = 350;
 		this.gridW = 70;
 		this.gridH = 50;
-		this.waveTimer = 30000;  //milliseconds  //TODO change to timer/frames, incr in draw loop only if unpaused
-		this.dateRefMillisecs = 0; //update in start
+		this.waveTimer = 3000;  	//milliseconds  
+		this.dateRefMillisecs = 0;  //update in start
 		this.timePaused = 0;
 		this.timeUnpaused = 0;
 		this.currentTime = 0;
@@ -16,8 +16,8 @@ class Game{
 		this.spawned = [false, false, false, false, false, false];
 		this.waveMap = [
 			[	//0
-				"212",  //game.waveMap[currentWave===0].length === 3
-				"111",  //game.waveMap[currentWave===0][row].length === 8
+				"212",  
+				"111",  
 				"121"
 			],
 			
@@ -76,8 +76,8 @@ class Game{
 			],
 			
 			[	//10
-				"0505050",
-				"7050507"
+				" 5 5 5 ",
+				"7 5 5 7"
 			]
 		];
 	}
@@ -99,6 +99,7 @@ class Game{
 			gameScreen.backgroundImg(starBG);
 			gameScreen.drawStars(); 
 			gameScreen.updateStars(); 
+			this.checkSynchronizedEnemies();
 			
 			for (let i = bads.length-1; i >=0 ; i--){
 				bads[i].drawShots(ship); 
@@ -111,7 +112,6 @@ class Game{
 					bads.splice(i,1);
 				} 
 			}
-			this.checkSynchronizedBads();
 
 			if (!this.paused){ship.update();} 
 			ship.shots.forEach(shot=> {shot.draw(ship);});
@@ -143,7 +143,6 @@ class Game{
 			invGame = new Game();
 			invShip = new Ship(width/2-35,height-35, 35,35);
 			gameScreen = new GameScreen(invShip); 
-			gameScreen.stars = gameScreen.stars.sort((s1,s2) => (s1.w - s2.w ));
 			this.gameState = "gameStart";
 		}
 	}
@@ -167,13 +166,14 @@ class Game{
 		this.timePaused = 0;
 		this.timeUnpaused = 0;
 	}
-	checkSynchronizedBads(){
+
+	checkSynchronizedEnemies(){
 		if (moveTogether.length){
-			//removed defeated from tracking array.
+			//remove defeated from tracking array.
 			moveTogether = moveTogether.filter(enemy=> {
 				return enemy.health > 0;
 			});
-			//reverse movement if any of them are outside of level width
+			//reverse movement if any of them are outside of range
 			if (moveTogether.some(enemy=> {
 				return enemy.P.x + enemy.w > this.levelW || enemy.P.x < 0;
 			})){
@@ -183,6 +183,7 @@ class Game{
 			}
 		}
 	}
+
 	waveCheck(){
 		if (!this.spawned[this.currentWave] && this.currentWave < this.waveMap.length ){
 			this.numBadsOld = bads.length;			
@@ -195,13 +196,12 @@ class Game{
 			this.currentWave++;
 			sEnmSpawn.play();
 		}
-}
+	}
 	setPup(item){
 		if (this.currentWave!==this.waveMap.length-1){ //if it's not the final wave
 			let max = bads.length;
 			let min = bads.length-this.numBadsNew;
-			//console.log(min, max);
-			let i = floor(random(min,max));  //rand from newly added, eg old=2, new=12, newlen=14, possible rand vals 2-13.999, floor to index 2-13
+			let i = floor(random(min,max));  //random num from newly added
 			if(!bads[i].drop){
 				bads[i].drop = item;
 				}  else {
@@ -211,32 +211,32 @@ class Game{
 		}
 	}
 	spawnBads(wave){
-		let gw = this.gridW; 
-		let gh = this.gridH;
+		let w = this.gridW; 
+		let h = this.gridH;
 		let numRows = this.waveMap[wave].length;
 		let numCols = this.waveMap[wave][0].length;
-		for(let row=0; row < numRows; row++){  //0-2
-			for(let col=0; col < numCols; col++){  //0-5
-				let s=this.waveMap[wave][row][col];  //character in game.waveMap array
-					if(s==="0"){continue;}
-					else if(s==="1"){bads.push(new RedShip(gw*col, gh*row, gw, gh));}  
-					else if(s==="2"){bads.push(new BlueShip(gw*col, gh*row, gw, gh));}
-					else if(s==="3"){bads.push(new GreenShip(gw*col, gh*row, gw, gh));}
-					else if(s==="4"){bads.push(new OrangeShip(gw*col, gh*row, gw, gh));}
-					else if(s==="5"){
-						let B = new Eye(gw*col, 50+gh*row, gw, gh);
-						bads.push(B);
-						moveTogether.push(B);
-					}  
-					else if(s==="6"){bads.push(new CrimsonShip(gw*col, gh*row, gw, gh));}
-					else if(s==="7"){
-						let B = new EnmBase(gw*col, gh*row, gw, gh);
-						//unshifted so that it's drawn last (loop is backwards). 
-						bads.unshift(B);
-						moveTogether.push(B);
-					}
-					else {console.log("unexpected char in game waveMap: " + s);}
-					}
+		for(let row=0; row < numRows; row++){  
+			for(let col=0; col < numCols; col++){  
+				let s=this.waveMap[wave][row][col];  //char in game.waveMap array
+				let X = 50;
+				if (s===" "){continue;}
+				else if(s==="1"){bads.push(new RedShip(X + w*col, h*row, w, h));}  
+				else if(s==="2"){bads.push(new BlueShip(X + w*col, h*row, w, h));}
+				else if(s==="3"){bads.push(new GreenShip(X + w*col, h*row, w, h));}
+				else if(s==="4"){bads.push(new OrangeShip(X + w*col, h*row, w, h));}
+				else if(s==="5"){
+					let B = new Eye(X + w*col, 50+h*row, w, h);
+					bads.push(B);
+					moveTogether.push(B);
+				}  
+				else if(s==="6"){bads.push(new CrimsonShip(X + w*col, h*row, w, h));}
+				else if(s==="7"){
+					let B = new EnmBase(X + w*col, h*row, w, h);
+					bads.push(B);
+					moveTogether.push(B);
+				}
+				else {console.log("unexpected char in game waveMap: " + s);}
+			}
 		}
 	}
 }

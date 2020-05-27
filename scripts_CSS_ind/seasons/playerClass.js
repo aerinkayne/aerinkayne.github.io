@@ -1,12 +1,11 @@
-//TODO put me in my own file plox
 class Player {
 	constructor (x,y,w,h, game){
-        this.P = createVector(x,y);
+  		this.P = createVector(x,y);
 		this.C = createVector(x+w/2, y+h/2);  
 		this.T = createVector(0,0); 		  
-        this.game = game;
-        this.PosLast = 0;
-        this.collisionTiles = [];
+  		this.game = game;
+  		this.PosLast = 0;
+  		this.collisionTiles = [];
 		this.w = w;
 		this.h = h;
 		this.distMax = 3*w;

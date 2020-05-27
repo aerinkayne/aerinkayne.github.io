@@ -1,22 +1,21 @@
 //TODO: fix all the things.
 class Enemy{
-	constructor(x, y, gridW, gridH){  
-		this.spawnInP = createVector(0,-height/2);
-		this.spawnInV = createVector(0, 0.2);
-		this.indentMeX = width/10;
-		this.V = createVector(0.5,0);  //updated later
-		this.scaleMod = random(0.6, 1);  //vary sizes somewhat
-		this.w = this.scaleMod*70; //overwrite sizes 
-		this.h = this.scaleMod*70;
+	constructor(x, y, gridW, gridH){
+		this.w = 70;
+		this.h = 70;  
 		this.gridW = gridW;
 		this.gridH = gridH;
-		this.diff = 0;
-		this.P = createVector(this.indentMeX + x, y);
-		this.P.y += this.spawnInP.y; 
+		this.scaleBy = random(0.6, 1);  //vary sizes somewhat
+
+		this.spawnPoint = floor(-height/2);
+		this.spawnVelocity = 0.2;
+		this.P = createVector(x, y + this.spawnPoint); 
+		this.V = createVector(0.5, 0);  //updated later
+
 		this.drawTimer = 0;
 		this.cycleTime = 50;
 		this.takesDamage = true;
-		this.points = 10;  //placeholder
+		this.points = 10;  
 		this.animationOffset = random(PI);
 		this.shots = [];
 		this.drop = 0;
@@ -24,25 +23,25 @@ class Enemy{
 		this.modifyLocation = 1; //0 or 1.  used as a multiplier in some statements in shot draw method
 		this.shotDirection = 1;  //-1 for player ship, 1 for enemy ships
 		this.powerLevel = 0;
-		this.shotRoll = 0.3; //used for chance of attacking once attackcooldown is up
-		this.positionCorrected = false;
+		this.shotRoll = 0.3; 	 //chance of attacking once attackcooldown is up
+		this.setup = false;
 	}
+
+	scaleAndCenter(){
+		this.w = round(this.w*this.scaleBy);  //create variety of sizes, and correct position according to size change. 
+		this.h = round(this.h*this.scaleBy);
+		this.P.x = this.P.x + round(this.gridW - this.w)/2;
+		this.P.y = this.P.y + round(this.gridH - this.h)/2;
+		this.setup = true;
+	}
+
 	spawnIn(){
-		if (this.spawnInP.y < 0){
-			this.spawnInP.add(this.spawnInV);
-			this.P.add(this.spawnInV);
+		if (this.spawnPoint < 20){
+			this.P.y += this.spawnVelocity;
+			this.spawnPoint += this.spawnVelocity;
 		}
 	}
-	correctXPosition(){
-		/*correct position for differences between map's grid size 
-		and the obj size so that obj is centered on the grid.
-		Also update boundaries for objects that use them.*/
-		this.P.x += (this.gridW - this.w)/2; 
-		this.boundXL += floor(this.gridW-this.w)/2;
-		this.boundXR += floor(this.gridW-this.w)/2;
-		this.diff = this.gridW - this.w;
-		this.positionCorrected = true;	
-	}
+
 	draw(){
 		if (this.health>0){
 			let len = this.imageSprites.length;
@@ -135,14 +134,15 @@ class Enemy{
 		}
 	}
 	updatePosition(){ 
-		if (this.gridW && !this.positionCorrected && this.w !== this.gridW){
-			this.correctXPosition();
-		}
-		this.P.x += this.V.x*this.scaleMod;
-		this.P.y += this.V.y*this.scaleMod;
+		this.P.x += this.V.x*this.scaleBy;
+		this.P.y += this.V.y*this.scaleBy;
 	}
 	//update is called in Game.managescenes, through loop of bads.length.  todo: fix this disaster.
 	update(ship){  
+		if (!this.setup){
+			this.scaleAndCenter();
+		}
+
 		if (this.shots.length > 0 ){
 			this.updateShots(ship);
 		}
@@ -196,8 +196,8 @@ class Enemy{
 class RedShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = this.scaleMod*65;
-		this.h = this.scaleMod*55;
+		this.w = 65;
+		this.h = 55;
 		this.imageSprites = [sprBadR1,sprBadR2];
 		this.cycleTime = 40;
 		this.drawTimer = random(0,this.cycleTime);
@@ -211,8 +211,8 @@ class RedShip extends Enemy{
 class BlueShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = this.scaleMod*45;
-		this.h = this.scaleMod*45;
+		this.w = 45;
+		this.h = 45;
 		this.imageSprites = [sprBadB1,sprBadB2];
 		this.cycleTime = 30;
 		this.drawTimer = random(0,this.cycleTime);
@@ -231,8 +231,8 @@ class BlueShip extends Enemy{
 class CrimsonShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = this.scaleMod*55;
-		this.h = this.scaleMod*50;
+		this.w = 55;
+		this.h = 50;
 		this.imageSprites = [sprCrim1, sprCrim2, sprCrim3, sprCrim2];
 		this.cycleTime = 90;
 		this.drawTimer = random(0,this.cycleTime);
@@ -272,8 +272,8 @@ class CrimsonShip extends Enemy{
 class GreenShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = this.scaleMod*55;
-		this.h = this.scaleMod*45;
+		this.w = 55;
+		this.h = 45;
 		this.imageSprites = [sprBadG1,sprBadG2];
 		this.cycleTime = 20;
 		this.drawTimer = random(0,this.cycleTime);
@@ -288,8 +288,8 @@ class GreenShip extends Enemy{
 class OrangeShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = this.scaleMod*35;
-		this.h = this.scaleMod*65;
+		this.w = 35;
+		this.h = 65;
 		this.imageSprites = [sprBadBr1,sprBadBr2];
 		this.cycleTime = 40;
 		this.drawTimer = random(0,this.cycleTime);
@@ -312,7 +312,7 @@ class Eye extends Enemy{
 		super(x, y, gridW, gridH);
 		this.w = 70;
 		this.h = 40;
-		this.scaleMod = 1;
+		this.scaleBy = 1;
 		this.imageSprites = [eye2, eye1, eye1, eye2, eyeClosed, eyeClosed, eyeClosed, eyeClosed];
 		this.cycleTime = 900;
 		this.drawTimer = random(0,this.cycleTime);
@@ -323,7 +323,8 @@ class Eye extends Enemy{
 		this.att = sEnmAtt;
 		this.dest = sEnmD2;
 	}
-	//(currently) synchronized by 'checkSynchronizedBads' method in game class.
+	
+	//motions (currently) handled by checkSynchronizedEnemies() in game class
 	movementBounds(){
 		return;
 	}
@@ -352,10 +353,9 @@ class EnmBase extends Eye{
 		}
 	}	
 	shoot(){	
-			let P = createVector(this.P.x + this.w/4 - this.indentMeX, this.P.y + height/2 + 4/5*this.h); 
-			//normal spawn is at -height/2
-			//passing in 0,0 for grid values so that initial position will not be corrected for these ships 
-			bads.unshift(new OrangeShip(P.x, P.y, 0, 0));  
+			let P = createVector(this.P.x, this.P.y + height/2 + 4/5*this.h); 
+			//normal spawn is at -height/2.  
+			bads.unshift(new OrangeShip(P.x, P.y, this.w, 0));  
 			this.att.play();
 		}	
 	

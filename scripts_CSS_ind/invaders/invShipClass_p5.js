@@ -6,17 +6,14 @@ class Ship{
 	this.T = createVector(0,0);
 	this.w = w;
 	this.h = h;
-	
 	this.movements = {39: false, 37: false, 38: false, 40: false}; //R,L,U,D 
 	this.acc = 1.0;
 	this.dec = 0.25;
 	this.MAXSP = 4.5;
-	
 	this.onTouchTimer = 0;
 	this.onTouchMoveDirection = createVector(0,0);
 	this.onTouchShipP = createVector(0,0);
 	this.onTouchMouseP = createVector(0,0); 
-	
 	this.thruster = 0; 
 	this.gunType = new Gun(startLaser); //orangeLaser;
 	this.shielded = false;

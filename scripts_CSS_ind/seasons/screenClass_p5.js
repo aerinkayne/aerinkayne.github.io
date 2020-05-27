@@ -1,5 +1,5 @@
 class GameScreen{ 
-constructor(game){ 
+	constructor(game){ 
 		this.game = game;
 		this.P = createVector(game.player.T.x, game.player.T.y);
 		this.w = width;
