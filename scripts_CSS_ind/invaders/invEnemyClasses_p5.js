@@ -28,7 +28,7 @@ class Enemy{
 	}
 
 	scaleAndCenter(){
-		this.w = round(this.w*this.scaleBy);  //create variety of sizes, and correct position according to size change. 
+		this.w = round(this.w*this.scaleBy);  //size variety + adjust position according to new size. 
 		this.h = round(this.h*this.scaleBy);
 		this.P.x = this.P.x + round(this.gridW - this.w)/2;
 		this.P.y = this.P.y + round(this.gridH - this.h)/2;
@@ -139,9 +139,10 @@ class Enemy{
 	}
 	//update is called in Game.managescenes, through loop of bads.length.  todo: fix this disaster.
 	update(ship){  
+		
 		if (!this.setup){
 			this.scaleAndCenter();
-		}
+		} 
 
 		if (this.shots.length > 0 ){
 			this.updateShots(ship);

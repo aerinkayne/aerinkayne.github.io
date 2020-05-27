@@ -4,7 +4,7 @@ class Game{
 		this.levelH = 350;
 		this.gridW = 70;
 		this.gridH = 50;
-		this.waveTimer = 3000;  	//milliseconds  
+		this.waveTimer = 30000;  	//milliseconds  
 		this.dateRefMillisecs = 0;  //update in start
 		this.timePaused = 0;
 		this.timeUnpaused = 0;
