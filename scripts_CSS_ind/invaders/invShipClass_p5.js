@@ -22,7 +22,6 @@ class Ship{
 	this.firing = false;
 	this.firingDelay = 0;
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
-	
 	this.powerLevel = 0;  	  //zero based
 	this.powerLevelMAX = 2;
 	this.gunz = [btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun];
@@ -61,7 +60,7 @@ class Ship{
 		}
 	}
 	getTarget (arr){
-		let target = "none";
+		let target = 0;
 		for (let i=0; i < arr.length; i++){
 			if (this.P.dist(arr[i].P) < 0.6*width){
 				target = arr[i];
@@ -115,7 +114,6 @@ class Ship{
 	draw(){
 		push();
 		translate(this.P.x, this.P.y);
-
 		//glow effects
 		noStroke();
 		fill(0, 62, 156, 30 + 100*abs(sin(radians(frameCount))));
@@ -149,23 +147,18 @@ class Ship{
 	}	
 	playerShipDestroyed(){
 		this.dest.play();
-		//remove remaining enemies and powerups
-		while (bads.length) {
-			bads.pop();
-		}	
-		while (moveTogether.length) {
-			moveTogether.pop();
-		}		
-		while(pups.length){
-			pups.pop();
-		}
+		//remove remaining enemies and powerups from global arrays (todo:put in game)
+		while (bads.length) { bads.pop(); }	
+		while (moveTogether.length) { moveTogether.pop(); }		
+		while (pups.length) { pups.pop(); }
+
 		gameScreen = new GameScreen();
 		invGame = new Game();
 	}	
 	damageTaken(damage){
 		if (this.shielded){
 			this.shield.absorb -= damage;
-			if (this.shield.absorb <= 0){
+			if (this.shield.absorb < 0){
 				this.shield.absord = 0;
 				this.shielded = false;
 			}
@@ -174,25 +167,25 @@ class Ship{
 			this.health -= damage;
 			this.dmgDelayTimer = 0;
 			this.dmgTaken.play();
-			if(this.health <= 0){
+			if(this.health < 0){
 				this.health = 0;
 			}
 		}		
 	}
-	
 	updateTranslationVector(){  
-		this.T.x = (this.P.x + this.w/2 >= levelW-width/2) ? levelW-width  : round(max(0, this.P.x + this.w/2 - width/2));
+		this.T.x = (this.P.x + this.w/2 > levelW-width/2) ? levelW-width : round(max(0, this.P.x + this.w/2 - width/2));
 		this.T.y = 0; //no vertical translation
 	}
 	update(){
 		//constrain
 		this.P.x= constrain(this.P.x, 0, levelW-this.w);
 		this.P.y= constrain(this.P.y, 0, levelH-this.h);
-		//accelerate according to speed and arrow keys specified in sketch keypressed function
+		
 		if (this.movements['39']){this.V.x+=this.acc;}
 		if (this.movements['37']){this.V.x-=this.acc;}
 		if (this.movements['38']){this.V.y-=this.acc;}
 		if (this.movements['40']){this.V.y+=this.acc;}
+
 		//if click to move
 		this.updateTouchTimer();
 		//slow down if key not pressed, stop if reversed
@@ -234,12 +227,11 @@ class Ship{
 			this.firingDelay = 0;
 		}
 		//update shots fired
-		if (this.shots.length > 0){
+		if (this.shots.length){
 			for (let i = this.shots.length-1; i >= 0; i--){
-				let target = this.shots[i].targeted ? this.getTarget(bads) : "none";
-				if(invGame.gameState==="inGame"){
-					this.shots[i].update(this, target);
-				}
+				let target = this.shots[i].targeted ? this.getTarget(bads) : 0;
+				this.shots[i].update(this, target);
+				
 				if (this.shots[i].P.y < -this.shots[i].h){ 
 					this.shots.splice(i,1);
 				}
@@ -247,6 +239,7 @@ class Ship{
 		}
 		//dmgDelay update
 		this.dmgDelayTimer++
+
 		//end game if no health remaining
 		if(this.health <= 0){
 			this.playerShipDestroyed()

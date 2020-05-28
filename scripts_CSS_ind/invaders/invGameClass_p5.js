@@ -99,24 +99,26 @@ class Game{
 			gameScreen.updateStars(); 
 			this.checkSynchronizedEnemies();
 			
+
 			for (let i = bads.length-1; i >=0 ; i--){
 				bads[i].drawShots(ship); 
 				if (!this.paused){bads[i].update(ship);}
 				if(collide(bads[i], gameScreen)){  
 					bads[i].draw();
 				}
-				//do not remove enemy from array until its possible shots are also removed.
+				//do not remove enemy until its possible shots are also removed.
 				if (bads[i].health<=0 && bads[i].shots.length===0){
 					bads.splice(i,1);
 				} 
 			}
 
 			if (!this.paused){ship.update();} 
+			
 			ship.shots.forEach(shot=> {shot.draw(ship);});
 			ship.draw();
 			
 			//update powerups and also remove them if they go offscreen(Y).
-			if (pups.length > 0){
+			if (pups.length){
 				for (let i = pups.length-1; i >=0 ; i--){
 					pups[i].draw();
 					if (!this.paused){pups[i].update();}

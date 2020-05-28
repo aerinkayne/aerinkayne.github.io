@@ -1,4 +1,3 @@
-
 //gun configs.  
 //weaponSound: property and value added in preload
 
@@ -14,7 +13,7 @@ const startLaser = {
     damage: 15,
     targeted: false,
     trackTime: 0,
-    //weaponSound: loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3", getData)
+    //weaponSound: 
 };
 const redLaser = {
     name: "redLaser",
@@ -28,7 +27,7 @@ const redLaser = {
     damage: 15,
     targeted: false,
     trackTime: 0,
-    //weaponSound: loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3", getData)
+    //weaponSound: 
 };
 const blueLaser = {
     name: "blueLaser",
@@ -62,7 +61,7 @@ const orangeLaser = {
     name: "orangeLaser",
     w: 5,
     h: 55,
-    speed: 4,
+    speed: 3.5,
     weaponColor: [200,150,0],
     pushNumber: 1,
     hits: 3,

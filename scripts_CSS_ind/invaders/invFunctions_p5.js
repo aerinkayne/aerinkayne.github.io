@@ -251,27 +251,23 @@ class WeaponShot{
 		if (this.gunType.name !== "homingMissile" && abs(this.yInitial - this.P.y) < this.gunType.h){
 			this.P.x += vessel.V.x;
 		}
-		if (this.targeted){ 
+		if (this.targeted && target){ 
 			this.targetShot(this, target, this.gunType.trackTime); 
 		}
 		
 	}
+
 	//sets shot's vector direction towards target ship
 	targetShot(shotSource, targetVessel, trackTime){ 
-		if(targetVessel === "none"){
-			this.targeted = false;
-		}
-		else {
-			let source = createVector(shotSource.P.x + shotSource.w/2, shotSource.P.y + shotSource.h/2);
-			let target = createVector(targetVessel.P.x + targetVessel.w/2, targetVessel.P.y + targetVessel.h/2);
-			let dirP = target.sub(source);
-			this.V = dirP.setMag(this.gunType.speed);
+		let source = createVector(shotSource.P.x + shotSource.w/2, shotSource.P.y + shotSource.h/2);
+		let target = createVector(targetVessel.P.x + targetVessel.w/2, targetVessel.P.y + targetVessel.h/2);
+		let dirP = target.sub(source);
+		this.V = dirP.setMag(this.gunType.speed);
 			
-			this.timer ++;
-			if (this.timer > trackTime){  //estimated 60fps, ~4sec track
-				this.targeted = false;
-			}	
-		}
+		this.timer ++;
+		if (this.timer > trackTime){  //estimated 60fps, ~4sec track
+			this.targeted = false;
+		}	
 	}
 }
 
