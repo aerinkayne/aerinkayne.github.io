@@ -1,7 +1,5 @@
 class Game{
 	constructor(){
-		this.levelW = 850;
-		this.levelH = 350;
 		this.gridW = 70;
 		this.gridH = 50;
 		this.waveTimer = 30000;  	//milliseconds  
@@ -139,17 +137,13 @@ class Game{
 			ship.healthBar();
 			ship.shieldBar();	
 		}
-		else if (this.gameState === "gameOver"){
-			invGame = new Game();
-			invShip = new Ship(width/2-35,height-35, 35,35);
-			gameScreen = new GameScreen(invShip); 
-			this.gameState = "gameStart";
-		}
 	}
 
 
 	startGame(){
+		invShip = new Ship(width/2-35,height-35);
 		this.dateRefMillisecs = new Date().getTime();
+		this.gameState = "inGame";
 	}
 	checkTime(timeUnpaused, timePaused){
 		this.currentTime = new Date().getTime();
@@ -175,7 +169,7 @@ class Game{
 			});
 			//reverse movement if any of them are outside of range
 			if (moveTogether.some(enemy=> {
-				return enemy.P.x + enemy.w > this.levelW || enemy.P.x < 0;
+				return enemy.P.x + enemy.w > levelW || enemy.P.x < 0;
 			})){
 				moveTogether.forEach(enemy=> {
 					enemy.V.x *= -1;
@@ -205,7 +199,7 @@ class Game{
 			if(!bads[i].drop){
 				bads[i].drop = item;
 				}  else {
-					//console.log(bads[i] + " already has " + bads[i].drop + ". Attempting to reassign shield.");
+					//recast if randomly selected already has a drop item.
 					this.setPup(item);
 					}
 		}

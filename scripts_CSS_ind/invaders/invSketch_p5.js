@@ -1,7 +1,6 @@
 //TODO refactor All the Things 
-
 let invGame, gameScreen, invShip;
-let levelW, levelH;  //level borders from game
+let levelW, levelH;  //level borders for game
 //buttons
 let btnStart, btnPause, btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun;
 //arrays for enemies and powerups, sprites
@@ -15,7 +14,6 @@ let sprCrim1, sprCrim2, sprCrim3, eye1, eye2, eyeClosed, baseOpen, baseClosed, s
 let slider, oldVolume, newVolume;
 let soundEffects = [];
 let sPup,sPhaser,sPhaserB,sPhaserG,sPhaserY,sShipDestr,sEnmSpawn,sEnmAtt,sEnmAtt2,sEnmCrimAtt,sEnmDmg,sEnmDestr,sEnmD2;
-
 
 
 function preload(){
@@ -83,13 +81,12 @@ function setup(){
 
 	//initial setup
 	invGame = new Game();
-	levelW = invGame.levelW;
-	levelH = invGame.levelH;
+	gameScreen = new GameScreen(); 
+	levelW = 850;
+	levelH = 350;
 	
 	btnStart = new StartBtn(width/2-50,height/2-25,100,50,5, "Start");
 	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
-	invShip = new Ship(width/2-35,height-35, 35,35);
-	gameScreen = new GameScreen(invShip); 
 }	
 
 //movements = {39:bool,37:bool,38:bool,40:bool}

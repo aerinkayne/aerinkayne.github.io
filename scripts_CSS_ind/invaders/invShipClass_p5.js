@@ -1,11 +1,11 @@
 //ship class  
 class Ship{
-	constructor(x,y,w,h){
+	constructor(x,y){
 	this.P = createVector(x,y); 
 	this.V = createVector(0,0);
 	this.T = createVector(0,0);
-	this.w = w;
-	this.h = h;
+	this.w = height/10;
+	this.h = height/10;
 	this.movements = {39: false, 37: false, 38: false, 40: false}; //R,L,U,D 
 	this.acc = 1.0;
 	this.dec = 0.25;
@@ -23,10 +23,10 @@ class Ship{
 	this.firingDelay = 0;
 	this.shotDirection = -1;  //-1 for player ship, 1 for enemy ships
 	
-	this.powerLevel = 0;  //zero based
+	this.powerLevel = 0;  	  //zero based
 	this.powerLevelMAX = 2;
 	this.gunz = [btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun];
-	this.healthMAX = 2000;  
+	this.healthMAX = 1800;  
 	this.health = this.healthMAX;  
 	this.score = 0;
 	this.dmgDelay = 30;
@@ -95,7 +95,6 @@ class Ship{
 		rect(width-15*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
 		noStroke();
 		fill(155,0,40);
-		//or map() will hate you
 		if (this.health < 0){this.health = 0;}
 		if (this.health > this.healthMAX){this.health = this.healthMAX;}
 		rect(width-15*width/50, height-3*height/40, map(this.health,0,this.healthMAX,0,width/10), 4,2);
@@ -119,32 +118,28 @@ class Ship{
 
 		//glow effects
 		noStroke();
-		
-		fill(0, 62, 156, 30+60*abs(sin(radians(frameCount))));
+		fill(0, 62, 156, 30 + 100*abs(sin(radians(frameCount))));
 		//animate thruster with -V.y
 		if (this.V.y < 0){
-			this.thruster = this.h/3;
+			this.thruster = this.h/2.5;
 		} else {this.thruster = 0;}
-		rect(this.w/2-14/40*this.w, this.h-this.h/8, this.w/2.5, this.h/2+this.thruster, 25);
-		rect(this.w/2-2*this.w/50, this.h-this.h/8, this.w/2.5, this.h/2+this.thruster, 25);
-		
-		fill(0, 62, 156, 25+50*abs(sin(radians(frameCount))));
-		rect(this.w/2-12/40*this.w, this.h-this.h/10, this.w/3, this.h/3+2/3*this.thruster, 25);
-		rect(this.w/2-1/40*this.w, this.h-this.h/10, this.w/3, this.h/3+2/3*this.thruster, 25);
-		
-		fill(0, 166, 255, 3*this.thruster+85+155*abs(sin(radians(frameCount))));
-		ellipse(this.w/2-this.w/8, this.h+this.h/50, this.w/5, this.h/5+this.thruster);
-		ellipse(this.w/2+this.w/7, this.h+this.h/50, this.w/5, this.h/5+this.thruster);
-		
+		//larger darker blue
+		rect(1/5*this.w, 9/10*this.h, this.w/3, this.h/3 + 3/4*this.thruster, 25);   //left
+		rect(19/40*this.w, 9/10*this.h, this.w/3, this.h/3 + 3/4*this.thruster, 25); //right
+		//light blue
+		fill(0, 166, 255, 3*this.thruster + 65 + 125*abs(sin(radians(frameCount))));
+		ellipse(3/8*this.w, this.h, this.w/5, this.h/5 + this.thruster);
+		ellipse(9/14*this.w, this.h, this.w/5, this.h/5 + this.thruster);
+		//small bright blue
 		fill(184, 230, 255);
-		ellipse(this.w/2-this.w/8, this.h-this.h/50, this.w/9.5, this.h/10+this.thruster/2); //left
-		ellipse(this.w/2+this.w/7, this.h-this.h/50, this.w/9.5, this.h/10+this.thruster/2);
+		ellipse(3/8*this.w, this.h, this.w/9.5, this.h/10 + this.thruster/2); 
+		ellipse(9/14*this.w, this.h, this.w/9.5, this.h/10 + this.thruster/2);
 		 
 		if (this.firing){
-			image(sprShipF, this.w/2, this.h/2, this.w, this.h+ .2275*this.h);
+			image(sprShipF, this.w/2, this.h/2, this.w, this.h + .23*this.h);
 		}
 		else {
-			image(sprShip1, this.w/2, this.h/2, this.w, this.h+ .2275*this.h);
+			image(sprShip1, this.w/2, this.h/2, this.w, this.h+ .23*this.h);
 		}
 		if (this.shielded){
 			this.shield.updatePosition(this);
@@ -154,21 +149,18 @@ class Ship{
 	}	
 	playerShipDestroyed(){
 		this.dest.play();
-		//remove remaining shots, enemies and powerups
-		if (bads.length > 0){
-			for (let i = bads.length-1; i >=0; i--){
-				for (let s = bads[i].shots.length-1; s>=0; s--){
-					bads[i].shots.splice(s,1);
-				}
-				bads.splice(i,1);
-			}
-		}			
-		if (pups.length > 0){
-			for (let i = pups.length-1; i >= 0; i--){
-				pups.splice(i,1);
-			}
+		//remove remaining enemies and powerups
+		while (bads.length) {
+			bads.pop();
+		}	
+		while (moveTogether.length) {
+			moveTogether.pop();
+		}		
+		while(pups.length){
+			pups.pop();
 		}
-		invGame.gameState = "gameOver";
+		gameScreen = new GameScreen();
+		invGame = new Game();
 	}	
 	damageTaken(damage){
 		if (this.shielded){
@@ -190,7 +182,7 @@ class Ship{
 	
 	updateTranslationVector(){  
 		this.T.x = (this.P.x + this.w/2 >= levelW-width/2) ? levelW-width  : round(max(0, this.P.x + this.w/2 - width/2));
-		this.T.y = (this.P.y + this.h/2 >= levelH-height/2)? levelH-height : round(max(0,this.P.y + this.h/2 - height/2));
+		this.T.y = 0; //no vertical translation
 	}
 	update(){
 		//constrain
@@ -235,7 +227,7 @@ class Ship{
 		}
 		
 		//fire gun
-		if (mouseIsPressed && !this.firing && this.health > 0){ 
+		if (mouseIsPressed && !this.firing) { 
 			this.gunType.weaponSound.play(); 
 			this.shoot(); 
 			this.firing = true;

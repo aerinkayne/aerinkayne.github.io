@@ -56,12 +56,8 @@ class StartBtn extends Button{
 		btnGreenGun = new GunBtn(8.2/10*width,9.45/10*height,width/18,height/19,3, sprBadG1, greenPulse);
 		btnOrangeGun = new GunBtn(8.8/10*width,9.45/10*height,width/18,height/19,3, sprBadBr1, orangeLaser);
 		btnSpreadGun = new GunBtn(9.4/10*width,9.45/10*height,width/18,height/19,3, sprCrim1, spreader);
-
-		invShip = new Ship(width/2-35,height-35, 35,35);
-		gameScreen = new GameScreen(invShip); 
 		
 		invGame.startGame();
-		invGame.gameState = "inGame";
 	}
 }
 class PauseBtn extends Button{
@@ -121,8 +117,8 @@ class GunBtn extends Button{
 }
 
 class GameScreen{
-	constructor(ship){
-		this.P = createVector(ship.T.x, ship.T.y);
+	constructor(){
+		this.P = createVector(0, 0);
 		this.w = width;
 		this.h = height;
 		this.numStars = 70;

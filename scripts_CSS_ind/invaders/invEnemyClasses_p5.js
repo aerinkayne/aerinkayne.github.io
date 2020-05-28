@@ -355,7 +355,7 @@ class EnmBase extends Eye{
 	
 	shoot(){	
 			let P = createVector(this.P.x, this.P.y + height/2 + 4/5*this.h); 
-			//normal spawn is at -height/2.  
+			//normal spawn is at -height/2. unshift to draw last so it's in front of turret 
 			bads.unshift(new OrangeShip(P.x, P.y, this.w, 0));  
 			this.att.play();
 		}	
