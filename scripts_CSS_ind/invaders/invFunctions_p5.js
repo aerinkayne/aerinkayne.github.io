@@ -236,13 +236,17 @@ class WeaponShot{
 			rect(this.P.x + w/4, this.P.y + h/8, w/2, 3*h/4, 5);
 		}
 		else{
+			let H = this.h;
+			if (vessel === invShip){
+				H = 0;
+			}
 			noStroke();
 			fill(c[0],c[1],c[2],255-80*abs(cos(frameCount/15)));
 			rect(this.P.x, this.P.y, w, min(abs(this.yInitial - this.P.y), h), 3);
 			fill(255,255,255,130);
 			rect(this.P.x + 3*w/8, this.P.y, w/4, min(abs(this.yInitial - this.P.y), h), 5);
 			fill(255,255,255);
-			ellipse(this.P.x + w/2, this.P.y + h*vessel.modifyLocation, 2/3*w, w/4);  
+			ellipse(this.P.x + w/2, this.P.y + H, 2/3*w, w/4);  
 		}	
 	}
 	update(vessel, target){  //vessel shooting, target for targeted weapons
@@ -351,7 +355,7 @@ class Shield {
 		this.w = w;
 		this.h = h;	
 		this.r = w;
-		this.s = w/3;
+		this.s = round(w/3);
 		this.c = [225,60,200];
 		this.absorb = 0;
 		this.absorbMax = 200;

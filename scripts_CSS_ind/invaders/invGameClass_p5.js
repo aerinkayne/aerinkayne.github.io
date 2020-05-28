@@ -11,7 +11,7 @@ class Game{
 		this.currentWave = 0;
 		this.numBadsOld = 0;
 		this.numBadsNew = 0;
-		this.spawned = [false, false, false, false, false, false];
+		this.spawned = [false];
 		this.waveMap = [
 			[	//0
 				"212",  
@@ -97,14 +97,14 @@ class Game{
 			gameScreen.backgroundImg(starBG);
 			gameScreen.drawStars(); 
 			gameScreen.updateStars(); 
+
 			this.checkSynchronizedEnemies();
 			
-
 			for (let i = bads.length-1; i >=0 ; i--){
 				bads[i].drawShots(ship); 
-				if (!this.paused){bads[i].update(ship);}
+				if (!this.paused){bads[i].update(ship, this);}
 				if(collide(bads[i], gameScreen)){  
-					bads[i].draw();
+					bads[i].draw(this);
 				}
 				//do not remove enemy until its possible shots are also removed.
 				if (bads[i].health<=0 && bads[i].shots.length===0){
@@ -113,7 +113,7 @@ class Game{
 			}
 
 			if (!this.paused){ship.update();} 
-			
+
 			ship.shots.forEach(shot=> {shot.draw(ship);});
 			ship.draw();
 			
@@ -153,7 +153,7 @@ class Game{
 			this.waveCheck();
 		}
 		//add duration of pause to refdate in case game has been paused
-		this.dateRefMillisecs+=(timeUnpaused-timePaused)
+		this.dateRefMillisecs += (timeUnpaused-timePaused);
 		if (this.currentTime  - this.dateRefMillisecs > this.waveTimer) {
 			this.dateRefMillisecs = new Date().getTime();
 			this.waveCheck();
@@ -197,11 +197,11 @@ class Game{
 		if (this.currentWave!==this.waveMap.length-1){ //if it's not the final wave
 			let max = bads.length;
 			let min = bads.length-this.numBadsNew;
-			let i = floor(random(min,max));  //random num from newly added
-			if(!bads[i].drop){
-				bads[i].drop = item;
+			let i = floor(random(min,max));  //random num from newly added enemies
+			if(!bads[i].drop){               //guns and shields are set the same way
+				bads[i].drop = item;		 //so only set if it doesn't have one.
 				}  else {
-					//recast if randomly selected already has a drop item.
+					//recall if randomly selected already has a drop item.
 					this.setPup(item);
 					}
 		}

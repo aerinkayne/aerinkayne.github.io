@@ -1,11 +1,11 @@
 //ship class  
 class Ship{
 	constructor(x,y){
-	this.P = createVector(x,y); 
+	this.P = createVector(round(x),round(y)); 
 	this.V = createVector(0,0);
 	this.T = createVector(0,0);
-	this.w = height/10;
-	this.h = height/10;
+	this.w = round(height/10);
+	this.h = round(height/10);
 	this.movements = {39: false, 37: false, 38: false, 40: false}; //R,L,U,D 
 	this.acc = 1.0;
 	this.dec = 0.25;
@@ -70,7 +70,7 @@ class Ship{
 		return target;
 	}
 	shoot(){ 
-		let P = createVector(this.P.x + this.w/2 - this.gunType.w/2, this.P.y);
+		let P = createVector(this.P.x + this.w/2 - this.V.x - this.gunType.w/2, this.P.y);
 		let V = createVector(0, this.gunType.speed*this.shotDirection);
 
 		P.x -= this.w/8*this.powerLevel;

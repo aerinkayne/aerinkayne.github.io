@@ -31,7 +31,7 @@ const redLaser = {
 };
 const blueLaser = {
     name: "blueLaser",
-    w: 9,
+    w: 10,
     h: 20,
     speed: 6,
     weaponColor: [100,50,220],
@@ -59,9 +59,9 @@ const greenPulse = {
 };
 const orangeLaser = {
     name: "orangeLaser",
-    w: 5,
+    w: 6,
     h: 55,
-    speed: 3.5,
+    speed: 3,
     weaponColor: [200,150,0],
     pushNumber: 1,
     hits: 3,
@@ -76,7 +76,7 @@ const homingMissile = {
     w: 9,
     h: 9,
     speed: 2,
-    weaponColor: [230,0,100],
+    weaponColor: [230,0,85],
     pushNumber: 1,
     hits: 1,
     rechargeTime: 40,
@@ -95,7 +95,7 @@ const spreader = {
     hits: 1,
     spreadAngle: 20,
     rechargeTime: 30,
-    damage: 15,
+    damage: 18,
     targeted: false,
     trackTime: 0,
     //weaponSound: sEnmCrimAtt
