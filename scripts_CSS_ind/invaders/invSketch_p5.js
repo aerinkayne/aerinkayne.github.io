@@ -3,10 +3,12 @@ let invGame, gameScreen, invShip;
 let levelW, levelH;  //level borders for game
 //buttons
 let btnStart, btnPause, btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun;
-//arrays for enemies and powerups, sprites
-let bads = [];
-let moveTogether = [];
+
 let pups = [];
+let bads = [];
+let syncedBads = [];
+
+//sprites
 let sprites2, starBG, imgStarBG;
 let sprBadR1, sprBadR2, sprBadG1, sprBadG2, sprBadB1, sprBadB2, sprBadBr1, sprBadBr2;
 let sprCrim1, sprCrim2, sprCrim3, eye1, eye2, eyeClosed, baseOpen, baseClosed, sprShip1, sprShipF;
@@ -49,8 +51,8 @@ function setup(){
 	sprBadR2 = sprites2.get(200,296,128,85);
 	sprBadG1 = sprites2.get(46,46,139,87); 
 	sprBadG2 = sprites2.get(196,46,139,87); 
-	sprBadB1 = sprites2.get(56,142,120,110);
-	sprBadB2 = sprites2.get(205,142,120,110);
+	sprBadB1 = sprites2.get(56,142,120,111);
+	sprBadB2 = sprites2.get(205,142,120,111);
 	sprBadBr1 = sprites2.get(380,36,127,162);
 	sprBadBr2 = sprites2.get(537,36,127,162);
 	sprCrim1 = sprites2.get(337,433,132,110);
@@ -101,14 +103,6 @@ function keyReleased(){
 	}
 }
 
-//*  ehh
-function touchEnded(){
-	if (window.windowWidth <= 600){
-	invShip.touchMove();
-	return false;  
-	}
-} 
-//*/
 
 function changeVolume(){
 	soundEffects.forEach(sound=> {

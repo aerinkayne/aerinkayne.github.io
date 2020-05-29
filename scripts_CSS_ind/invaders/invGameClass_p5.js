@@ -88,33 +88,37 @@ class Game{
 			btnStart.draw([0,150,200]);
 		}
 		else if (this.gameState === "inGame"){
-			
-			if (!this.paused){
-				this.checkTime(this.timeUnpaused, this.timePaused);
-			}
 			gameCamera(ship);
 			gameScreen.updatePosition(ship);
 			gameScreen.backgroundImg(starBG);
 			gameScreen.drawStars(); 
 			gameScreen.updateStars(); 
 
+			if (!this.paused){
+				this.checkTime(this.timeUnpaused, this.timePaused);
+				ship.update(this); //draw is outside of !paused
+			}
+
+
 			this.checkSynchronizedEnemies();
 			
 			for (let i = bads.length-1; i >=0 ; i--){
+				if (!this.paused){
+					bads[i].update(ship, this);
+				}
 				bads[i].drawShots(ship); 
-				if (!this.paused){bads[i].update(ship, this);}
 				if(collide(bads[i], gameScreen)){  
 					bads[i].draw(this);
 				}
 				//do not remove enemy until its possible shots are also removed.
-				if (bads[i].health<=0 && bads[i].shots.length===0){
+				if (bads[i].health <= 0 && !bads[i].shots.length){
 					bads.splice(i,1);
 				} 
-			}
+			} 
 
-			if (!this.paused){ship.update();} 
-
-			ship.shots.forEach(shot=> {shot.draw(ship);});
+			ship.shots.forEach(shot=> {
+				shot.draw(ship);
+			});
 			ship.draw();
 			
 			//update powerups and also remove them if they go offscreen(Y).
@@ -164,16 +168,16 @@ class Game{
 	}
 
 	checkSynchronizedEnemies(){
-		if (moveTogether.length){
+		if (syncedBads.length){
 			//remove defeated from tracking array.
-			moveTogether = moveTogether.filter(enemy=> {
+			syncedBads = syncedBads.filter(enemy=> {
 				return enemy.health > 0;
 			});
 			//reverse movement if any of them are outside of range
-			if (moveTogether.some(enemy=> {
+			if (syncedBads.some(enemy=> {
 				return enemy.P.x + enemy.w > levelW || enemy.P.x < 0;
 			})){
-				moveTogether.forEach(enemy=> {
+				syncedBads.forEach(enemy=> {
 					enemy.V.x *= -1;
 				});
 			}
@@ -196,7 +200,7 @@ class Game{
 	setPup(item){
 		if (this.currentWave!==this.waveMap.length-1){ //if it's not the final wave
 			let max = bads.length;
-			let min = bads.length-this.numBadsNew;
+			let min = bads.length - this.numBadsNew;
 			let i = floor(random(min,max));  //random num from newly added enemies
 			if(!bads[i].drop){               //guns and shields are set the same way
 				bads[i].drop = item;		 //so only set if it doesn't have one.
@@ -223,13 +227,13 @@ class Game{
 				else if(s==="5"){
 					let B = new Eye(X + w*col, h*row, w, h);
 					bads.push(B);
-					moveTogether.push(B);
+					syncedBads.push(B);
 				}  
 				else if(s==="6"){bads.push(new CrimsonShip(X + w*col, h*row, w, h));}
 				else if(s==="7"){
 					let B = new EnmBase(X + w*col, h*row, w, h);
 					bads.push(B);
-					moveTogether.push(B);
+					syncedBads.push(B);
 				}
 				else {console.log("unexpected char in game waveMap: " + s);}
 			}

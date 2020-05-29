@@ -9,7 +9,6 @@ let gameCamera = function(ship) {
 	}
 
 
-
 //classes:  Buttons, GameScreen, Weapon, Powerup, Shield
 class Button{
 	constructor(x,y,w,h,r,txt){
@@ -129,7 +128,7 @@ class GameScreen{
 		let stars = [];
 		for (let i = 0; i < this.numStars; i++){ //how many from param
 			stars.push(new Object());
-			stars[i].P = createVector(random(this.P.x, this.P.x + this.w), random(this.P.y, this.P.y + this.h));
+			stars[i].P = createVector(random(this.w), random(this.h));
 			
 			//~75% small, 22.5% medium, 2.5% large stars, vary colors for each size somewhat.
 			let sizeRoll = random(0,this.numStars);

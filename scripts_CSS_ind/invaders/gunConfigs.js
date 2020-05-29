@@ -27,7 +27,7 @@ const redLaser = {
     damage: 15,
     targeted: false,
     trackTime: 0,
-    //weaponSound: 
+    //weaponSound: sEnmAtt
 };
 const blueLaser = {
     name: "blueLaser",

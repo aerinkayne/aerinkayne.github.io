@@ -10,10 +10,6 @@ class Ship{
 	this.acc = 1.0;
 	this.dec = 0.25;
 	this.MAXSP = 4.5;
-	this.onTouchTimer = 0;
-	this.onTouchMoveDirection = createVector(0,0);
-	this.onTouchShipP = createVector(0,0);
-	this.onTouchMouseP = createVector(0,0); 
 	this.thruster = 0; 
 	this.gunType = new Gun(startLaser); //orangeLaser;
 	this.shielded = false;
@@ -33,20 +29,7 @@ class Ship{
 	this.dmgTaken = sEnmDestr;
 	this.dest = sShipDestr;
 	} 
-	touchMove(){
-		this.onTouchShipP = createVector(this.P.x+this.w/2, this.P.y+this.h/2); 
-		this.onTouchMouseP = createVector(mouseX, mouseY);
-		this.onTouchTimer = 30;
-		this.onTouchMouseP.add(this.T);
-		this.onTouchMoveDirection = this.onTouchMouseP.sub(this.onTouchShipP);
-		this.V = this.onTouchMoveDirection.setMag(this.MAXSP);
-	}
-	updateTouchTimer(){
-		if(this.onTouchTimer<0){this.onTouchTimer=0;}
-			else {
-				this.onTouchTimer--;
-			}
-	}
+
 	spreadShot(number, angle){
 		let angleRadians = radians(angle);
 		let vMag = this.gunType.speed;
@@ -147,19 +130,17 @@ class Ship{
 	}	
 	playerShipDestroyed(){
 		this.dest.play();
-		//remove remaining enemies and powerups from global arrays (todo:put in game)
-		while (bads.length) { bads.pop(); }	
-		while (moveTogether.length) { moveTogether.pop(); }		
-		while (pups.length) { pups.pop(); }
-
+		while(bads.length){bads.pop();}
+		while(pups.length){pups.pop();}
+		while(syncedBads.length){syncedBads.pop();}
 		gameScreen = new GameScreen();
 		invGame = new Game();
 	}	
 	damageTaken(damage){
 		if (this.shielded){
 			this.shield.absorb -= damage;
-			if (this.shield.absorb < 0){
-				this.shield.absord = 0;
+			if (this.shield.absorb <= 0){
+				this.shield.absorb = 0;
 				this.shielded = false;
 			}
 		}
@@ -186,27 +167,24 @@ class Ship{
 		if (this.movements['38']){this.V.y-=this.acc;}
 		if (this.movements['40']){this.V.y+=this.acc;}
 
-		//if click to move
-		this.updateTouchTimer();
 		//slow down if key not pressed, stop if reversed
-		if (this.onTouchTimer <= 0){
-			if (!this.movements['39'] && this.V.x < 0){
-				this.V.x+=this.dec;
-					if (this.V.x > 0){this.V.x = 0;}
-			}
-			if (!this.movements['37'] && this.V.x > 0){
-				this.V.x-=this.dec;
-					if (this.V.x < 0){this.V.x = 0;}
-			}
-			if (!this.movements['38'] && this.V.y > 0){
-				this.V.y-=this.dec;
-					if (this.V.y < 0){this.V.y = 0;}
-			}
-			if (!this.movements['40'] && this.V.y < 0){
-				this.V.y+=this.dec;
-					if (this.V.y > 0){this.V.y = 0;}
-			}
+		if (!this.movements['39'] && this.V.x < 0){
+			this.V.x+=this.dec;
+				if (this.V.x > 0){this.V.x = 0;}
 		}
+		if (!this.movements['37'] && this.V.x > 0){
+			this.V.x-=this.dec;
+				if (this.V.x < 0){this.V.x = 0;}
+		}
+		if (!this.movements['38'] && this.V.y > 0){
+			this.V.y-=this.dec;
+				if (this.V.y < 0){this.V.y = 0;}
+		}
+		if (!this.movements['40'] && this.V.y < 0){
+			this.V.y+=this.dec;
+				if (this.V.y > 0){this.V.y = 0;}
+		}
+		
 		this.V.limit(this.MAXSP);
 		this.P.add(this.V);
 		this.updateTranslationVector();

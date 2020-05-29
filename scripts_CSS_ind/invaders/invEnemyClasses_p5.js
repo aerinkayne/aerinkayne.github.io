@@ -1,25 +1,21 @@
-//TODO: fix all the things.
 class Enemy{
 	constructor(x, y, gridW, gridH){
 		this.w = 70;  		 //max sizes
 		this.h = 70;  
-		this.gridW = gridW;  //W/H for initial enemy spacing
+		this.gridW = gridW;  //for initial enemy spacing
 		this.gridH = gridH;
-		this.scale = parseFloat(random(0.7, 1).toFixed(2));   //used for size variation 
-
+		this.scale = parseFloat(random(0.75, 1.049).toFixed(1));   //used for size variation 
 		this.spawnPoint = floor(-height/2);
 		this.spawnVelocity = 0.2;
 		this.P = createVector(x, y + this.spawnPoint); 
 		this.V = createVector(0.5, 0);  //generic
 		this.drawTimer = undefined;     //set in setup if undefined
 		this.cycleTime = 50;   		    //draw calls per animation cycle
-		
 		this.imageSprites = [sprBadR1,sprBadR2];
-		
 		this.firingTimer = 0;
-		this.attackCooldown = 50; 
-		this.shotDirection = 1;  //-1 for player, 1 for enemies (weapon speed is on gun config, so sign determines direction)
-		this.shotRoll = 0.2; 	 //chance of attacking each frame once attack cooldown is up
+		this.attackCooldown = 90;  //~60 frames per sec
+		this.shotDirection = 1;    //-1 for player, 1 for enemies (weapon speed is on gun config, so sign determines direction)
+		this.shotRoll = 0.5; 	   //chance of attacking each frame once attack cooldown is up
 		this.takesDamage = true;
 		this.points = 10;  
 		this.shots = [];
@@ -31,27 +27,25 @@ class Enemy{
 	}
 	animationSetup(){
 		if(this.drawTimer===undefined){
-			this.drawTimer = floor(random(0,this.cycleTime));  //randomize point in animation cycle so they are not sync  
+			this.drawTimer = floor(random(0,this.cycleTime));  //randomize point in animation cycle so movements are not sync  
 		}
-		this.w = round(this.w*this.scale);  			       //create size variety + center according to new size. 
+		this.w = round(this.w*this.scale);  			       //create size variety  
 		this.h = round(this.h*this.scale);
-		this.P.x = this.P.x + round(this.gridW - this.w)/2;
+		this.P.x = this.P.x + round(this.gridW - this.w)/2;    //center according to new size.
 		this.P.y = this.P.y + round(this.gridH - this.h)/2;
 		this.setup = true;
 	}
-
 	spawnIn(){
 		if (this.spawnPoint < 20){
 			this.P.y += this.spawnVelocity;
 			this.spawnPoint += this.spawnVelocity;
 		}
 	}
-
 	draw(game){
 		if (this.health > 0){
-			let len = this.imageSprites.length;
-			let segTime = this.cycleTime/len;
-			let i = floor(this.drawTimer/segTime);
+			let len = this.imageSprites.length;		//num sprites
+			let segTime = this.cycleTime/len;  		//time for each sprite
+			let i = floor(this.drawTimer/segTime);  //index in imageSprites to show
 			
 			push();
 			translate(this.P.x, this.P.y);
@@ -106,20 +100,20 @@ class Enemy{
 			//pass ship as target for targeted shots
 			this.shots[i].update(this, ship);
 
-			//check for collision with player ship.  update shot.hits.  remove shot if collision && shot.hits 0
+			//check for collision with player ship and if player is damageable
 			if(collide(this.shots[i], ship) && ship.dmgDelayTimer > ship.dmgDelay){
 				this.shots[i].draw(this);  //draw a final time.  looks better.
 				this.shots[i].hits--; 
-				ship.damageTaken(this.gunType.damage);  //shield absorbs done in this method too
-				if (this.shots[i].hits <= 0){
-					this.shots.splice(i,1);
+				ship.damageTaken(this.gunType.damage);  //shield absorbs checked in damageTaken
+				if (this.shots[i].hits === 0){
+					this.shots.splice(i, 1);
 					continue;
 				}
 			}
 			//remove shots if they go off the level bord. extra -y distance because enemies move in from off screen
 			if (this.shots[i].P.y > height || this.shots[i].P.y < -height/3 ||   
 				this.shots[i].P.x < -this.shots[i].w || this.shots[i].P.x > levelW ){ 
-				this.shots.splice(i,1);
+				this.shots.splice(i, 1);
 			}
 		}
 	}
@@ -138,13 +132,14 @@ class Enemy{
 			this.V.x *= -1;
 		}
 		if (this.P.y > levelH){
-			this.P.y = -2*this.h;
+			this.P.y = -this.h;
 		}
 	}
 	updatePosition(){ 
 		this.P.x += this.scale*this.V.x;
 		this.P.y += this.scale*this.V.y;
 	}
+
 	//update is called in Game.managescenes
 	update(ship, game){  
 		
@@ -152,7 +147,7 @@ class Enemy{
 			this.animationSetup();
 		} 
 
-		if (this.shots.length > 0 ){
+		if (this.shots.length){
 			this.updateShots(ship);
 		}
 		
@@ -172,7 +167,7 @@ class Enemy{
 					this.firingTimer++;  
 				}  
 				else {
-					this.attackRoll();
+					this.attackRoll(game); //turret enemy needs game
 				}
 			}
 			//dmg taken by player ship
@@ -219,14 +214,14 @@ class RedShip extends Enemy{
 class BlueShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = 52;
-		this.h = 52;
+		this.w = 75;
+		this.h = 68;
 		this.imageSprites = [sprBadB1,sprBadB2];
 		this.cycleTime = 10;
+		this.attackCooldown = 120;
 		this.gunType = blueLaser;
 		this.health = 100;
-		this.attackCooldown = 100; 
-		this.att = sEnmAtt2;
+		this.att = sPhaserB;
 		this.dest = sEnmD2; 
 	}
 	updateVelocity(){
@@ -241,13 +236,13 @@ class BlueShip extends Enemy{
 class CrimsonShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = 75;
-		this.h = 65;
+		this.w = 70;
+		this.h = 60;
 		this.imageSprites = [sprCrim1, sprCrim2, sprCrim3, sprCrim2];
 		this.cycleTime = 90;
 		this.gunType = spreader;
 		this.health = 70;
-		this.attackCooldown = 30; 
+		this.attackCooldown = 75; 
 		this.att = sEnmCrimAtt;
 		this.dest = sEnmD2; 
 	}
@@ -284,15 +279,14 @@ class CrimsonShip extends Enemy{
 class GreenShip extends Enemy{
 	constructor(x, y, gridW, gridH){
 		super(x, y, gridW, gridH);
-		this.w = 65;
-		this.h = 48;
+		this.w = 60;
+		this.h = 44;
 		this.imageSprites = [sprBadG1,sprBadG2];
 		this.cycleTime = 10;
 		this.gunType = greenPulse;
 		this.V = createVector(1.5,0);
 		this.health = 180;
-		this.attackCooldown = 100; 
-		this.att = sEnmAtt;
+		this.att = sPhaserG;
 		this.dest = sEnmDestr; 
 	}
 }
@@ -306,8 +300,8 @@ class OrangeShip extends Enemy{
 		this.gunType = orangeLaser;
 		this.V = createVector(0.5,1.0);
 		this.health = 300;
-		this.attackCooldown = 100; 
-		this.att = sEnmAtt;
+		this.attackCooldown = 180; 
+		this.att = sPhaserY;
 		this.dest = sEnmD2;
 	}
 	updateVelocity(){
@@ -337,7 +331,7 @@ class Eye extends Enemy{
 		this.P.x += this.V.x;
 		this.P.y += this.V.y;
 	}
-	//motion handled by checkSynchronizedEnemies() in game class
+	//motion handled by checkSynchronizedEnemies() in game class (once per draw loop)
 	movementBounds(){
 		return;
 	}
