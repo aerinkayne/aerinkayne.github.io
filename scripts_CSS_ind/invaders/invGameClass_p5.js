@@ -85,7 +85,7 @@ class Game{
 			gameScreen.backgroundImg(starBG);
 			gameScreen.drawStars(); 
 			gameScreen.updateStars();
-			btnStart.draw([0,150,200]);
+			btnStart.draw();
 		}
 		else if (this.gameState === "inGame"){
 			gameCamera(ship);
@@ -138,8 +138,12 @@ class Game{
 				}
 			}
 			resetMatrix();
-			btnPause.draw(color(0,175,150));
-			ship.gunz.forEach(gun => {gun.draw()});
+			btnPause.draw();
+			
+			ship.gunz.forEach((gun, index) => {
+				gun.draw(6.9/10*width + 2 + index*gun.w, 9.45/10*height);
+				gun.drawPowerLevels();
+				});
 			ship.healthBar();
 			ship.shieldBar();	
 		}

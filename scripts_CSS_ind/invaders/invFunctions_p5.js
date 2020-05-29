@@ -10,110 +10,115 @@ let gameCamera = function(ship) {
 
 
 //classes:  Buttons, GameScreen, Weapon, Powerup, Shield
-class Button{
-	constructor(x,y,w,h,r,txt){
-	this.P = createVector(x,y);
-	this.w = w;
-	this.h = h;
-	this.r = r;  //border radius for rectangles
-	this.txt = txt;
-	this.txtColor = [0,0,0];
+class Button {
+	constructor(config, img){
+	this.P = createVector(floor(config.x),floor(config.y)); 
+	this.w = floor(config.w);
+	this.h = floor(config.h);
+	this.r = config.r || 0; 				
+	this.txt = config.txt || 0;
+	this.txtSize = config.txtSize || config.h/2.5;
+	this.txtColor = config.txtColor || [0,0,0];
+	this.btnColor = config.btnColor || [0,0,0];
+	this.borderColor = config.borderColor || [0,0,0];
+	this.strokeW = config.strokeW || 0.75;
+	this.overlayAlpha = 0;
+	this.selected = false;
 	this.clickTimer = 0;
-	this.clickDelay = 20;
+	this.clickDelay = 20;	//frames ~1/3 sec
+	this.paused = false;	
+	this.onClick = config.onClick || 0;
+	this.onHover = config.onHover || 0;
+	this.offHover = config.offHover || 0;
+	this.img = img || 0;
 	}
-	onClick(){  //stuff to do
-		console.log("clicked"); 
-	}
-	checkClicks(){  //called in draw.  timer used to limit calls.  works ontouch
-		if (this.clickTimer < this.clickDelay) {this.clickTimer++;}
-		if (this.mouseIsOver(mouseX,mouseY) && this.clickTimer === this.clickDelay && mouseIsPressed){
-			this.onClick();
-			this.clickTimer=0;
+	updateTimer(){
+		if (this.clickTimer < this.clickDelay){
+			this.clickTimer++;
 		}
 	}
-	draw(color){
-		fill(color);
-		rect(this.P.x, this.P.y, this.w, this.h, this.r);
-		textAlign(CENTER,CENTER);
-		textSize(this.h/2);
-		fill(this.txtColor);
-		text(this.txt,this.P.x+this.w/2, this.P.y+this.h/2);
-		this.checkClicks();
+	checkClicks(){  //called in draw.  frame timer used to limit calls.  works ontouch.
+		if (this.mouseIsOver(mouseX, mouseY) && mouseIsPressed){
+			this.clickTimer=0;
+			this.onClick();
+		}
+	}
+	checkHover(){
+		if (this.mouseIsOver(mouseX, mouseY)){
+			this.onHover();
+		}
+		else {
+			this.offHover();
+		}
+	}
+	//can pass location params or supply alternative coords in draw
+	draw(x=this.P.x, y=this.P.y){
+		if (x !== this.P.x || y !== this.P.y) {
+			this.P.x = x;  this.P.y = y;
+		}
+		if(!this.paused){
+			if(this.img){
+				push();
+				translate(x+this.w/2,y+this.h/2);  //image mode is center
+				image(this.img, 0, 0, this.w, this.h);
+				noStroke();
+				pop();
+			}
+			else {
+				push();
+				translate(x,y);
+				strokeWeight(this.strokeW);
+				stroke(this.borderColor);
+				fill(this.btnColor);
+				rect(0, 0, this.w, this.h, this.r);
+				strokeWeight(1);
+				noStroke();
+				textAlign(CENTER,CENTER);
+				textSize(this.txtSize);
+				fill(this.txtColor);
+				text(this.txt, this.w/2, this.h/2);
+				pop();
+			}
+		}
+		this.updateTimer();
+
+		if (this.clickTimer === this.clickDelay){
+			this.checkClicks();
+		}
+		if (this.onHover){
+			this.checkHover();
+		}
 	}
 	mouseIsOver(mouseX, mouseY){
 		return (mouseX > this.P.x && mouseX < this.P.x + this.w &&
 				mouseY > this.P.y && mouseY < this.P.y + this.h);
 	}
 }
-class StartBtn extends Button{
-	constructor(x,y,w,h,r,txt){
-	super(x,y,w,h,r,txt);
-	}
-	onClick(){
-		btnRedGun = new GunBtn(7/10*width,9.45/10*height,width/18,height/19,3, sprBadR1, redLaser);
-		btnBlueGun = new GunBtn(7.6/10*width,9.45/10*height,width/18,height/19,3, sprBadB1, blueLaser);
-		btnGreenGun = new GunBtn(8.2/10*width,9.45/10*height,width/18,height/19,3, sprBadG1, greenPulse);
-		btnOrangeGun = new GunBtn(8.8/10*width,9.45/10*height,width/18,height/19,3, sprBadBr1, orangeLaser);
-		btnSpreadGun = new GunBtn(9.4/10*width,9.45/10*height,width/18,height/19,3, sprCrim1, spreader);
-		
-		invGame.startGame();
-	}
-}
-class PauseBtn extends Button{
-	constructor(x,y,w,h,r,txt){
-	super(x,y,w,h,r,txt);
-	}
-	onClick(){
-		if (!invGame.paused){
-			this.txtColor = [75,255,200];
-			this.txt = "➤";
-			invGame.paused = true;
-			invGame.timePaused = new Date().getTime();
-		} else{
-			this.txtColor = [0,0,0];
-			this.txt = "❚❚";
-			invGame.paused = false;
-			invGame.timeUnpaused = new Date().getTime();
-		}
-	}
-}
 class GunBtn extends Button{
-	constructor(x,y,w,h,r,img, gunType){
-	super(x,y,w,h,r);
-	this.img = img;
-	this.gunType = gunType;
-	this.selected = false;
-	this.opacity = 120;  
-	this.powerLevel = -1;
-	this.powerLevelMAX = 2;
+	constructor(config, img, gunType){
+		super(config, img);
+		this.gunType = gunType;
+		this.powerLevel = -1;
+		this.powerLevelMAX = 2;
+		this.overlayAlpha = 125;
 	}
-	draw(){
+	drawPowerLevels(){
 		push();
 		translate(this.P.x, this.P.y);
-		image(this.img,this.w/2, this.h/2, this.w, this.h);
-		(this.powerLevel>-1) ? this.opacity = 30 : this.opacity = 125;
-		fill(0,0,0, this.opacity);
-		rect(0, 0, this.w, this.h);
-		fill(255,175,220);
+		(this.powerLevel >-1) ? this.overlayAlpha = 30 : this.overlayAlpha = 125;
+		fill(0,0,0, this.overlayAlpha);
+		rect(0, 0, this.w, this.h, 2);
+		fill(255);
 		for (let i=0; i <= this.powerLevel; i++){
 			ellipse(this.w/4+i*this.w/4, 8/10*this.h,this.w/6, this.w/6);
 		}
-		
 		noFill();
 		stroke(255);
 		if (this.selected){rect(0,0,this.w, this.h,2);}
 		pop();
-		this.checkClicks();
-	}
-	onClick(){
-		if (this.powerLevel>-1){
-			invShip.gunType = this.gunType;
-			invShip.powerLevel = this.powerLevel;
-		}
-		invShip.gunz.forEach(gun => {gun.selected = false;});
-		this.selected = true;
 	}
 }
+
 
 class GameScreen{
 	constructor(){
@@ -123,7 +128,6 @@ class GameScreen{
 		this.numStars = 70;
 		this.stars = this.addStars();  
 	}
-
 	addStars(){
 		let stars = [];
 		for (let i = 0; i < this.numStars; i++){ //how many from param

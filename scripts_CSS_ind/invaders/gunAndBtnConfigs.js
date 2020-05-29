@@ -1,5 +1,8 @@
-//gun configs.  
-//weaponSound: property and value added in preload
+//canvas size for button configs
+const scrWidth = 450;  const scrHeight = 350;
+
+//** guns **//.  
+//note: weaponSound property and value added in preload
 
 const startLaser = {
     name: "startLaser",
@@ -100,3 +103,78 @@ const spreader = {
     trackTime: 0,
     //weaponSound: sEnmCrimAtt
 };
+
+
+
+
+/** buttons **/ 
+
+const btnStart1 = {
+	x: scrWidth/2-scrWidth/9.6, 
+	y: scrHeight/2-scrHeight/20,
+	w: scrWidth/4.8,
+    h: scrHeight/10,
+    r: 5,
+	txt: " S t a r t   ➤",
+	txtSize: 16,
+	txtColor: [25,175,225],
+    btnColor: [25,40,100],
+    borderColor: [50,100,160],
+	onClick: ()=> {
+		btnRedGun = new GunBtn(btnGun, sprBadR1, redLaser);
+		btnBlueGun = new GunBtn(btnGun, sprBadB1, blueLaser);
+		btnGreenGun = new GunBtn(btnGun, sprBadG1, greenPulse);
+		btnOrangeGun = new GunBtn(btnGun, sprBadBr1, orangeLaser);
+		btnSpreadGun = new GunBtn(btnGun, sprCrim1, spreader);
+		invGame.startGame();
+    },
+    onHover() {
+        this.txtColor = [100,200,255];
+    },
+    offHover() {
+        this.txtColor = [50,150,200];
+    }
+}
+
+const btnGun = {
+    x: 0,
+    y: 0,
+    w: scrWidth/18,
+    h: scrHeight/19,
+    r: 3,
+    overlayAlpha: 120,
+	onClick(){
+		if (this.powerLevel > -1){
+			invShip.gunType = this.gunType;
+			invShip.powerLevel = this.powerLevel;
+		}
+		invShip.gunz.forEach(gun => {gun.selected = false;});
+		this.selected = true;
+	}
+}
+
+const btnPause1 = {
+    x: 5, 
+	y: scrHeight-25,
+	w: 35,
+    h: 20,
+    r: 2,
+    txtColor: [0,0,0],
+    txtSize: 9,
+    btnColor: [10,125,135],
+    txt: "❚❚",
+    borderColor: [100,200,200],
+    onClick(){
+		if (!invGame.paused){
+			this.txtColor = [100,255,225];
+			this.txt = "➤";
+			invGame.paused = true;
+			invGame.timePaused = new Date().getTime();
+		} else{
+			this.txtColor = [0,0,0];
+			this.txt = "❚❚";
+			invGame.paused = false;
+			invGame.timeUnpaused = new Date().getTime();
+		}
+    }
+}    

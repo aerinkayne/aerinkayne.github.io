@@ -21,7 +21,7 @@ class Ship{
 	this.powerLevel = 0;  	  //zero based
 	this.powerLevelMAX = 2;
 	this.gunz = [btnRedGun, btnBlueGun, btnGreenGun, btnOrangeGun, btnSpreadGun];
-	this.healthMAX = 1800;  
+	this.healthMAX = 1600;  
 	this.health = this.healthMAX;  
 	this.score = 0;
 	this.dmgDelay = 30;
@@ -71,28 +71,28 @@ class Ship{
 		noStroke();
 		fill(225,225,255);
 		textAlign(LEFT);
-		text(`HP ${this.health}`, width-15*width/50, height-4*height/40);
+		text(`HP  ${this.health}`, width-14*width/50, height-4*height/40);
 		fill(0,0,0);
-		stroke(100,175,255);
-		rect(width-15*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
+		stroke(75,150,255);
+		rect(width-14*width/50-1, height-3.4*height/40-1, width/10 + 1, 6,2);
 		noStroke();
 		fill(155,0,40);
 		if (this.health < 0){this.health = 0;}
 		if (this.health > this.healthMAX){this.health = this.healthMAX;}
-		rect(width-15*width/50, height-3*height/40, map(this.health,0,this.healthMAX,0,width/10), 4,2);
+		rect(width-14*width/50, height-3.4*height/40, map(this.health,0,this.healthMAX,0,width/10), 4,2);
 	}
 	shieldBar(){
 		noStroke();
 		fill(225,225,255);
 		textAlign(LEFT);
-		text(`shields ${this.shield.absorb}`, width-9*width/50, height-4*height/40);
+		text(`shield  ${this.shield.absorb}`, width-7*width/50, height-4*height/40);
 		fill(0,0,0);
-		stroke(100,175,255);
-		rect(width-9*width/50-1, height-3*height/40-1, width/10 + 1, 6,2);
+		stroke(75,150,255);
+		rect(width-7*width/50-1, height-3.4*height/40-1, width/10 + 1, 6,2);
 		noStroke();
 		fill(100,0,120);
 		if (this.shield.absorb < 0){this.shield.absorb = 0;}
-		rect(width-9*width/50, height-3*height/40, map(this.shield.absorb, 0, this.shield.absorbMax, 0, width/10), 4,2);
+		rect(width-7*width/50, height-3.4*height/40, map(this.shield.absorb, 0, this.shield.absorbMax, 0, width/10), 4,2);
 	}
 	draw(){
 		push();

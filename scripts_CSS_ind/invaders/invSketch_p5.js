@@ -15,7 +15,7 @@ let sprCrim1, sprCrim2, sprCrim3, eye1, eye2, eyeClosed, baseOpen, baseClosed, s
 //sound related
 let slider, oldVolume, newVolume;
 let soundEffects = [];
-let sPup,sPhaser,sPhaserB,sPhaserG,sPhaserY,sShipDestr,sEnmSpawn,sEnmAtt,sEnmAtt2,sEnmCrimAtt,sEnmDmg,sEnmDestr,sEnmD2;
+let sPup,sPhaser,sPhaserB,sPhaserG,sPhaserY,sShipDestr,sEnmSpawn,sEnmAtt,sEnmAtt2,sEnmCrimAtt,sEnmDmg,sEnmDestr,sEnmD2,sBaseSpawn;
 
 
 function preload(){
@@ -23,7 +23,7 @@ function preload(){
 	sprites2 = loadImage("scripts_CSS_ind/invaders/assets/sprites/invSprites2.png");
 	starBG = loadImage("scripts_CSS_ind/invaders/assets/sprites/pexels-photo-176851InstaWalli.jpeg");
 
-	soundEffects = [  //array for changevolume meth
+	soundEffects = [  //array for changevolume method in sketch file.
 		sPup = loadSound("scripts_CSS_ind/invaders/assets/sounds/UI/171527__leszek-szary__menu-click.wav"), 				//00
 		sPhaser = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/phaserPulse.mp3"), 								//01
 		sPhaserB = loadSound("scripts_CSS_ind/invaders/assets/sounds/phasers/337660__five-step__metallic.mp3"),				//02 
@@ -36,7 +36,8 @@ function preload(){
 		sEnmCrimAtt = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/146732__leszek-szary__creature.wav"),			//09
 		sEnmAtt2 = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/61818__tim-kahn__hard-kick.wav"),				//10
 		sEnmDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/350976__cabled-mess__boom-c-01.wav"),				//11
-		sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav")		//12
+		sShipDestr = loadSound("scripts_CSS_ind/invaders/assets/sounds/dmg/397702__mrthenoronha__explosion-8-bit.wav"),		//12
+		sBaseSpawn = loadSound("scripts_CSS_ind/invaders/assets/sounds/alien/442825__qubodup__dark-magic-loop.wav")
 	];
 }
 
@@ -45,6 +46,7 @@ function setup(){
 	c.parent('cParent');
 	frameRate(60);
 	imageMode(CENTER);
+	textFont("dosis");
 
 	//sprites
 	sprBadR1 = sprites2.get(50,296,128,85);
@@ -82,25 +84,30 @@ function setup(){
 	changeVolume();
 
 	//initial setup
-	invGame = new Game();
-	gameScreen = new GameScreen(); 
 	levelW = 850;
 	levelH = 350;
-	
-	btnStart = new StartBtn(width/2-50,height/2-25,100,50,5, "Start");
-	btnPause = new PauseBtn(5, height-25, 35, 20, 2, "❚❚");
+	invGame = new Game();
+	gameScreen = new GameScreen(); 
+	btnStart = new Button(btnStart1);  
+	btnPause = new Button(btnPause1);  
 }	
 
 //movements = {39:bool,37:bool,38:bool,40:bool}
 function keyPressed(){
-	if (invShip.movements.hasOwnProperty(keyCode)){
-		invShip.movements[keyCode] = true;  
-	};
+	try{
+		if (invShip.movements.hasOwnProperty(keyCode)){
+			invShip.movements[keyCode] = true;  
+		};
+	}
+	catch{console.log("there is no spoon");}
 }		
 function keyReleased(){
-	if (invShip.movements.hasOwnProperty(keyCode)){
-		invShip.movements[keyCode] = false;
+	try{
+		if (invShip.movements.hasOwnProperty(keyCode)){
+			invShip.movements[keyCode] = false;
+		}
 	}
+	catch{console.log("and no ship either");}	
 }
 
 

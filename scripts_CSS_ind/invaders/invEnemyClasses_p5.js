@@ -353,6 +353,7 @@ class EnmBase extends Eye{
 		this.shotRoll = 100;  		//base will always shoot once 1/4 through cycle
 		this.imageSprites = [baseOpen, baseClosed];
 		this.takesDamage = false;
+		this.att = sBaseSpawn;
 	}
 	shoot(){	
 		let P = createVector(this.P.x, this.P.y + height/2 + 5/6*this.h); 
