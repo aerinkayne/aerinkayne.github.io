@@ -115,6 +115,9 @@ function changeVolume(){
 	soundEffects.forEach(sound=> {
 		sound.setVolume(slider.value());
 	});
+	//problem children
+	sPhaser.setVolume(1/2*slider.value());
+	sBaseSpawn.setVolume(3*slider.value());
 }
 
 
