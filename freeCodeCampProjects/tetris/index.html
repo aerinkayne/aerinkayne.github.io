@@ -9,18 +9,16 @@
 </head>
 
 <!--  
-
 changes and fixes:
 Added an array of strings used as class names for piece styling.
 Added additional pieces (second L and Z).
-Board should scale with the window on most browsers.  General styling.
+Board should scale with the window on most browsers (other general styling).
 Pieces should no longer sometimes rotate through the screen.
+Pieces should no longer be rotatable if they would rotate into occupied positions (possibly still buggy).
 Pausing/unpausing the game will not recast the next piece, and initial next piece is random instead of 0.
+Pieces can now slide at the last moment.
+Moved a draw call in freeze() that caused spliced rows to re-render before their classes were removed.
 Matching multiple rows simultaneously awards more points, and a 4 row match significantly more. 
-known issues:
-A multiple row match results in 'lag' and can cause style retention if the piece is moved during that time.  
-Pieces cannot 'slide' at the last moment. 
-
 -->
 
 <body>

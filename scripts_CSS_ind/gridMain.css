@@ -101,7 +101,10 @@
 
 ._x {
     border-radius: 5%  10%  5% / 20%;
-    border: 0.8vw outset #bbc;
+    border: 0.8vw solid #c8c8d8;
+    border-bottom: 0.8vw outset #9898a8;
+    border-right: 0.8vw outset #9898a8;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,16 +116,16 @@
 }
 ._y, ._z {
     margin: 0 1em;
-    border-radius: 5%  10%  5% / 20%;
+    border-radius: 3% 8%  / 35%;
 }
 ._y {
     grid-area: y;
-    border-left: 0.8vw outset #bbc;
-    border-right: 0.8vw inset #bbc;
+    border-left: 0.6vw solid #c8c8d8;
+    border-right: 0.6vw solid #c8c8d8;
 }
 ._z {
     grid-area: z;
-    border-left: 0.8vw inset #bbc;
-    border-right: 0.8vw outset #bbc;
+    border-left: 0.6vw inset #9898a8;
+    border-right: 0.6vw outset #9898a8;
 }
 

@@ -1,9 +1,37 @@
 document.addEventListener('DOMContentLoaded', ()=> {
     const width = 10;  //num cols in grid
-    let squares = Array.from(document.querySelectorAll('#grid div'));
     let score = 0;
+    let squares = Array.from(document.querySelectorAll('#grid div'));
     const grid = document.getElementById('grid');
 
+    function controls(e){
+        if(e.keyCode === 37 && timerID){
+            moveLeft();
+        }
+        else if(e.keyCode === 39 && timerID){
+            moveRight();
+        }
+        else if(e.keyCode === 38 && timerID){
+            rotateTet();
+        }
+        else if(e.keyCode === 40 && timerID){
+            moveDownKey();
+        }
+    }
+    document.addEventListener('keyup', controls);
+
+    const startBtn = document.getElementById('startBtn');
+    startBtn.addEventListener('click', ()=> {
+        if(timerID) {
+            clearInterval(timerID);
+            timerID = null;
+        } else {
+            
+            draw();
+            timerID = setInterval(moveDown, 600);
+            displayInNext();
+        }
+    });
 
     function addScore(){
         let rowsFilled = 0;
@@ -34,17 +62,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         }
     }
 
-    const startBtn = document.getElementById('startBtn');
-    startBtn.addEventListener('click', ()=> {
-        if(timerID) {
-            clearInterval(timerID);
-            timerID = null;
-        } else {
-            draw();
-            timerID = setInterval(moveDown, 600);
-            displayInNext();
-        }
-    });
+
 
     const scoreSpan = document.getElementById('score');
     let timerID;
@@ -132,34 +150,23 @@ document.addEventListener('DOMContentLoaded', ()=> {
         })
     }
 
-    function controls(e){
-        if(e.keyCode === 37 && timerID){
-            moveLeft();
-        }
-        else if(e.keyCode === 39 && timerID){
-            moveRight();
-        }
-        else if(e.keyCode === 38 && timerID){
-            rotateTet();
-        }
-        else if(e.keyCode === 40 && timerID){
-            moveDownKey();
-        }
-    }
-    document.addEventListener('keyup', controls);
 
 
-    //mainish
+
+    //interval
     function moveDown(){
         undraw();
         currentP += width;
-        draw(); 
         freeze();
     }
 
 
-    function freeze(){
-        if(currentTet.some(index=> squares[currentP + index + width].classList.contains('taken'))){
+
+    function freeze(){  
+        if(currentTet.some(index=> squares[currentP + index].classList.contains('taken'))){ 
+            //check if it has moved into a taken piece and move it back here if it has
+            currentP -= width; 
+            draw();  //then draw
             currentTet.forEach(tet=> squares[currentP + tet].classList.add('taken'));
             
             currentType = nextType;
@@ -167,10 +174,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
             currentTet = tetros[currentType][currentRotation];
             currentP = 4;
 
-            draw();
             displayInNext();
             addScore();
             gameOver();
+            draw();
+        } else {
+            draw();  //if it has not moved into a piece just draw it
         }
     }
     function isAtRight() {
@@ -228,13 +237,23 @@ document.addEventListener('DOMContentLoaded', ()=> {
     }
     
     function rotateTet(){
+        let startRotation = currentRotation;
+        
         undraw();
         currentRotation++;
         if(currentRotation === currentTet.length){
-            currentRotation=0;
+            currentRotation = 0;
         }
         currentTet = tetros[currentType][currentRotation];
+        
+        //reverse the rotation move if it causes the piece to move into another one.
+        if(currentTet.some(index=> squares[currentP + index].classList.contains('taken'))){
+            currentRotation = startRotation;
+            currentTet = tetros[currentType][startRotation];
+        }
+        
         checkRotatedP();
+        
         draw();
     }
 
