@@ -1,11 +1,11 @@
 .gridMain {
-    background-color: #889; 
+    background-color: #778; 
     margin: auto;
     padding: 1.25vw;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    grid-gap: 1.25vw;
+    grid-gap: 1vw;
     width: 100%;
     height: calc(100vh - 100px); /*100px = navH+footerH*/
     min-height: 600px;
@@ -21,7 +21,7 @@
 }
 
 
-.BG1top, .BG2top, .BG1bottom, .BG2bottom { 
+.BG1top, .BG2top, .BG1bottom, .BG2bottom, .BG1bottomAlt { 
     background-attachment: fixed;
     background-size: 1400px;
     background-repeat: no-repeat;
@@ -29,12 +29,14 @@
     box-shadow: 1px 1px 3px 2px rgba(0,0,10,0.15);
     transition: opacity 3s ease, box-shadow 3s ease;
 }
+.BG1bottomAlt {
+    background-attachment: scroll;
+}
 
-.BG2top {
+.BG2top {  /* top/bottom refers to position.  div 2 is inside of (stacked on) div 1 */
     background-position: center top;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
 } 
-
 .BG1bottom { 
     background-position: center bottom;
     background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu.jpeg");
@@ -60,7 +62,7 @@
 .BG2top:hover, .BG2bottom:hover {
     opacity: 0;
 }
-.BG1top:hover, .BG1bottom:hover {
+.BG1top:hover, .BG1bottom:hover, .BG1bottomAlt:hover {
     box-shadow: 1px 1px 3px 2px rgba(0,0,20,0.3);
 }
 
@@ -103,14 +105,12 @@
     grid-area: n;
 }
 
-
 ._x {
     border-radius: 5%  10%  5% / 20%;
-    background-color: rgba(225,225,255,0.2);
-    border: 0.8vw solid #bbc;
-    border-bottom: 0.8vw solid #556;
-    border-right: 0.8vw solid #556;
-
+    background-color: rgba(0,0,5,0.1);
+    border: 0.8vw solid #ccd;
+    border-bottom: 0.8vw solid #445;
+    border-right: 0.8vw solid #445;
     display: flex;
     justify-content: center;
     align-items: center;

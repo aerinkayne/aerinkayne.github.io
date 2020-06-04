@@ -147,8 +147,8 @@ canvas {
   margin: 0 auto;
   padding-bottom: 50px;
   overflow: auto;
-  -webkit-box-shadow: 0 4px 6px rgba(240, 245, 255, 0.8);
-  box-shadow: 0 4px 6px rgba(240, 245, 255, 0.8);
+  -webkit-box-shadow: 0 4px 6px rgba(175,190,200,0.8);
+  box-shadow: 0 4px 6px rgba(175,190,200,0.8);
 }
 
 footer {
