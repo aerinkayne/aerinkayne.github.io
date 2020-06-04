@@ -7,21 +7,22 @@
   list-style-type: none;
 }
 
-
 a {
   color: #036;
   font-weight: bolder;
 }
 
 body {
-  background-color: #606068;
+  background-color: #505058;
   font-family: 'dosis', sans-serif;
+  background-image: url("/images/pexels/textures/pexels-photo-235985pixabay.jpeg");
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 p {
   padding: 1%;
 }
- 
 
 div.center {
   margin: 1.5em 1em;
@@ -60,8 +61,25 @@ section {
   border-radius: 5px;
 }
 
+@media only screen and (max-width: 650px) {
+  .columns {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .flex3 {
+    width: 100%;
+    margin: 1% auto;
+  }
+  h2 {
+    font-size: 22px;
+  }
+}
+
 .radioSelect {
   width: 75%;
+  height: 2em;
   margin: 0.4em auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -81,7 +99,7 @@ section {
 }
 
 .radioSelect div {
-  margin: 0.5em 0em;
+  margin: 0.5em 0;
 }
 
 .radioSelect div:not(.last) {
@@ -97,7 +115,19 @@ section {
           transform: translateY(-4px);
 }
 
-
+.gridRadioDisplay {
+  display: none;
+  -ms-grid-rows: (1fr)[10];
+      grid-template-rows: repeat(10, 1fr);
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1.2vw;
+  margin: auto;
+  width: 90%;
+  height: 55vw;
+  min-height: calc(0.55 * 600px);
+  max-height: calc(0.55 * 1400px);
+}
 
 canvas {
   margin: 0.5em;
@@ -110,15 +140,15 @@ canvas {
 #pageContent {
   width: 90vw;
   min-width: calc(0.9 * 600px);
-  max-width: calc(0.9 * 1200px);
-  min-height: calc(100vh - 45px);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#d8d8e4), to(#aab));
-  background-image: linear-gradient(180deg, #d8d8e4, #aab);
+  max-width: calc(0.9 * 1400px);
+  min-height: calc(100vh - 50px);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#c8c8d4), to(#99a));
+  background-image: linear-gradient(180deg, #c8c8d4, #99a);
   margin: 0 auto;
-  
   padding-bottom: 50px;
-  -webkit-box-shadow: 0 3px 4px rgba(240, 245, 255, 0.8);
-          box-shadow: 0 3px 4px rgba(240, 245, 255, 0.8);
+  overflow: auto;
+  -webkit-box-shadow: 0 4px 6px rgba(240, 245, 255, 0.8);
+  box-shadow: 0 4px 6px rgba(240, 245, 255, 0.8);
 }
 
 footer {
@@ -132,7 +162,7 @@ footer {
       -ms-flex-pack: center;
           justify-content: center;
   height: 50px;
-  background-color: rgba(0, 0, 10, 0.6);
+  background-color: rgba(0, 0, 5, 0.55);
   font-size: 0.9rem;
   letter-spacing: 1.4px;
   margin-top: -50px;
@@ -145,7 +175,7 @@ footer img {
 footer ul {
   width: 85vw;
   min-width: calc(0.85 * 600px);
-  max-width: calc(0.85 * 1200px);
+  max-width: calc(0.85 * 1400px);
   height: 65%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -157,38 +187,74 @@ footer ul {
       -ms-flex-align: center;
           align-items: center;
   border-radius: 15px / 50%;
-  border-left: 6px solid #aab;
-  border-right: 6px solid #aab;
+  border-left: 6px solid #99a;
+  border-right: 6px solid #99a;
   text-align: center;
 }
 
 footer ul li {
   border-radius: 8px / 20%;
   height: 25px;
-  flex: 1 1 50px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 50px;
+          flex: 1 1 50px;
 }
-footer ul li.last {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 footer ul li:not(.last) {
-  border-right: 2px solid #71718e;
+  border-right: 2px solid #646479;
 }
+
 footer ul li:not(.first) {
-  border-left: 2px solid #71718e;
+  border-left: 2px solid #646479;
 }
 
+footer ul li.last {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
 
-#footerLinks a,
-#footerLinks a:visited {
+footer ul a,
+footer ul a:visited {
   color: #779;
+}
+
+/*footer icons*/
+#si:hover {
+  -webkit-filter: invert(0) sepia(1) saturate(1) hue-rotate(180deg) brightness(1.2);
+          filter: invert(0) sepia(1) saturate(1) hue-rotate(180deg) brightness(1.2);
+}
+
+#pex:hover {
+  -webkit-filter: invert(0) sepia(1) saturate(10) hue-rotate(130deg) brightness(1);
+          filter: invert(0) sepia(1) saturate(10) hue-rotate(130deg) brightness(1);
+}
+
+#da:hover {
+  -webkit-filter: invert(0) sepia(1) saturate(15) hue-rotate(110deg) brightness(1.2);
+          filter: invert(0) sepia(1) saturate(15) hue-rotate(110deg) brightness(1.2);
+}
+
+#as:hover {
+  -webkit-filter: invert(0) sepia(1) saturate(20) hue-rotate(180deg) brightness(1.3);
+          filter: invert(0) sepia(1) saturate(20) hue-rotate(180deg) brightness(1.3);
+}
+
+#gh:hover {
+  -webkit-filter: brightness(1.5);
+          filter: brightness(1.5);
 }
 
 h1, h2, h3, h4, h5 {
   font-family: 'Kalam', cursive;
   letter-spacing: 1.8px;
-  margin: 1em auto;
+  margin: 0.6em auto;
   text-align: center;
   text-transform: uppercase;
   text-shadow: 0px 0px 6px #113;
@@ -198,7 +264,7 @@ h1, h2, h3, h4, h5 {
 .centeredFlexSection {
   width: 80%;
   border: 2px outset white;
-  background-color: #606068;
+  background-color: #505058;
   margin: 1em auto;
   padding: 0.5em;
   display: -webkit-box;
@@ -213,15 +279,16 @@ h1, h2, h3, h4, h5 {
 }
 
 nav {
-  background-color: #343438;
-  height: 45px;
-  z-index: 9999;
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 5, 0.3);
+  height: 50px;
 }
 
 .navContentContainer {
   width: 90vw;
   min-width: calc(0.9 * 600px);
-  max-width: calc(0.9 * 1200px);
+  max-width: calc(0.9 * 1400px);
   position: relative;
   height: 100%;
   margin: auto;
@@ -258,7 +325,7 @@ nav {
       -ms-flex-align: center;
           align-items: center;
   font-weight: 300;
-  font-size: 1.1rem;
+  font-size: 1.2em;
   height: 90%;
 }
 
@@ -274,7 +341,7 @@ nav {
 /*showNav class is toggled with event listener on #burger div*/
 #navLinks.showNav {
   visibility: visible;
-  opacity: 1; 
+  opacity: 1;
 }
 
 #navLinks > li:hover {
@@ -306,11 +373,10 @@ nav {
 }
 
 .dropdownContent li {
-  background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 200, 200, 0)), color-stop(3%, rgba(0, 200, 200, 0)), color-stop(50%, rgba(0, 200, 200, 0.4)), color-stop(97%, rgba(0, 200, 200, 0)), to(rgba(0, 200, 200, 0)));
-  background-image: linear-gradient(90deg, rgba(0, 200, 200, 0) 0%, rgba(0, 200, 200, 0) 3%, rgba(0, 200, 200, 0.4) 50%, rgba(0, 200, 200, 0) 97%, rgba(0, 200, 200, 0) 100%);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(5%, rgba(0, 200, 200, 0)), color-stop(50%, rgba(0, 200, 200, 0.3)), color-stop(95%, rgba(0, 200, 200, 0)));
+  background-image: linear-gradient(90deg, rgba(0, 200, 200, 0) 5%, rgba(0, 200, 200, 0.3) 50%, rgba(0, 200, 200, 0) 95%);
   color: #3ba;
   border-radius: 6px / 20%;
-
   margin: 0.25em;
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
@@ -318,24 +384,24 @@ nav {
 }
 
 .dropdownContent li:hover {
-  background-image: -webkit-gradient(linear, left top, right top, from(#96f0e1), color-stop(3%, rgba(0, 200, 200, 0.65)), color-stop(50%, rgba(0, 200, 200, 0)), color-stop(97%, rgba(0, 200, 200, 0.65)), to(#96f0e1));
-  background-image: linear-gradient(90deg, #96f0e1 0%, rgba(0, 200, 200, 0.65) 3%, rgba(0, 200, 200, 0) 50%, rgba(0, 200, 200, 0.65) 97%, #96f0e1 100%);
-  border-left: 3px solid #c8f0f0;
-  border-right: 3px solid #c8f0f0;
+  background-image: -webkit-gradient(linear, left top, right top, from(#96ffe1), color-stop(3%, rgba(0, 200, 200, 0.5)), color-stop(50%, rgba(0, 200, 200, 0)), color-stop(97%, rgba(0, 200, 200, 0.5)), to(#96ffe1));
+  background-image: linear-gradient(90deg, #96ffe1 0%, rgba(0, 200, 200, 0.5) 3%, rgba(0, 200, 200, 0) 50%, rgba(0, 200, 200, 0.5) 97%, #96ffe1 100%);
+  border-left: 3px solid #c8fff0;
+  border-right: 3px solid #c8fff0;
 }
 
 #navLinks .dropdownContent a {
   display: block;
   font-size: 0.9rem;
-  padding: 0.35em 0;
+  padding: 0.5em 0;
 }
 
 #navLinks a:link {
-  color: #3aa;
+  color: #3ba;
 }
 
 #navLinks a:visited {
-  color: #3aa;
+  color: #3ba;
 }
 
 #navLinks a:hover {
@@ -359,7 +425,7 @@ nav {
 #burger div {
   width: 25px;
   height: 2px;
-  margin: 5px;
+  margin: 5px 10px;
   background-color: #3ba;
   -webkit-transition: opacity 0.2s ease-in 0.2s, background-color 0.2s ease-in 0.2s, -webkit-transform 0.4s ease-in 0s;
   transition: opacity 0.2s ease-in 0.2s, background-color 0.2s ease-in 0.2s, -webkit-transform 0.4s ease-in 0s;
@@ -384,19 +450,4 @@ nav {
           transform: rotate(45deg) translate(-5px, -5px);
   background-color: #c8fff0;
 }
-
-@media only screen and (max-width: 650px) {
-  .columns {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  .flex3 {
-    width: 100%;
-    margin: 1% auto;
-  }
-  h2 {
-    font-size: 22px;
-  }
-}
+/*# sourceMappingURL=main.css.map */
