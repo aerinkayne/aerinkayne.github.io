@@ -30,51 +30,32 @@ div.center {
   line-height: 1.6;
 }
 
-section {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  margin: 2em auto;
-  width: 90%;
+.flexToCol {    
+	display: flex;
+	justify-content: space-between;
+	margin: 1em auto;
+	width: 95%;
 }
-
-.columns {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.rows {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.flex3 {
-  width: 31%;
-  padding: 1%;
-  background-color: #e8e8f0;
+.flexToCol > p {
+  flex: 50%;
+  padding: 1em;
+  background-color: #d0d0d8;
   color: #002;
   border-radius: 5px;
+  text-align: justify;
+  margin: 1em;
 }
-
+  
 @media only screen and (max-width: 650px) {
-  .columns {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  .flex3 {
-    width: 100%;
-    margin: 1% auto;
-  }
-  h2 {
-    font-size: 22px;
-  }
+	.flexToCol {
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+				flex-direction: column;
+	}
+	h2 {
+		font-size: 22px;
+	}
 }
 
 .radioSelect {
@@ -139,8 +120,8 @@ canvas {
 
 #pageContent {
   width: 90vw;
-  min-width: calc(0.9 * 600px);
-  max-width: calc(0.9 * 1400px);
+  min-width: 600px;
+  max-width: 1400px;
   min-height: calc(100vh - 50px);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#c8c8d4), to(#99a));
   background-image: linear-gradient(180deg, #c8c8d4, #99a);
@@ -175,7 +156,7 @@ footer img {
 footer ul {
   width: 85vw;
   min-width: calc(0.85 * 600px);
-  max-width: calc(0.85 * 1400px);
+  max-width: calc(0.85 * 1400px); 
   height: 65%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -283,8 +264,8 @@ nav {
 
 .navContentContainer {
   width: 90vw;
-  min-width: calc(0.9 * 600px);
-  max-width: calc(0.9 * 1400px);
+  min-width: 600px;
+  max-width: 1400px;
   position: relative;
   height: 100%;
   margin: auto;
@@ -446,4 +427,3 @@ nav {
           transform: rotate(45deg) translate(-5px, -5px);
   background-color: #c8fff0;
 }
-/*# sourceMappingURL=main.css.map */
