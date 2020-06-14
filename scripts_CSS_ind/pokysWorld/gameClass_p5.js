@@ -1,7 +1,7 @@
 class Game{
 	constructor(){
 	this.player = new Player(0,0);
-	this.gameScreen = new GameScreen(this.player);
+	this.gameScreen = new GameScreen();  //this.player
 	this.mapCodeLength = 3;
 	this.tileSize = 40;
 	this.mapTiles = [];
@@ -43,7 +43,7 @@ class Game{
 			this.gameScreen.shadeSky(this);
 			this.gameScreen.drawBackgrounds(this);
 			this.gameCamera();
-			this.gameScreen.updatePosition(); //needs to be after cam to track properly
+			this.gameScreen.updatePosition(this.player.T); //needs to be after cam to track properly
    
 			this.player.manageUpdates(this);
 
@@ -87,7 +87,7 @@ class Game{
 				else if(t==="01 "){
 					this.player.P = createVector(x,y);
 					this.player.updateTranslation(this); 
-					this.gameScreen.updatePosition();
+					this.gameScreen.updatePosition(this.player.T);
 				}
 				else if(t==="d1 "){
 					this.mapTiles.push(new DirtTile(x,y,S,S, sprDirt1));

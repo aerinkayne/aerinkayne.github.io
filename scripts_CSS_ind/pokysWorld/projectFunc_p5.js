@@ -204,7 +204,7 @@ class WaterTile extends MapTile{
 		this.fatigue = 1;
 		this.jumpVal = 8;
 		this.color = [60,95,205, 140];
-		this.surfaceColor = [160,200,255, 255];
+		this.surfaceColor = [220,230,255];
 	}
 	collideEffect(obj){
 		obj.canSwim = true;  
@@ -249,7 +249,7 @@ class LavaTile extends MapTile{
 		super(x,y,w,h);
 		this.alt = 4;
 		this.damage = 5;
-		this.color = [225,75,50];
+		this.color = [225,50,10];
 	}
 	collideEffect(obj){
 		if(obj.V.y > 0 && obj.P.y + obj.h > this.P.y + 3/4*this.h){
@@ -287,7 +287,7 @@ class HealthSpringTile extends LavaTile{
 		super(x,y,w,h);
 		this.alt = 1.5;
 		this.damage = -5;
-		this.color = [0,220,200, 150];
+		this.color = [0,200,225, 125];
 	}
 	collideEffect(obj){
 		if(obj.damageTimer === obj.damageDelay){

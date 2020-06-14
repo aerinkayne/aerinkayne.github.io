@@ -10,6 +10,7 @@
     min-width: 600px;
     height: calc(100vh - 100px); /*100px = navH+footerH*/
     min-height: 500px;
+    max-height: 775px;
     grid-template-areas: 
         "b b b b a a a a"
         "b b b b a a a a"
@@ -33,7 +34,7 @@
 
 
 .BG2top {  /* top/bottom refers to position.  div 2 is inside of (stacked on) div 1 */
-    background-position: center top;
+    background-position: center -25px;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
 } 
 .BG1bottom { 
@@ -49,10 +50,8 @@
     background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
 }
 .BG1bottomAlt {
-    background-attachment: scroll;
-    background-size: 700px;
-    background-position: center bottom; 
-    background-image: url("../images/negSpaceImages/pexels-photo-262713pixabay.jpeg"); 
+    background-position: center top; 
+    background-image: url("../images/negSpaceImages/pexels-photo-262713crop.jpeg"); 
 }
 
 .BG2top, .BG2bottom {

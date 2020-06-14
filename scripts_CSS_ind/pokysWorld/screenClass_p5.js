@@ -1,7 +1,6 @@
 class GameScreen {
-	constructor(player){
-	this.player = player;
-	this.P = createVector(player.T.x, player.T.y);
+	constructor(){  
+	this.P = createVector(0, 0);  
 	this.w = width;
 	this.h = height;
 	this.backgroundObjects = [];
@@ -15,9 +14,9 @@ class GameScreen {
 				obj.P.y < this.P.y + this.h && obj.P.y + obj.h > this.P.y;
 	}
 	
-	updatePosition(){
-		this.P.x = this.player.T.x; 
-		this.P.y = this.player.T.y;		
+	updatePosition(T){  //vector of player translation values 
+		this.P.x = T.x; 
+		this.P.y = T.y;		
 	}
 	
 	drawScreen(){  
@@ -151,6 +150,7 @@ class Raindrop extends Snowflake{
 	}
 }
 
+/*
 class Bird extends Snowflake(){
  	constructor(x,y, scaleMin, scaleMax){
 		super(x,y, scaleMin, scaleMax);
@@ -162,3 +162,4 @@ class Bird extends Snowflake(){
   pop();
  }
 }
+*/

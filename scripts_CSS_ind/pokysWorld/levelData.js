@@ -1,4 +1,4 @@
-const scrW = 500; const scrH = 400;
+const scrW = 500; const scrH = 400;  //for canvas proportions
 
 const levelData = [
 
@@ -31,12 +31,12 @@ const levelData = [
 	//images assigned in preload.  properties refer to image, translation rate relative to player translation, and intitial P.y location of image.
 	levelBackgroundImages: [{img:undefined, rate:1/20, Y: 175},  
 							{img:undefined, rate:1/10,  Y: 0},
-							{img:undefined, rate:1/4,  Y: 230}], 
+							{img:undefined, rate:1/3,  Y: 230}], 
 	skyStart: [120,170,255],
 	skyEnd: [250,95,40],
 	levelMusic: undefined,  //assign in preload
-	levelEffects: ["rain"], //"rain"],
-	//make sure array indices of numBGeffects and levelEffect correlate.
+	levelEffects: ["rain"], 
+	//indices of numBGeffects and levelEffect correlate.
 	numBGEffects: [125], // 20],
 	numFGEffects: [15]   //, 5]
 	},

@@ -64,6 +64,7 @@ class Player{
 		pop();
 	}
 	manageSprites(){
+		//falling, swimming, climbing, canClimb
 		//todo  w/87 for up, decrease speed while swimming.  simplify
 		(this.canSwim) ? this.setSize(35,35) : this.setSize(30,35);
 		
