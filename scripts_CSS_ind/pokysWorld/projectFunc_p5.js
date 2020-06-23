@@ -1,5 +1,5 @@
 
-let getDistance = function(obj1, obj2){ //returns dist between center of two objects where P is top left corner as vector
+let getDistance = function(obj1, obj2){ //returns dist between center of two objects where P is top left corner vector
 	return sqrt(sq(obj1.P.x + obj1.w/2 -(obj2.P.x + obj2.w/2)) + 
 				sq(obj1.P.y + obj1.h/2 -(obj2.P.y + obj2.h/2))); 
 }
