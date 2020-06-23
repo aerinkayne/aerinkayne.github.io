@@ -307,29 +307,33 @@ class Game{
 		btnContinue.draw();
 	}
 	sceneCredits(){
+		let X = width/10;
+		let Y = height/13;
 		this.gameScreen.drawScreen();
 
 		if (this.gameScreen.opacity < 255){
 			this.gameScreen.opacity += 2;
 		} else {
-		fill(255,255,200);
+		fill(255,255,175);
 		textAlign(CENTER,CENTER);
-		textSize(46);
-		text("Thank you for playing", width/2,height/10);
-		fill(255,150,175);
+		textSize(48);
+		text("Thank you for playing!", width/2,height/11);
 		textSize(24);
-		text("Music and Sound from Freesound.org:", width/2,height/4);  //TODO: data obj for this plox
-		fill(255);
-		textSize(18);
+		fill(255,150,175);
 		textAlign(LEFT,TOP);
-		text(`'Find Nothing'                        Ellary ('Tri-Tachyon')`, width/6, height/3);
-		text(`'Expressions of the Mind'      ShadyDave`, width/6, height/3 +height/13);
-		text(`'Water Game Theme'            Mrthenoronha`, width/6, height/3+2*height/13);
-		text(`'SciFi Survival Dreamscape'  Onderwish`, width/6, height/3+3*height/13);
-		text(`'Bells Electronic Loop'           Frankumjay`, width/6, height/3+4*height/13);
+		text("Music and Sound from Freesound.org:", X, height/5);  
+		textSize(18);
+		fill(255);
+		text(`'Find Nothing'                        Ellary ('Tri-Tachyon')`, X, height/4.5 + Y);
+		text(`'Expressions of the Mind'       ShadyDave`, X, height/4.5 + 2*Y);
+		text(`'Water Game Theme'             Mrthenoronha`, X, height/4.5+3*Y);
+		text(`'SciFi Survival Dreamscape'    Onderwish`, X, height/4.5+4*Y);
+		text(`'Bells Electronic Loop'            Frankumjay`, X, height/4.5+5*Y);
 		text(`Sound Effects:  duckduckpony, ertfelda,
-		boxerdave92, nsstudios, thebuilder15, sypherzent`, width/6, height/3 + 5*height/13);
-		btnRestart.draw(width/2-btnRestart.w/2, 7/8*height);
+		boxerdave92, nsstudios, thebuilder15, sypherzent`, X, height/4.5 + 6*Y);
+		fill(255,150,175);
+		text("Based on 'Seasons' by Ryan Kee", X, 7/8*height);
+		btnRestart.draw(4/5*width, 7/8*height);
 		}
 	}
 	setLevel(n){
