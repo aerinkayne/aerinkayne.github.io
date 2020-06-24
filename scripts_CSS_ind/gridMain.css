@@ -1,13 +1,14 @@
 .gridMain {
-    background-color: #778; 
-    margin: auto;
+
+    margin: 1em auto;
     padding: 1.5em;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
     grid-gap: 1em 2em;
-    width: 100%;
-    
+    width: 90vw;
+    max-width: 1400px;
+    min-width: 600px;
     height: calc(100vh - 100px); /*100px = navH+footerH*/
     min-height: 600px;
     max-height: 775px;
@@ -72,7 +73,11 @@
 
 
 ._a {
+    border-radius: 80%   55%   100%  / 80%;
     grid-area: a;
+}
+._a div {
+    border-radius: 80%   55%   100%  / 80%;
 }
 ._b {
     grid-area: b;
@@ -82,6 +87,8 @@
 }
 ._e {
     grid-area: e;
+    margin-top: -2em;
+    margin-right: 1em; 
 }
 ._f {
     grid-area: f;
@@ -118,10 +125,9 @@
 ._x {
     border-radius: 25%  30%  25% / 30%;
     background-color: rgba(0,0,5,0.2);
-    border-top: 0.2vw solid #ccd;
-    border-left: 0.2vw solid #bbc;
-    border-bottom: 0.2vw solid #334;
-    border-right: 0.2vw solid #445;
+    border: 0.2vw solid #ccd;
+    border-bottom: 0.2vw solid #223;
+    border-right: 0.2vw solid #223;
     grid-area: x;
 }
 
@@ -139,19 +145,23 @@
     padding: 0 0.35em;
     padding-top: 0.1em;
     text-shadow: 2px 2px 10px #001;
+    
 }
 .gridMain h3 {
     border-radius: 2% 4%  / 35%;
     padding: 0 1em;
+    
 }
 h3.bottomText {
-    color: #223;
-    border-left: 0.5vw solid #223;
-    border-right: 0.5vw solid #223;
+    color: #112;
+    border-left: 0.5vw solid #112;
+    border-right: 0.5vw solid #112;
+    text-shadow: 2px 2px 10px #001;
 }
 h3.topText {
     font-weight: 200;
     color: #ccd;
     border-left: 0.5vw solid #eef;
     border-right: 0.5vw solid #eef;
+    text-shadow: 0 0 10px #eef;
 }
