@@ -1,17 +1,14 @@
 .gridMain {
-
-    margin: 1em auto;
-    padding: 1.5em;
+    margin: 0 auto;
+    padding: 1em 0;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    grid-gap: 1em 2em;
+    grid-gap: 0.5em 1em;
     width: 90vw;
     max-width: 1400px;
     min-width: 600px;
-    height: calc(100vh - 100px); /*100px = navH+footerH*/
-    min-height: 600px;
-    max-height: 775px;
+    height: 700px; 
     grid-template-areas: 
         "b b b b a a a a"
         "b b b b a a a a"
@@ -28,13 +25,12 @@
     background-size: 1400px;
     background-repeat: no-repeat;
     border-radius: 2px;
-    
-    box-shadow: 1px 1px 3px 2px rgba(0,0,10,0.15);
     transition: opacity 3s ease, box-shadow 3s ease;
+    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.3);
 }
 
 
-.BG2top {  /* top/bottom refers to position.  div 2 is inside of (stacked on) div 1 */
+.BG2top {  /* top/bottom refers to position.  div 2 is inside of div 1 */
     border-radius: 100%   25%   100%  / 40%;
     background-position: center -25px;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
@@ -68,7 +64,7 @@
     opacity: 0;
 }
 .BG1top:hover, .BG1bottom:hover, .BG1bottomAlt:hover {
-    box-shadow: 1px 1px 3px 2px rgba(0,0,20,0.3);
+    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.6);
 }
 
 
@@ -82,13 +78,11 @@
 ._b {
     grid-area: b;
 }
-._c {
-    grid-area: c;
-}
+
 ._e {
     grid-area: e;
     margin-top: -2em;
-    margin-right: 1em; 
+    margin-right: 1em;
 }
 ._f {
     grid-area: f;
@@ -120,10 +114,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: calc(max(1rem, min(1.25vw, 1.25rem)));
 }
 ._x {
-    border-radius: 25%  30%  25% / 30%;
+    margin: 0 1em;
+    border-radius: 25%  30%  25% / 50%;
     background-color: rgba(0,0,5,0.2);
     border: 0.2vw solid #ccd;
     border-bottom: 0.2vw solid #223;
@@ -139,6 +133,7 @@
 
 }
 .gridMain h1 {
+    font-size: calc(max(1.4rem, min(3vw, 3.25rem)));
     line-height: 1.2;
     font-weight: 200;
     color: #bbc;
@@ -148,6 +143,7 @@
     
 }
 .gridMain h3 {
+    font-size: calc(max(1rem, min(1.5vw, 2.3rem)));
     border-radius: 2% 4%  / 35%;
     padding: 0 1em;
     
@@ -164,4 +160,45 @@ h3.topText {
     border-left: 0.5vw solid #eef;
     border-right: 0.5vw solid #eef;
     text-shadow: 0 0 10px #eef;
+}
+
+
+/*  move this later */
+#artContainer {
+    position: relative;
+    margin: 2em auto;
+    margin-bottom: 4em;
+    padding: 2em 4em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0 min(6%, 75px);
+    width: 80%;
+    border-radius: 4px;
+    background-color: rgba(0,0,25,0.2);
+}
+.artGridItem {
+    display: block;
+    height: auto;
+    margin: 1.5em auto;
+}
+
+
+.art {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px outset dimgray;
+}
+.artGridItem:hover {
+    z-index: 5;
+}
+.artGridItem:hover .art{
+    box-shadow: 2px 2px 10px 2px rgba(0,0,25,0.5);
+    border: 1px solid black;
+}
+.artGridItem.L:hover{
+    transform: scale(1.65) translate(34%);
+}
+.artGridItem.R:hover{
+    transform: scale(1.65) translate(-34%);
 }

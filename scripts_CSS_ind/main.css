@@ -13,6 +13,8 @@ a {
 }
 
 body {
+  height: 100%;
+  width: 100%;
   background-color: #505058;
   font-family: 'dosis', sans-serif;
   background-image: url("/images/pexels/textures/pexels-photo-235985pixabay.jpeg");
@@ -34,16 +36,16 @@ div.center {
 	display: flex;
 	justify-content: space-between;
 	margin: 1em auto;
-	width: 95%;
+	width: 90%;
 }
 .flexToCol > p {
   flex: 50%;
   padding: 1em;
   background-color: #d0d0d8;
   color: #002;
-  border-radius: 5px;
+  border-radius: 4px;
   text-align: justify;
-  margin: 2em 1em;
+  margin: 2em 0;
 }
   
 @media only screen and (max-width: 700px) {
@@ -125,6 +127,7 @@ canvas {
   background-image: linear-gradient(180deg, #c8c8d4, #99a);
   margin: 0 auto;
   padding-bottom: 50px;
+  padding-top: 1px;
   -webkit-box-shadow: 0 4px 6px rgba(175,190,200,0.8);
   box-shadow: 0 4px 6px rgba(175,190,200,0.8);
 }
