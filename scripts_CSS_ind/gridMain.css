@@ -163,7 +163,33 @@ h3.topText {
 }
 
 
+
+
 /*  move this later */
+#descriptionContainer {
+    width: 55%;
+    margin: 1em auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#desc_text {
+    flex-basis: 75%;
+    padding-right: 0;
+    text-align: justify;
+}
+#scarmint {
+    margin: 0 auto;
+    padding-top: 1.4em;
+    width: 25%;
+    border-radius: 4px;
+}
+#scarmint img {
+    width: 100%;
+    border: 1px solid #002;
+    border-radius: 4px;
+}
+
 #artContainer {
     position: relative;
     margin: 2em auto;
@@ -181,13 +207,12 @@ h3.topText {
     height: auto;
     margin: 1.5em auto;
 }
-
-
 .art {
+    border-radius: 4px;
     display: block;
     width: 100%;
     height: auto;
-    border: 1px outset dimgray;
+    border: 1px solid #556;
 }
 .artGridItem:hover {
     z-index: 5;

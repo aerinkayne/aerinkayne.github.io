@@ -23,7 +23,8 @@ body {
 }
 
 p {
-  padding: 0.5em;
+  line-height: 1.7;
+  padding: 1em 1.5em;
 }
 
 div.center {
@@ -31,30 +32,46 @@ div.center {
   width: 90%;
   line-height: 1.6;
 }
-
-.flexToCol {    
+.lightenBG2 {
+  background-color: rgba(255,255,255,0.25);
+}
+.lightenBG5 {
+  background-color: rgba(255,255,255,0.5);
+}
+.darkenBG2 {
+  background-color: rgba(0,0,0,0.25);
+}
+.darkenBG5 {
+  background-color: rgba(0,0,0,0.5);
+}
+.flexToCol {   
 	display: flex;
 	justify-content: space-between;
-	margin: 1em auto;
-	width: 90%;
+	margin: 3em auto;
+  width: 80%;
+  border-radius: 4px;
 }
 .flexToCol > p {
   flex: 50%;
-  padding: 1em;
-  background-color: #d0d0d8;
   color: #002;
-  border-radius: 4px;
   text-align: justify;
-  margin: 2em 0;
+  margin: 1em;
+  border-radius: 4px;
 }
   
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
 	.flexToCol {
 		-webkit-box-orient: vertical;
 		-webkit-box-direction: normal;
 			-ms-flex-direction: column;
 				flex-direction: column;
-	}
+  }
+  .rowToCol {
+    -webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+				flex-direction: column;
+  }
 	h2 {
 		font-size: 22px;
 	}
