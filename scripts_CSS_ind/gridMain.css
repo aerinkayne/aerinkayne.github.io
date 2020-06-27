@@ -8,7 +8,9 @@
     width: 90vw;
     max-width: 1400px;
     min-width: 600px;
-    height: 700px; 
+    height: calc(0.55*90vw);
+    min-height: calc(0.55*600px);
+    max-height: calc(0.55*1400px);
     grid-template-areas: 
         "b b b b a a a a"
         "b b b b a a a a"
@@ -81,7 +83,7 @@
 
 ._e {
     grid-area: e;
-    margin-top: -2em;
+    margin-top: -1em;
     margin-right: 1em;
 }
 ._f {
@@ -133,7 +135,7 @@
 
 }
 .gridMain h1 {
-    font-size: calc(max(1.4rem, min(3vw, 3.25rem)));
+    font-size: calc(max(1.28rem, min(3vw, 3.0rem)));
     line-height: 1.2;
     font-weight: 200;
     color: #bbc;
@@ -143,7 +145,7 @@
     
 }
 .gridMain h3 {
-    font-size: calc(max(1rem, min(1.5vw, 2.3rem)));
+    font-size: calc(max(0.9rem, min(1.5vw, 2.3rem)));
     border-radius: 2% 4%  / 35%;
     padding: 0 1em;
     
