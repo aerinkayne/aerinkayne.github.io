@@ -1,3 +1,9 @@
+#flexContainer {
+    display: flex;
+    justify-content: center;
+    margin: 1.5em auto;
+    padding: 1em;
+}
 #grid {
     display: grid;
     grid-gap: 1px;
@@ -10,7 +16,6 @@
     max-height: calc(0.4*1400px);
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(13, 1fr);
-    margin: 2em auto;
     border: 4px outset #556;
     box-sizing: content-box;
     font-family: 'dosis', sans-serif;
@@ -83,4 +88,11 @@
     position: absolute;
     content: "🚩";
     color: #fff;
+}
+#credits {
+    font-size: calc(max(0.75rem, min(1.2vw, 1.25rem)));
+    text-align: left;
+    width: 25vw;
+    min-width: calc(0.25*600px);
+    max-width: calc(0.25*1400px);
 }
