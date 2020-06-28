@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Sweeper</title>
+    <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css" /> <!-- subfile 062720 -->
+    <link rel="stylesheet" type="text/css" href="app.css" />
+</head>
+<body>
+    <nav>
+        <div class="navContentContainer">
+            <div id="navLogoDiv"><span>&#x270E;</span></div>
+            <ul id="navLinks">
+                <li><a href="index.html">HOME</a></li>
+                <li class="dropdown">
+                    <a href="#">CSS Projects</a>
+                    <ul class="dropdownContent">
+                        <li><a href="https://aerinkayne.github.io/gridRadio.html">Grid Radio</a></li>
+                        <li><a href="https://aerinkayne.github.io/negSpace.html">Negative Space</a></li>
+                        <li><a href="https://aerinkayne.github.io/darklight/">Abstract Design 1</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">JS Projects</a>
+                    <ul class="dropdownContent">
+                        <li><a href="https://aerinkayne.github.io/seasons_p5.html">Seasons Spin Off</a></li>
+                        <li><a href="https://aerinkayne.github.io/invaders.html">Space Invaders</a></li>
+                        <li><a href="https://aerinkayne.github.io/fishtank.html">Canvas Art</a></li>
+                        <li><a href="freeCodeCampProjects/tetris/index.html">Tetris</a></li>
+                        <li><a href="freeCodeCampProjects/mineSweeper/index.html">Minesweeper</a></li>
+                        <li><a href="freeCodeCampProjects/weatherApp/index.html">Weather App</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div id="burger">
+                <div class="topB"></div>
+                <div class="midB"></div>
+                <div class="btmB"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="pageContent">
+
+        <div id="grid">
+            <div id="headerBoard"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        </div>
+
+    </div>
+
+    <footer>
+		<ul id="footerLinks">				
+			<li class="first"><a href="https://simpleicons.org/"><img id="si" height="24" width="24" src="svg/simpleicons.svg" /></a></li>
+			<li><a href="https://www.pexels.com/"><img id="pex" height="24" width="24" src="svg/pexels.svg" /></a></li>
+			<li><a href="https://www.deviantart.com/aerin-kayne"><img id="da" height="24" width="24" src="svg/deviantart.svg" /></a></li>
+			<li><a href="https://www.artstation.com/aerin-kayne"><img id="as" height="24" width="24" src="svg/artstation.svg" /></a></li>
+			<li><a href="https://github.com/aerinkayne"><img height="24" width="24" id="gh" src="svg/github.svg" /></a></li>
+			<li class="last"><a href="mailto:darth_kayne@yahoo.com">Contact</a></li>
+		</ul>
+    </footer>	
+    <script src="index.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
