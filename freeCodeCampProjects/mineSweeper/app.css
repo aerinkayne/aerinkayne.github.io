@@ -17,7 +17,6 @@
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(13, 1fr);
     border: 4px outset #556;
-    box-sizing: content-box;
     font-family: 'dosis', sans-serif;
 }
 #headerBoard {
