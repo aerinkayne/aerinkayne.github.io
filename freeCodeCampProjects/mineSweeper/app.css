@@ -5,6 +5,7 @@
     padding: 1em;
 }
 #grid {
+    box-sizing: content-box;
     display: grid;
     grid-gap: 1px;
     background-color: #334;
@@ -18,6 +19,9 @@
     grid-template-rows: repeat(13, 1fr);
     border: 4px outset #556;
     font-family: 'dosis', sans-serif;
+}
+#grid div {
+    box-sizing: border-box;
 }
 #headerContainer {
     grid-column: 1 / 11;
@@ -51,6 +55,7 @@
 }
 
 .square {
+    position: relative;
     border: 0.3vw solid rgba(235,235,255,0.5);
     border-bottom: 0.3vw solid rgba(0,0,0,0.5);
     border-right: 0.3vw solid rgba(0,0,20,0.5);
@@ -68,6 +73,9 @@
 }
 .checked.bomb::before{
     position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     content: "💣";
     color: #fff;
 }
@@ -102,10 +110,16 @@
 .checked._8 {
     color: rgb(0, 195, 209);
 }
+.flag {
+    position: relative;
+}
 .flag::before {
     position: absolute;
     content: "🚩";
     color: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 #credits {
     font-size: calc(max(0.75rem, min(1.2vw, 1.25rem)));

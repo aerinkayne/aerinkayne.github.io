@@ -8,9 +8,10 @@
     width: 90vw;
     max-width: 1400px;
     min-width: 600px;
-    height: calc(0.55*90vw);
-    min-height: calc(0.55*600px);
-    max-height: calc(0.55*1400px);
+    height: calc(0.53*90vw);
+    min-height: calc(0.53*600px);
+    max-height: calc(0.53*1400px);
+    box-sizing: content-box;
     grid-template-areas: 
         "b b b b a a a a"
         "b b b b a a a a"
@@ -21,7 +22,9 @@
         "h h h h i i i i"
         "h h h h i i i i";
 }
-
+.gridMain div {
+    box-sizing: border-box;
+}
 .BG1top, .BG2top, .BG1bottom, .BG2bottom, .BG1bottomAlt { 
     background-attachment: fixed;
     background-size: 1400px;
@@ -33,27 +36,28 @@
 
 
 .BG2top {  /* top/bottom refers to position.  div 2 is inside of div 1 */
-    border-radius: 100% 25% 100% / 40%;
+    border-radius: 35% 15%  / 45%;
     background-position: center -25px;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
 } 
-.BG1bottom { 
-    border-radius: 25% 100% 25%  / 40%;
-    background-position: center top; 
-    background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu1400.jpeg");
-} 
 .BG1top {
-    border-radius: 100% 25% 100% / 40%;
+    border-radius: 35% 15%  / 45%;
     background-position: center top;
     background-image: url("../images/negSpaceImages/pexels-photo-235621pixabay.jpeg"); 
 } 
 .BG2bottom {
-    border-radius: 25% 100% 25% / 40%;
+    border-radius: 45% 25% / 50%;
     background-position: center -200px; 
     background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
 }
+.BG1bottom { 
+    border-radius: 45% 25% / 50%;
+    background-position: center top; 
+    background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu1400.jpeg");
+} 
+
 .BG1bottomAlt {
-    border-radius: 25%   100%   25%  / 40%;
+    border-radius: 45% 25%  / 50%;
     background-position: center top; 
     background-image: url("../images/negSpaceImages/pexels-photo-262713crop.jpeg"); 
 }
@@ -71,16 +75,11 @@
 
 
 ._a {
-    border-radius: 80%   55%   100%  / 80%;
     grid-area: a;
-}
-._a div {
-    border-radius: 80%   55%   100%  / 80%;
 }
 ._b {
     grid-area: b;
 }
-
 ._e {
     grid-area: e;
 }
@@ -90,11 +89,9 @@
 ._h {
     grid-area: h;
 }
-
 ._i {
     grid-area: i;
 }
-
 ._x, ._y, ._z {
     position: relative;
     display: flex;
