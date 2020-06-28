@@ -4,7 +4,7 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    grid-gap: 0.5em 1em;
+    grid-gap: 0.75em;
     width: 90vw;
     max-width: 1400px;
     min-width: 600px;
@@ -28,27 +28,27 @@
     background-repeat: no-repeat;
     border-radius: 2px;
     transition: opacity 3s ease, box-shadow 3s ease;
-    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.3);
+    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.25);
 }
 
 
 .BG2top {  /* top/bottom refers to position.  div 2 is inside of div 1 */
-    border-radius: 100%   25%   100%  / 40%;
+    border-radius: 100% 25% 100% / 40%;
     background-position: center -25px;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
 } 
 .BG1bottom { 
-    border-radius: 25%   100%   25%  / 40%;
+    border-radius: 25% 100% 25%  / 40%;
     background-position: center top; 
     background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu1400.jpeg");
 } 
 .BG1top {
-    border-radius: 100%   25%   100%  / 40%;
+    border-radius: 100% 25% 100% / 40%;
     background-position: center top;
     background-image: url("../images/negSpaceImages/pexels-photo-235621pixabay.jpeg"); 
 } 
 .BG2bottom {
-    border-radius: 25%   100%   25%  / 40%;
+    border-radius: 25% 100% 25% / 40%;
     background-position: center -200px; 
     background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
 }
@@ -66,7 +66,7 @@
     opacity: 0;
 }
 .BG1top:hover, .BG1bottom:hover, .BG1bottomAlt:hover {
-    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.6);
+    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.5);
 }
 
 
@@ -83,9 +83,6 @@
 
 ._e {
     grid-area: e;
-    /*
-    margin-top: -1em;  phone negative margin problem test
-    margin-right: 1em; */
 }
 ._f {
     grid-area: f;
@@ -97,21 +94,7 @@
 ._i {
     grid-area: i;
 }
-._j {
-    grid-area: j;
-}
-._k {
-    grid-area: k;
-}
-._l {
-    grid-area: l;
-}
-._m {
-    grid-area: m;
-}
-._n {
-    grid-area: n;
-}
+
 ._x, ._y, ._z {
     position: relative;
     display: flex;
@@ -127,7 +110,6 @@
     border-right: 0.2vw solid #223;
     grid-area: x;
 }
-
 ._y {
     grid-area: y;
 }

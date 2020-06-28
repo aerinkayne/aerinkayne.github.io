@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', ()=> {
     const grid = document.getElementById('grid');
     const header = document.getElementById('headerBoard');
+    const toggle = document.getElementById('toggleMode');
     const mineSquares = document.querySelectorAll('.square');
     const arrSquares = Array.from(mineSquares);  //array of squares on map
     const width = 10;  //for search bomb-number assignment
@@ -8,6 +9,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
     let flags = totalBombs;
     let flaggedBombs = 0;
     let gameover = false;
+    let buttonMode = false;
+
     header.innerHTML = `flags remaining: ${flags}`;
     assignBombs(totalBombs);  //add bombs
 
@@ -15,10 +18,18 @@ document.addEventListener('DOMContentLoaded', ()=> {
     for (let i=0; i < arrSquares.length; i++){
         cycleSquares(i, labelBombs);
     }
+    //button for mobile flagging
+    toggle.addEventListener('click', ()=>{
+        buttonMode = !buttonMode;
+        toggle.classList.toggle('active');
+    });
 
     grid.addEventListener('click', (event)=>{
-        if(!gameover && arrSquares.some(square=> square === event.target)){ //limit event to squares only
+        if(!buttonMode && !gameover && arrSquares.some(square=> square === event.target)){ //limit event to squares only
             userClick(event.target);
+        } 
+        if (buttonMode && !gameover && arrSquares.some(square=> square === event.target)){
+            setFlag(event.target);
         }
     });
     grid.oncontextmenu = (event)=>{

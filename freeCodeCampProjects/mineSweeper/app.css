@@ -8,18 +8,18 @@
     display: grid;
     grid-gap: 1px;
     background-color: #334;
-    width: 30vw;
-    min-width: calc(0.3*600px);
-    max-width: calc(0.3*1400px);
-    height: 40vw;
-    min-height: calc(0.4*600px);
-    max-height: calc(0.4*1400px);
+    width: 35vw;
+    min-width: calc(0.35*600px);
+    max-width: calc(0.35*1400px);
+    height: 50vw;
+    min-height: calc(0.5*600px);
+    max-height: calc(0.5*1400px);
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(13, 1fr);
     border: 4px outset #556;
     font-family: 'dosis', sans-serif;
 }
-#headerBoard {
+#headerContainer {
     grid-column: 1 / 11;
     grid-row: 1 / 4;
     color: #eef;
@@ -28,9 +28,28 @@
     letter-spacing: 1px;
     padding: 0.25em;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
+#toggleMode {
+    position: relative;
+    width: 20%;
+    height: 40%;
+    border-radius: 30%;
+    border: 1px outset dimgray;
+    background-color: rgba(225,225,255,0.2);
+}
+#toggleMode.active {
+    border: 1px outset red;
+}
+#toggleMode::before {
+    position: absolute;
+    content: "🚩";
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .square {
     border: 0.3vw solid rgba(235,235,255,0.5);
     border-bottom: 0.3vw solid rgba(0,0,0,0.5);
@@ -53,7 +72,7 @@
     color: #fff;
 }
 .checked {
-    border: 1px solid #778;
+    border: 0.3vw solid transparent;
     background-color: #686880;
 }
 .checked._0 {
