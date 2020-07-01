@@ -1,16 +1,15 @@
 .gridMain {
-    margin: 0 auto;
-    padding: 25px 10px;
+    margin: 12px auto 20px;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    grid-gap: 0.75em;
+    grid-gap: 1em;
     width: 90vw;
     max-width: 1400px;
     min-width: 600px;
     height: calc(0.53*90vw);
-    min-height: calc(0.53*600px);
-    max-height: calc(0.53*1400px);
+    min-height: calc(0.55*600px);
+    max-height: calc(0.55*1400px);
     grid-template-areas: 
         "b b b b a a a a"
         "b b b b a a a a"
@@ -25,35 +24,38 @@
     background-attachment: fixed;
     background-size: 1400px;
     background-repeat: no-repeat;
-    border-radius: 2px;
     transition: opacity 3s ease, box-shadow 3s ease;
     box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.25);
 }
-
+@media only screen and (max-width: 700px) {
+    .BG1top, .BG2top, .BG1bottom, .BG2bottom, .BG1bottomAlt {
+        background-size: 750px;
+    } 
+}
 
 .BG2top {  /* top/bottom refers to position.  div 2 is inside of div 1 */
-    border-radius: 35% 15%  / 45%;
+    border-radius: 45% 15%  / 50%;
     background-position: center -25px;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
 } 
 .BG1top {
-    border-radius: 35% 15%  / 45%;
+    border-radius: 45% 15%  / 50%;
     background-position: center top;
     background-image: url("../images/negSpaceImages/pexels-photo-235621pixabay.jpeg"); 
 } 
 .BG2bottom {
-    border-radius: 45% 25% / 50%;
+    border-radius: 45% 15%  / 35%;
     background-position: center -200px; 
     background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
 }
 .BG1bottom { 
-    border-radius: 45% 25% / 50%;
+    border-radius: 45% 15%  / 35%;
     background-position: center top; 
     background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu1400.jpeg");
 } 
 
 .BG1bottomAlt {
-    border-radius: 45% 25%  / 50%;
+    border-radius: 45% 15%  / 35%;
     background-position: center top; 
     background-image: url("../images/negSpaceImages/pexels-photo-262713crop.jpeg"); 
 }
@@ -96,11 +98,16 @@
 }
 ._x {
     margin: 0 1em;
-    border-radius: 25%  30%  25% / 50%;
-    background-color: rgba(0,0,5,0.2);
-    border: 0.2vw solid #ccd;
-    border-bottom: 0.2vw solid #223;
-    border-right: 0.2vw solid #223;
+    padding: 0 0.5em;
+    padding-top: 0.1em;
+    border-radius: 30% / 50%;
+    background-color: rgba(0,0,5,0.25);
+    border: 0.3vw solid #bbc;
+    border-bottom: 0.3vw solid #181828;
+    border-right: 0.3vw solid #181828;
+    box-shadow: 
+        5px 5px 5px  rgba(230,230,255,0.4) inset,
+        -5px -5px 5px   rgba(0,0,10,0.4) inset;
     grid-area: x;
 }
 ._y {
@@ -114,11 +121,8 @@
     font-size: calc(max(1.28rem, min(3vw, 3.0rem)));
     line-height: 1.2;
     font-weight: 200;
-    color: #bbc;
-    padding: 0 0.35em;
-    padding-top: 0.1em;
+    color: #ccd;
     text-shadow: 2px 2px 10px #001;
-    
 }
 .gridMain h3 {
     font-size: calc(max(0.9rem, min(1.5vw, 2.3rem)));
@@ -127,10 +131,10 @@
     
 }
 h3.bottomText {
-    color: #112;
-    border-left: 0.5vw solid #112;
-    border-right: 0.5vw solid #112;
-    text-shadow: 2px 2px 10px #001;
+    color: #001;
+    border-left: 0.5vw solid #001;
+    border-right: 0.5vw solid #001;
+    text-shadow: 2px 2px 10px #000;
 }
 h3.topText {
     font-weight: 200;
