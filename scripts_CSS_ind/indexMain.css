@@ -17,11 +17,12 @@
 #intro h1 {
     text-shadow: 0px 0px 4px #99b;
     color: #d0d0e8;
-    font-size: 3.5rem;
+    font-size: calc(max(1.5rem, min(3.5vw, 3.5rem)));
     letter-spacing: 3px;
     margin: 0 auto;
 }
 #intro h3 {
+    font-size: calc(max(0.65rem, min(1.5vw, 1.5rem)));
     text-shadow: none;
     margin: 0 auto;
     color: #a0a0c8;
@@ -34,18 +35,21 @@ span.wide {
     color: #ddf;
     display: inline-block;
     text-align: center;
-    padding: 0 25px;
+    padding: 0 20px;
 }
 #intro hr {
     width: 75%;
-    margin: 4em auto 1em;
+    margin: 4% auto;
     border: 1px solid #ddf;
 }
 #intro p {
+    width: 90%;
+    margin: auto;
     color: #eef;
-    font-size: 1.4rem;
+    font-size: calc(max(0.75rem, min(1.5vw, 1.5rem)));
     letter-spacing: 1px;
     text-align: justify;
+    line-height: 1.8;
 }
 
 
