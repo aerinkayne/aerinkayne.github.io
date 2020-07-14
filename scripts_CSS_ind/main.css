@@ -350,8 +350,7 @@ nav { /* band across 100% of screen */
   display: block;
   width: 100%;
   height: 100%;
-  padding: 0.10em 1em;
-  margin: 0 0.2em;
+  padding: 0.10em 1.2em;
 }
 /*showNav class is toggled with event listener on #burger div*/
 #navLinks.showNav {
@@ -382,13 +381,13 @@ nav { /* band across 100% of screen */
 }
 
 .dropdownContent {
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: none;
   position: absolute;
   background-color: #000;
-  width: 100%;
+  width: 110%;
   top: 100%;
-  left: 0;
+  left: -5%;
   border-radius: 4px;
 }
 
@@ -401,6 +400,8 @@ nav { /* band across 100% of screen */
 }
 
 .dropdownContent li {
+  display: flex;
+  align-items: center;
   font-family: 'dosis', sans-serif;
   background-image: -webkit-gradient(linear, left top, right top, color-stop(5%, rgba(0, 200, 200, 0)), color-stop(50%, rgba(0, 200, 200, 0.3)), color-stop(95%, rgba(0, 200, 200, 0)));
   background-image: linear-gradient(90deg, rgba(0, 200, 200, 0) 5%, rgba(0, 200, 200, 0.3) 50%, rgba(0, 200, 200, 0) 95%);
@@ -410,6 +411,7 @@ nav { /* band across 100% of screen */
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
   text-align: center;
+  min-height: 35px;
 }
 
 .dropdownContent li:hover {

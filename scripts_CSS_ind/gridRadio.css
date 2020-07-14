@@ -31,7 +31,7 @@
 
 .gridRadioDisplay#trail {
 	background-color: rgba(0,0,10,0.4);
-	padding: 3% 5%;
+	padding: 20px 5%;
 } 
 #gridRadioH1 {
 	margin-top: 0.5em;
@@ -358,6 +358,7 @@ border-radius: 45% 15%  / 35%;
 }
 
 #trail h1 {
+
 	margin: 0;
 	letter-spacing: 1px;
     font-size: calc(max(1.28rem, min(3vw, 3.0rem)));
