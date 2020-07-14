@@ -33,7 +33,7 @@ div.center {
   line-height: 1.6;
 }
 .lightenBG2, .lightenBG5, .lightenBG8, .darkenBG2, .darkenBG5, .darkenBG8 {
-  display: flex;
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -155,7 +155,7 @@ canvas {
   width: 90vw;
   min-width: 600px;
   max-width: 1400px;
-  min-height: calc(100vh - 50px);
+  min-height: 100vh;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#c0c0d0), to(#99a));
   background-image: linear-gradient(180deg, #c0c0d0, #99a);
   margin: 0 auto;
