@@ -1,6 +1,7 @@
 .gridItem {
 	height: 100%;
 	background-size: cover;
+	background-repeat: no-repeat;
 	justify-content: center;
 	align-items: center;
 	border: 1px solid #999;
@@ -9,6 +10,8 @@
 .gridItem:hover {
 	border: 1px solid #fff;
 }
+
+
 .gridRadioDisplay {
 	display: none;
 	-ms-grid-rows: (1fr)[10];
@@ -17,13 +20,22 @@
 		grid-template-columns: repeat(12, 1fr);
 	grid-gap: 1.2vw;
 	margin: auto;
-	width: 90%;
+	width: 100%;
+	padding: 0 5%;
 	height: 50vw;
-	min-height: calc(0.50 * 600px);
-	max-height: calc(0.50 * 1200px);
-  }
+	min-height: calc(0.55 * 600px);
+	max-height: calc(0.55 * 1400px);
+}
 
 
+
+.gridRadioDisplay#trail {
+	background-color: rgba(0,0,10,0.4);
+	padding: 3% 5%;
+} 
+#gridRadioH1 {
+	margin-top: 0.5em;
+}
 
 #abstract .gt1 {
 	grid-row: 1/3;
@@ -245,4 +257,147 @@
 	grid-column: 8/11;
 	z-index: 10;
 	background-image: url("../images/pexels/birds/falconEdit.png");
+}
+
+
+/* from old main.  use display for grid */
+.BG1top, .BG2top, .BG1bottom, .BG2bottom, .BG1bottomAlt { 
+    background-attachment: fixed;
+    background-size: 1400px;
+    background-repeat: no-repeat;
+    transition: opacity 3s ease, box-shadow 3s ease;
+	box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.25);
+	border-radius: 3px;
+	border: 1px solid #334;
+}
+@media only screen and (max-width: 700px) {
+    .BG1top, .BG2top, .BG1bottom, .BG2bottom, .BG1bottomAlt {
+        background-size: 750px;
+    } 
+}
+/*
+border-radius: 45% 15%  / 50%;
+border-radius: 45% 15%  / 50%;
+border-radius: 45% 15%  / 35%;
+border-radius: 45% 15%  / 35%;
+border-radius: 45% 15%  / 35%;
+*/
+.BG2top {  /* top/bottom refers to position.  div 2 is inside of div 1 */
+    background-position: center -25px;
+    background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");
+} 
+.BG1top {
+    background-position: center top;
+    background-image: url("../images/negSpaceImages/pexels-photo-235621pixabay.jpeg"); 
+} 
+.BG2bottom {
+    background-position: center -200px; 
+    background-image: url("../images/negSpaceImages/trees-in-forest-during-sunset-247421.jpg"); 
+}
+.BG1bottom { 
+    background-position: center top; 
+    background-image: url("../images/negSpaceImages/pexels-photo-1597662chuanyu1400.jpeg");
+} 
+.BG1bottomAlt {
+    background-position: center top; 
+    background-image: url("../images/negSpaceImages/pexels-photo-262713crop.jpeg"); 
+}
+
+.BG2top, .BG2bottom {
+    width: 100%;
+    height: 100%;
+}
+.BG2top:hover, .BG2bottom:hover {
+    opacity: 0;
+}
+.BG1top:hover, .BG1bottom:hover, .BG1bottomAlt:hover {
+    box-shadow: 2px 2px 6px 3px rgba(0,0,20,0.5);
+}
+
+._a {
+	grid-row: 1/5;
+	grid-column: 7/13;
+}
+._b {
+	grid-row: 1/4;
+	grid-column: 1/7;
+}
+._e {
+	grid-row: 5/7;
+	grid-column: 10/13;
+}
+._f {
+	grid-row: 5/7;
+	grid-column: 1/4;
+}
+._h {
+	grid-row: 7/11;
+	grid-column: 1/7;
+}
+._i {
+	grid-row: 8/11;
+	grid-column: 7/13;
+}
+._x {
+	grid-row: 5/7;
+	grid-column: 4/10;
+}
+._y {
+	grid-row: 4/5;
+	grid-column: 1/5;
+}
+._z {
+	grid-row: 7/8;
+	grid-column: 9/13;
+}
+
+._x, ._y, ._z {
+    display: flex;
+    justify-content: center;
+	align-items: center;
+}
+
+#trail h1 {
+	margin: 0;
+	letter-spacing: 1px;
+    font-size: calc(max(1.28rem, min(3vw, 3.0rem)));
+    font-weight: 200;
+    color: #ccd;
+	text-shadow: 2px 2px 10px #001;
+	border-radius: 50%;
+	border: 2vw solid #c8c8e0;
+	border-right: 2vw solid #334;
+	border-bottom: 2vw solid #334;
+	padding: 3.5em 0.4em;
+}
+#trail h3 {
+	margin: 0;
+	letter-spacing: 1px;
+    font-size: calc(max(0.9rem, min(1.5vw, 2.3rem)));
+    border-radius: 2% 4%  / 35%;
+	padding: 0 0.5em;
+	
+}
+#trail h3.bottomText {
+    color: #001;
+    border-left: 0.5vw solid #001;
+    border-right: 0.5vw solid #001;
+    text-shadow: 2px 2px 10px #000;
+    animation: fromRight 2.5s ease;
+}
+#trail h3.topText {
+    animation: fromLeft 2.5s ease;
+    font-weight: 200;
+    color: #ccd;
+    border-left: 0.5vw solid #eef;
+    border-right: 0.5vw solid #eef;
+    text-shadow: 0 0 10px #eef;
+}
+@keyframes fromLeft {
+    0% { transform: translate(-50vw, 0); }
+    100% { transform: 0; }
+}
+@keyframes fromRight {
+    0% { transform: translate(50vw, 0); }
+    100% { transform: 0; }
 }

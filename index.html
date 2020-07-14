@@ -5,118 +5,61 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-		<title>CSS and JS Experiments</title>
+		<title>Art and Web Development</title>
 		
 		<!-- google fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet"> 
-		<link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
 		<!-- styles -->
 		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/main.css">
-		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/gridMain.css">
+		<link rel="stylesheet" type="text/css" href="scripts_CSS_ind/indexMain.css">
 	</head>
 	
 	<body>
 	
 	
-	<nav>
-		<div class="navContentContainer">
-		
-			<div id="navLogoDiv"><span>&#x270E;</span></div>
-
-			<ul id="navLinks">
-				<li><a href="https://aerinkayne.github.io/index.html">HOME</a></li>
-				<li class="dropdown">
-					<a href="#">CSS Projects</a>
-                    <ul class="dropdownContent">
-                        <li><a href="https://aerinkayne.github.io/gridRadio.html">Grid Radio</a></li>
-                        <li><a href="https://aerinkayne.github.io/negSpace.html">Negative Space</a></li>
-                        <li><a href="https://aerinkayne.github.io/darklight/">Abstract Design 1</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#">JS Projects</a>
-                    <ul class="dropdownContent">
-                        <li><a href="https://aerinkayne.github.io/seasons_p5.html">Seasons Spin Off</a></li>
-                        <li><a href="https://aerinkayne.github.io/invaders.html">Space Invaders</a></li>
-                        <li><a href="https://aerinkayne.github.io/fishtank.html">Canvas Art</a></li>
-                        <li><a href="https://aerinkayne.github.io/freeCodeCampProjects/tetris/index.html">Tetris</a></li>
-                        <li><a href="https://aerinkayne.github.io/freeCodeCampProjects/mineSweeper/index.html">Minesweeper</a></li>
-                        <li><a href="https://aerinkayne.github.io/freeCodeCampProjects/weatherApp/index.html">Weather App</a></li>
-                    </ul>
-				</li>
-			</ul>
+		<nav>
+			<div class="navContentContainer">
 			
-			<div id="burger">
-				<div class="topB"></div>
-				<div class="midB"></div>
-				<div class="btmB"></div>
+				<div id="navLogoDiv"><span>&#x270E;</span></div>
+	
+				<ul id="navLinks" class="showNav">
+					<li><a href="https://aerinkayne.github.io/index.html">HOME</a></li>
+					<li><a href="https://aerinkayne.github.io/artwork.html" target="_blank">Artwork</a></li>
+					<li><a href="https://aerinkayne.github.io/JSprojects.html" target="_blank">JS Projects</a></li>
+					<li class="dropdown">
+						<a href="#">CSS Projects</a>
+						<ul class="dropdownContent">
+							<li><a href="https://aerinkayne.github.io/gridRadio.html" target="_blank">Grid Designs</a></li>
+							<li><a href="https://aerinkayne.github.io/negSpace.html" target="_blank">Border Masking</a></li>
+							<li><a href="https://aerinkayne.github.io/darklight/" target="_blank">Abstract SASS</a></li>
+						</ul>
+					</li>
+				</ul>
+				
+				<div id="burger" class="burgX">
+					<div class="topB"></div>
+					<div class="midB"></div>
+					<div class="btmB"></div>
+				</div>
+			
 			</div>
-		
-		</div>
-	</nav>
+		</nav>
 
-	<div class="darken3 _100W">	
-		<div class="gridMain">
-			<div class="BG1top _a">
-				<div class="BG2top"></div>
-			</div>
-			<div class="BG1top _b">
-				<div class="BG2top"></div>
-			</div>
-			<div class="BG1top _e">
-				<div class="BG2top"></div>
-			</div>
-			<div class="BG1bottom _f">
-				<div class="BG2bottom"></div>
-			</div>
-			<div class="BG1bottom _h">
-				<div class="BG2bottom"></div>
-			</div>
-			<div class="BG1bottomAlt _i">
-				<div class="BG2bottom"></div>
-			</div>
-			<div class="_x"><h1>Art and Web Design</h1></div>
-			<div class="_y"><h3 class="topText">HTML CSS Javascript</h3></div>
-			<div class="_z"><h3 class="bottomText">Digital Airbrushing</h3></div>
-		</div>
-	</div>	
 
 	<div id="pageContent">
-
-		<div id="descriptionContainer" class="rowToCol">
-			<div id="scarmint">
-				<img src="/images/scarmint500.JPG" alt="Scarmint, our garden chipmunk, doing her Splinter impersonation" />
-			</div>
-			<div id="desc_text">	
-				<p>Welcome to my github pages site! Here you will find some samples of my artwork, as well as a variety of CSS and JS projects.  Added to and reorganized often.   
-				</p>
+		<div id="landBG">	
+			<div class="darkenBG8">
+				<div id="intro">
+					<h1>Hello, I'm Carrie!</h1>
+					<h3>Imagine<span class="wide">&#x2666;</span>Code<span class="wide">&#x2666;</span>Create</h3>
+					<hr/>
+					<p>I'm an artist who's also enthusiastic about programming and web development. Here at my github pages site you will find some samples of my artwork, as well as a growing variety of CSS/SASS and Javascript projects.  
+					</p>
+				</div>
 			</div>
 		</div>
 
-		<div id="artContainer">
-			<div class="artGridItem L">
-				<img class="art" src="/images/artwork/scarab950.JPG" />
-			</div>
-			<div class="artGridItem R">
-				<img class="art" src="/images/artwork/phoenixDA900.jpg" />
-			</div>
-			<div class="artGridItem L">
-				<img class="art" src="/images/artwork/TM1100.jpg" />
-			</div>
-			<div class="artGridItem R">
-				<img class="art" src="/images/artwork/Amalgam_gen1000.PNG" />
-			</div>
-			<div class="artGridItem L">
-				<img class="art" src="/images/artwork/TO1100.JPG" />
-			</div>
-			<div class="artGridItem R">
-				<img class="art" src="/images/artwork/12_display.jpg" />
-			</div>
-			
-		</div>
-		
-		
 	</div>	<!-- content -->
 	
 	
@@ -132,7 +75,7 @@
 		</ul>
 		
 	</footer>	
-	
+	<img id="scarmint" src="/images/scarmint500.JPG" alt="Scarmint, our garden chipmunk, doing her Splinter impersonation" title="This is Scarmint.  Scarmint says 'Hi!'"/>
 	
 	<script src="scripts_CSS_ind/myScript.js"></script>
 	</body>

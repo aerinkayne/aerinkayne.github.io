@@ -1,0 +1,94 @@
+
+
+
+#landBG {
+    background-image: url("/images/macbook-pro-131187negativespace.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
+}
+#intro {
+    width: 80%;
+    margin: auto;
+}
+#intro h1 {
+    text-shadow: 0px 0px 4px #99b;
+    color: #d0d0e8;
+    font-size: 3.5rem;
+    letter-spacing: 3px;
+    margin: 0 auto;
+}
+#intro h3 {
+    text-shadow: none;
+    margin: 0 auto;
+    color: #a0a0c8;
+    font-weight: 200;
+    letter-spacing: 2px;
+    font-family: 'dosis', sans-serif;
+}
+span.wide {
+    text-shadow: 0px 0px 8px #99e;
+    color: #ddf;
+    display: inline-block;
+    text-align: center;
+    padding: 0 25px;
+}
+#intro hr {
+    width: 75%;
+    margin: 4em auto 1em;
+    border: 1px solid #ddf;
+}
+#intro p {
+    color: #eef;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
+
+
+
+#scarmint {
+    position: absolute;
+    z-index: 1;
+    bottom: 2px;
+    left: 2px;
+    display: block;
+    width: 10%;
+    min-width: 40px;
+    max-width: 85px;
+    border: 1px solid #001;
+    border-radius: 4px;
+}
+
+
+/*artwork page*/
+.itemContainer {
+    position: relative;
+    margin: 2em auto;
+    margin-bottom: 6em;
+    padding: 3em;
+    padding-bottom: 4em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.75em  min(7%, 50px); 
+    width: 80%;
+}
+.art {  /* the img tag*/
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    border: 1px solid #223;
+    background-color: #223; /* otherwise there is a border-img gap*/
+}
+.artGridItem:hover {
+    z-index: 5;
+    margin: 0 auto;
+}
+.artGridItem:hover .art{
+    box-shadow: 2px 2px 10px 5px rgba(0,0,25,0.5);
+}
+.artGridItem.L:hover{
+    transform: scale(1.65) translate(34%);
+}
+.artGridItem.R:hover{
+    transform: scale(1.65) translate(-34%);
+}

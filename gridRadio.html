@@ -19,63 +19,36 @@
 	<body>
 	
 	
-	<nav>
-		<div class="navContentContainer">
-		
-			<div id="navLogoDiv"><span>&#x270E;</span></div>
-
-			<ul id="navLinks">
-				<li><a href="https://aerinkayne.github.io/index.html">HOME</a></li>
-				<li class="dropdown">
-					<a href="#">CSS Projects</a>
-                    <ul class="dropdownContent">
-                        <li><a href="https://aerinkayne.github.io/gridRadio.html">Grid Radio</a></li>
-                        <li><a href="https://aerinkayne.github.io/negSpace.html">Negative Space</a></li>
-                        <li><a href="https://aerinkayne.github.io/darklight/">Abstract Design 1</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#">JS Projects</a>
-                    <ul class="dropdownContent">
-                        <li><a href="https://aerinkayne.github.io/seasons_p5.html">Seasons Spin Off</a></li>
-                        <li><a href="https://aerinkayne.github.io/invaders.html">Space Invaders</a></li>
-                        <li><a href="https://aerinkayne.github.io/fishtank.html">Canvas Art</a></li>
-                        <li><a href="https://aerinkayne.github.io/freeCodeCampProjects/tetris/index.html">Tetris</a></li>
-                        <li><a href="https://aerinkayne.github.io/freeCodeCampProjects/mineSweeper/index.html">Minesweeper</a></li>
-                        <li><a href="https://aerinkayne.github.io/freeCodeCampProjects/weatherApp/index.html">Weather App</a></li>
-                    </ul>
-				</li>
-			</ul>
+		<nav>
+			<div class="navContentContainer">
 			
-			<div id="burger">
-				<div class="topB"></div>
-				<div class="midB"></div>
-				<div class="btmB"></div>
+				<div id="navLogoDiv"><span>&#x270E;</span></div>
+	
+				<ul id="navLinks" class="showNav">
+					<li><a href="https://aerinkayne.github.io/index.html">HOME</a></li>
+					<li><a href="https://aerinkayne.github.io/artwork.html" target="_blank">Artwork</a></li>
+					<li><a href="https://aerinkayne.github.io/JSprojects.html" target="_blank">JS Projects</a></li>
+					<li class="dropdown">
+						<a href="#">CSS Projects</a>
+						<ul class="dropdownContent">
+							<li><a href="https://aerinkayne.github.io/gridRadio.html" target="_blank">Grid Designs</a></li>
+							<li><a href="https://aerinkayne.github.io/negSpace.html" target="_blank">Border Masking</a></li>
+							<li><a href="https://aerinkayne.github.io/darklight/" target="_blank">Abstract SASS</a></li>
+						</ul>
+					</li>
+				</ul>
+				
+				<div id="burger" class="burgX">
+					<div class="topB"></div>
+					<div class="midB"></div>
+					<div class="btmB"></div>
+				</div>
+			
 			</div>
-		
-		</div>
-	</nav>
+		</nav>
 
 	<div id="pageContent">
-		<br/>
-		<h1>Grid Radio</h1>
-
-		<div class="radioSelect">
-            <div>
-                <input type="radio" id="abstr" name="theme" value="abstract" checked="checked">
-                <label for="abstr">Abstract</label>
-            </div>
-            <div>
-                <input type="radio" id="ocean" name="theme" value="sandWater">
-                <label for="ocean">Ocean</label>
-            </div>
-            <div>
-                <input type="radio" id="bird_forest" name="theme" value="birds">
-                <label for="bird_forest">birds</label>
-            </div>
-		</div>	
-
-	
+		<br />
 		<div class="gridRadioDisplay" id="abstract"> 
 			<div class="spinner"><div class="gridItem gt1"></div></div>
 			<div class="gridItem gt2"></div>
@@ -104,25 +77,72 @@
 			<div class="gridItem gt6"></div>
 		</div>
 
+		<div class="gridRadioDisplay" id="trail">
+			<div class="_x"><h1>Lorem ipsum dolor</h1></div>
+			<div class="BG1top _a">
+				<div class="BG2top"></div>
+			</div>
+			<div class="BG1top _b">
+				<div class="BG2top"></div>
+			</div>
+			<div class="BG1top _e">
+				<div class="BG2top"></div>
+			</div>
+			<div class="BG1bottom _f">
+				<div class="BG2bottom"></div>
+			</div>
+			<div class="BG1bottom _h">
+				<div class="BG2bottom"></div>
+			</div>
+			<div class="BG1bottomAlt _i">
+				<div class="BG2bottom"></div>
+			</div>
+			
+			<div class="_y"><h3 class="topText">Lorem ipsum dolor</h3></div>
+			<div class="_z"><h3 class="bottomText">Lorem ipsum dolor</h3></div>
+		</div>
+
+		<h1 id="gridRadioH1">Grid Radio</h1>
+
+		<div class="radioSelect">
+            <div>
+                <input type="radio" id="abstr" name="theme" value="abstract" checked="checked">
+                <label for="abstr">Abstract</label>
+            </div>
+            <div>
+                <input type="radio" id="ocean" name="theme" value="sandWater">
+                <label for="ocean">Ocean</label>
+            </div>
+            <div>
+                <input type="radio" id="bird_forest" name="theme" value="birds">
+                <label for="bird_forest">Aviary</label>
+			</div>
+			<div class="last">
+                <input type="radio" id="blogtrail" name="theme" value="trail">
+                <label for="blogtrail">Blogtrail</label>
+            </div>
+		</div>	
+
+
 		<br />
 		<h2>Lorem ipsum dolor sit amet</h2>
 		<div class="flexToCol">
-			<p class="lightenBG2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+			<div class="col45 lightenBG2">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
 			ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
 			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
 			voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
 			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, 
 			consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-			<p class="lightenBG2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-			ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-			voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-			<p class="lightenBG2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+			</div>
+			<div class="col45 lightenBG2">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
 			ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
 			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
 			voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
 			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
 			</div>
+		</div>
 
 	</div>	<!-- content -->
 	
