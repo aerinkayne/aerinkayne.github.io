@@ -33,7 +33,6 @@ div.center {
   line-height: 1.6;
 }
 .lightenBG2, .lightenBG5, .lightenBG8, .darkenBG2, .darkenBG5, .darkenBG8 {
-  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -61,7 +60,7 @@ div.center {
 .flexToCol {   
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  /*align-items: stretch;*/
   flex-wrap: wrap;
 	margin: 3em auto;
   width: 80%;
@@ -81,7 +80,7 @@ div.center {
 }
 
 .flexToCol .col100{
-  flex: 100%;
+  flex: 0 0 100%;
 }
 
 .flexToCol .col45{
@@ -96,7 +95,6 @@ div.center {
 }
 
 .flexToCol p {
-  align-self: flex-start;
   color: #002;
   margin: 0.5em;
   border-radius: 4px;
