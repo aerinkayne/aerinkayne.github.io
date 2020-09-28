@@ -275,13 +275,7 @@
         background-size: 750px;
     } 
 }
-/*
-border-radius: 45% 15%  / 50%;
-border-radius: 45% 15%  / 50%;
-border-radius: 45% 15%  / 35%;
-border-radius: 45% 15%  / 35%;
-border-radius: 45% 15%  / 35%;
-*/
+
 .BG2top {  /* top/bottom refers to position.  div 2 is inside of div 1 */
     background-position: center -25px;
     background-image: url("../images/negSpaceImages/pexels-photo-41102skitterphoto.jpeg");

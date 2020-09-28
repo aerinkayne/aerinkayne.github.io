@@ -24,12 +24,12 @@ body {
 
 p {
   line-height: 1.7;
-  padding: 1em 1.5em;
+  padding: 0.5em;
 }
 
 div.center {
-  margin: 1.5em 1em;
-  width: 90%;
+  margin: 1.5em auto;
+  width: 80%;
   line-height: 1.6;
 }
 .lightenBG2, .lightenBG5, .lightenBG8, .darkenBG2, .darkenBG5, .darkenBG8 {
@@ -55,7 +55,9 @@ div.center {
 .darkenBG8 {
   background-color: rgba(0,0,15,0.75);
 }
-
+.justifyText {
+  text-align: justify;
+}
 .flexToCol {   
   display: flex;
   justify-content: space-between;
@@ -77,25 +79,29 @@ div.center {
   margin-bottom: 2em;
   border-radius: 4px;
 }
-.flexToCol > div a {
-  display: block;
+
+.flexToCol .col100{
+  flex: 100%;
 }
+
 .flexToCol .col45{
   flex: 0 1 45%;
 }
+
 .flexToCol .col30{
   flex: 0 1 30%;
 }
 .col2 div + div {
   margin-left: 2%;
 }
+
 .flexToCol p {
   align-self: flex-start;
   color: #002;
-  text-align: justify;
-  margin: 1em;
+  margin: 0.5em;
   border-radius: 4px;
 }
+
 .flexToCol img {
   border-radius: 4px;
   width: 100%;
@@ -474,7 +480,7 @@ nav { /* band across 100% of screen */
     background-color: rgba(210,215,255,0.5);
     box-shadow: 0 0 5px 1px rgba(0,0,25,0.4);
     width: 100%;
-    margin: 2em auto;
+    margin: 1em auto;
     padding: 1em;
   }
 
