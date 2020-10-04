@@ -48,7 +48,7 @@ span.wide {
     color: #eef;
     font-size: calc(max(0.75rem, min(1.5vw, 1.5rem)));
     letter-spacing: 1px;
-    text-align: justify;
+    text-align: center;
     line-height: 1.8;
 }
 
