@@ -62,7 +62,7 @@ p {
   width: 90vw;
   min-width: 600px;
   max-width: 1400px;
-  min-height: calc(100vh - 50px);
+  min-height: 100vh;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#c8c8d4), to(#99a));
   background-image: linear-gradient(180deg, #c8c8d4, #99a);
   margin: 0 auto;
@@ -70,6 +70,7 @@ p {
   padding-top: 1px;
   -webkit-box-shadow: 0 4px 6px rgba(175,190,200,0.8);
   box-shadow: 0 4px 6px rgba(175,190,200,0.8);
+  border-top: 50px solid black;
 }
 
 footer {
